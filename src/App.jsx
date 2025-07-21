@@ -1,13 +1,14 @@
 import React from "react";
 import gsap from "gsap";
 import { ScrollTrigger, SplitText } from "gsap/all";
+import NavBar from "./components/NavBar";
 
 gsap.registerPlugin(ScrollTrigger, SplitText);
 
 const App = () => {
   return (
-    <main className="flex-center h-[100vh]">
-      <h1 className="text-3xl font-bold">Day by Day</h1>
+    <main>
+      <NavBar />
     </main>
   );
 };
