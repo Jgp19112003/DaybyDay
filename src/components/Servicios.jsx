@@ -6,6 +6,7 @@ import {
   serviciosTagsAnimation,
   serviciosCardHoverAnimation,
   initServiceCardsCycling,
+  serviciosMouseFollowAnimation,
 } from "../animation";
 
 const Servicios = () => {
@@ -28,6 +29,14 @@ const Servicios = () => {
     // Initialize card cycling animation
     const cleanupCycling = initServiceCardsCycling(cardsRef, tagsRef);
 
+    // Initialize mouse follow animation
+    const cleanupMouseFollow = serviciosMouseFollowAnimation(
+      sectionRef,
+      titleRef,
+      infoRef,
+      cardsRef
+    );
+
     // Escucha el ciclo de cartas para actualizar el estado activo
     let current = 0;
     const total = 3;
@@ -35,8 +44,10 @@ const Servicios = () => {
       current = (current + 1) % total;
       setActiveCard(current);
     }, 6000);
+
     return () => {
       if (cleanupCycling) cleanupCycling();
+      if (cleanupMouseFollow) cleanupMouseFollow();
       clearInterval(interval);
     };
   }, []);
@@ -244,7 +255,7 @@ const Servicios = () => {
               Branding
             </span>
             <span className="card-tag text-[0.85rem] lg:text-[0.95rem] font-semibold rounded-[16px] py-1.5 px-3 lg:px-4 inline-block mt-1 border">
-              q Creatividad
+              Creatividad
             </span>
           </div>
         </div>

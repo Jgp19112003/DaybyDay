@@ -96,84 +96,103 @@ export const navMenuAnimation = (navContainer) => {
 
 export const serviciosTitleAnimation = (titleRef, sectionRef) => {
   if (!titleRef.current) return;
-  // Kill previous SplitText if exists
-  if (titleRef.current._splitText) {
-    titleRef.current._splitText.revert();
-    delete titleRef.current._splitText;
-  }
-  try {
-    const split = new SplitText(titleRef.current, { type: "chars" });
-    titleRef.current._splitText = split;
-    gsap.fromTo(
-      split.chars,
-      { y: 80, opacity: 0 },
-      {
-        y: 0,
+
+  // Set initial state
+  gsap.set(titleRef.current, { opacity: 0 });
+
+  // Create scroll trigger that starts the code typing animation
+  ScrollTrigger.create({
+    trigger: sectionRef.current,
+    start: "top 80%",
+    once: true,
+    onEnter: () => {
+      // Fade in the element first
+      gsap.to(titleRef.current, {
         opacity: 1,
-        stagger: 0.04,
-        duration: 0.8,
-        ease: "power4.out",
-        scrollTrigger: {
-          trigger: sectionRef.current,
-          start: "top 80%",
-          once: true,
+        duration: 0.3,
+        ease: "power2.out",
+        onComplete: () => {
+          // Start the code typing animation
+          codeTypingAnimation(titleRef.current, "Servicios", {
+            duration: 2500,
+            scrambleDuration: 1800,
+            delay: 200,
+          });
         },
-      }
-    );
-  } catch {
-    gsap.fromTo(
-      titleRef.current,
-      { y: 80, opacity: 0 },
-      {
-        y: 0,
-        opacity: 1,
-        duration: 0.8,
-        ease: "power4.out",
-        scrollTrigger: {
-          trigger: sectionRef.current,
-          start: "top 80%",
-          once: true,
-        },
-      }
-    );
-  }
+      });
+    },
+  });
 };
 
 export const serviciosInfoAnimation = (infoRef, sectionRef) => {
   if (!infoRef.current) return;
-  gsap.fromTo(
-    infoRef.current,
-    { opacity: 0, y: 60 },
-    {
-      opacity: 1,
-      y: 0,
-      duration: 1,
-      ease: "power3.out",
-      delay: 0.2,
-      scrollTrigger: {
-        trigger: sectionRef.current,
-        start: "top 80%",
-        once: true,
-      },
-    }
-  );
+
+  // Get the paragraph element
+  const paragraph = infoRef.current.querySelector("p");
+  const button = infoRef.current.querySelector("button");
+
+  // Set initial states
+  gsap.set(infoRef.current, { opacity: 0, y: 60 });
+  if (button) gsap.set(button, { opacity: 0, y: 20 });
+
+  ScrollTrigger.create({
+    trigger: sectionRef.current,
+    start: "top 80%",
+    once: true,
+    onEnter: () => {
+      // First fade in the container
+      gsap.to(infoRef.current, {
+        opacity: 1,
+        y: 0,
+        duration: 0.6,
+        ease: "power3.out",
+        onComplete: () => {
+          // Simple fade in for paragraph - no code typing
+          if (paragraph) {
+            gsap.fromTo(
+              paragraph,
+              { opacity: 0, y: 20 },
+              {
+                opacity: 1,
+                y: 0,
+                duration: 0.8,
+                ease: "power2.out",
+                delay: 0.3,
+              }
+            );
+          }
+
+          // Animate button after paragraph
+          if (button) {
+            gsap.to(button, {
+              opacity: 1,
+              y: 0,
+              duration: 0.8,
+              ease: "back.out(1.7)",
+              delay: 1.1,
+            });
+          }
+        },
+      });
+    },
+  });
 };
 
-export const serviciosCardsAnimation = (cardsRef, sectionRef) => {
+export const serviciosCardsAnimation = (cardsRef) => {
   gsap.fromTo(
     cardsRef.current,
-    { opacity: 0, y: 80 },
     {
+      opacity: 0,
+      scale: 2,
+      transformOrigin: "center center",
+    },
+    {
+      delay: 0.5,
       opacity: 1,
-      y: 0,
+      scale: 1,
       duration: 1,
-      stagger: 0.18,
-      ease: "expo.out",
-      scrollTrigger: {
-        trigger: sectionRef.current,
-        start: "top 85%",
-        once: true,
-      },
+      stagger: 0.4,
+      ease: "elastic.out(0.8, 0.4)",
     }
   );
 };
@@ -207,21 +226,27 @@ export const serviciosCardHoverAnimation = (cardsRef) => {
     // Remove previous listeners to avoid stacking
     card.onmouseenter = null;
     card.onmouseleave = null;
+
     card.addEventListener("mouseenter", () => {
-      gsap.to(card, {
-        y: -10,
-        boxShadow: "0 12px 32px 0 rgba(0,0,0,0.18)",
-        duration: 0.3,
-        ease: "power2.out",
-      });
+      // Tick rápido y suave: pequeño crecimiento y vuelta inmediata
+      gsap
+        .timeline()
+        .to(card, {
+          scale: 1.2,
+          duration: 0.1,
+          ease: "power2.out",
+        })
+        .to(card, {
+          scale: card.classList.contains("card-dark") ? 1 : 1.02,
+          duration: 0.15,
+          ease: "power2.inOut",
+        });
     });
+
     card.addEventListener("mouseleave", () => {
       gsap.to(card, {
-        y: 0,
-        boxShadow: card.classList.contains("dark")
-          ? "0 4px 24px 0 rgba(0,0,0,0.4)"
-          : "0 4px 24px 0 rgba(0,0,0,0.1)",
-        duration: 0.3,
+        scale: card.classList.contains("card-dark") ? 1 : 1.02,
+        duration: 0.2,
         ease: "power2.out",
       });
     });
@@ -361,4 +386,179 @@ export const initServiceCardsCycling = (cardsRef, tagsRef) => {
   const interval = setInterval(cycleCards, 6000);
 
   return () => clearInterval(interval);
+};
+
+export const serviciosMouseFollowAnimation = (
+  sectionRef,
+  titleRef,
+  infoRef,
+  cardsRef
+) => {
+  if (!sectionRef.current) return null;
+
+  const handleMouseMove = (e) => {
+    const { clientX, clientY } = e;
+    const { innerWidth, innerHeight } = window;
+
+    // Calculate mouse position as percentage (-1 to 1)
+    const xPercent = (clientX / innerWidth - 0.5) * 2;
+    const yPercent = (clientY / innerHeight - 0.5) * 2;
+
+    // Apply different movement intensities to different elements
+    if (titleRef.current) {
+      gsap.to(titleRef.current, {
+        x: xPercent * 8,
+        y: yPercent * 4,
+        duration: 0.6,
+        ease: "power2.out",
+      });
+    }
+
+    if (infoRef.current) {
+      gsap.to(infoRef.current, {
+        x: xPercent * 6,
+        y: yPercent * 3,
+        duration: 0.8,
+        ease: "power2.out",
+      });
+    }
+
+    // Move cards with different intensities
+    cardsRef.current.forEach((card, index) => {
+      if (card) {
+        const intensity = 4 + index * 1.5; // Different intensity for each card
+        gsap.to(card, {
+          x: xPercent * intensity,
+          y: yPercent * (intensity * 0.6),
+          duration: 0.7 + index * 0.1,
+          ease: "power2.out",
+        });
+      }
+    });
+  };
+
+  // Add mouse move listener
+  document.addEventListener("mousemove", handleMouseMove);
+
+  // Return cleanup function
+  return () => {
+    document.removeEventListener("mousemove", handleMouseMove);
+  };
+};
+
+export const codeTypingAnimation = (element, text, options = {}) => {
+  if (!element) return;
+
+  const {
+    totalDuration = 1000, // Total animation duration in ms (1 second by default)
+    characters = "!@#$%^&*()_+-=[]{}|;:,.<>?~`",
+    delay = 0,
+    scramblePhaseRatio = 0.4, // What percentage of total time is scrambling (30% by default)
+    initialScrambleSpeed = 25, // Initial scramble speed (ms)
+    finalScrambleSpeed = 60, // Final scramble speed (ms)
+  } = options;
+
+  const targetText = text || element.textContent;
+  const textLength = targetText.length;
+  const nonSpaceChars = targetText.replace(/ /g, "").length;
+
+  // Calculate timing based on total duration
+  const scrambleDuration = Math.floor(totalDuration * scramblePhaseRatio);
+  const revealDuration = totalDuration - scrambleDuration;
+  const revealSpeed =
+    nonSpaceChars > 0
+      ? Math.max(20, Math.floor(revealDuration / nonSpaceChars))
+      : 50;
+
+  let currentText = new Array(textLength).fill("");
+  let revealedIndices = new Set();
+  let scrambleInterval;
+  let revealTimeout;
+
+  // Clear the element initially
+  element.textContent = "";
+
+  // Start after delay
+  setTimeout(() => {
+    let scrambleStartTime = Date.now();
+    let revealStarted = false;
+
+    // Scrambling phase with dynamic speed
+    const scrambleLoop = () => {
+      const elapsed = Date.now() - scrambleStartTime;
+
+      // Calculate dynamic scramble speed based on how much text is revealed
+      const revealProgress = revealedIndices.size / nonSpaceChars;
+      const currentScrambleSpeed =
+        initialScrambleSpeed +
+        (finalScrambleSpeed - initialScrambleSpeed) * revealProgress;
+
+      if (elapsed < scrambleDuration || revealStarted) {
+        // Generate random characters for non-revealed positions
+        for (let i = 0; i < textLength; i++) {
+          if (!revealedIndices.has(i)) {
+            if (targetText[i] === " ") {
+              currentText[i] = " ";
+            } else {
+              currentText[i] =
+                characters[Math.floor(Math.random() * characters.length)];
+            }
+          }
+        }
+
+        element.textContent = currentText.join("");
+
+        // Continue scrambling if not all characters are revealed
+        if (revealedIndices.size < nonSpaceChars) {
+          scrambleInterval = setTimeout(scrambleLoop, currentScrambleSpeed);
+        }
+      }
+
+      // Start revealing after initial scramble period
+      if (elapsed >= scrambleDuration && !revealStarted) {
+        startRevealPhase();
+        revealStarted = true;
+      }
+    };
+
+    // Start revealing phase with smooth sequential reveals
+    const startRevealPhase = () => {
+      // Reveal characters sequentially from left to right
+      const indicesToReveal = [];
+
+      for (let i = 0; i < textLength; i++) {
+        if (targetText[i] !== " ") {
+          indicesToReveal.push(i);
+        }
+      }
+
+      let revealIndex = 0;
+
+      const revealNextCharacter = () => {
+        if (revealIndex < indicesToReveal.length) {
+          const index = indicesToReveal[revealIndex];
+          revealedIndices.add(index);
+          currentText[index] = targetText[index];
+          element.textContent = currentText.join("");
+          revealIndex++;
+
+          revealTimeout = setTimeout(revealNextCharacter, revealSpeed);
+        } else {
+          // Ensure final text is correct and stop scrambling
+          clearTimeout(scrambleInterval);
+          element.textContent = targetText;
+        }
+      };
+
+      revealNextCharacter();
+    };
+
+    scrambleLoop();
+  }, delay);
+
+  // Return cleanup function
+  return () => {
+    clearTimeout(scrambleInterval);
+    clearTimeout(revealTimeout);
+  };
 };

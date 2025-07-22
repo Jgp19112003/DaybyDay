@@ -331,14 +331,3 @@ body {
   box-shadow: 4px 6px 16px #232323, -4px -6px 12px #222;
   border: none;
 }
-
-/* Optional: subtle hover effect */
-.servicio-card:hover {
-  box-shadow: 0 12px 32px 0 rgba(0, 0, 0, 0.18), 0 2px 8px #fff;
-  background: #f0eeee;
-}
-
-.servicio-card.card-dark:hover {
-  box-shadow: 0 12px 32px 0 rgba(0, 0, 0, 0.28), 0 2px 8px #232323;
-  background: #232323;
-}
