@@ -123,39 +123,39 @@ export const serviciosInfoAnimation = (infoRef, sectionRef) => {
         duration: 0.6,
         ease: "power3.out",
         onComplete: () => {
-          // Start code typing animation for title
+          // Start scramble animation for title
           if (title) {
             gsap.to(title, {
               opacity: 1,
               duration: 0.3,
               onComplete: () => {
-                // The title already has scrambled text, so we pass "Servicios" as target
-                codeTypingAnimation(title, "Servicios", {
-                  totalDuration: 1200,
+                // Use unified scramble animation
+                scrambleTextAnimation(title, "Servicios", {
+                  duration: 1200,
                   delay: 0,
+                }).then(() => {
+                  // Show paragraph after title animation completes
+                  if (paragraph) {
+                    gsap.to(paragraph, {
+                      opacity: 1,
+                      y: 0,
+                      duration: 0.8,
+                      ease: "power2.out",
+                      delay: 0.2,
+                    });
+                  }
+
+                  // Animate button after paragraph
+                  if (button) {
+                    gsap.to(button, {
+                      opacity: 1,
+                      y: 0,
+                      duration: 0.8,
+                      ease: "back.out(1.7)",
+                      delay: 1.0,
+                    });
+                  }
                 });
-
-                // Show paragraph after title animation completes (1200ms + small delay)
-                if (paragraph) {
-                  gsap.to(paragraph, {
-                    opacity: 1,
-                    y: 0,
-                    duration: 0.8,
-                    ease: "power2.out",
-                    delay: 1.4, // After title code typing completes
-                  });
-                }
-
-                // Animate button after paragraph
-                if (button) {
-                  gsap.to(button, {
-                    opacity: 1,
-                    y: 0,
-                    duration: 0.8,
-                    ease: "back.out(1.7)",
-                    delay: 2.2, // After paragraph appears
-                  });
-                }
               },
             });
           }
@@ -178,7 +178,7 @@ export const serviciosTitleAnimation = (titleRef, sectionRef) => {
     }
   });
 
-  // Create scroll trigger that starts the code typing animation
+  // Create scroll trigger that starts the scramble animation
   ScrollTrigger.create({
     trigger: sectionRef.current,
     start: "top 80%",
@@ -187,15 +187,15 @@ export const serviciosTitleAnimation = (titleRef, sectionRef) => {
       // Remove hiding class first
       sectionRef.current.classList.remove("servicios-hidden");
 
-      // Fade in the element and start the scramble transition
+      // Fade in the element and start the scramble animation
       gsap.to(titleRef.current, {
         opacity: 1,
         duration: 0.3,
         ease: "power2.out",
         onComplete: () => {
-          // Start GSAP scramble transition animation
-          scrambleTransitionGSAP(titleRef.current, "Servicios", {
-            totalDuration: 1000,
+          // Use unified scramble animation
+          scrambleTextAnimation(titleRef.current, "Servicios", {
+            duration: 1000,
             delay: 200,
           });
         },
@@ -204,102 +204,107 @@ export const serviciosTitleAnimation = (titleRef, sectionRef) => {
   });
 };
 
-// GSAP-based scramble transition effect
-export const scrambleTransitionGSAP = (element, targetText, options = {}) => {
-  if (!element) return;
+// Unified scramble text animation function
+export const scrambleTextAnimation = (element, targetText, options = {}) => {
+  if (!element) return Promise.resolve();
 
   const {
-    totalDuration = 1200,
+    duration = 1200,
     characters = "!@#$%^&*()_+-=[]{}|;:,.<>?~`",
     delay = 0,
-    scramblePhase = 400,
+    scramblePhaseRatio = 0.3,
+    revealSpeed = 50,
   } = options;
 
-  const textLength = targetText.length;
-  const revealDuration = totalDuration - scramblePhase;
-  const revealSpeed = Math.max(30, Math.floor(revealDuration / textLength));
+  return new Promise((resolve) => {
+    const textLength = targetText.length;
+    const scrambleDuration = Math.floor(duration * scramblePhaseRatio);
+    const revealDuration = duration - scrambleDuration;
+    const charRevealSpeed =
+      textLength > 0
+        ? Math.max(20, Math.floor(revealDuration / textLength))
+        : revealSpeed;
 
-  // Create timeline
-  const tl = gsap.timeline({ delay: delay / 1000 });
+    let currentText = new Array(textLength).fill("");
+    let revealedIndices = new Set();
+    let scrambleInterval;
+    let revealTimeout;
 
-  let scrambleInterval;
-  let currentText = new Array(textLength).fill("");
-  let revealedIndices = new Set();
+    // Set initial empty state
+    element.textContent = "";
 
-  // Phase 1: Scrambling with GSAP timeline
-  tl.call(() => {
-    // Start scrambling
-    scrambleInterval = setInterval(() => {
-      let scrambled = "";
-      for (let i = 0; i < textLength; i++) {
-        if (targetText[i] === " ") {
-          scrambled += " ";
-        } else if (!revealedIndices.has(i)) {
-          scrambled +=
-            characters[Math.floor(Math.random() * characters.length)];
-        } else {
-          scrambled += currentText[i];
+    const startAnimation = () => {
+      const scrambleStartTime = Date.now();
+      let revealStarted = false;
+
+      // Scrambling phase
+      const scrambleLoop = () => {
+        const elapsed = Date.now() - scrambleStartTime;
+
+        if (elapsed < scrambleDuration && !revealStarted) {
+          // Generate scrambled text
+          for (let i = 0; i < textLength; i++) {
+            if (!revealedIndices.has(i)) {
+              currentText[i] =
+                targetText[i] === " "
+                  ? " "
+                  : characters[Math.floor(Math.random() * characters.length)];
+            }
+          }
+          element.textContent = currentText.join("");
+          scrambleInterval = setTimeout(scrambleLoop, 50);
+        } else if (!revealStarted) {
+          startRevealPhase();
+          revealStarted = true;
         }
-      }
-      element.textContent = scrambled;
-    }, 50);
-  })
-    // Phase 2: Start revealing characters after scramble phase
-    .call(
-      () => {
-        clearInterval(scrambleInterval);
+      };
 
-        // Initialize current text array
-        for (let i = 0; i < textLength; i++) {
-          currentText[i] =
-            targetText[i] === " "
-              ? " "
-              : characters[Math.floor(Math.random() * characters.length)];
-        }
+      // Start revealing phase
+      const startRevealPhase = () => {
+        clearTimeout(scrambleInterval);
 
-        // Create reveal timeline
-        const revealTl = gsap.timeline();
-
-        // Reveal each character sequentially
+        const indicesToReveal = [];
         for (let i = 0; i < textLength; i++) {
           if (targetText[i] !== " ") {
-            revealTl.call(
-              () => {
-                revealedIndices.add(i);
-                currentText[i] = targetText[i];
-
-                // Update remaining unrevealed characters
-                let updatedText = "";
-                for (let j = 0; j < textLength; j++) {
-                  if (revealedIndices.has(j) || targetText[j] === " ") {
-                    updatedText += currentText[j];
-                  } else {
-                    updatedText +=
-                      characters[Math.floor(Math.random() * characters.length)];
-                  }
-                }
-                element.textContent = updatedText;
-              },
-              [],
-              (i * revealSpeed) / 1000
-            );
+            indicesToReveal.push(i);
+          } else {
+            // Immediately reveal spaces
+            currentText[i] = " ";
+            revealedIndices.add(i);
           }
         }
 
-        // Ensure final text is correct
-        revealTl.call(
-          () => {
-            element.textContent = targetText;
-          },
-          [],
-          (textLength * revealSpeed) / 1000
-        );
-      },
-      [],
-      scramblePhase / 1000
-    );
+        let revealIndex = 0;
 
-  return tl;
+        const revealNextCharacter = () => {
+          if (revealIndex < indicesToReveal.length) {
+            const index = indicesToReveal[revealIndex];
+            revealedIndices.add(index);
+            currentText[index] = targetText[index];
+            element.textContent = currentText.join("");
+            revealIndex++;
+
+            revealTimeout = setTimeout(revealNextCharacter, charRevealSpeed);
+          } else {
+            // Animation complete
+            element.textContent = targetText;
+            resolve();
+          }
+        };
+
+        revealNextCharacter();
+      };
+
+      scrambleLoop();
+    };
+
+    // Start animation after delay
+    if (delay > 0) {
+      setTimeout(startAnimation, delay);
+    } else {
+      startAnimation();
+    }
+  });
 };
 
 export const serviciosCardsAnimation = (cardsRef) => {
@@ -713,39 +718,4 @@ export const codeTypingAnimation = (element, text, options = {}) => {
     clearTimeout(scrambleInterval);
     clearTimeout(revealTimeout);
   };
-};
-
-export const scrambleTextAnimation = (element, targetText, duration = 1200) => {
-  if (!element) return;
-
-  const characters = "!@#$%^&*()_+-=[]{}|;:,.<>?~`";
-  const textLength = targetText.length;
-  const revealSpeed = Math.max(20, Math.floor(duration / textLength));
-  let currentText = new Array(textLength).fill("");
-  let revealedIndices = new Set();
-
-  const revealNextCharacter = (index) => {
-    if (index >= textLength) {
-      element.textContent = targetText;
-      return;
-    }
-
-    if (targetText[index] === " ") {
-      currentText[index] = " ";
-      revealedIndices.add(index);
-    } else {
-      currentText[index] =
-        characters[Math.floor(Math.random() * characters.length)];
-    }
-
-    element.textContent = currentText.join("");
-
-    setTimeout(() => {
-      currentText[index] = targetText[index];
-      revealedIndices.add(index);
-      revealNextCharacter(index + 1);
-    }, revealSpeed);
-  };
-
-  revealNextCharacter(0);
 };
