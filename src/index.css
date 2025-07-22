@@ -124,6 +124,11 @@ body {
   visibility: hidden;
 }
 
+.servicios-hidden {
+  visibility: hidden;
+  opacity: 0;
+}
+
 .nav-link.btn-primary {
   border-radius: 0.4rem;
   border: none;

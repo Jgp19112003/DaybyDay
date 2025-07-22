@@ -1,9 +1,9 @@
 import React, { useRef, useEffect, useState } from "react";
+import { ScrollTrigger } from "gsap/all";
 import {
   serviciosTitleAnimation,
   serviciosInfoAnimation,
   serviciosCardsAnimation,
-  serviciosTagsAnimation,
   serviciosCardHoverAnimation,
   initServiceCardsCycling,
   serviciosMouseFollowAnimation,
@@ -16,20 +16,21 @@ const Servicios = () => {
   const cardsRef = useRef([]);
   const tagsRef = useRef([]);
 
-  // Estado para saber cuál es la carta activa (modo claro)
   const [activeCard, setActiveCard] = useState(0);
 
   useEffect(() => {
+    ScrollTrigger.killAll();
+
+    if (sectionRef.current) {
+      sectionRef.current.classList.add("servicios-hidden");
+    }
+
     serviciosTitleAnimation(titleRef, sectionRef);
     serviciosInfoAnimation(infoRef, sectionRef);
     serviciosCardsAnimation(cardsRef, sectionRef);
-    serviciosTagsAnimation(tagsRef, cardsRef);
     serviciosCardHoverAnimation(cardsRef);
 
-    // Initialize card cycling animation
     const cleanupCycling = initServiceCardsCycling(cardsRef, tagsRef);
-
-    // Initialize mouse follow animation
     const cleanupMouseFollow = serviciosMouseFollowAnimation(
       sectionRef,
       titleRef,
@@ -37,11 +38,9 @@ const Servicios = () => {
       cardsRef
     );
 
-    // Escucha el ciclo de cartas para actualizar el estado activo
     let current = 0;
-    const total = 3;
     const interval = setInterval(() => {
-      current = (current + 1) % total;
+      current = (current + 1) % 3;
       setActiveCard(current);
     }, 6000);
 
@@ -49,16 +48,16 @@ const Servicios = () => {
       if (cleanupCycling) cleanupCycling();
       if (cleanupMouseFollow) cleanupMouseFollow();
       clearInterval(interval);
+      ScrollTrigger.killAll();
     };
   }, []);
 
-  // Helper para color SVG según modo de carta
   const getSvgColor = (idx) => (idx === activeCard ? "#181414" : "#fff");
 
   return (
     <section
       ref={sectionRef}
-      className="w-full max-w-full flex flex-col lg:flex-row justify-between items-start mt-[80px] lg:mt-[100px] min-h-[400px] p-0 box-border px-4 lg:px-0"
+      className="servicios-hidden w-full max-w-full flex flex-col lg:flex-row justify-between items-start mt-[80px] lg:mt-[100px] min-h-[400px] p-0 box-border px-4 lg:px-0"
     >
       <div
         ref={infoRef}
@@ -67,9 +66,7 @@ const Servicios = () => {
         <h2
           ref={titleRef}
           className="text-[2.5rem] lg:text-[4rem] font-black mb-6 leading-none tracking-tight text-center lg:text-left"
-        >
-          Servicios
-        </h2>
+        ></h2>
         <p className="text-base lg:text-lg text-[#e0e0e0] mb-8 leading-relaxed text-center lg:text-left px-2 lg:px-0">
           Somos una agencia especializada en marketing digital, publicidad,
           automatización e inteligencia artificial. Ayudamos a empresas a crecer
