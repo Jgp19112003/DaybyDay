@@ -228,6 +228,7 @@ export const scrambleTextAnimation = (element, targetText, options = {}) => {
     let currentText = new Array(textLength).fill("");
     let revealedIndices = new Set();
     let scrambleInterval;
+    // let revealTimeout; // Removed unused variable
 
     // Set initial empty state
     element.textContent = "";
@@ -283,7 +284,7 @@ export const scrambleTextAnimation = (element, targetText, options = {}) => {
             element.textContent = currentText.join("");
             revealIndex++;
 
-            revealTimeout = setTimeout(revealNextCharacter, charRevealSpeed);
+            setTimeout(revealNextCharacter, charRevealSpeed);
           } else {
             // Animation complete
             element.textContent = targetText;
