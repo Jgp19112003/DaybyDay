@@ -104,6 +104,88 @@ const AgendarReunion = ({ onBackToHome }) => {
     return Object.keys(newErrors).length === 0;
   };
 
+  // Function to create calendar event using crearMeeting logic
+  const createCalendarEvent = async (meetingData) => {
+    try {
+      // Parse the date and time to create ISO 8601 format
+      const [day, month, year] = meetingData.date.split("/");
+      const [hours, minutes] = meetingData.time.split(":");
+
+      const startDate = new Date(year, month - 1, day, hours, minutes);
+      const endDate = new Date(startDate.getTime() + 30 * 60000); // 30 minutes later
+
+      const eventData = {
+        title: `Reunión con ${meetingData.name} - DaybyDay`,
+        startTime: startDate.toISOString(),
+        endTime: endDate.toISOString(),
+      };
+
+      // Call Make webhook (same as crearMeeting.js)
+      const response = await fetch(
+        "https://hook.eu2.make.com/mm4hl8ma5ms5iickz72xvoyqz2i2s36q",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(eventData),
+        }
+      );
+
+      if (!response.ok) throw new Error("Error creando el evento");
+
+      const data = await response.text();
+      console.log("Evento creado en Google Calendar:", data);
+      return true;
+    } catch (error) {
+      console.error("Error:", error);
+      return false;
+    }
+  };
+
+  // Function with exact code structure but using real form data
+  const createMeetingEvent = (meetingData) => {
+    // Parse the date and time to create ISO 8601 format
+    const [day, month, year] = meetingData.date.split("/");
+    const [hours, minutes] = meetingData.time.split(":");
+
+    const startDate = new Date(year, month - 1, day, hours, minutes);
+    const endDate = new Date(startDate.getTime() + 30 * 60000); // 30 minutes later
+
+    // Use real form data instead of static example
+    const eventData = {
+      title: `Reunión con ${meetingData.name} - DaybyDay`,
+      startTime: startDate.toISOString(),
+      endTime: endDate.toISOString(),
+      // Add additional form data for Make to process
+      clientName: meetingData.name,
+      clientEmail: meetingData.email,
+      clientPhone: meetingData.phone || "No proporcionado",
+      clientCompany: meetingData.company || "No proporcionada",
+      clientMessage: meetingData.message || "Sin mensaje adicional",
+    };
+
+    // Llamada al webhook de Make
+    fetch("https://hook.eu2.make.com/mm4hl8ma5ms5iickz72xvoyqz2i2s36q", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(eventData),
+    })
+      .then((response) => {
+        if (!response.ok) throw new Error("Error creando el evento");
+        return response.text();
+      })
+      .then((data) => {
+        console.log("Evento creado en Google Calendar:", data);
+        // Aquí puedes mostrar un mensaje o redirigir según tu lógica
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+      });
+  };
+
   const handleFormSubmit = async (e) => {
     e.preventDefault();
 
@@ -118,14 +200,22 @@ const AgendarReunion = ({ onBackToHome }) => {
       duration: "30", // Always 30 minutes
     };
 
-    // Here you would typically send this data to your backend
-    console.log("Meeting data:", meetingData);
+    try {
+      // Execute the function with real meeting data
+      createMeetingEvent(meetingData);
 
-    // For now, just show success message
-    alert("¡Reunión agendada exitosamente! Te contactaremos pronto.");
+      console.log("Meeting data:", meetingData);
 
-    // Navigate back to home
-    if (onBackToHome) onBackToHome();
+      alert("¡Reunión agendada exitosamente! Te contactaremos pronto.");
+
+      // Navigate back to home
+      if (onBackToHome) onBackToHome();
+    } catch (error) {
+      console.error("Error processing meeting:", error);
+      alert(
+        "Hubo un error al procesar tu solicitud. Por favor, intenta de nuevo."
+      );
+    }
   };
 
   const handleInputChange = (field, value) => {

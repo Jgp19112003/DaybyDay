@@ -228,7 +228,6 @@ export const scrambleTextAnimation = (element, targetText, options = {}) => {
     let currentText = new Array(textLength).fill("");
     let revealedIndices = new Set();
     let scrambleInterval;
-    let revealTimeout;
 
     // Set initial empty state
     element.textContent = "";
