@@ -1,7 +1,7 @@
 import React, { useRef, useEffect, useState } from "react";
 import { logoHangingAnimation, navMenuAnimation } from "../animation";
 
-const NavBar = ({ onAnimationComplete }) => {
+const NavBar = ({ onAnimationComplete, onAgendarClick, currentView }) => {
   const logoRef = useRef(null);
   const navRef = useRef(null);
   const [isMobile, setIsMobile] = useState(false);
@@ -34,7 +34,16 @@ const NavBar = ({ onAnimationComplete }) => {
 
   return (
     <nav className={`navbar ${isMobile ? "mobile" : ""}`}>
-      <div className="logo-container">
+      <div
+        className="logo-container"
+        onClick={() => {
+          if (window.location.hash !== "") {
+            window.location.hash = "";
+            if (onAnimationComplete) onAnimationComplete();
+          }
+        }}
+        style={{ cursor: "pointer" }}
+      >
         <div className="logo-text logo-hidden" ref={logoRef}>
           <div className="logo-line logo-first-line">
             <span className="logo-day">Day</span>
@@ -50,6 +59,9 @@ const NavBar = ({ onAnimationComplete }) => {
         className={`nav-container ${isMobile ? "nav-mobile" : ""}`}
         ref={navRef}
       >
+        <a href="#" className="nav-link">
+          Inicio
+        </a>
         <a href="#servicios" className="nav-link">
           Servicios
         </a>
@@ -59,8 +71,27 @@ const NavBar = ({ onAnimationComplete }) => {
         <a href="#contacto" className="nav-link">
           Contacto
         </a>
-        <a href="#agendar" className="nav-link btn-primary">
-          Agenda una reunion
+        <a
+          href="#agendar"
+          className={`nav-link btn-primary ${
+            currentView === "agendar" ? "active" : ""
+          }`}
+          onClick={(e) => {
+            e.preventDefault();
+            if (currentView !== "agendar") {
+              window.location.hash = "agendar";
+              if (onAgendarClick) onAgendarClick(); // Trigger agendar-specific logic
+            }
+          }}
+          style={{
+            padding: isMobile ? "12px 20px" : "",
+            fontSize: isMobile ? "16px" : "",
+            marginTop: isMobile ? "10px" : "",
+            background: isMobile ? "linear-gradient(#ff3131, #d00000)" : "",
+            fontWeight: isMobile ? "bold" : "",
+          }}
+        >
+          Agenda una reunión
         </a>
       </div>
     </nav>

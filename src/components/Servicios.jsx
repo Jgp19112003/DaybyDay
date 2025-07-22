@@ -57,7 +57,7 @@ const Servicios = () => {
   return (
     <section
       ref={sectionRef}
-      className="servicios-hidden w-full max-w-full flex flex-col lg:flex-row justify-between items-start mt-[80px] lg:mt-[100px] min-h-[400px] p-0 box-border px-4 lg:px-0"
+      className="servicios-hidden servicios-mobile w-full max-w-full flex flex-col lg:flex-row justify-between items-start mt-[80px] lg:mt-[100px] min-h-[400px] p-0 box-border px-4 lg:px-0"
     >
       <div
         ref={infoRef}

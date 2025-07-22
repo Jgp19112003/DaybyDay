@@ -195,7 +195,7 @@ export const serviciosTitleAnimation = (titleRef, sectionRef) => {
         onComplete: () => {
           // Start GSAP scramble transition animation
           scrambleTransitionGSAP(titleRef.current, "Servicios", {
-            totalDuration: 1200,
+            totalDuration: 1000,
             delay: 200,
           });
         },
@@ -303,7 +303,28 @@ export const scrambleTransitionGSAP = (element, targetText, options = {}) => {
 };
 
 export const serviciosCardsAnimation = (cardsRef) => {
-  // Reset initial states for cards
+  const isMobile = window.innerWidth <= 768;
+
+  if (isMobile) {
+    // On mobile, set cards to be visible after a delay without animation
+    setTimeout(() => {
+      gsap.set(cardsRef.current, {
+        opacity: 1,
+        scale: 1,
+        transformOrigin: "center center",
+      });
+    }, 2500); // Delay to allow text content to appear first
+
+    // Initially hide the cards
+    gsap.set(cardsRef.current, {
+      opacity: 0,
+      scale: 1,
+      transformOrigin: "center center",
+    });
+    return;
+  }
+
+  // Desktop animation - keep the original dramatic entrance but with increased delay
   gsap.set(cardsRef.current, {
     opacity: 0,
     scale: 2,
@@ -318,7 +339,7 @@ export const serviciosCardsAnimation = (cardsRef) => {
       transformOrigin: "center center",
     },
     {
-      delay: 0.5,
+      delay: 1.5, // Increased delay to allow text content to appear first
       opacity: 1,
       scale: 1,
       duration: 1,
@@ -329,11 +350,18 @@ export const serviciosCardsAnimation = (cardsRef) => {
 };
 
 export const serviciosCardHoverAnimation = (cardsRef) => {
+  const isMobile = window.innerWidth <= 768;
+
   cardsRef.current.forEach((card) => {
     if (!card) return;
     // Remove previous listeners to avoid stacking
     card.onmouseenter = null;
     card.onmouseleave = null;
+
+    if (isMobile) {
+      // Disable hover animations on mobile for smoother experience
+      return;
+    }
 
     card.addEventListener("mouseenter", () => {
       // Tick rápido y suave: pequeño crecimiento y vuelta inmediata
@@ -368,6 +396,7 @@ export const serviciosCardCyclingAnimation = (
 ) => {
   if (!cardsRef.current || !tagsRef.current) return;
 
+  const isMobile = window.innerWidth <= 768;
   const tl = gsap.timeline();
 
   cardsRef.current.forEach((card, index) => {
@@ -378,13 +407,13 @@ export const serviciosCardCyclingAnimation = (
     const tags = tagsRef.current[index]?.querySelectorAll(".card-tag") || [];
 
     if (index === activeCard) {
-      // Animate to light theme - only text colors and scale
+      // Animate to light theme - smoother for mobile
       card.classList.remove("card-dark");
       tl.to(
         card,
         {
-          scale: 1.02,
-          duration: 1.5,
+          scale: isMobile ? 1 : 1.02, // No scale change on mobile
+          duration: isMobile ? 1.8 : 1.5, // Slower transition on mobile
           ease: "power1.inOut",
         },
         0
@@ -393,7 +422,7 @@ export const serviciosCardCyclingAnimation = (
           [title, description],
           {
             color: "#181414",
-            duration: 1.2,
+            duration: isMobile ? 1.5 : 1.2, // Slower color transition on mobile
             ease: "power1.inOut",
           },
           0.3
@@ -404,20 +433,20 @@ export const serviciosCardCyclingAnimation = (
             backgroundColor: "#ede6d6",
             borderColor: "transparent",
             color: "#181414",
-            duration: 1.0,
-            stagger: 0.08,
+            duration: isMobile ? 1.3 : 1.0, // Slower tag animation on mobile
+            stagger: isMobile ? 0.05 : 0.08, // Faster stagger on mobile
             ease: "power1.inOut",
           },
           0.5
         );
     } else {
-      // Animate to dark theme - only text colors and scale
+      // Animate to dark theme - smoother for mobile
       card.classList.add("card-dark");
       tl.to(
         card,
         {
-          scale: 1,
-          duration: 1.5,
+          scale: 1, // Always scale 1 on mobile and dark cards
+          duration: isMobile ? 1.8 : 1.5,
           ease: "power1.inOut",
         },
         0
@@ -426,7 +455,7 @@ export const serviciosCardCyclingAnimation = (
           [title, description],
           {
             color: "#ffffff",
-            duration: 1.2,
+            duration: isMobile ? 1.5 : 1.2,
             ease: "power1.inOut",
           },
           0.3
@@ -437,8 +466,8 @@ export const serviciosCardCyclingAnimation = (
             backgroundColor: "#232323",
             borderColor: "#333333",
             color: "#ffffff",
-            duration: 1.0,
-            stagger: 0.08,
+            duration: isMobile ? 1.3 : 1.0,
+            stagger: isMobile ? 0.05 : 0.08,
             ease: "power1.inOut",
           },
           0.5
@@ -503,6 +532,13 @@ export const serviciosMouseFollowAnimation = (
   cardsRef
 ) => {
   if (!sectionRef.current) return null;
+
+  const isMobile = window.innerWidth <= 768;
+
+  // Disable mouse follow animation on mobile for better performance
+  if (isMobile) {
+    return () => {}; // Return empty cleanup function
+  }
 
   const handleMouseMove = (e) => {
     const { clientX, clientY } = e;
@@ -677,4 +713,39 @@ export const codeTypingAnimation = (element, text, options = {}) => {
     clearTimeout(scrambleInterval);
     clearTimeout(revealTimeout);
   };
+};
+
+export const scrambleTextAnimation = (element, targetText, duration = 1200) => {
+  if (!element) return;
+
+  const characters = "!@#$%^&*()_+-=[]{}|;:,.<>?~`";
+  const textLength = targetText.length;
+  const revealSpeed = Math.max(20, Math.floor(duration / textLength));
+  let currentText = new Array(textLength).fill("");
+  let revealedIndices = new Set();
+
+  const revealNextCharacter = (index) => {
+    if (index >= textLength) {
+      element.textContent = targetText;
+      return;
+    }
+
+    if (targetText[index] === " ") {
+      currentText[index] = " ";
+      revealedIndices.add(index);
+    } else {
+      currentText[index] =
+        characters[Math.floor(Math.random() * characters.length)];
+    }
+
+    element.textContent = currentText.join("");
+
+    setTimeout(() => {
+      currentText[index] = targetText[index];
+      revealedIndices.add(index);
+      revealNextCharacter(index + 1);
+    }, revealSpeed);
+  };
+
+  revealNextCharacter(0);
 };
