@@ -440,9 +440,9 @@ export const serviciosCardCyclingAnimation = (
         .to(
           tags,
           {
-            backgroundColor: "#ede6d6",
+            backgroundColor: "#ff3131",
             borderColor: "transparent",
-            color: "#181414",
+            color: "#ffffff",
             duration: isMobile ? 1.3 : 1.0, // Slower tag animation on mobile
             stagger: isMobile ? 0.05 : 0.08, // Faster stagger on mobile
             ease: "power1.inOut",
@@ -508,9 +508,9 @@ export const initServiceCardsCycling = (cardsRef, tagsRef) => {
       gsap.set(card, { scale: 1.02 });
       gsap.set([title, description], { color: "#181414" });
       gsap.set(tags, {
-        backgroundColor: "#ede6d6",
+        backgroundColor: "#ff3131",
         borderColor: "transparent",
-        color: "#181414",
+        color: "#ffffff",
       });
     } else {
       // Other cards start dark

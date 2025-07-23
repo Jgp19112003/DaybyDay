@@ -425,7 +425,7 @@ const AgendarReunion = ({ onBackToHome }) => {
       <div className="max-w-6xl w-full relative">
         <h2
           ref={titleRef}
-          className="meeting-title-container text-[2.5rem] lg:text-[4rem] font-black mb-12 leading-none tracking-tight text-center text-white"
+          className="meeting-title-container text-[2.5rem] lg:text-[4rem] font-black mb-16 lg:mb-20 leading-none tracking-tight text-center text-white pb-3"
         ></h2>
 
         {/* Success/Error Message - Initially Hidden */}
