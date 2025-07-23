@@ -132,6 +132,8 @@ main {
 
 .nav-hidden {
   visibility: hidden;
+  opacity: 0;
+  transform: translateY(-50px); /* Ensure items are positioned off-screen */
 }
 
 .servicios-hidden {
@@ -451,4 +453,36 @@ main {
 .nav-link.btn-primary.active {
   color: white !important;
   opacity: 0.9;
+}
+
+/* Meeting scheduler initial state - prevent scrollbar flicker */
+.meeting-scheduler-container {
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(60px);
+  overflow: hidden;
+  transition: none;
+}
+
+.meeting-scheduler-container.initialized {
+  visibility: visible;
+  overflow: visible;
+}
+
+/* Prevent body scrollbar changes during animations */
+body.animating {
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
+.meeting-form-container {
+  opacity: 0;
+  transform: translateY(40px);
+  overflow: hidden;
+}
+
+.meeting-title-container {
+  opacity: 0;
+  visibility: hidden;
+  overflow: hidden;
 }

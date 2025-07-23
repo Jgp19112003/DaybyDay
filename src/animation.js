@@ -73,8 +73,14 @@ export const navMenuAnimation = (navContainer) => {
       opacity: 0,
     });
 
-    // Now remove initial hiding class
-    navContainer.classList.remove("nav-hidden");
+    // Smoothly remove the hidden class
+    gsap.to(navContainer, {
+      visibility: "visible",
+      opacity: 1,
+      onComplete: () => {
+        navContainer.classList.remove("nav-hidden");
+      },
+    });
 
     gsap.to(navLinks, {
       y: 0,
@@ -82,7 +88,7 @@ export const navMenuAnimation = (navContainer) => {
       duration: isMobile ? 0.4 : 0.2,
       ease: "power3.out",
       delay: isMobile ? 0.1 : 0.2,
-      stagger: isMobile ? 0.1 : 0.3,
+      stagger: isMobile ? 0.1 : 0.2,
       onComplete: () => {
         // Don't clear props on mobile to maintain transform overrides
         if (!isMobile) {
@@ -204,7 +210,6 @@ export const serviciosTitleAnimation = (titleRef, sectionRef) => {
   });
 };
 
-// Unified scramble text animation function
 export const scrambleTextAnimation = (element, targetText, options = {}) => {
   if (!element) return Promise.resolve();
 

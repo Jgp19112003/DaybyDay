@@ -10,21 +10,30 @@ gsap.registerPlugin(ScrollTrigger, SplitText);
 
 const App = () => {
   const [currentView, setCurrentView] = useState("home");
+  const [isTransitioning, setIsTransitioning] = useState(false);
 
   useEffect(() => {
     const handleHashChange = () => {
       const hash = window.location.hash.replace("#", "") || "home";
-      setCurrentView(hash);
+      if (hash !== currentView) {
+        setIsTransitioning(true);
+        setCurrentView(hash);
+
+        // Remove transitioning state after animation completes
+        setTimeout(() => {
+          setIsTransitioning(false);
+        }, 100);
+      }
     };
 
     window.addEventListener("hashchange", handleHashChange);
     handleHashChange(); // Initialize view on load
 
     return () => window.removeEventListener("hashchange", handleHashChange);
-  }, []);
+  }, [currentView]);
 
   return (
-    <main>
+    <main style={{ overflow: isTransitioning ? "hidden" : "visible" }}>
       <NavBar
         currentView={currentView}
         onAgendarClick={() => setCurrentView("agendar")}

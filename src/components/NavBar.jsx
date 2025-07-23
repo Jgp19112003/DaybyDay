@@ -19,6 +19,9 @@ const NavBar = ({ onAnimationComplete, onAgendarClick, currentView }) => {
       if (logoRef.current) {
         logoRef.current.classList.add("logo-hidden");
       }
+      if (navRef.current) {
+        navRef.current.classList.add("nav-hidden"); // Add hidden class to nav
+      }
       // Animate logo and nav links on both desktop and mobile
       logoHangingAnimation(logoRef.current);
       await navMenuAnimation(navRef.current);
@@ -56,7 +59,7 @@ const NavBar = ({ onAnimationComplete, onAgendarClick, currentView }) => {
         </div>
       </div>
       <div
-        className={`nav-container ${isMobile ? "nav-mobile" : ""}`}
+        className={`nav-container ${isMobile ? "nav-mobile" : ""} nav-hidden`} // Add nav-hidden class
         ref={navRef}
       >
         <a href="#" className="nav-link">

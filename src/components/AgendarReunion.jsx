@@ -31,44 +31,88 @@ const AgendarReunion = ({ onBackToHome }) => {
     checkMobile();
     window.addEventListener("resize", checkMobile);
 
-    gsap.set(sectionRef.current, { opacity: 0, y: 60 });
-    gsap.set(titleRef.current, { opacity: 0, visibility: "hidden" });
-    titleRef.current.textContent = "";
-    gsap.set(formRef.current, { opacity: 0, y: 40 });
+    // Add body class to prevent scrollbar changes
+    document.body.classList.add("animating");
 
-    // Animate in
-    gsap
-      .timeline()
-      .to(sectionRef.current, {
-        opacity: 1,
-        y: 0,
-        duration: 0.6,
-        ease: "power3.out",
-      })
-      .to(
-        titleRef.current,
-        {
-          visibility: "visible",
-          opacity: 1,
-          duration: 0.5,
-          onComplete: () => {
-            scrambleTextAnimation(titleRef.current, "Agenda tu Reunión", {
-              duration: 1200,
-            });
-          },
-        },
-        0.3
-      )
-      .to(
-        formRef.current,
-        {
+    // Set initial states immediately before any rendering
+    if (sectionRef.current) {
+      sectionRef.current.classList.add("meeting-scheduler-container");
+      gsap.set(sectionRef.current, {
+        opacity: 0,
+        y: 60,
+        visibility: "hidden",
+        overflow: "hidden",
+      });
+    }
+
+    if (titleRef.current) {
+      gsap.set(titleRef.current, {
+        opacity: 0,
+        visibility: "hidden",
+      });
+      titleRef.current.textContent = "";
+    }
+
+    if (formRef.current) {
+      gsap.set(formRef.current, {
+        opacity: 0,
+        y: 40,
+        overflow: "hidden",
+      });
+    }
+
+    // Small delay to ensure DOM is ready
+    const animationTimer = setTimeout(() => {
+      // Remove body animating class
+      document.body.classList.remove("animating");
+
+      // Mark as initialized
+      if (sectionRef.current) {
+        sectionRef.current.classList.add("initialized");
+      }
+
+      // Animate in
+      gsap
+        .timeline()
+        .to(sectionRef.current, {
           opacity: 1,
           y: 0,
-          duration: 0.8,
-          ease: "power2.out",
-        },
-        0.8
-      );
+          visibility: "visible",
+          duration: 0.6,
+          ease: "power3.out",
+        })
+        .to(
+          titleRef.current,
+          {
+            visibility: "visible",
+            opacity: 1,
+            duration: 0.5,
+            onComplete: () => {
+              scrambleTextAnimation(titleRef.current, "Agenda tu Reunión", {
+                duration: 1200,
+              });
+            },
+          },
+          0.3
+        )
+        .to(
+          formRef.current,
+          {
+            opacity: 1,
+            y: 0,
+            overflow: "visible",
+            duration: 0.8,
+            ease: "power2.out",
+          },
+          0.8
+        );
+    }, 50);
+
+    return () => {
+      window.removeEventListener("resize", checkMobile);
+      document.body.classList.remove("animating");
+      clearTimeout(animationTimer);
+    };
   }, []);
 
   useEffect(() => {
@@ -255,6 +299,12 @@ const AgendarReunion = ({ onBackToHome }) => {
       return;
     }
 
+    // Scroll to top immediately when form is submitted
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
+
     const meetingData = {
       ...formData,
       date: selectedDate.toLocaleDateString("es-ES"),
@@ -366,7 +416,7 @@ const AgendarReunion = ({ onBackToHome }) => {
   return (
     <section
       ref={sectionRef}
-      className={`w-full max-w-full flex flex-col items-center ${
+      className={`meeting-scheduler-container w-full max-w-full flex flex-col items-center ${
         isMobile
           ? "meeting-scheduler-mobile mt-[120px] mb-[100px]"
           : "mt-[80px]"
@@ -375,14 +425,17 @@ const AgendarReunion = ({ onBackToHome }) => {
       <div className="max-w-6xl w-full relative">
         <h2
           ref={titleRef}
-          className="text-[2.5rem] lg:text-[4rem] font-black mb-12 leading-none tracking-tight text-center text-white"
+          className="meeting-title-container text-[2.5rem] lg:text-[4rem] font-black mb-12 leading-none tracking-tight text-center text-white"
         ></h2>
 
         {/* Success/Error Message - Initially Hidden */}
         <div
           ref={successRef}
           className="absolute inset-0 z-10 flex-col items-center justify-center text-center bg-[#181414] rounded-[20px] p-8 hidden"
-          style={{ height: "fit-content", minHeight: "400px" }}
+          style={{
+            height: "fit-content",
+            minHeight: "400px",
+          }}
         >
           <div className="mb-8">
             <svg
@@ -491,12 +544,12 @@ const AgendarReunion = ({ onBackToHome }) => {
 
         <div
           ref={formRef}
-          className="flex flex-col lg:flex-row gap-8 lg:gap-12"
+          className="meeting-form-container flex flex-col lg:flex-row gap-8 lg:gap-12"
         >
           {/* Calendar Section */}
           <div
             className="flex-1 bg-[#f5f5f5] rounded-[20px] p-6 lg:p-8"
-            style={{ boxShadow: "4px 6px 1px #e0e0e0" }}
+            style={{ boxShadow: "4px 6px 1px #e0e0e0", overflow: "hidden" }}
           >
             <div className="mb-6">
               <h3 className="text-2xl font-bold text-[#181414] mb-2">
@@ -646,7 +699,7 @@ const AgendarReunion = ({ onBackToHome }) => {
           {/* Form Section */}
           <div
             className="flex-1 bg-[#f5f5f5] rounded-[20px] p-6 lg:p-8"
-            style={{ boxShadow: "4px 6px 1px #e0e0e0" }}
+            style={{ boxShadow: "4px 6px 1px #e0e0e0", overflow: "hidden" }}
           >
             <div className="mb-6">
               <h3 className="text-2xl font-bold text-[#181414] mb-2">
