@@ -22,9 +22,19 @@ const NavBar = ({ onAnimationComplete, onAgendarClick, currentView }) => {
       if (navRef.current) {
         navRef.current.classList.add("nav-hidden"); // Add hidden class to nav
       }
-      // Animate logo and nav links on both desktop and mobile
-      logoHangingAnimation(logoRef.current);
-      await navMenuAnimation(navRef.current);
+
+      if (isMobile) {
+        // On mobile: nav links start immediately, logo starts 0.3s later
+        navMenuAnimation(navRef.current);
+        setTimeout(() => {
+          logoHangingAnimation(logoRef.current);
+        }, 200); // Start logo 0.3 seconds after nav links
+      } else {
+        // On desktop: logo and nav links simultaneously
+        logoHangingAnimation(logoRef.current);
+        await navMenuAnimation(navRef.current);
+      }
+
       if (onAnimationComplete) {
         onAnimationComplete();
       }

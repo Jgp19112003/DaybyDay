@@ -88,7 +88,7 @@ main {
 }
 
 .rotated {
-  transform: rotate(12deg);
+  /* Remove the default rotation, let GSAP handle all transforms */
   display: inline-block;
 }
 
@@ -267,17 +267,20 @@ main {
     font-size: 16px;
     margin-bottom: 2px;
     letter-spacing: -0.01em;
+    /* Remove will-change and backface-visibility that might interfere */
   }
 
   .navbar.mobile .logo-y {
     font-size: 16px;
     letter-spacing: -0.01em;
+    /* Remove will-change and backface-visibility that might interfere */
   }
 
   .navbar.mobile .logo-by {
     font-size: 9px;
     top: -1px;
     right: -10px;
+    /* Remove will-change and backface-visibility that might interfere */
   }
 
   .nav-container.nav-mobile {
@@ -288,6 +291,9 @@ main {
     justify-content: center;
     flex-wrap: wrap;
     opacity: 1 !important;
+    /* Add hardware acceleration for smoother animations */
+    transform: translateZ(0);
+    will-change: transform;
   }
 
   .nav-link {
@@ -302,6 +308,9 @@ main {
     border: none;
     box-shadow: none;
     transition: background-color 0.2s ease, color 0.2s ease, transform 0.2s ease;
+    /* Add hardware acceleration for smoother animations */
+    transform: translateZ(0);
+    will-change: transform;
   }
 
   .nav-link:hover {
@@ -346,6 +355,30 @@ main {
 
   .time-slots {
     grid-template-columns: repeat(2, 1fr);
+  }
+
+  /* Neumorphism for service cards - matching navbar exactly */
+  .servicio-card {
+    background: #f5f5f5 !important;
+    border-radius: 20px;
+    box-shadow: 4px 6px 1px #e0e0e0 !important;
+    border: none !important;
+    transition: background 0.8s ease-in-out, box-shadow 0.8s ease-in-out,
+      transform 0.3s ease;
+  }
+
+  .servicio-card.card-dark {
+    background: #232323 !important;
+    box-shadow: 4px 6px 1px #1a1a1a !important;
+    border: none !important;
+  }
+
+  /* Add cursor pointer for mobile */
+  @media (max-width: 768px) {
+    .servicio-card {
+      cursor: pointer;
+      user-select: none;
+    }
   }
 }
 
@@ -401,6 +434,12 @@ main {
 }
 .navbar.mobile .logo-second-line .logo-day {
   margin-right: 3px !important;
+}
+
+/* Add smooth transitions for card tags */
+.card-tag {
+  transition: background-color 0.3s ease, border-color 0.3s ease,
+    color 0.3s ease;
 }
 
 /* Neumorphism for service cards - matching navbar exactly */

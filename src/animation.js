@@ -6,23 +6,27 @@ gsap.registerPlugin(ScrollTrigger, SplitText);
 export const logoHangingAnimation = (logoElement) => {
   if (!logoElement) return;
 
-  // Get individual word elements
+  // Get individual word elements with more specific selectors
   const firstDay = logoElement.querySelector(".logo-first-line .logo-day");
   const secondDay = logoElement.querySelector(".logo-second-line .logo-day");
   const secondY = logoElement.querySelector(".logo-second-line .logo-y");
   const by = logoElement.querySelector(".logo-second-line .logo-by");
 
-  // Set initial state FIRST, before removing hiding class
+  // Clear any existing transforms first to avoid conflicts
+  gsap.set([firstDay, secondDay, secondY, by], { clearProps: "all" });
+
+  // Set initial state FIRST, before removing hiding class - same for all devices
   gsap.set([firstDay, secondDay, secondY, by], {
     y: -150,
     opacity: 0,
     rotation: (i) => -20 + i * 10, // Different rotation for each element
+    force3D: true,
   });
 
   // Now remove initial hiding class
   logoElement.classList.remove("logo-hidden");
 
-  // Animate each word falling with different delays
+  // Use exact same animation parameters for all devices
   gsap.to(firstDay, {
     y: 0,
     opacity: 1,
@@ -30,15 +34,17 @@ export const logoHangingAnimation = (logoElement) => {
     duration: 1,
     ease: "bounce.out",
     delay: 0.2,
+    force3D: true,
   });
 
   gsap.to(secondDay, {
     y: 0,
     opacity: 1,
     rotation: 0,
-    duration: 1.1,
+    duration: 1, // Same as firstDay
     ease: "bounce.out",
     delay: 0.4,
+    force3D: true,
   });
 
   gsap.to(secondY, {
@@ -48,6 +54,7 @@ export const logoHangingAnimation = (logoElement) => {
     duration: 0.9,
     ease: "bounce.out",
     delay: 0.6,
+    force3D: true,
   });
 
   gsap.to(by, {
@@ -57,6 +64,7 @@ export const logoHangingAnimation = (logoElement) => {
     duration: 0.8,
     ease: "bounce.out",
     delay: 0.8,
+    force3D: true,
   });
 };
 
@@ -69,14 +77,16 @@ export const navMenuAnimation = (navContainer) => {
 
     // Set initial state FIRST, before removing hiding class
     gsap.set(navLinks, {
-      y: isMobile ? -30 : -80,
+      y: -80, // Increase mobile drop distance
       opacity: 0,
+      scale: 1, // Add scale for mobile
     });
 
     // Smoothly remove the hidden class
     gsap.to(navContainer, {
       visibility: "visible",
       opacity: 1,
+      duration: 0.3,
       onComplete: () => {
         navContainer.classList.remove("nav-hidden");
       },
@@ -85,10 +95,11 @@ export const navMenuAnimation = (navContainer) => {
     gsap.to(navLinks, {
       y: 0,
       opacity: 1,
-      duration: isMobile ? 0.4 : 0.2,
-      ease: "power3.out",
-      delay: isMobile ? 0.1 : 0.2,
-      stagger: isMobile ? 0.1 : 0.2,
+      scale: 1,
+      duration: isMobile ? 0.8 : 0.2, // Longer duration for mobile
+      ease: isMobile ? "back.out(1.7)" : "power3.out", // Bouncy ease for mobile
+      delay: isMobile ? 0.2 : 0.2,
+      stagger: 0.2, // Slower stagger for mobile
       onComplete: () => {
         // Don't clear props on mobile to maintain transform overrides
         if (!isMobile) {
@@ -316,21 +327,29 @@ export const serviciosCardsAnimation = (cardsRef) => {
   const isMobile = window.innerWidth <= 768;
 
   if (isMobile) {
-    // On mobile, set cards to be visible after a delay without animation
-    setTimeout(() => {
-      gsap.set(cardsRef.current, {
-        opacity: 1,
-        scale: 1,
-        transformOrigin: "center center",
-      });
-    }, 2500); // Delay to allow text content to appear first
-
-    // Initially hide the cards
+    // On mobile, use the same dramatic entrance as desktop
     gsap.set(cardsRef.current, {
       opacity: 0,
-      scale: 1,
+      scale: 2,
       transformOrigin: "center center",
     });
+
+    gsap.fromTo(
+      cardsRef.current,
+      {
+        opacity: 0,
+        scale: 2,
+        transformOrigin: "center center",
+      },
+      {
+        delay: 2.5, // Delay to allow text content to appear first
+        opacity: 1,
+        scale: 1,
+        duration: 1,
+        stagger: 0.4,
+        ease: "elastic.out(0.8, 0.4)",
+      }
+    );
     return;
   }
 
@@ -362,177 +381,159 @@ export const serviciosCardsAnimation = (cardsRef) => {
 export const serviciosCardHoverAnimation = (cardsRef) => {
   const isMobile = window.innerWidth <= 768;
 
-  cardsRef.current.forEach((card) => {
-    if (!card) return;
-    // Remove previous listeners to avoid stacking
-    card.onmouseenter = null;
-    card.onmouseleave = null;
-
-    if (isMobile) {
-      // Disable hover animations on mobile for smoother experience
-      return;
-    }
-
-    card.addEventListener("mouseenter", () => {
-      // Tick rápido y suave: pequeño crecimiento y vuelta inmediata
-      gsap
-        .timeline()
-        .to(card, {
-          scale: 1.2,
-          duration: 0.1,
-          ease: "power2.out",
-        })
-        .to(card, {
-          scale: card.classList.contains("card-dark") ? 1 : 1.02,
-          duration: 0.15,
-          ease: "power2.inOut",
-        });
-    });
-
-    card.addEventListener("mouseleave", () => {
-      gsap.to(card, {
-        scale: card.classList.contains("card-dark") ? 1 : 1.02,
-        duration: 0.2,
-        ease: "power2.out",
-      });
-    });
-  });
-};
-
-export const serviciosCardCyclingAnimation = (
-  cardsRef,
-  tagsRef,
-  activeCard
-) => {
-  if (!cardsRef.current || !tagsRef.current) return;
-
-  const isMobile = window.innerWidth <= 768;
-  const tl = gsap.timeline();
-
   cardsRef.current.forEach((card, index) => {
     if (!card) return;
 
+    // Remove previous listeners to avoid stacking
+    card.onmouseenter = null;
+    card.onmouseleave = null;
+    card.onclick = null;
+
     const title = card.querySelector(".card-title");
     const description = card.querySelector(".card-description");
-    const tags = tagsRef.current[index]?.querySelectorAll(".card-tag") || [];
+    const tags = card.querySelectorAll(".card-tag");
 
-    if (index === activeCard) {
-      // Animate to light theme - smoother for mobile
-      card.classList.remove("card-dark");
-      tl.to(
-        card,
-        {
-          scale: isMobile ? 1 : 1.02, // No scale change on mobile
-          duration: isMobile ? 1.8 : 1.5, // Slower transition on mobile
-          ease: "power1.inOut",
-        },
-        0
-      )
-        .to(
-          [title, description],
-          {
-            color: "#181414",
-            duration: isMobile ? 1.5 : 1.2, // Slower color transition on mobile
-            ease: "power1.inOut",
-          },
-          0.3
-        )
-        .to(
-          tags,
-          {
-            backgroundColor: "#ff3131",
-            borderColor: "transparent",
+    if (isMobile) {
+      // Mobile: exclusive selection on click
+      card.addEventListener("click", () => {
+        // First, reset all other cards to dark theme
+        cardsRef.current.forEach((otherCard, otherIndex) => {
+          if (!otherCard || otherIndex === index) return;
+
+          const otherTitle = otherCard.querySelector(".card-title");
+          const otherDescription = otherCard.querySelector(".card-description");
+          const otherTags = otherCard.querySelectorAll(".card-tag");
+
+          // Switch other cards to dark theme with smooth transition
+          otherCard.classList.add("card-dark");
+
+          gsap.to(otherCard, {
+            scale: 1,
+            duration: 0.6,
+            ease: "power2.inOut",
+          });
+
+          gsap.to([otherTitle, otherDescription], {
             color: "#ffffff",
-            duration: isMobile ? 1.3 : 1.0, // Slower tag animation on mobile
-            stagger: isMobile ? 0.05 : 0.08, // Faster stagger on mobile
-            ease: "power1.inOut",
-          },
-          0.5
-        );
-    } else {
-      // Animate to dark theme - smoother for mobile
-      card.classList.add("card-dark");
-      tl.to(
-        card,
-        {
-          scale: 1, // Always scale 1 on mobile and dark cards
-          duration: isMobile ? 1.8 : 1.5,
-          ease: "power1.inOut",
-        },
-        0
-      )
-        .to(
-          [title, description],
-          {
-            color: "#ffffff",
-            duration: isMobile ? 1.5 : 1.2,
-            ease: "power1.inOut",
-          },
-          0.3
-        )
-        .to(
-          tags,
-          {
+            duration: 0.6,
+            ease: "power2.inOut",
+          });
+
+          gsap.to(otherTags, {
             backgroundColor: "#232323",
             borderColor: "#333333",
             color: "#ffffff",
-            duration: isMobile ? 1.3 : 1.0,
-            stagger: isMobile ? 0.05 : 0.08,
-            ease: "power1.inOut",
-          },
-          0.5
-        );
+            duration: 0.6,
+            ease: "power2.inOut",
+          });
+        });
+
+        // Then activate the clicked card with smooth transition
+        card.classList.remove("card-dark");
+
+        gsap.to(card, {
+          scale: 1.05,
+          duration: 0.6,
+          ease: "power2.inOut",
+        });
+
+        gsap.to([title, description], {
+          color: "#181414",
+          duration: 0.6,
+          ease: "power2.inOut",
+        });
+
+        gsap.to(tags, {
+          backgroundColor: "#ff3131",
+          borderColor: "transparent",
+          color: "#ffffff",
+          duration: 0.6,
+          ease: "power2.inOut",
+        });
+      });
+    } else {
+      // Desktop: hover behavior with smooth continuous transitions
+      card.addEventListener("mouseenter", () => {
+        // Switch to light theme and scale up smoothly
+        card.classList.remove("card-dark");
+
+        gsap.to(card, {
+          scale: 1.05,
+          duration: 0.5,
+          ease: "power1.inOut", // Smoother, more continuous easing
+        });
+
+        // Animate text to dark color smoothly
+        gsap.to([title, description], {
+          color: "#181414",
+          duration: 0.4,
+          ease: "power1.inOut",
+        });
+
+        // Animate tags to red style with smooth transition
+        gsap.to(tags, {
+          backgroundColor: "#ff3131",
+          borderColor: "transparent",
+          color: "#ffffff",
+          duration: 0.4,
+          ease: "power1.inOut",
+        });
+      });
+
+      card.addEventListener("mouseleave", () => {
+        // Switch back to dark theme and scale down smoothly
+        card.classList.add("card-dark");
+
+        gsap.to(card, {
+          scale: 1,
+          duration: 0.4,
+          ease: "power1.inOut", // Smoother, more continuous easing
+        });
+
+        // Animate text to white color smoothly
+        gsap.to([title, description], {
+          color: "#ffffff",
+          duration: 0.4,
+          ease: "power1.inOut",
+        });
+
+        // Animate tags to dark style with smooth transition
+        gsap.to(tags, {
+          backgroundColor: "#232323",
+          borderColor: "#333333",
+          color: "#ffffff",
+          duration: 0.4,
+          ease: "power1.inOut",
+        });
+      });
     }
   });
-
-  return tl;
 };
 
 export const initServiceCardsCycling = (cardsRef, tagsRef) => {
   if (!cardsRef.current || !tagsRef.current) return null;
 
-  let currentCard = 0;
-  const totalCards = cardsRef.current.length;
-
-  // Set initial state
-  cardsRef.current.forEach((card, index) => {
+  // Set all cards to dark theme initially
+  cardsRef.current.forEach((card) => {
     if (!card) return;
 
     const title = card.querySelector(".card-title");
     const description = card.querySelector(".card-description");
-    const tags = tagsRef.current[index]?.querySelectorAll(".card-tag") || [];
+    const tags = card.querySelectorAll(".card-tag");
 
-    if (index === 0) {
-      // First card starts light
-      card.classList.remove("card-dark");
-      gsap.set(card, { scale: 1.02 });
-      gsap.set([title, description], { color: "#181414" });
-      gsap.set(tags, {
-        backgroundColor: "#ff3131",
-        borderColor: "transparent",
-        color: "#ffffff",
-      });
-    } else {
-      // Other cards start dark
-      card.classList.add("card-dark");
-      gsap.set(card, { scale: 1 });
-      gsap.set([title, description], { color: "#ffffff" });
-      gsap.set(tags, {
-        backgroundColor: "#232323",
-        borderColor: "#333333",
-        color: "#ffffff",
-      });
-    }
+    // All cards start dark
+    card.classList.add("card-dark");
+    gsap.set(card, { scale: 1 });
+    gsap.set([title, description], { color: "#ffffff" });
+    gsap.set(tags, {
+      backgroundColor: "#232323",
+      borderColor: "#333333",
+      color: "#ffffff",
+    });
   });
 
-  const cycleCards = () => {
-    currentCard = (currentCard + 1) % totalCards;
-    serviciosCardCyclingAnimation(cardsRef, tagsRef, currentCard);
-  };
-
-  const interval = setInterval(cycleCards, 6000);
-
-  return () => clearInterval(interval);
+  // Return empty cleanup function since there's no interval
+  return () => {};
 };
 
 export const serviciosMouseFollowAnimation = (

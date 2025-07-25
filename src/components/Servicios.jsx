@@ -1,4 +1,4 @@
-import React, { useRef, useEffect, useState } from "react";
+import React, { useRef, useEffect } from "react";
 import { ScrollTrigger } from "gsap/all";
 import {
   serviciosTitleAnimation,
@@ -15,8 +15,6 @@ const Servicios = () => {
   const titleRef = useRef(null);
   const cardsRef = useRef([]);
   const tagsRef = useRef([]);
-
-  const [activeCard, setActiveCard] = useState(0);
 
   useEffect(() => {
     ScrollTrigger.killAll();
@@ -38,21 +36,12 @@ const Servicios = () => {
       cardsRef
     );
 
-    let current = 0;
-    const interval = setInterval(() => {
-      current = (current + 1) % 3;
-      setActiveCard(current);
-    }, 6000);
-
     return () => {
       if (cleanupCycling) cleanupCycling();
       if (cleanupMouseFollow) cleanupMouseFollow();
-      clearInterval(interval);
       ScrollTrigger.killAll();
     };
   }, []);
-
-  const getSvgColor = (idx) => (idx === activeCard ? "#181414" : "#fff");
 
   return (
     <section
@@ -84,9 +73,7 @@ const Servicios = () => {
         style={{ marginLeft: "auto" }}
       >
         <div
-          className={`rounded-[20px] w-full p-6 lg:p-8 pb-5 lg:pb-7 mb-0 border servicio-card${
-            activeCard !== 0 ? " card-dark" : ""
-          }`}
+          className="rounded-[20px] w-full p-6 lg:p-8 pb-5 lg:pb-7 mb-0 border servicio-card card-dark"
           ref={(el) => (cardsRef.current[0] = el)}
         >
           <div
@@ -125,9 +112,7 @@ const Servicios = () => {
           </div>
         </div>
         <div
-          className={`rounded-[20px] w-full p-6 lg:p-8 pb-5 lg:pb-7 mb-0 border servicio-card${
-            activeCard !== 1 ? " card-dark" : ""
-          }`}
+          className="rounded-[20px] w-full p-6 lg:p-8 pb-5 lg:pb-7 mb-0 border servicio-card card-dark"
           ref={(el) => (cardsRef.current[1] = el)}
         >
           <div
@@ -140,7 +125,7 @@ const Servicios = () => {
               style={{ verticalAlign: "middle" }}
               viewBox="0 0 24 24"
               fill="none"
-              stroke={getSvgColor(1)}
+              stroke="#fff"
               strokeWidth="1.5"
               strokeLinecap="round"
               strokeLinejoin="round"
@@ -152,18 +137,13 @@ const Servicios = () => {
                 width="10"
                 height="10"
                 rx="3"
-                fill={getSvgColor(1)}
-                stroke={getSvgColor(1)}
+                fill="#fff"
+                stroke="#fff"
               />
-              <circle
-                cx="12"
-                cy="12"
-                r="2.5"
-                fill={activeCard === 1 ? "#181414" : "#fff"}
-              />
+              <circle cx="12" cy="12" r="2.5" fill="#181414" />
               <path
                 d="M12 2v2M12 20v2M4 12H2M22 12h-2M5.6 5.6l-1.4-1.4M18.4 18.4l1.4 1.4M18.4 5.6l1.4-1.4M5.6 18.4l-1.4 1.4"
-                stroke={getSvgColor(1)}
+                stroke="#fff"
               />
             </svg>
           </div>
@@ -188,9 +168,7 @@ const Servicios = () => {
           </div>
         </div>
         <div
-          className={`rounded-[20px] w-full p-6 lg:p-8 pb-5 lg:pb-7 mb-0 border servicio-card${
-            activeCard !== 2 ? " card-dark" : ""
-          }`}
+          className="rounded-[20px] w-full p-6 lg:p-8 pb-5 lg:pb-7 mb-0 border servicio-card card-dark"
           ref={(el) => (cardsRef.current[2] = el)}
         >
           <div
@@ -206,29 +184,28 @@ const Servicios = () => {
               }}
               viewBox="0 0 24 24"
               fill="none"
-              stroke={getSvgColor(2)}
+              stroke="#fff"
               strokeWidth="1.5"
               strokeLinecap="round"
               strokeLinejoin="round"
               xmlns="http://www.w3.org/2000/svg"
             >
-              {/* Megáfono minimalista */}
               <path
                 d="M3 13V7a2 2 0 0 1 2-2h2l9-3v16l-9-3H5a2 2 0 0 1-2-2v-6z"
-                fill={getSvgColor(2)}
-                stroke={getSvgColor(2)}
+                fill="#fff"
+                stroke="#fff"
                 style={{ transition: "stroke 0.8s, fill 0.8s" }}
               />
               <circle
                 cx="17.5"
                 cy="12"
                 r="1.5"
-                fill={activeCard === 2 ? "#181414" : "#fff"}
+                fill="#181414"
                 style={{ transition: "fill 0.8s" }}
               />
               <path
                 d="M7 15v2a2 2 0 0 0 2 2h1"
-                stroke={getSvgColor(2)}
+                stroke="#fff"
                 style={{ transition: "stroke 0.8s" }}
               />
             </svg>

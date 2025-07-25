@@ -174,7 +174,7 @@ const AgendarReunion = ({ onBackToHome }) => {
     };
 
     // Return a promise to handle success/error properly
-    return fetch("https://hook.eu2.make.com/mm4hl8ma5ms5iickz72xvoyqz2i2s36q", {
+    return fetch("https://hook.eu2.make.com/zauuer8f06yoqm498iekgfou7m3vxkm1", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -523,7 +523,7 @@ const AgendarReunion = ({ onBackToHome }) => {
                 WhatsApp
               </a>
               <a
-                href="mailto:jgp19112003@gmail.com?subject=Solicitud de Reunión"
+                href="mailto:pablo@daybydayconsulting.com?subject=Solicitud de Reunión"
                 className="flex items-center justify-center gap-2 bg-[#666] text-white py-3 px-6 rounded-lg hover:bg-[#555] transition-colors"
               >
                 <svg
