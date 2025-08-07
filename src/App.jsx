@@ -1,46 +1,96 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import gsap from "gsap";
 import { ScrollTrigger, SplitText } from "gsap/all";
 import NavBar from "./components/NavBar";
 import WhatsAppButton from "./components/WhatsAppButton";
 import Servicios from "./components/Servicios";
 import AgendarReunion from "./components/AgendarReunion";
+import Nosotros from "./components/Nosotros";
+import Footer from "./components/Footer";
 
 gsap.registerPlugin(ScrollTrigger, SplitText);
 
 const App = () => {
   const [currentView, setCurrentView] = useState("home");
-  const [isTransitioning, setIsTransitioning] = useState(false);
+  const [pendingScroll, setPendingScroll] = useState(null);
+  const [isTransitioning] = useState(false);
 
+  const serviciosRef = useRef(null);
+  const nosotrosRef = useRef(null);
+
+  // Scroll al top siempre al recargar la página
   useEffect(() => {
-    const handleHashChange = () => {
-      const hash = window.location.hash.replace("#", "") || "home";
-      if (hash !== currentView) {
-        setIsTransitioning(true);
-        setCurrentView(hash);
+    window.scrollTo({ top: 0, left: 0, behavior: "auto" });
+  }, []);
 
-        // Remove transitioning state after animation completes
-        setTimeout(() => {
-          setIsTransitioning(false);
-        }, 100);
+  // Handler para scroll suave desde NavBar
+  const handleNavScroll = (section) => {
+    if (section === "agendar") {
+      setCurrentView("agendar");
+      setTimeout(() => {
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      }, 100);
+      return;
+    }
+    if (currentView !== "home") {
+      setCurrentView("home");
+      setPendingScroll(section);
+    } else {
+      if (section === "inicio") {
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      } else {
+        let ref = null;
+        if (section === "servicios") ref = serviciosRef;
+        if (section === "nosotros") ref = nosotrosRef;
+        if (ref && ref.current) {
+          ref.current.scrollIntoView({ behavior: "smooth" });
+        }
       }
-    };
+    }
+  };
 
-    window.addEventListener("hashchange", handleHashChange);
-    handleHashChange(); // Initialize view on load
-
-    return () => window.removeEventListener("hashchange", handleHashChange);
-  }, [currentView]);
+  // Scroll al componente después de cambiar a home
+  useEffect(() => {
+    if (currentView === "home" && pendingScroll) {
+      if (pendingScroll === "inicio") {
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      } else {
+        const ref =
+          pendingScroll === "servicios"
+            ? serviciosRef
+            : pendingScroll === "nosotros"
+            ? nosotrosRef
+            : null;
+        if (ref && ref.current) {
+          setTimeout(() => {
+            ref.current.scrollIntoView({ behavior: "smooth" });
+          }, 100);
+        }
+      }
+      setPendingScroll(null);
+    }
+  }, [currentView, pendingScroll]);
 
   return (
     <main style={{ overflow: isTransitioning ? "hidden" : "visible" }}>
       <NavBar
         currentView={currentView}
-        onAgendarClick={() => setCurrentView("agendar")}
+        onAgendarClick={() => handleNavScroll("agendar")}
+        onNavScroll={handleNavScroll}
       />
-      {currentView === "home" && <Servicios />}
+      {currentView === "home" && (
+        <>
+          <div ref={serviciosRef}>
+            <Servicios />
+          </div>
+          <div ref={nosotrosRef}>
+            <Nosotros />
+          </div>
+        </>
+      )}
       {currentView === "agendar" && <AgendarReunion />}
       <WhatsAppButton />
+      <Footer />
     </main>
   );
 };

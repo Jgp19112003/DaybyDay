@@ -130,8 +130,7 @@ export const serviciosInfoAnimation = (infoRef, sectionRef) => {
     start: "top 80%",
     once: true,
     onEnter: () => {
-      // Remove hiding class first
-      sectionRef.current.classList.remove("servicios-hidden");
+      // NO remover clases, la sección ya debe ser visible
 
       // First fade in the container
       gsap.to(infoRef.current, {
@@ -201,8 +200,7 @@ export const serviciosTitleAnimation = (titleRef, sectionRef) => {
     start: "top 80%",
     once: true,
     onEnter: () => {
-      // Remove hiding class first
-      sectionRef.current.classList.remove("servicios-hidden");
+      // NO remover clases, la sección ya debe ser visible
 
       // Fade in the element and start the scramble animation
       gsap.to(titleRef.current, {
@@ -244,10 +242,15 @@ export const scrambleTextAnimation = (element, targetText, options = {}) => {
     let currentText = new Array(textLength).fill("");
     let revealedIndices = new Set();
     let scrambleInterval;
-    // let revealTimeout; // Removed unused variable
 
-    // Set initial empty state
+    // IMPORTANTE: Limpiar el elemento INMEDIATAMENTE antes de cualquier animación
     element.textContent = "";
+
+    // Asegurar que el elemento esté visible pero sin contenido
+    gsap.set(element, {
+      opacity: 1,
+      visibility: "visible",
+    });
 
     const startAnimation = () => {
       const scrambleStartTime = Date.now();

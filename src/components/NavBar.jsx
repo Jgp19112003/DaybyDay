@@ -1,7 +1,16 @@
 import React, { useRef, useEffect, useState } from "react";
+import { gsap } from "gsap";
+import { ScrollToPlugin } from "gsap/ScrollToPlugin"; // nuevo
 import { logoHangingAnimation, navMenuAnimation } from "../animation";
 
-const NavBar = ({ onAnimationComplete, onAgendarClick, currentView }) => {
+gsap.registerPlugin(ScrollToPlugin);
+
+const NavBar = ({
+  onAnimationComplete,
+  onAgendarClick,
+  currentView,
+  onNavScroll,
+}) => {
   const logoRef = useRef(null);
   const navRef = useRef(null);
   const [isMobile, setIsMobile] = useState(false);
@@ -45,15 +54,23 @@ const NavBar = ({ onAnimationComplete, onAgendarClick, currentView }) => {
     return () => window.removeEventListener("resize", checkMobile);
   }, [onAnimationComplete, isMobile]);
 
+  // Función para realizar scroll animado hacia el destino
+  const handleNavClick = (e, target) => {
+    e.preventDefault();
+    gsap.to(window, {
+      scrollTo: { y: target, autoKill: false },
+      duration: 1,
+      ease: "power2.out",
+    });
+  };
+
   return (
     <nav className={`navbar ${isMobile ? "mobile" : ""}`}>
       <div
         className="logo-container"
         onClick={() => {
-          if (window.location.hash !== "") {
-            window.location.hash = "";
-            if (onAnimationComplete) onAnimationComplete();
-          }
+          window.scrollTo({ top: 0, behavior: "smooth" });
+          if (onAnimationComplete) onAnimationComplete();
         }}
         style={{ cursor: "pointer" }}
       >
@@ -69,19 +86,44 @@ const NavBar = ({ onAnimationComplete, onAgendarClick, currentView }) => {
         </div>
       </div>
       <div
-        className={`nav-container ${isMobile ? "nav-mobile" : ""} nav-hidden`} // Add nav-hidden class
+        className={`nav-container ${isMobile ? "nav-mobile" : ""} nav-hidden`}
         ref={navRef}
       >
-        <a href="#" className="nav-link">
+        <a
+          href="#"
+          className="nav-link"
+          onClick={(e) => {
+            e.preventDefault();
+            if (typeof onNavScroll === "function") onNavScroll("inicio");
+          }}
+        >
           Inicio
         </a>
-        <a href="#servicios" className="nav-link">
+        <a
+          href="#servicios"
+          className="nav-link"
+          onClick={(e) => {
+            e.preventDefault();
+            if (typeof onNavScroll === "function") onNavScroll("servicios");
+          }}
+        >
           Servicios
         </a>
-        <a href="#nosotros" className="nav-link">
+        <a
+          href="#nosotros"
+          className="nav-link"
+          onClick={(e) => {
+            e.preventDefault();
+            if (typeof onNavScroll === "function") onNavScroll("nosotros");
+          }}
+        >
           Nosotros
         </a>
-        <a href="#contacto" className="nav-link">
+        <a
+          href="#contacto"
+          className="nav-link"
+          onClick={(e) => handleNavClick(e, "#contacto")}
+        >
           Contacto
         </a>
         <a
@@ -91,10 +133,7 @@ const NavBar = ({ onAnimationComplete, onAgendarClick, currentView }) => {
           }`}
           onClick={(e) => {
             e.preventDefault();
-            if (currentView !== "agendar") {
-              window.location.hash = "agendar";
-              if (onAgendarClick) onAgendarClick(); // Trigger agendar-specific logic
-            }
+            if (typeof onNavScroll === "function") onNavScroll("agendar");
           }}
           style={{
             padding: isMobile ? "12px 20px" : "",
