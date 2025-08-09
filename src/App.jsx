@@ -18,9 +18,24 @@ const App = () => {
   const serviciosRef = useRef(null);
   const nosotrosRef = useRef(null);
 
-  // Scroll al top siempre al recargar la página
+  // Scroll al top siempre al recargar la página - mejorado
   useEffect(() => {
-    window.scrollTo({ top: 0, left: 0, behavior: "auto" });
+    // Múltiples métodos para asegurar scroll al top
+    window.history.scrollRestoration = "manual";
+    document.documentElement.scrollTop = 0;
+    document.body.scrollTop = 0;
+    window.scrollTo(0, 0);
+
+    // Forzar scroll después de que se renderice todo
+    const forceScrollTop = () => {
+      window.scrollTo({ top: 0, left: 0, behavior: "auto" });
+      document.documentElement.scrollTop = 0;
+      document.body.scrollTop = 0;
+    };
+
+    forceScrollTop();
+    setTimeout(forceScrollTop, 0);
+    setTimeout(forceScrollTop, 100);
   }, []);
 
   // Handler para scroll suave desde NavBar

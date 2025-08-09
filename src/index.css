@@ -140,7 +140,7 @@ main {
 .nav-container:hover .nav-link:not(.btn-primary):hover {
   transform: scale(1);
   opacity: 1;
-  color: #ff3131;
+  color: #de0015;
 }
 
 .nav-container:has(.btn-primary:hover) .nav-link:not(.btn-primary) {
@@ -508,7 +508,7 @@ main {
 }
 
 .nav-link.active {
-  color: #ff3131 !important;
+  color: #de0015 !important;
   font-weight: 700;
 }
 
