@@ -158,7 +158,11 @@ const Servicios = () => {
         id="servicios"
         ref={sectionRef}
         className="w-full max-w-[1400px] mx-auto px-4 lg:px-8 mt-[80px] lg:mt-[90px]"
-        style={{ opacity: 1, visibility: "visible" }}
+        style={{
+          opacity: 1,
+          visibility: "visible",
+          marginTop: window.innerWidth <= 768 ? "80px" : undefined, // margen extra en móvil
+        }}
       >
         <div className="grid grid-cols-12 gap-8 lg:gap-12 items-start">
           {/* Título global */}

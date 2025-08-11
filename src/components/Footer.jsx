@@ -1,5 +1,7 @@
 import React, { useEffect, useRef } from "react";
 
+const SVG_WIDTH = 1920; // ancho fijo para la ola
+
 const Footer = () => {
   const pathRef = useRef(null);
   useEffect(() => {
@@ -15,7 +17,7 @@ const Footer = () => {
 
     const animateWave = () => {
       frame += 0.003; // Much slower for liquid-like motion
-      const width = window.innerWidth;
+      const width = SVG_WIDTH;
       const height = 200;
 
       let d = `M0 ${height}`;
@@ -24,6 +26,7 @@ const Footer = () => {
       const points = [];
       const stepSize = width / 50; // Menos puntos para curvas más suaves
 
+      // Asegurar que el primer punto esté en x=0
       for (let x = 0; x <= width; x += stepSize) {
         // Ondas más uniformes y predecibles
         const primaryWave = Math.sin(frame + x * 0.003) * 28;
@@ -33,6 +36,20 @@ const Footer = () => {
         // Variación orgánica muy sutil
         const organicOffset = noise(x * 0.1 + frame * 20) * 2;
 
+        const y =
+          height -
+          65 -
+          (primaryWave + secondaryWave + tertiaryWave + organicOffset);
+        points.push({ x, y });
+      }
+
+      // Asegurar que el último punto esté exactamente en x=width
+      if (points[points.length - 1].x < width) {
+        const x = width;
+        const primaryWave = Math.sin(frame + x * 0.003) * 28;
+        const secondaryWave = Math.sin(frame * 0.6 + x * 0.0015) * 15;
+        const tertiaryWave = Math.sin(frame * 1.1 + x * 0.0008) * 8;
+        const organicOffset = noise(x * 0.1 + frame * 20) * 2;
         const y =
           height -
           65 -
@@ -55,7 +72,13 @@ const Footer = () => {
         d += ` Q${controlX} ${controlY} ${next.x} ${next.y}`;
       }
 
-      // Cerrar el path
+      // Agregar el último punto si existe
+      if (points.length > 1) {
+        const lastPoint = points[points.length - 1];
+        d += ` L${lastPoint.x} ${lastPoint.y}`;
+      }
+
+      // Cerrar el path asegurando que llegue al borde derecho
       d += ` L${width} ${height} Z`;
 
       if (pathRef.current) pathRef.current.setAttribute("d", d);
@@ -80,16 +103,16 @@ const Footer = () => {
       }}
     >
       <svg
-        width="100%"
+        width="100vw"
         height="200"
-        viewBox={`0 0 ${window.innerWidth} 200`} // Updated viewBox height
+        viewBox={`0 0 ${SVG_WIDTH} 200`}
         className="wave-svg"
         xmlns="http://www.w3.org/2000/svg"
         preserveAspectRatio="none"
         style={{
           display: "block",
-          width: "100%",
-          height: "200px", // Updated SVG height
+          width: "100vw",
+          height: "200px",
           minWidth: 0,
           maxWidth: "100vw",
         }}

@@ -137,7 +137,8 @@ const Sectores = () => {
     gsap.registerPlugin(ScrollTrigger);
 
     const isDesktop = window.innerWidth >= 1024;
-    const navOffset = getNAV() + (isDesktop ? 10 : 90);
+    const navOffset = getNAV() + (isDesktop ? 56 : 96); // antes tenías 10/90
+
     const cards = cardsRef.current.filter(Boolean);
 
     // Estados iniciales
@@ -157,14 +158,16 @@ const Sectores = () => {
 
       if (isDesktop) {
         gsap.set(stackRef.current, {
-          minHeight: "100vh",
+          minHeight: "92vh",
           position: "relative",
-          paddingTop: "4vh",
+          // empuja el contenido por debajo del nav + aire extra
+          paddingTop: `calc(14vh + ${getNAV()}px)`,
+          paddingBottom: "14vh",
         });
 
         cards.forEach((el, i) => {
-          const scale = [0.96, 0.92, 0.88, 0.84, 0.8][i] ?? 0.8;
-          const translate = [-3.6, -2.6, -1.6, -0.6, 0][i] ?? 0;
+          const scale = [0.92, 0.88, 0.84, 0.8, 0.76][i] ?? 0.76;
+          const translate = [6, 4, 2, 1, 0][i] ?? 0; // <-- positivo = más abajo
           gsap.set(el, {
             position: "absolute",
             left: "50%",
@@ -235,14 +238,16 @@ const Sectores = () => {
         });
       } else {
         gsap.set(stackRef.current, {
-          minHeight: "100vh",
+          minHeight: "92vh",
           position: "relative",
-          paddingTop: "6vh",
+          paddingTop: `calc(16vh + ${getNAV()}px)`,
+          paddingBottom: "16vh",
         });
 
         cards.forEach((el, i) => {
-          const scale = [0.94, 0.9, 0.86, 0.82, 0.79][i] ?? 0.79;
-          const translate = [-2.2, -1.6, -1.0, -0.5, 0][i] ?? 0;
+          const scale = [0.9, 0.86, 0.82, 0.78, 0.75][i] ?? 0.75;
+          const translate = [7, 4.5, 2.5, 1, 0][i] ?? 0;
+
           gsap.set(el, {
             position: "absolute",
             left: "50%",
