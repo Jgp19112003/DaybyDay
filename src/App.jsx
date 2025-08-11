@@ -4,8 +4,8 @@ import { ScrollTrigger, SplitText } from "gsap/all";
 import NavBar from "./components/NavBar";
 import WhatsAppButton from "./components/WhatsAppButton";
 import Servicios from "./components/Servicios";
+import Sectores from "./components/Sectores";
 import AgendarReunion from "./components/AgendarReunion";
-import Nosotros from "./components/Nosotros";
 import Footer from "./components/Footer";
 
 gsap.registerPlugin(ScrollTrigger, SplitText);
@@ -16,7 +16,6 @@ const App = () => {
   const [isTransitioning] = useState(false);
 
   const serviciosRef = useRef(null);
-  const nosotrosRef = useRef(null);
 
   // Scroll al top siempre al recargar la página - mejorado
   useEffect(() => {
@@ -56,7 +55,6 @@ const App = () => {
       } else {
         let ref = null;
         if (section === "servicios") ref = serviciosRef;
-        if (section === "nosotros") ref = nosotrosRef;
         if (ref && ref.current) {
           ref.current.scrollIntoView({ behavior: "smooth" });
         }
@@ -70,12 +68,7 @@ const App = () => {
       if (pendingScroll === "inicio") {
         window.scrollTo({ top: 0, behavior: "smooth" });
       } else {
-        const ref =
-          pendingScroll === "servicios"
-            ? serviciosRef
-            : pendingScroll === "nosotros"
-            ? nosotrosRef
-            : null;
+        const ref = pendingScroll === "servicios" ? serviciosRef : null;
         if (ref && ref.current) {
           setTimeout(() => {
             ref.current.scrollIntoView({ behavior: "smooth" });
@@ -98,9 +91,7 @@ const App = () => {
           <div ref={serviciosRef}>
             <Servicios />
           </div>
-          <div ref={nosotrosRef}>
-            <Nosotros />
-          </div>
+          <Sectores />
         </>
       )}
       {currentView === "agendar" && <AgendarReunion />}

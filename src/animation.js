@@ -114,68 +114,20 @@ export const navMenuAnimation = (navContainer) => {
 export const serviciosInfoAnimation = (infoRef, sectionRef) => {
   if (!infoRef.current) return;
 
-  // Get the title, paragraph and button elements
-  const title = infoRef.current.querySelector("h2");
-  const paragraph = infoRef.current.querySelector("p");
-  const button = infoRef.current.querySelector("button");
-
-  // Set initial states - reset on every call
+  // Set initial states - simplified to not interfere with content
   gsap.set(infoRef.current, { opacity: 0, y: 60 });
-  if (title) gsap.set(title, { opacity: 0 });
-  if (paragraph) gsap.set(paragraph, { opacity: 0, y: 20 });
-  if (button) gsap.set(button, { opacity: 0, y: 20 });
 
   ScrollTrigger.create({
     trigger: sectionRef.current,
     start: "top 80%",
     once: true,
     onEnter: () => {
-      // NO remover clases, la sección ya debe ser visible
-
-      // First fade in the container
+      // Simple fade in animation without touching paragraph content
       gsap.to(infoRef.current, {
         opacity: 1,
         y: 0,
-        duration: 0.6,
+        duration: 0.8,
         ease: "power3.out",
-        onComplete: () => {
-          // Start scramble animation for title
-          if (title) {
-            gsap.to(title, {
-              opacity: 1,
-              duration: 0.3,
-              onComplete: () => {
-                // Use unified scramble animation
-                scrambleTextAnimation(title, "Servicios", {
-                  duration: 1200,
-                  delay: 0,
-                }).then(() => {
-                  // Show paragraph after title animation completes
-                  if (paragraph) {
-                    gsap.to(paragraph, {
-                      opacity: 1,
-                      y: 0,
-                      duration: 0.8,
-                      ease: "power2.out",
-                      delay: 0.2,
-                    });
-                  }
-
-                  // Animate button after paragraph
-                  if (button) {
-                    gsap.to(button, {
-                      opacity: 1,
-                      y: 0,
-                      duration: 0.8,
-                      ease: "back.out(1.7)",
-                      delay: 1.0,
-                    });
-                  }
-                });
-              },
-            });
-          }
-        },
       });
     },
   });
@@ -384,10 +336,10 @@ export const serviciosCardsAnimation = (cardsRef) => {
 export const serviciosCardHoverAnimation = (cardsRef) => {
   const isMobile = window.innerWidth <= 768;
 
-  cardsRef.current.forEach((card, index) => {
+  cardsRef.current.forEach((card) => {
     if (!card) return;
 
-    // Remove previous listeners to avoid stacking
+    // Limpia listeners previos
     card.onmouseenter = null;
     card.onmouseleave = null;
     card.onclick = null;
@@ -395,119 +347,96 @@ export const serviciosCardHoverAnimation = (cardsRef) => {
     const title = card.querySelector(".card-title");
     const description = card.querySelector(".card-description");
     const tags = card.querySelectorAll(".card-tag");
+    const svg = card.querySelector(".card-title svg");
+
+    // Helper para cambiar SVG color
+    const setSvgColor = (color) => {
+      if (!svg) return;
+      if (svg.hasAttribute("fill")) svg.setAttribute("fill", color);
+      if (svg.hasAttribute("stroke")) svg.setAttribute("stroke", color);
+      // Para los hijos
+      svg.querySelectorAll("path, rect, circle").forEach((el) => {
+        if (el.hasAttribute("fill")) el.setAttribute("fill", color);
+        if (el.hasAttribute("stroke")) el.setAttribute("stroke", color);
+      });
+    };
 
     if (isMobile) {
-      // Mobile: exclusive selection on click
+      // Mobile: click para activar/desactivar
       card.addEventListener("click", () => {
-        // First, reset all other cards to dark theme
-        cardsRef.current.forEach((otherCard, otherIndex) => {
-          if (!otherCard || otherIndex === index) return;
-
+        cardsRef.current.forEach((otherCard) => {
+          if (!otherCard) return;
           const otherTitle = otherCard.querySelector(".card-title");
           const otherDescription = otherCard.querySelector(".card-description");
           const otherTags = otherCard.querySelectorAll(".card-tag");
+          const otherSvg = otherCard.querySelector(".card-title svg");
 
-          // Switch other cards to dark theme with smooth transition
-          otherCard.classList.add("card-dark");
-
-          gsap.to(otherCard, {
-            scale: 1,
-            duration: 0.6,
-            ease: "power2.inOut",
-          });
-
-          gsap.to([otherTitle, otherDescription], {
-            color: "#ffffff",
-            duration: 0.6,
-            ease: "power2.inOut",
-          });
-
-          gsap.to(otherTags, {
-            backgroundColor: "#232323",
-            borderColor: "#333333",
-            color: "#ffffff",
-            duration: 0.6,
-            ease: "power2.inOut",
-          });
-        });
-
-        // Then activate the clicked card with smooth transition
-        card.classList.remove("card-dark");
-
-        gsap.to(card, {
-          scale: 1.05,
-          duration: 0.6,
-          ease: "power2.inOut",
-        });
-
-        gsap.to([title, description], {
-          color: "#181414",
-          duration: 0.6,
-          ease: "power2.inOut",
-        });
-
-        gsap.to(tags, {
-          backgroundColor: "#ff3131",
-          borderColor: "transparent",
-          color: "#ffffff",
-          duration: 0.6,
-          ease: "power2.inOut",
+          if (otherCard === card) {
+            // Activar
+            otherCard.classList.remove("card-dark");
+            gsap.to(otherCard, {
+              scale: 1.04,
+              duration: 0.35,
+              ease: "power2.out",
+            });
+            gsap.to([otherTitle, otherDescription], {
+              color: "#181414",
+              duration: 0.35,
+            });
+            gsap.to(otherTags, {
+              backgroundColor: "#ff3131",
+              borderColor: "transparent",
+              color: "#fff",
+              duration: 0.35,
+            });
+            setSvgColor("#181414");
+          } else {
+            // Desactivar
+            otherCard.classList.add("card-dark");
+            gsap.to(otherCard, {
+              scale: 1,
+              duration: 0.35,
+              ease: "power2.out",
+            });
+            gsap.to([otherTitle, otherDescription], {
+              color: "#fff",
+              duration: 0.35,
+            });
+            gsap.to(otherTags, {
+              backgroundColor: "#232323",
+              borderColor: "#333",
+              color: "#fff",
+              duration: 0.35,
+            });
+            if (otherSvg) setSvgColor("#fff");
+          }
         });
       });
     } else {
-      // Desktop: hover behavior with smooth continuous transitions
+      // Desktop: hover
       card.addEventListener("mouseenter", () => {
-        // Switch to light theme and scale up smoothly
         card.classList.remove("card-dark");
-
-        gsap.to(card, {
-          scale: 1.05,
-          duration: 0.5,
-          ease: "power1.inOut", // Smoother, more continuous easing
-        });
-
-        // Animate text to dark color smoothly
-        gsap.to([title, description], {
-          color: "#181414",
-          duration: 0.4,
-          ease: "power1.inOut",
-        });
-
-        // Animate tags to red style with smooth transition
+        gsap.to(card, { scale: 1.06, duration: 0.28, ease: "power2.out" });
+        gsap.to([title, description], { color: "#181414", duration: 0.28 });
         gsap.to(tags, {
           backgroundColor: "#ff3131",
           borderColor: "transparent",
-          color: "#ffffff",
-          duration: 0.4,
-          ease: "power1.inOut",
+          color: "#fff",
+          duration: 0.28,
         });
+        setSvgColor("#181414");
       });
-
       card.addEventListener("mouseleave", () => {
-        // Switch back to dark theme and scale down smoothly
         card.classList.add("card-dark");
-
-        gsap.to(card, {
-          scale: 1,
-          duration: 0.4,
-          ease: "power1.inOut", // Smoother, more continuous easing
-        });
-
-        // Animate text to white color smoothly
-        gsap.to([title, description], {
-          color: "#ffffff",
-          duration: 0.4,
-          ease: "power1.inOut",
-        });
-
-        // Animate tags to dark style with smooth transition
+        gsap.to(card, { scale: 1, duration: 0.28, ease: "power2.out" });
+        gsap.to([title, description], { color: "#fff", duration: 0.28 });
         gsap.to(tags, {
           backgroundColor: "#232323",
-          borderColor: "#333333",
-          color: "#ffffff",
-          duration: 0.4,
-          ease: "power1.inOut",
+          borderColor: "#333",
+          color: "#fff",
+          duration: 0.28,
         });
+        setSvgColor("#fff");
       });
     }
   });
@@ -543,27 +472,37 @@ export const serviciosMouseFollowAnimation = (
   sectionRef,
   titleRef,
   infoRef,
-  cardsRef
+  cardsRef,
+  extraRefs = {}
 ) => {
   if (!sectionRef.current) return null;
 
   const isMobile = window.innerWidth <= 768;
+  if (isMobile) return () => {};
 
-  // Disable mouse follow animation on mobile for better performance
-  if (isMobile) {
-    return () => {}; // Return empty cleanup function
-  }
+  // Desestructura los refs extra
+  const {
+    badgeRef,
+    headingRef,
+    p1Ref,
+    p2Ref,
+    statCardsRef,
+    cardTitleRefs,
+    cardDescRefs,
+    cardTagsRefs,
+    cardSvgRefs,
+  } = extraRefs || {};
 
   const handleMouseMove = (e) => {
     const { clientX, clientY } = e;
     const { innerWidth, innerHeight } = window;
 
-    // Calculate mouse position as percentage (-1 to 1)
+    // Mouse position as percentage (-1 to 1)
     const xPercent = (clientX / innerWidth - 0.5) * 2;
     const yPercent = (clientY / innerHeight - 0.5) * 2;
 
-    // Apply different movement intensities to different elements
-    if (titleRef.current) {
+    // Título
+    if (titleRef?.current) {
       gsap.to(titleRef.current, {
         x: xPercent * 8,
         y: yPercent * 4,
@@ -571,8 +510,8 @@ export const serviciosMouseFollowAnimation = (
         ease: "power2.out",
       });
     }
-
-    if (infoRef.current) {
+    // Info principal
+    if (infoRef?.current) {
       gsap.to(infoRef.current, {
         x: xPercent * 6,
         y: yPercent * 3,
@@ -580,11 +519,10 @@ export const serviciosMouseFollowAnimation = (
         ease: "power2.out",
       });
     }
-
-    // Move cards with different intensities
-    cardsRef.current.forEach((card, index) => {
+    // Cartas
+    cardsRef?.current?.forEach((card, index) => {
       if (card) {
-        const intensity = 4 + index * 1.5; // Different intensity for each card
+        const intensity = 4 + index * 1.5;
         gsap.to(card, {
           x: xPercent * intensity,
           y: yPercent * (intensity * 0.6),
@@ -593,12 +531,108 @@ export const serviciosMouseFollowAnimation = (
         });
       }
     });
+    // Badge
+    if (badgeRef?.current) {
+      gsap.to(badgeRef.current, {
+        x: xPercent * 10,
+        y: yPercent * 6,
+        duration: 0.7,
+        ease: "power2.out",
+      });
+    }
+    // Heading
+    if (headingRef?.current) {
+      gsap.to(headingRef.current, {
+        x: xPercent * 8,
+        y: yPercent * 5,
+        duration: 0.7,
+        ease: "power2.out",
+      });
+    }
+    // Párrafos
+    if (p1Ref?.current) {
+      gsap.to(p1Ref.current, {
+        x: xPercent * 7,
+        y: yPercent * 4,
+        duration: 0.7,
+        ease: "power2.out",
+      });
+    }
+    if (p2Ref?.current) {
+      gsap.to(p2Ref.current, {
+        x: xPercent * 7,
+        y: yPercent * 4,
+        duration: 0.7,
+        ease: "power2.out",
+      });
+    }
+    // Métricas
+    if (statCardsRef?.current) {
+      statCardsRef.current.forEach((el, i) => {
+        if (el) {
+          gsap.to(el, {
+            x: xPercent * (6 + i * 2),
+            y: yPercent * (3 + i * 1.5),
+            duration: 0.7 + i * 0.1,
+            ease: "power2.out",
+          });
+        }
+      });
+    }
+
+    // Contenido interno de las cartas de la derecha
+    if (cardTitleRefs?.current) {
+      cardTitleRefs.current.forEach((el, i) => {
+        if (el) {
+          gsap.to(el, {
+            x: xPercent * (10 + i * 2),
+            y: yPercent * (6 + i * 1.5),
+            duration: 0.7 + i * 0.1,
+            ease: "power2.out",
+          });
+        }
+      });
+    }
+    if (cardDescRefs?.current) {
+      cardDescRefs.current.forEach((el, i) => {
+        if (el) {
+          gsap.to(el, {
+            x: xPercent * (8 + i * 2),
+            y: yPercent * (5 + i * 1.2),
+            duration: 0.7 + i * 0.1,
+            ease: "power2.out",
+          });
+        }
+      });
+    }
+    if (cardTagsRefs?.current) {
+      cardTagsRefs.current.forEach((el, i) => {
+        if (el) {
+          gsap.to(el, {
+            x: xPercent * (7 + i * 1.5),
+            y: yPercent * (4 + i * 1.1),
+            duration: 0.7 + i * 0.1,
+            ease: "power2.out",
+          });
+        }
+      });
+    }
+    if (cardSvgRefs?.current) {
+      cardSvgRefs.current.forEach((el, i) => {
+        if (el) {
+          gsap.to(el, {
+            x: xPercent * (10 + i * 2),
+            y: yPercent * (6 + i * 1.5),
+            duration: 0.7 + i * 0.1,
+            ease: "power2.out",
+          });
+        }
+      });
+    }
   };
 
-  // Add mouse move listener
   document.addEventListener("mousemove", handleMouseMove);
 
-  // Return cleanup function
   return () => {
     document.removeEventListener("mousemove", handleMouseMove);
   };
@@ -727,4 +761,15 @@ export const codeTypingAnimation = (element, text, options = {}) => {
     clearTimeout(scrambleInterval);
     clearTimeout(revealTimeout);
   };
+};
+
+export const btnPrimaryAppearAnimation = (btnRef) => {
+  if (!btnRef?.current) return;
+  gsap.set(btnRef.current, { opacity: 0, scale: 0.95 });
+  gsap.to(btnRef.current, {
+    opacity: 1,
+    scale: 1,
+    duration: 0.7,
+    ease: "power2.out",
+  });
 };

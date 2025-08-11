@@ -575,3 +575,89 @@ body.animating {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
+
+.card-dark {
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.03),
+    rgba(255, 255, 255, 0.01)
+  );
+  border-color: rgba(255, 255, 255, 0.08) !important;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.18);
+}
+.card-title svg {
+  opacity: 0.95;
+}
+.card-tag {
+  color: #e9e9e9;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.02);
+  border-radius: 16px;
+  padding: 6px 12px;
+  display: inline-block;
+  transition: background-color 0.3s ease, border-color 0.3s ease,
+    color 0.3s ease;
+}
+
+/* Métricas (compactas y altura auto) */
+.metric {
+  background: radial-gradient(
+      120% 140% at 10% 0%,
+      rgba(255, 49, 49, 0.06),
+      rgba(255, 255, 255, 0.02) 45%
+    ),
+    #1f1a1a;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.18);
+  color: #f4f4f4;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+}
+.metric-compact {
+  padding-bottom: 20px;
+}
+
+.metric-top {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  font-size: 12px;
+  text-transform: uppercase;
+  color: #e7e7e7;
+}
+.metric-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 999px;
+  background: #de0015;
+  display: inline-block;
+  box-shadow: 0 0 10px rgba(255, 49, 49, 0.6);
+}
+
+.metric-value {
+  font-weight: 900;
+  line-height: 1;
+  margin: 6px 0 6px;
+  letter-spacing: -0.02em;
+}
+.metric-value-sm {
+  font-size: clamp(28px, 4.5vw, 42px);
+}
+
+.metric-sub {
+  color: #cfcfcf;
+  margin: 0;
+}
+.tag-soft {
+  font-size: 12px;
+  font-weight: 700;
+  color: #181414;
+  background: #ffffff;
+  padding: 6px 10px;
+  border-radius: 16px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
