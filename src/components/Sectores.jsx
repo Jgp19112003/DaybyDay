@@ -397,6 +397,54 @@ const Sectores = ({ onAgendarClick }) => {
     ScrollTrigger.refresh();
   }, [isDesktop]);
 
+  // 🔹 iOS fix para hold en móvil
+  useEffect(() => {
+    if (!stackRef.current) return;
+    if (isDesktop) return; // Solo móvil
+
+    // Estilos para evitar menú/contexto en iOS
+    stackRef.current.style.webkitTouchCallout = "none";
+    stackRef.current.style.userSelect = "none";
+    stackRef.current.style.webkitUserSelect = "none";
+    stackRef.current.style.touchAction = "manipulation";
+
+    let holdTimeout;
+    let isHolding = false;
+
+    const handleTouchStart = () => {
+      holdTimeout = setTimeout(() => {
+        isHolding = true;
+        // Pausar suavemente
+        stInstancesRef.current.forEach((st) => st?.scrollTrigger?.disable?.());
+      }, 300); // 300ms para considerar "hold"
+    };
+
+    const handleTouchEnd = () => {
+      clearTimeout(holdTimeout);
+      if (isHolding) {
+        // Reanudar suavemente
+        stInstancesRef.current.forEach((st) => st?.scrollTrigger?.enable?.());
+        isHolding = false;
+      }
+    };
+
+    stackRef.current.addEventListener("touchstart", handleTouchStart, {
+      passive: true,
+    });
+    stackRef.current.addEventListener("touchend", handleTouchEnd, {
+      passive: true,
+    });
+    stackRef.current.addEventListener("touchcancel", handleTouchEnd, {
+      passive: true,
+    });
+
+    return () => {
+      stackRef.current?.removeEventListener("touchstart", handleTouchStart);
+      stackRef.current?.removeEventListener("touchend", handleTouchEnd);
+      stackRef.current?.removeEventListener("touchcancel", handleTouchEnd);
+    };
+  }, [isDesktop]);
+
   // Animación de los botones CTA
   const handleBtnHover = (idx) => {
     gsap.to(btnRefs.current[idx], {
