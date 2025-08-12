@@ -238,39 +238,26 @@ const Sectores = () => {
 
     // Timeline con desplazamientos menos agresivos en móvil
     cards.forEach((card, i) => {
-      const isLast = i === cards.length - 1;
       const cardHeight = card.offsetHeight;
+      tl.to(
+        card,
+        {
+          y: -cardHeight * (desktop ? 1.8 : 1.45),
+          duration: desktop ? 1.5 : 1.15,
+        },
+        i * 0.8
+      );
 
-      if (isLast) {
+      if (cards[i + 1]) {
         tl.to(
-          card,
+          cards[i + 1],
           {
-            y: -cardHeight * (desktop ? 0.5 : 0.48), // ↑ móvil (antes 0.38)
-            duration: desktop ? 1.5 : 1.2,
+            scale: 1,
+            duration: desktop ? 1.2 : 0.95,
+            ease: "power2.out",
           },
-          i * 0.8 + 0.3
+          i * 0.8 + 0.4
         );
-      } else {
-        tl.to(
-          card,
-          {
-            y: -cardHeight * (desktop ? 1.8 : 1.45), // ↑ móvil (antes 1.28)
-            duration: desktop ? 1.5 : 1.15,
-          },
-          i * 0.8
-        );
-
-        if (cards[i + 1]) {
-          tl.to(
-            cards[i + 1],
-            {
-              scale: 1,
-              duration: desktop ? 1.2 : 0.95,
-              ease: "power2.out",
-            },
-            i * 0.8 + 0.4
-          );
-        }
       }
     });
 
