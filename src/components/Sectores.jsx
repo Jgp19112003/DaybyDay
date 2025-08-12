@@ -154,13 +154,14 @@ const Sectores = () => {
     const cards = cardsRef.current.filter(Boolean);
     if (!stackRef.current || cards.length === 0) return;
 
-    const containerPadTop = `calc(${desktop ? 14 : 16}vh + ${getNAV()}px)`;
+    // --- Margen superior/inferior MÁS CONTENIDO y ajustado en móvil ---
+    const containerPadTop = `calc(${desktop ? 14 : 10}vh + ${getNAV()}px)`; // ↓ móvil
     const containerPadBottom = `calc(${
-      desktop ? 16 : 22
-    }vh + env(safe-area-inset-bottom) + ${desktop ? 24 : 56}px)`;
+      desktop ? 16 : 14
+    }vh + env(safe-area-inset-bottom) + ${desktop ? 24 : 40}px)`; // ↓ móvil
 
     gsap.set(stackRef.current, {
-      minHeight: "92vh",
+      minHeight: desktop ? "92vh" : "88vh",
       position: "relative",
       paddingTop: containerPadTop,
       paddingBottom: containerPadBottom,
@@ -172,10 +173,12 @@ const Sectores = () => {
       transform: "translateZ(0)",
     });
 
+    // --- Menos solapamiento en móvil (movimientos más cortos y escalas más cercanas) ---
     const scales = desktop
       ? [0.92, 0.88, 0.84, 0.8, 0.76]
-      : [0.9, 0.86, 0.82, 0.78, 0.75];
-    const offsetsVH = desktop ? [6, 4, 2, 1, 0] : [7, 4.5, 2.5, 1, 0];
+      : [0.96, 0.93, 0.9, 0.87, 0.84]; // ↑ más planas en móvil
+
+    const offsetsVH = desktop ? [6, 4, 2, 1, 0] : [7, 5.5, 4, 2.5, 1]; // ↑ más separación vertical en móvil
 
     cards.forEach((el, i) => {
       const scale = scales[i] ?? scales[scales.length - 1];
@@ -208,9 +211,9 @@ const Sectores = () => {
     const cards = cardsRef.current.filter(Boolean);
     if (!stackRef.current || cards.length === 0) return;
 
-    const navOffset = getNAV() + (desktop ? 56 : 96);
+    const navOffset = getNAV() + (desktop ? 56 : 80); // +8px de margen de seguridad en móvil
     const steps = cards.length;
-    const scrollFactor = desktop ? 1.2 : 1.6; // Más espacio para animación más suave
+    const scrollFactor = desktop ? 1.2 : 1.45; // ↑ un poco, más “aire” para separar
 
     // Pre-mostrar todas las cartas antes de crear timeline
     cards.forEach((card) => {
@@ -222,49 +225,47 @@ const Sectores = () => {
         trigger: stackRef.current,
         start: () => `top top+=${navOffset}`,
         end: () => `+=${window.innerHeight * steps * scrollFactor}`,
-        scrub: 1.2, // Scrub más suave
+        scrub: desktop ? 1.1 : 0.85, // móvil más “pegado” al scroll
         pin: true,
         pinType: desktop ? "fixed" : "transform",
-        anticipatePin: 1,
+        anticipatePin: desktop ? 1 : 2, // ↑ móvil para evitar “saltos”
         invalidateOnRefresh: true,
         limitCallbacks: true,
+        fastScrollEnd: true,
       },
       defaults: { ease: "none" },
     });
 
-    // Timeline más suave con transiciones graduales
+    // Timeline con desplazamientos menos agresivos en móvil
     cards.forEach((card, i) => {
       const isLast = i === cards.length - 1;
       const cardHeight = card.offsetHeight;
 
       if (isLast) {
-        // La última carta sube menos para mantener visibilidad
         tl.to(
           card,
           {
-            y: -cardHeight * (desktop ? 0.5 : 0.45),
-            duration: 1.5,
+            y: -cardHeight * (desktop ? 0.5 : 0.48), // ↑ móvil (antes 0.38)
+            duration: desktop ? 1.5 : 1.2,
           },
           i * 0.8 + 0.3
         );
       } else {
-        // Movimiento suave hacia arriba
         tl.to(
           card,
           {
-            y: -cardHeight * (desktop ? 1.8 : 1.65),
-            duration: 1.5,
+            y: -cardHeight * (desktop ? 1.8 : 1.45), // ↑ móvil (antes 1.28)
+            duration: desktop ? 1.5 : 1.15,
           },
           i * 0.8
         );
 
-        // Escalar la siguiente carta de forma más gradual
         if (cards[i + 1]) {
           tl.to(
             cards[i + 1],
             {
               scale: 1,
-              duration: 1.2,
+              duration: desktop ? 1.2 : 0.95,
               ease: "power2.out",
             },
             i * 0.8 + 0.4
@@ -289,12 +290,12 @@ const Sectores = () => {
       end: () => `+=${totalDist()}`,
       scrub: true,
       onUpdate: (self) => {
-        const p = gsap.utils.clamp(0, 1, self.progress * 1.8);
+        const p = gsap.utils.clamp(0, 1, self.progress * 1.6);
         setHeaderOpacityRef.current?.(1 - p);
       },
       onLeave: () => gsap.set(headerRef.current, { autoAlpha: 0 }),
       onEnterBack: () =>
-        gsap.to(headerRef.current, { autoAlpha: 1, duration: 0.3 }),
+        gsap.to(headerRef.current, { autoAlpha: 1, duration: 0.25 }),
       onLeaveBack: () =>
         gsap.set(headerRef.current, {
           autoAlpha: 1,
@@ -312,9 +313,16 @@ const Sectores = () => {
 
   useEffect(() => {
     gsap.registerPlugin(ScrollTrigger);
-    // amortigua picos de CPU en móviles
+
+    // rendimiento general
     gsap.ticker.lagSmoothing(500, 16);
     ScrollTrigger.config({ ignoreMobileResize: true });
+
+    // respetar preferencias de movimiento
+    const prefersReduced =
+      typeof window !== "undefined" &&
+      window.matchMedia &&
+      window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
     // Estados iniciales (header visible; título vacío; stack oculto pero pre-maquetado)
     gsap.set(sectionRef.current, { autoAlpha: 1 });
@@ -325,46 +333,46 @@ const Sectores = () => {
     // 1) Pre-layout del stack (para evitar reflows y “tic” al mostrarse)
     layoutStack();
 
-    // 2) Timeline del header. En cuanto EMPIEZA el scramble ⇒ revelamos stack y construimos su scroll
+    // 2) Timeline del header + entrada del stack
     const headerTl = gsap
       .timeline({ paused: true, defaults: { ease: "power2.out" } })
       .fromTo(
         headerRef.current,
-        { autoAlpha: 0, y: 30 },
-        { autoAlpha: 1, y: 0, duration: 0.8, immediateRender: false }
+        { autoAlpha: 0, y: 24 },
+        { autoAlpha: 1, y: 0, duration: 0.7, immediateRender: false }
       )
       .add(() => {
-        // Empieza el scramble del título
+        // Scramble del título
         scrambleTextAnimation(titleRef.current, FINAL_TITLE, {
-          duration: 2000,
+          duration: prefersReduced ? 800 : 1800,
           delay: 0,
         });
 
-        // Aparición más suave del stack
+        // Aparición suave del stack
         gsap.to(stackRef.current, {
           autoAlpha: 1,
-          duration: 0.6,
+          duration: 0.55,
           ease: "power2.out",
-          delay: 0.2,
+          delay: 0.15,
         });
 
-        // Aparición escalonada más suave de las cartas
+        // Aparición escalonada de cartas (ligera)
         cardsRef.current.forEach((card, i) => {
           gsap.to(card, {
             autoAlpha: 1,
-            duration: 0.5,
-            delay: 0.4 + i * 0.15,
+            duration: 0.45,
+            delay: 0.35 + i * 0.12,
             ease: "power2.out",
           });
         });
 
-        // Construir ScrollTrigger con delay para asegurar suavidad
+        // Construir ScrollTrigger con pequeño delay
         setTimeout(() => {
-          buildStackScroll();
-        }, 200);
+          if (!prefersReduced) buildStackScroll();
+        }, 180);
       })
-      .to({}, { duration: 0.6 })
-      .to(subRef.current, { autoAlpha: 1, y: 0, duration: 0.8 }, "+=0.1");
+      .to({}, { duration: 0.45 })
+      .to(subRef.current, { autoAlpha: 1, y: 0, duration: 0.7 }, "+=0.05");
 
     headerTlRef.current = headerTl;
 
@@ -376,26 +384,26 @@ const Sectores = () => {
       onEnter: () => headerTl.play(0),
     });
 
-    // Acelera si el usuario scrollea muy rápido (pero con límite)
+    // Acelera si el usuario scrollea muy rápido (limitado)
     const speedST = ScrollTrigger.create({
       trigger: sectionRef.current,
       start: "top bottom",
       end: "bottom top",
       onUpdate: (self) => {
         const v = Math.abs(self.getVelocity());
-        const scale = gsap.utils.clamp(1, 3, v / 700);
+        const scale = gsap.utils.clamp(1, 2.4, v / 800);
         if (headerTlRef.current?.isActive()) {
           headerTlRef.current.timeScale(scale);
         }
       },
     });
 
-    // Glow / pulso de decoraciones (solo en escritorio para ahorrar en móvil)
-    if (window.innerWidth >= 1024) {
+    // Glow / pulso (solo escritorio)
+    if (window.innerWidth >= 1024 && !prefersReduced) {
       gsap.utils.toArray(".sb-dot").forEach((dot, i) => {
         gsap.set(dot, { transformOrigin: "center center" });
         gsap.to(dot, {
-          scale: 1.25,
+          scale: 1.2,
           duration: 1,
           repeat: -1,
           yoyo: true,
@@ -403,7 +411,7 @@ const Sectores = () => {
           delay: (i % 5) * 0.12,
         });
         gsap.to(dot, {
-          boxShadow: "0 0 16px rgba(255,49,49,0.9)",
+          boxShadow: "0 0 14px rgba(255,49,49,0.85)",
           repeat: -1,
           yoyo: true,
           duration: 1,
@@ -417,7 +425,7 @@ const Sectores = () => {
     const setFooterSpacer = () => {
       if (!footerSpacerRef.current) return;
       const extra =
-        (window.innerWidth >= 1024 ? 14 : 20) * (window.innerHeight / 100);
+        (window.innerWidth >= 1024 ? 14 : 16) * (window.innerHeight / 100);
       footerSpacerRef.current.style.height = `${extra + getNAV()}px`;
     };
     setFooterSpacer();
@@ -463,12 +471,12 @@ const Sectores = () => {
       boxShadow: "0 4px 24px rgba(222,0,21,0.18)",
       background: "#de0015",
       color: "#fff",
-      duration: 0.25,
+      duration: 0.22,
       force3D: true,
     });
     gsap.to(btnRefs.current[idx]?.querySelector("svg"), {
       x: 6,
-      duration: 0.25,
+      duration: 0.22,
       ease: "power2.out",
     });
   };
@@ -478,23 +486,23 @@ const Sectores = () => {
       boxShadow: "0 2px 8px rgba(0,0,0,0.10)",
       background: "#fff",
       color: "#181414",
-      duration: 0.25,
+      duration: 0.22,
       force3D: true,
     });
     gsap.to(btnRefs.current[idx]?.querySelector("svg"), {
       x: 0,
-      duration: 0.25,
+      duration: 0.22,
       ease: "power2.in",
     });
   };
   const handleBtnDown = (idx) =>
-    gsap.to(btnRefs.current[idx], { scale: 0.96, duration: 0.12 });
+    gsap.to(btnRefs.current[idx], { scale: 0.96, duration: 0.1 });
   const handleBtnUp = (idx) =>
-    gsap.to(btnRefs.current[idx], { scale: 1.07, duration: 0.12 });
+    gsap.to(btnRefs.current[idx], { scale: 1.07, duration: 0.1 });
 
   // Colores de fondo más opacos en móvil
   const DESKTOP_CARD_BG = "rgba(27,23,23,0.80)";
-  const MOBILE_CARD_BG = "rgba(27,23,23,0.95)";
+  const MOBILE_CARD_BG = "rgba(27,23,23,0.99)"; // ↑ opacidad en móvil para legibilidad
 
   return (
     <section
@@ -504,15 +512,15 @@ const Sectores = () => {
       style={{ touchAction: "pan-y" }}
       aria-label="Sectores a los que ayudamos"
     >
-      <div className="max-w-[1400px] mx-auto px-4 lg:px-8 py-12 lg:py-16">
+      <div className="max-w-[1400px] mx-auto px-4 lg:px-8 py-10 lg:py-16">
         {/* Cabecera */}
-        <header ref={headerRef} className="mb-10 lg:mb-14 will-change-auto">
+        <header ref={headerRef} className="mb-8 lg:mb-14 will-change-auto">
           <h2
             ref={titleRef}
-            className="text-[2rem] lg:text-[3.2rem] font-black leading-[1.05]"
+            className="text-[1.9rem] lg:text-[3.2rem] font-black leading-[1.05]"
             style={{
               background:
-                "linear-gradient(90deg, #fff 0%, rgba(255,255,255,0.8) 100%)",
+                "linear-gradient(90deg, #fff 0%, rgba(255,255,255,0.9) 100%)",
               WebkitBackgroundClip: "text",
               WebkitTextFillColor: "transparent",
               backgroundClip: "text",
@@ -520,7 +528,7 @@ const Sectores = () => {
               transform: "translateZ(0)",
             }}
           />
-          <p ref={subRef} className="text-[#e5e5e5] mt-3 max-w-[820px]">
+          <p ref={subRef} className="text-[#ededed] mt-3 max-w-[820px]">
             Bloques claros, resultados medibles y automatizaciones que se
             adaptan a tu forma de trabajar.
           </p>
@@ -534,25 +542,29 @@ const Sectores = () => {
               ref={(el) => (cardsRef.current[idx] = el)}
               className="sector-block relative rounded-3xl border border-white/10 px-5 py-6 lg:p-8 shadow-[0_6px_18px_rgba(0,0,0,0.18)] overflow-hidden w-full"
               style={{
-                // Fondo más opaco en móvil
                 background: isDesktop ? DESKTOP_CARD_BG : MOBILE_CARD_BG,
-                // quitar backdrop blur en móvil para evitar tirones
+                // quitar blur en móvil para evitar tirones
                 backdropFilter: isDesktop ? "blur(8px)" : "none",
                 WebkitBackdropFilter: isDesktop ? "blur(8px)" : "none",
                 willChange: "transform",
                 transform: "translateZ(0)",
+                // borde un poco más marcado en móvil para separar visualmente
+                border: isDesktop
+                  ? "1px solid rgba(255,255,255,0.10)"
+                  : "1px solid rgba(255,255,255,0.14)",
               }}
+              aria-label={`Sector: ${s.badge}`}
             >
               {/* Glow decorativo: menos intensidad y sin blur en móvil */}
               <div
                 className="pointer-events-none absolute -z-10 inset-0"
                 style={{
-                  opacity: isDesktop ? 0.7 : 0.45,
+                  opacity: isDesktop ? 0.7 : 0.38,
                   background:
                     idx % 2 === 0
-                      ? "radial-gradient(40% 60% at 15% 20%, rgba(255,49,49,0.12), transparent 60%), radial-gradient(50% 80% at 90% 10%, rgba(255,255,255,0.06), transparent 60%)"
-                      : "radial-gradient(40% 60% at 80% 20%, rgba(255,49,49,0.12), transparent 60%), radial-gradient(50% 80% at 10% 10%, rgba(255,255,255,0.06), transparent 60%)",
-                  filter: isDesktop ? "blur(20px)" : "none",
+                      ? "radial-gradient(40% 60% at 15% 20%, rgba(255,49,49,0.10), transparent 60%), radial-gradient(50% 80% at 90% 10%, rgba(255,255,255,0.05), transparent 60%)"
+                      : "radial-gradient(40% 60% at 80% 20%, rgba(255,49,49,0.10), transparent 60%), radial-gradient(50% 80% at 10% 10%, rgba(255,255,255,0.05), transparent 60%)",
+                  filter: isDesktop ? "blur(18px)" : "none",
                   willChange: "opacity",
                 }}
                 aria-hidden="true"
@@ -560,23 +572,27 @@ const Sectores = () => {
 
               {/* Header limpio de la card */}
               <div className="flex items-center gap-3">
-                <span className="sb-badge">
+                <span className="sb-badge" aria-label="tipo de sector">
                   <span className="sb-dot" />
                   {s.badge}
                 </span>
               </div>
 
               <div className="mt-3">
-                <h3 className="text-[1.6rem] lg:text-[2.2rem] font-black leading-[1.1]">
+                <h3 className="text-[1.55rem] lg:text-[2.2rem] font-black leading-[1.15]">
                   {s.h2}
                 </h3>
-                <p className="text-[#e3e3e3] mt-2">{s.sub}</p>
+                <p className="text-[#f0f0f0] mt-2">{s.sub}</p>
               </div>
 
               {/* Contenido principal */}
               <div className="mt-6 grid grid-cols-1 lg:grid-cols-12 gap-6">
                 <div className="lg:col-span-7 space-y-5">
-                  <div className="sb-quote">
+                  <div
+                    className="sb-quote"
+                    role="note"
+                    aria-label="mensaje clave"
+                  >
                     <div className="sb-quote-mark">“</div>
                     <p className="sb-quote-text">{s.jtb}</p>
                   </div>
@@ -585,7 +601,9 @@ const Sectores = () => {
                     <ol className="space-y-3">
                       {s.hacemos.map((item, i) => (
                         <li key={i} className="sb-step">
-                          <span className="sb-step-num">{i + 1}</span>
+                          <span className="sb-step-num" aria-hidden="true">
+                            {i + 1}
+                          </span>
                           <span className="sb-step-text">{item}</span>
                         </li>
                       ))}
@@ -662,6 +680,7 @@ const Sectores = () => {
                     color: "#181414",
                     boxShadow: "0 2px 8px rgba(0,0,0,0.10)",
                     transform: "translateZ(0)",
+                    touchAction: "manipulation",
                   }}
                   onMouseEnter={() => handleBtnHover(idx)}
                   onMouseLeave={() => handleBtnLeave(idx)}
@@ -694,8 +713,8 @@ const Sectores = () => {
           className="w-full"
           aria-hidden="true"
           style={{
-            height: "18vh",
-            paddingBottom: "calc(env(safe-area-inset-bottom) + 48px)",
+            height: "16vh",
+            paddingBottom: "calc(env(safe-area-inset-bottom) + 40px)",
           }}
         />
       </div>
@@ -734,10 +753,24 @@ const Sectores = () => {
         .sb-project-head{display:flex;align-items:center;gap:8px;text-transform:uppercase;font-weight:700;font-size:12px;}
         .sb-project-text{margin-top:6px;color:#dcdcdc;font-size:14px;line-height:1.45;}
 
-        .sb-kpi{display:inline-flex;align-items:center;gap:8px;border:1px solid rgba(255,255,255,.1);background:rgba(255,255,255,.05);border-radius:999px;padding:8px 12px;font-size:14px;}
+        .sb-kpi{display:inline-flex;align-items:center;gap:8px;border:1px solid rgba(255,255,255,.1);background:rgba(255,255,255,.06);border-radius:999px;padding:8px 12px;font-size:14px;}
 
         .sector-block{transition: box-shadow .25s ease, transform .25s ease, border-color .25s ease;}
         .sector-block:hover{transform: translateY(-2px);box-shadow:0 10px 28px rgba(0,0,0,.28);border-color:rgba(255,255,255,.14);}
+
+        /* Preferencias de usuario: reducir movimiento */
+        @media (prefers-reduced-motion: reduce) {
+          .sector-block,
+          .sb-win, .sb-project, .sb-kpi, .sb-quote, .sb-step, .sb-badge {
+            transition: none !important;
+          }
+        }
+
+        /* Micro-ajustes sólo móvil para respiración visual */
+        @media (max-width: 1023px) {
+          .sb-quote-text { font-size: 15px; }
+          .sb-block-title { font-size: 1.02rem; }
+        }
       `}</style>
     </section>
   );
