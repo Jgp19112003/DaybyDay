@@ -155,7 +155,6 @@ const Sectores = () => {
     if (!stackRef.current || cards.length === 0) return;
 
     const containerPadTop = `calc(${desktop ? 14 : 16}vh + ${getNAV()}px)`;
-    // MÁS aire inferior y safe-area para que no se pegue al footer en móvil
     const containerPadBottom = `calc(${
       desktop ? 16 : 22
     }vh + env(safe-area-inset-bottom) + ${desktop ? 24 : 56}px)`;
@@ -165,20 +164,17 @@ const Sectores = () => {
       position: "relative",
       paddingTop: containerPadTop,
       paddingBottom: containerPadBottom,
-      autoAlpha: 0, // oculto hasta que empiece la animación del título
+      autoAlpha: 0,
       y: 0,
       scale: 1,
-      willChange: "opacity",
+      willChange: "opacity, transform",
       force3D: true,
       transform: "translateZ(0)",
     });
 
-    // Escalas finales del apilado (sin animarlas aún)
     const scales = desktop
       ? [0.92, 0.88, 0.84, 0.8, 0.76]
       : [0.9, 0.86, 0.82, 0.78, 0.75];
-
-    // Offsets iniciales (en vh) convertidos a px para y (no mezclar translateY string)
     const offsetsVH = desktop ? [6, 4, 2, 1, 0] : [7, 4.5, 2.5, 1, 0];
 
     cards.forEach((el, i) => {
@@ -194,8 +190,9 @@ const Sectores = () => {
         zIndex: cards.length - i,
         transformOrigin: "bottom center",
         scale,
-        y: offsetPx, // usar y en px (coherente con GSAP)
-        willChange: "transform",
+        y: offsetPx,
+        autoAlpha: 0,
+        willChange: "transform, opacity",
         force3D: true,
         transform: "translateZ(0)",
       });
@@ -213,34 +210,70 @@ const Sectores = () => {
 
     const navOffset = getNAV() + (desktop ? 56 : 96);
     const steps = cards.length;
+    const scrollFactor = desktop ? 1.2 : 1.6; // Más espacio para animación más suave
+
+    // Pre-mostrar todas las cartas antes de crear timeline
+    cards.forEach((card) => {
+      gsap.set(card, { autoAlpha: 1 });
+    });
 
     const tl = gsap.timeline({
       scrollTrigger: {
         trigger: stackRef.current,
         start: () => `top top+=${navOffset}`,
-        end: () => `+=${window.innerHeight * steps * (desktop ? 0.85 : 0.55)}`,
-        scrub: desktop ? 0.8 : 0.5, // suavizado mayor en mobile para evitar tirones
+        end: () => `+=${window.innerHeight * steps * scrollFactor}`,
+        scrub: 1.2, // Scrub más suave
         pin: true,
-        pinType: desktop ? "fixed" : "transform", // reduce repaints en mobile
+        pinType: desktop ? "fixed" : "transform",
         anticipatePin: 1,
         invalidateOnRefresh: true,
         limitCallbacks: true,
       },
       defaults: { ease: "none" },
-      smoothChildTiming: true,
     });
 
+    // Timeline más suave con transiciones graduales
     cards.forEach((card, i) => {
       const isLast = i === cards.length - 1;
+      const cardHeight = card.offsetHeight;
+
       if (isLast) {
-        tl.to(card, { yPercent: desktop ? -40 : -35, duration: 1 }, i + 0.25);
+        // La última carta sube menos para mantener visibilidad
+        tl.to(
+          card,
+          {
+            y: -cardHeight * (desktop ? 0.5 : 0.45),
+            duration: 1.5,
+          },
+          i * 0.8 + 0.3
+        );
       } else {
-        tl.to(card, { yPercent: desktop ? -160 : -155, duration: 1 }, i);
-        tl.to(cards[i + 1], { scale: 1, duration: 1 }, i + 0.22);
+        // Movimiento suave hacia arriba
+        tl.to(
+          card,
+          {
+            y: -cardHeight * (desktop ? 1.8 : 1.65),
+            duration: 1.5,
+          },
+          i * 0.8
+        );
+
+        // Escalar la siguiente carta de forma más gradual
+        if (cards[i + 1]) {
+          tl.to(
+            cards[i + 1],
+            {
+              scale: 1,
+              duration: 1.2,
+              ease: "power2.out",
+            },
+            i * 0.8 + 0.4
+          );
+        }
       }
     });
 
-    // QuickSetter para no crear cientos de tweens en onUpdate
+    // QuickSetter para el fade del header sin crear tweens por frame
     if (headerRef.current && !setHeaderOpacityRef.current) {
       setHeaderOpacityRef.current = gsap.quickSetter(
         headerRef.current,
@@ -248,21 +281,20 @@ const Sectores = () => {
       );
     }
 
-    // Fade del header mientras el stack está activo (barato con quickSetter)
-    const totalDist = () =>
-      window.innerHeight * steps * (desktop ? 0.85 : 0.55);
+    // Fade del header mientras el stack está activo
+    const totalDist = () => window.innerHeight * steps * scrollFactor;
     const fadeST = ScrollTrigger.create({
       trigger: stackRef.current,
       start: () => `top top+=${navOffset}`,
       end: () => `+=${totalDist()}`,
       scrub: true,
       onUpdate: (self) => {
-        const p = gsap.utils.clamp(0, 1, self.progress * 2);
+        const p = gsap.utils.clamp(0, 1, self.progress * 1.8);
         setHeaderOpacityRef.current?.(1 - p);
       },
       onLeave: () => gsap.set(headerRef.current, { autoAlpha: 0 }),
       onEnterBack: () =>
-        gsap.to(headerRef.current, { autoAlpha: 1, duration: 0.2 }),
+        gsap.to(headerRef.current, { autoAlpha: 1, duration: 0.3 }),
       onLeaveBack: () =>
         gsap.set(headerRef.current, {
           autoAlpha: 1,
@@ -274,7 +306,7 @@ const Sectores = () => {
     stInstancesRef.current.push(tl.scrollTrigger, fadeST);
     stackBuiltRef.current = true;
 
-    // Refrescar después de construir
+    // Refresco tras construir para asegurar medidas correctas
     requestAnimationFrame(() => ScrollTrigger.refresh());
   };
 
@@ -295,34 +327,44 @@ const Sectores = () => {
 
     // 2) Timeline del header. En cuanto EMPIEZA el scramble ⇒ revelamos stack y construimos su scroll
     const headerTl = gsap
-      .timeline({ paused: true, defaults: { ease: "power3.out" } })
+      .timeline({ paused: true, defaults: { ease: "power2.out" } })
       .fromTo(
         headerRef.current,
-        { autoAlpha: 0, y: 20 },
-        { autoAlpha: 1, y: 0, duration: 0.6, immediateRender: false }
+        { autoAlpha: 0, y: 30 },
+        { autoAlpha: 1, y: 0, duration: 0.8, immediateRender: false }
       )
       .add(() => {
         // Empieza el scramble del título
         scrambleTextAnimation(titleRef.current, FINAL_TITLE, {
-          duration: 1800,
+          duration: 2000,
           delay: 0,
         });
 
-        // Mostrar y activar el stack JUSTO cuando empieza la animación del título
+        // Aparición más suave del stack
         gsap.to(stackRef.current, {
           autoAlpha: 1,
-          duration: 0.35,
+          duration: 0.6,
           ease: "power2.out",
-          clearProps: "willChange",
-          force3D: true,
+          delay: 0.2,
         });
 
-        // Construir triggers del stack si no existen
-        buildStackScroll();
+        // Aparición escalonada más suave de las cartas
+        cardsRef.current.forEach((card, i) => {
+          gsap.to(card, {
+            autoAlpha: 1,
+            duration: 0.5,
+            delay: 0.4 + i * 0.15,
+            ease: "power2.out",
+          });
+        });
+
+        // Construir ScrollTrigger con delay para asegurar suavidad
+        setTimeout(() => {
+          buildStackScroll();
+        }, 200);
       })
-      // pequeña espera para dejar respirar el scramble (que corre en paralelo)
-      .to({}, { duration: 0.4 })
-      .to(subRef.current, { autoAlpha: 1, y: 0, duration: 0.6 }, "+=0.05");
+      .to({}, { duration: 0.6 })
+      .to(subRef.current, { autoAlpha: 1, y: 0, duration: 0.8 }, "+=0.1");
 
     headerTlRef.current = headerTl;
 
@@ -450,6 +492,10 @@ const Sectores = () => {
   const handleBtnUp = (idx) =>
     gsap.to(btnRefs.current[idx], { scale: 1.07, duration: 0.12 });
 
+  // Colores de fondo más opacos en móvil
+  const DESKTOP_CARD_BG = "rgba(27,23,23,0.80)";
+  const MOBILE_CARD_BG = "rgba(27,23,23,0.95)";
+
   return (
     <section
       ref={sectionRef}
@@ -486,8 +532,10 @@ const Sectores = () => {
             <article
               key={s.key}
               ref={(el) => (cardsRef.current[idx] = el)}
-              className="sector-block relative rounded-3xl border border-white/10 bg-[#1b1717]/80 px-5 py-6 lg:p-8 shadow-[0_6px_18px_rgba(0,0,0,0.18)] overflow-hidden w-full"
+              className="sector-block relative rounded-3xl border border-white/10 px-5 py-6 lg:p-8 shadow-[0_6px_18px_rgba(0,0,0,0.18)] overflow-hidden w-full"
               style={{
+                // Fondo más opaco en móvil
+                background: isDesktop ? DESKTOP_CARD_BG : MOBILE_CARD_BG,
                 // quitar backdrop blur en móvil para evitar tirones
                 backdropFilter: isDesktop ? "blur(8px)" : "none",
                 WebkitBackdropFilter: isDesktop ? "blur(8px)" : "none",
@@ -495,10 +543,11 @@ const Sectores = () => {
                 transform: "translateZ(0)",
               }}
             >
-              {/* Glow decorativo: sin blur en móvil para no forzar repaints */}
+              {/* Glow decorativo: menos intensidad y sin blur en móvil */}
               <div
-                className="pointer-events-none absolute -z-10 inset-0 opacity-70"
+                className="pointer-events-none absolute -z-10 inset-0"
                 style={{
+                  opacity: isDesktop ? 0.7 : 0.45,
                   background:
                     idx % 2 === 0
                       ? "radial-gradient(40% 60% at 15% 20%, rgba(255,49,49,0.12), transparent 60%), radial-gradient(50% 80% at 90% 10%, rgba(255,255,255,0.06), transparent 60%)"
