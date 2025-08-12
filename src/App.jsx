@@ -91,7 +91,7 @@ const App = () => {
           <div ref={serviciosRef}>
             <Servicios />
           </div>
-          <Sectores />
+          <Sectores onAgendarClick={() => handleNavScroll("agendar")} />
         </>
       )}
       {currentView === "agendar" && <AgendarReunion />}
