@@ -171,34 +171,59 @@ const Sectores = ({ onAgendarClick }) => {
       transform: "translateZ(0)",
     });
 
-    // MOBILE: cartas más planas + más separación inicial
-    const scales = desktop
-      ? [0.92, 0.88, 0.84, 0.8, 0.76]
-      : [0.96, 0.93, 0.9, 0.87, 0.84];
+    // MOBILE vs DESKTOP layout distinto: desktop usa stack absoluto; móvil apilado normal
+    if (desktop) {
+      // DESKTOP: cartas absolutas en stack (misma lógica previa)
+      const scales = [0.92, 0.88, 0.84, 0.8, 0.76];
+      const offsetsVH = [6, 4, 2, 1, 0];
 
-    // MOBILE: offsets más altos para que respiren y no se monten
-    const offsetsVH = desktop ? [6, 4, 2, 1, 0] : [8, 6, 4, 2.5, 1.2];
+      cards.forEach((el, i) => {
+        const scale = scales[i] ?? scales[scales.length - 1];
+        const offsetPx = vh2px(offsetsVH[i] ?? 0);
 
-    cards.forEach((el, i) => {
-      const scale = scales[i] ?? scales[scales.length - 1];
-      const offsetPx = vh2px(offsetsVH[i] ?? 0);
-
-      gsap.set(el, {
-        position: "absolute",
-        left: "50%",
-        xPercent: -50,
-        top: 0,
-        width: "100%",
-        zIndex: cards.length - i,
-        transformOrigin: "bottom center",
-        scale,
-        y: offsetPx,
-        autoAlpha: 0,
-        willChange: "transform, opacity",
-        force3D: true,
-        transform: "translateZ(0)",
+        gsap.set(el, {
+          position: "absolute",
+          left: "50%",
+          xPercent: -50,
+          top: 0,
+          width: "100%",
+          zIndex: cards.length - i,
+          transformOrigin: "bottom center",
+          scale,
+          y: offsetPx,
+          autoAlpha: 0,
+          willChange: "transform, opacity",
+          force3D: true,
+          transform: "translateZ(0)",
+        });
       });
-    });
+    } else {
+      // MOBILE: layout normal apilado para evitar pin/transform que rompen scroll en iOS
+      const scales = [0.96, 0.93, 0.9, 0.87, 0.84];
+      const offsetsVH = [8, 6, 4, 2.5, 1.2];
+
+      cards.forEach((el, i) => {
+        const scale = scales[i] ?? scales[scales.length - 1];
+        const marginTop = `${Math.max(12, vh2px(offsetsVH[i] ?? 0) / 2)}px`;
+
+        gsap.set(el, {
+          position: "relative",
+          left: "0%",
+          xPercent: 0,
+          top: "auto",
+          width: "100%",
+          zIndex: "auto",
+          transformOrigin: "center center",
+          scale,
+          y: 0,
+          marginTop,
+          autoAlpha: 0,
+          willChange: "transform, opacity",
+          force3D: true,
+          clearProps: "position,left,top,zIndex", // evitar estilos residuales
+        });
+      });
+    }
 
     stackLaidOutRef.current = true;
   };
@@ -209,88 +234,125 @@ const Sectores = ({ onAgendarClick }) => {
     const cards = cardsRef.current.filter(Boolean);
     if (!stackRef.current || cards.length === 0) return;
 
-    // MOBILE: un poco menos de offset y más longitud de scroll para separar
+    // limpiar triggers previos por si hay rebuild
+    stInstancesRef.current.forEach((st) => st?.kill?.());
+    stInstancesRef.current = [];
+
+    // NAV + parámetros
     const navOffset = getNAV() + (desktop ? 56 : 88);
     const steps = cards.length;
-    const scrollFactor = desktop ? 1.2 : 1.45; // MOBILE ↑
+    const scrollFactor = desktop ? 1.2 : 1.45;
 
-    cards.forEach((card) => {
-      gsap.set(card, { autoAlpha: 1 });
-    });
+    cards.forEach((card) => gsap.set(card, { autoAlpha: 1 }));
 
-    const tl = gsap.timeline({
-      scrollTrigger: {
+    if (desktop) {
+      // DESKTOP: mantenemos el comportamiento original con pin timeline
+      const tl = gsap.timeline({
+        scrollTrigger: {
+          trigger: stackRef.current,
+          start: () => `top top+=${navOffset}`,
+          end: () => `+=${window.innerHeight * steps * scrollFactor}`,
+          scrub: 1.2,
+          pin: true,
+          pinType: "fixed",
+          anticipatePin: 1,
+          invalidateOnRefresh: true,
+          limitCallbacks: true,
+        },
+        defaults: { ease: "none" },
+      });
+
+      cards.forEach((card, i) => {
+        const cardHeight = card.offsetHeight;
+        const moveY = -cardHeight * 2.1;
+
+        tl.to(card, { y: moveY, duration: 1.5 }, i * 0.8);
+
+        if (cards[i + 1]) {
+          tl.to(
+            cards[i + 1],
+            { scale: 1, duration: 1.2, ease: "power2.out" },
+            i * 0.8 + 0.4
+          );
+        }
+      });
+
+      const totalDist = () => window.innerHeight * steps * scrollFactor;
+      const fadeST = ScrollTrigger.create({
         trigger: stackRef.current,
         start: () => `top top+=${navOffset}`,
-        end: () => `+=${window.innerHeight * steps * scrollFactor}`,
-        // Desktop: timeline levemente suavizado; Mobile: mapping 1:1 al scroll para evitar "jumps"
-        scrub: desktop ? 1.2 : true,
-        // Sólo pinear en desktop; en móvil evitamos pin para no bloquear/navegar mal en iOS
-        pin: desktop,
-        pinType: desktop ? "fixed" : undefined,
-        anticipatePin: desktop ? 1 : 0,
-        invalidateOnRefresh: true,
-        limitCallbacks: true,
-      },
-      defaults: { ease: "none" },
-    });
-
-    // MOBILE: misma animación para TODAS (incluida la última) + más subida
-    cards.forEach((card, i) => {
-      const cardHeight = card.offsetHeight;
-      const moveY = -cardHeight * (desktop ? 2.1 : 1.55); // MOBILE ↑
-
-      tl.to(
-        card,
-        {
-          y: moveY,
-          duration: desktop ? 1.5 : 1.15, // misma duración para todas en móvil
+        end: () => `+=${totalDist()}`,
+        scrub: true,
+        onUpdate: (self) => {
+          const p = gsap.utils.clamp(0, 1, self.progress * 1.8);
+          setHeaderOpacityRef.current?.(1 - p);
         },
-        i * 0.8
-      );
+        onLeave: () => gsap.set(headerRef.current, { autoAlpha: 0 }),
+        onEnterBack: () =>
+          gsap.to(headerRef.current, { autoAlpha: 1, duration: 0.3 }),
+        onLeaveBack: () =>
+          gsap.set(headerRef.current, {
+            autoAlpha: 1,
+            clearProps: "opacity,visibility",
+          }),
+        invalidateOnRefresh: true,
+      });
 
-      if (cards[i + 1]) {
-        tl.to(
-          cards[i + 1],
-          {
-            scale: 1,
-            duration: desktop ? 1.2 : 0.95,
-            ease: "power2.out",
+      stInstancesRef.current.push(tl.scrollTrigger, fadeST);
+    } else {
+      // MOBILE: sin pin. Animaciones por carta, scrub:true, pequeñas transformaciones.
+      // El objetivo es mapear cada carta al scroll sin bloquear/navegar el contenedor.
+      cards.forEach((card) => {
+        // animación ligera: scale -> 1 y pequeño lift hacia arriba conforme entra
+        const st = ScrollTrigger.create({
+          trigger: card,
+          start: () => `top bottom-=${navOffset * 0.6}`,
+          end: () => `top top+=${Math.max(80, navOffset * 0.6)}`,
+          scrub: true,
+          // markers: true,
+          onEnter: () => {}, // placeholder para limpiar jumps
+          onRefresh: () => {
+            // asegurar que el card está visible
+            gsap.set(card, { autoAlpha: 1 });
           },
-          i * 0.8 + 0.4
-        );
-      }
-    });
+          invalidateOnRefresh: true,
+        });
 
-    if (headerRef.current && !setHeaderOpacityRef.current) {
-      setHeaderOpacityRef.current = gsap.quickSetter(
-        headerRef.current,
-        "opacity"
-      );
+        const anim = gsap.fromTo(
+          card,
+          {
+            scale:
+              parseFloat(
+                getComputedStyle(card)
+                  .getPropertyValue("transform")
+                  .match(/matrix\((.+)\)/)?.[1]
+                  ?.split(",")[0] ?? 1
+              ) || 1,
+            y: 6,
+          },
+          { scale: 1, y: -10, ease: "power1.out", overwrite: true }
+        );
+
+        st.animation = anim;
+        stInstancesRef.current.push(st);
+      });
+
+      // Header fade control con un ScrollTrigger global suave
+      const headerFade = ScrollTrigger.create({
+        trigger: stackRef.current,
+        start: () => `top bottom-=${navOffset * 0.5}`,
+        end: () => `top top+=${navOffset}`,
+        scrub: true,
+        onUpdate: (self) => {
+          const p = gsap.utils.clamp(0, 1, self.progress * 1.1);
+          setHeaderOpacityRef.current?.(1 - p);
+        },
+        invalidateOnRefresh: true,
+      });
+
+      stInstancesRef.current.push(headerFade);
     }
 
-    const totalDist = () => window.innerHeight * steps * scrollFactor;
-    const fadeST = ScrollTrigger.create({
-      trigger: stackRef.current,
-      start: () => `top top+=${navOffset}`,
-      end: () => `+=${totalDist()}`,
-      scrub: true,
-      onUpdate: (self) => {
-        const p = gsap.utils.clamp(0, 1, self.progress * (desktop ? 1.8 : 1.6));
-        setHeaderOpacityRef.current?.(1 - p);
-      },
-      onLeave: () => gsap.set(headerRef.current, { autoAlpha: 0 }),
-      onEnterBack: () =>
-        gsap.to(headerRef.current, { autoAlpha: 1, duration: 0.3 }),
-      onLeaveBack: () =>
-        gsap.set(headerRef.current, {
-          autoAlpha: 1,
-          clearProps: "opacity,visibility",
-        }),
-      invalidateOnRefresh: true,
-    });
-
-    stInstancesRef.current.push(tl.scrollTrigger, fadeST);
     stackBuiltRef.current = true;
     requestAnimationFrame(() => ScrollTrigger.refresh());
   };
@@ -399,36 +461,40 @@ const Sectores = ({ onAgendarClick }) => {
     ScrollTrigger.refresh();
   }, [isDesktop]);
 
-  // 🔹 iOS fix para hold en móvil
+  // 🔹 iOS / móvil: estilos y limpieza (sin "hold" ni listeners que deshabiliten ScrollTrigger)
   useEffect(() => {
     if (!stackRef.current) return;
-    if (isDesktop) return; // Solo móvil
+    if (isDesktop) {
+      // limpiar estilos móviles si pasamos a desktop
+      stackRef.current.style.overscrollBehavior = "";
+      stackRef.current.style.overscrollBehaviorY = "";
+      stackRef.current.style.WebkitOverflowScrolling = "";
+      stackRef.current.style.touchAction = "";
+      stackRef.current.style.webkitTouchCallout = "";
+      stackRef.current.style.userSelect = "";
+      stackRef.current.style.webkitUserSelect = "";
+      return;
+    }
 
-    // Estilos para evitar menú/contexto en iOS y contener overscroll
+    // Aplicar estilos que mejoran la experiencia táctil en iOS sin manipular ScrollTrigger
     stackRef.current.style.webkitTouchCallout = "none";
     stackRef.current.style.userSelect = "none";
     stackRef.current.style.webkitUserSelect = "none";
-    stackRef.current.style.touchAction = "manipulation";
-
-    // Evitar rebotes/propagación de overscroll al padre en iOS
+    stackRef.current.style.touchAction = "pan-y";
     stackRef.current.style.overscrollBehavior = "contain";
     stackRef.current.style.overscrollBehaviorY = "contain";
     stackRef.current.style.WebkitOverflowScrolling = "touch";
 
-    // Antes había un "hold" que deshabilitaba/enabled ScrollTrigger,
-    // eso puede dejar el scroll en un estado inconsistente en iOS.
-    // Dejamos sólo los estilos y no manipulamos el estado de ScrollTrigger.
-
+    // Nos aseguramos de que no queden listeners que pausen/reenauen ScrollTrigger (antes causaban bugs)
     return () => {
-      // limpiamos sólo estilos mínimos (no añadimos listeners)
       if (stackRef.current) {
         stackRef.current.style.overscrollBehavior = "";
         stackRef.current.style.overscrollBehaviorY = "";
         stackRef.current.style.WebkitOverflowScrolling = "";
+        stackRef.current.style.touchAction = "";
         stackRef.current.style.webkitTouchCallout = "";
         stackRef.current.style.userSelect = "";
         stackRef.current.style.webkitUserSelect = "";
-        stackRef.current.style.touchAction = "";
       }
     };
   }, [isDesktop]);
