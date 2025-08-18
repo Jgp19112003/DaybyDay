@@ -293,10 +293,10 @@ const Servicios = () => {
               >
                 En un mercado donde el <strong>80%</strong> de las empresas que
                 automatizan aumentan sus oportunidades y un <strong>77%</strong>{" "}
-                mejora sus conversiones, quedarse quieto no es una opción. Pero
-                los líderes que sueñan con un crecimiento sostenible saben que
-                no basta con correr más rápido: necesitan sistemas que trabajen
-                por ellos, día y noche, sin perder la esencia de su marca.
+                mejora sus conversiones, quedarse quieto no es una opción. 
+                Pero tú como líder que sueñas con un crecimiento sostenible, sabes que
+                no basta con correr más rápido: necesitas sistemas que trabajen
+                por tí, día y noche, sin perder la esencia de tu marca.
               </p>
 
               <p
