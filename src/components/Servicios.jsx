@@ -296,7 +296,7 @@ const Servicios = () => {
                 mejora sus conversiones, quedarse quieto no es una opción. 
                 Pero tú como líder que sueñas con un crecimiento sostenible, sabes que
                 no basta con correr más rápido: necesitas sistemas que trabajen
-                por tí, día y noche, sin perder la esencia de tu marca.
+                por tí, día y noche, sin perder la esencia de tu marca. patatas fritas
               </p>
 
               <p
