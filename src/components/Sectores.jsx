@@ -223,10 +223,12 @@ const Sectores = ({ onAgendarClick }) => {
         trigger: stackRef.current,
         start: () => `top top+=${navOffset}`,
         end: () => `+=${window.innerHeight * steps * scrollFactor}`,
-        scrub: desktop ? 1.2 : 0.9, // MOBILE: más pegado al dedo
-        pin: true,
-        pinType: desktop ? "fixed" : "transform",
-        anticipatePin: desktop ? 1 : 2,
+        // Desktop: timeline levemente suavizado; Mobile: mapping 1:1 al scroll para evitar "jumps"
+        scrub: desktop ? 1.2 : true,
+        // Sólo pinear en desktop; en móvil evitamos pin para no bloquear/navegar mal en iOS
+        pin: desktop,
+        pinType: desktop ? "fixed" : undefined,
+        anticipatePin: desktop ? 1 : 0,
         invalidateOnRefresh: true,
         limitCallbacks: true,
       },
@@ -402,46 +404,32 @@ const Sectores = ({ onAgendarClick }) => {
     if (!stackRef.current) return;
     if (isDesktop) return; // Solo móvil
 
-    // Estilos para evitar menú/contexto en iOS
+    // Estilos para evitar menú/contexto en iOS y contener overscroll
     stackRef.current.style.webkitTouchCallout = "none";
     stackRef.current.style.userSelect = "none";
     stackRef.current.style.webkitUserSelect = "none";
     stackRef.current.style.touchAction = "manipulation";
 
-    let holdTimeout;
-    let isHolding = false;
+    // Evitar rebotes/propagación de overscroll al padre en iOS
+    stackRef.current.style.overscrollBehavior = "contain";
+    stackRef.current.style.overscrollBehaviorY = "contain";
+    stackRef.current.style.WebkitOverflowScrolling = "touch";
 
-    const handleTouchStart = () => {
-      holdTimeout = setTimeout(() => {
-        isHolding = true;
-        // Pausar suavemente
-        stInstancesRef.current.forEach((st) => st?.scrollTrigger?.disable?.());
-      }, 300); // 300ms para considerar "hold"
-    };
-
-    const handleTouchEnd = () => {
-      clearTimeout(holdTimeout);
-      if (isHolding) {
-        // Reanudar suavemente
-        stInstancesRef.current.forEach((st) => st?.scrollTrigger?.enable?.());
-        isHolding = false;
-      }
-    };
-
-    stackRef.current.addEventListener("touchstart", handleTouchStart, {
-      passive: true,
-    });
-    stackRef.current.addEventListener("touchend", handleTouchEnd, {
-      passive: true,
-    });
-    stackRef.current.addEventListener("touchcancel", handleTouchEnd, {
-      passive: true,
-    });
+    // Antes había un "hold" que deshabilitaba/enabled ScrollTrigger,
+    // eso puede dejar el scroll en un estado inconsistente en iOS.
+    // Dejamos sólo los estilos y no manipulamos el estado de ScrollTrigger.
 
     return () => {
-      stackRef.current?.removeEventListener("touchstart", handleTouchStart);
-      stackRef.current?.removeEventListener("touchend", handleTouchEnd);
-      stackRef.current?.removeEventListener("touchcancel", handleTouchEnd);
+      // limpiamos sólo estilos mínimos (no añadimos listeners)
+      if (stackRef.current) {
+        stackRef.current.style.overscrollBehavior = "";
+        stackRef.current.style.overscrollBehaviorY = "";
+        stackRef.current.style.WebkitOverflowScrolling = "";
+        stackRef.current.style.webkitTouchCallout = "";
+        stackRef.current.style.userSelect = "";
+        stackRef.current.style.webkitUserSelect = "";
+        stackRef.current.style.touchAction = "";
+      }
     };
   }, [isDesktop]);
 
