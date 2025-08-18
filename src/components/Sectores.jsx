@@ -153,13 +153,17 @@ const Sectores = ({ onAgendarClick }) => {
     const cards = cardsRef.current.filter(Boolean);
     if (!stackRef.current || cards.length === 0) return;
 
-    const containerPadTop = `calc(${desktop ? 14 : 16}vh + ${getNAV()}px)`;
-    const containerPadBottom = `calc(${
-      desktop ? 16 : 22
-    }vh + env(safe-area-inset-bottom) + ${desktop ? 24 : 56}px)`;
+    // Móvil: eliminar casi todo el padding que empuja el stack hacia abajo.
+    // Dejamos sólo la altura del NAV para evitar solapamientos.
+    const containerPadTop = desktop
+      ? `calc(14vh + ${getNAV()}px)`
+      : `${getNAV()}px`;
+    const containerPadBottom = desktop
+      ? `calc(16vh + env(safe-area-inset-bottom) + 24px)`
+      : `calc(env(safe-area-inset-bottom) + 24px)`; // mínimo espacio para safe-area
 
     gsap.set(stackRef.current, {
-      minHeight: "92vh",
+      minHeight: desktop ? "92vh" : "auto", // evitar empujar en móvil
       position: "relative",
       paddingTop: containerPadTop,
       paddingBottom: containerPadBottom,
@@ -204,7 +208,11 @@ const Sectores = ({ onAgendarClick }) => {
 
       cards.forEach((el, i) => {
         const scale = scales[i] ?? scales[scales.length - 1];
-        const marginTop = `${Math.max(12, vh2px(offsetsVH[i] ?? 0) / 2)}px`;
+        // Primera carta pegada al header; resto con margen muy reducido
+        const marginTop =
+          i === 0
+            ? "0px" // sin espacio entre header y primera carta
+            : `${Math.max(4, Math.round(vh2px(offsetsVH[i] ?? 0) / 4))}px`;
 
         gsap.set(el, {
           position: "relative",
@@ -545,12 +553,12 @@ const Sectores = ({ onAgendarClick }) => {
     <section
       ref={sectionRef}
       id="sectores"
-      className="w-full bg-[#181414] text-white pb-20 md:pb-32"
+      className="w-full bg-[#181414] text-white"
       style={{ touchAction: "pan-y" }}
     >
       <div className="max-w-[1400px] mx-auto px-4 lg:px-8 py-12 lg:py-16">
         {/* Cabecera */}
-        <header ref={headerRef} className="mb-10 lg:mb-14 will-change-auto">
+        <header ref={headerRef} className=" will-change-auto">
           <h2
             ref={titleRef}
             className="text-[2rem] lg:text-[3.2rem] font-black leading-[1.05]"
