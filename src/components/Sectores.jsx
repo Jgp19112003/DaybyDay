@@ -39,11 +39,12 @@ const Sectores = ({ onAgendarClick }) => {
       key: "consultorias",
       badge: "Consultorías de negocio / estrategia",
       h2: "Convierte cada propuesta en cliente sin sumar horas de trabajo",
-      sub: "Automatización + IA para cerrar más ventas sin ampliar tu equipo.",
+      sub: "Flujos de trabajo con Automatización + IA para cerrar más ventas sin ampliar tu equipo.",
       jtb: "“Necesito que mis leads se conviertan más rápido sin que mi equipo esté colapsado.”",
       hacemos: [
-        "Organizamos y automatizamos tu captación y seguimiento.",
-        "Conectamos tus canales y CRM en un único flujo.",
+        "Entendemos, Organizamos, Personalizamos y Automatizamos tu captación y seguimiento.",
+        "Conectamos tus canales (mail, rrss, wpp..) y CRM en un único flujo.",
+        "Automatizamos en trato con el cliente a lo largo de tu funnel de ventas"
         "Cierra más clientes con menos esfuerzo operativo.",
       ],
       quickWins: [
@@ -52,13 +53,13 @@ const Sectores = ({ onAgendarClick }) => {
         "Integración LinkedIn Ads → CRM.",
       ],
       proyectos: [
-        "Sistema full-funnel de captación y cierre con nurturing y reporting automatizado.",
+        "Sistema full-funnel de captación y cierre con cultivo de leads y reporting automatizado.",
         "Panel de métricas en tiempo real por propuesta y equipo.",
       ],
       resultados: [
         "+30% leads calificados en 90 días.",
-        "-25% tiempo de gestión comercial.",
-        "+20% tasa de conversión.",
+        "-40% tiempo de gestión comercial.",
+        "+25% tasa de conversión.",
       ],
       cta: "Quiero mi diagnóstico gratuito",
     },
@@ -75,11 +76,11 @@ const Sectores = ({ onAgendarClick }) => {
       ],
       quickWins: [
         "Automatización post-registro con email + WhatsApp.",
-        "Segmentación automática de leads por interés.",
-        "Recordatorios SMS para asistir a sesiones.",
+        "Segmentación automática de leads por interés y localización.",
+        "Recordatorios SMS para asistir a sesiones o llamadas.",
       ],
       proyectos: [
-        "Funnel de captación desde Ads hasta inscripción con seguimiento multicanal.",
+        "Funnel de captación desde Meta/Google Ads hasta inscripción con seguimiento multicanal.",
         "CRM educativo con scoring de leads y dashboards por programa.",
       ],
       resultados: [
@@ -96,13 +97,13 @@ const Sectores = ({ onAgendarClick }) => {
       sub: "Funnel, CRM y ventas conectados para crecer sin fricciones.",
       jtb: "“Necesito un funnel que escale sin que se rompa mi flujo de marketing y ventas.”",
       hacemos: [
-        "Diseñamos tu funnel completo desde captación a cierre.",
-        "Automatizamos el nurturing con IA y datos en tiempo real.",
+        "Entendemos tu start-up y diseñamos tu funnel completo desde captación a cierre.",
+        "Automatizamos el cultivo de leads con IA y datos en tiempo real.",
         "Visibilidad total de métricas y oportunidades.",
       ],
       quickWins: [
         "Integración formularios web → CRM con alertas instantáneas.",
-        "Secuencia automatizada para leads de LinkedIn Ads y cold email.",
+        "Secuencia automatizada para leads de Meta/Google/LinkedIn Ads y cold E-mail/SMS/Wpp.",
         "Dashboard unificado de métricas MKT + ventas.",
       ],
       proyectos: [
@@ -125,16 +126,15 @@ const Sectores = ({ onAgendarClick }) => {
       hacemos: [
         "Digitalizamos tu proceso comercial manteniendo tus herramientas de siempre.",
         "Nuevos canales de venta online con automatización integrada.",
-        "Oportunidades B2C y ventas cruzadas sin aumentar plantilla.",
-      ],
+        "Apertura de nueva linea de facturación B2C E-Commerce automatizada y optimizada a conversión"      ],
       quickWins: [
         "Ecommerce Shopify con integración de stock.",
         "Automatización de captación de influencers y colaboraciones.",
-        "Flujos de ventas cruzadas por email y WhatsApp.",
+        "Flujos de ventas cruzadas por email.",
       ],
       proyectos: [
-        "Estrategia digital B2B + B2C con captación y logística automatizada.",
-        "Canal TikTok Shop con gestión de envíos.",
+        "Estrategia digital B2B + B2C con captación de clientes automatizada.",
+        "Apertura de canales como TikTok Shop con gestión de envíos automatizados.",
       ],
       resultados: [
         "Nuevas fuentes de ingresos en 60 días.",

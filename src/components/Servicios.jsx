@@ -289,14 +289,17 @@ const Servicios = () => {
               <p
                 ref={p1Ref}
                 className="text-[15px] lg:text-[17px] leading-relaxed text-[#e3e3e3] mt-6 lg:mt-8 mb-4 max-w-[60ch] mx-auto lg:mx-0"
-                style={{ opacity: 0 }}
+                style={{ opacity: 0 }}f
               >
-                En un mercado donde el <strong>80%</strong> de las empresas que
-                automatizan aumentan sus oportunidades y un <strong>77%</strong>{" "}
-                mejora sus conversiones, quedarse quieto no es una opción. 
-                Pero tú como líder que sueñas con un crecimiento sostenible, sabes que
-                no basta con correr más rápido: necesitas sistemas que trabajen
-                por tí, día y noche, sin perder la esencia de tu marca. patatas fritas
+                En un mercado donde el <strong>70%</strong>de los líderes planean aumentar su inversión en automatización, 
+                el 77 % ya mejora sus conversiones gracias a ella y el 92 % la considera vital para la competitividad, 
+                quedarse quieto no es una opción.
+                Pero como líder que aspira a un crecimiento sostenible, sabes que más velocidad no basta: necesitas sistemas 
+                que eliminen la carga repetitiva, aumenten voluen de negocio y trabajen para ti, noche y día, sin perder la esencia de tu marca. 
+
+                En Day by Day convertimos esa urgencia en estrategia; construimos sistemas adaptativos de Automatización de procesos y Marketing + IA 
+                que refuerzan tu identidad, optimizan la gestión y liberan a tu equipo de tareas repetitivas.
+                Devolviendoos tiempo para hacer crecer vuestra visión con sentido y coherencia, día a día. 
               </p>
 
               <p
@@ -304,15 +307,8 @@ const Servicios = () => {
                 className="text-[15px] lg:text-[17px] mt-3 leading-relaxed text-[#e3e3e3] mb-6 lg:mb-8 max-w-[65ch] mx-auto lg:mx-0"
                 style={{ opacity: 0 }}
               >
-                En <strong>Day by Day</strong> no solo entendemos esa visión; la
-                transformamos en acción. Creamos soluciones adaptativas de{" "}
-                <strong>
-                  automatización de marketing + inteligencia artificial
-                </strong>{" "}
-                que conectan, ordenan y aceleran cada paso de tu negocio.
-                Adaptamos tu empresa al mercado plasmando su esencia cada día
-                que estás con nosotros. Liberamos tiempo, optimizamos recursos y
-                te preparamos para competir y crecer en un mercado impredecible.
+                Liberamos tiempo, optimizamos recursos y
+                te preparamos para competir y crecer en un mercado, casi impredecible.
               </p>
 
               {/* MÉTRICAS: Impacto + Rendimiento arriba, Resultado abajo */}
@@ -329,7 +325,7 @@ const Servicios = () => {
                   <div className="px-4">
                     <div className="metric-value metric-value-sm">80%</div>
                     <p className="metric-sub">
-                      Aumentan sus oportunidades al automatizar
+                      De las empresas aumentan sus oportunidades de negocio y crecimiento al automatizar
                     </p>
                   </div>
                 </div>
@@ -347,7 +343,8 @@ const Servicios = () => {
                   <div className="px-4">
                     <div className="metric-value metric-value-sm">77%</div>
                     <p className="metric-sub">
-                      Mejora de conversiones con automatización
+                      Mejora su tasa de conversiones con automatización + IA
+                      Más rapida, más personalizada.
                     </p>
                   </div>
                 </div>
@@ -366,8 +363,8 @@ const Servicios = () => {
                       IA + Marketing
                     </span>
                     <p className="text-sm text-[#cfcfcf] leading-relaxed">
-                      Orquestamos datos, campañas y canales con automatizaciones
-                      que escalan y conservan la voz de tu marca.
+                      Orquestamos datos, campañas y canales con campañas 
+                      automatizadas que escalan y conservan la voz de tu marca.
                     </p>
                   </div>
                 </div>
