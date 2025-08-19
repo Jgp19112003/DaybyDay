@@ -291,21 +291,27 @@ const Servicios = () => {
                 className="text-[15px] lg:text-[17px] leading-relaxed text-[#e3e3e3] mt-6 lg:mt-8 mb-4 max-w-[60ch] mx-auto lg:mx-0"
                 style={{ opacity: 0 }}f
               >
+                
                 En un mercado donde el <strong>70%</strong>de los líderes planean aumentar su inversión en automatización, 
                 el 77 % ya mejora sus conversiones gracias a ella y el 92 % la considera vital para la competitividad, 
                 quedarse quieto no es una opción.
-              </p
+
+              <p
                 ref={p1Ref}
                 className="text-[15px] lg:text-[17px] leading-relaxed text-[#e3e3e3] mt-6 lg:mt-8 mb-4 max-w-[60ch] mx-auto lg:mx-0"
                 style={{ opacity: 0 }}f
-              ></article> 
+              ></p>
+
                 Pero como líder que aspira a un crecimiento sostenible, sabes que más velocidad no basta: necesitas sistemas 
                 que eliminen la carga repetitiva, aumenten voluen de negocio y trabajen para ti, noche y día, sin perder la esencia de tu marca. 
-              </p>
+
+
+              <p
                 ref={p1Ref}
                 className="text-[15px] lg:text-[17px] leading-relaxed text-[#e3e3e3] mt-6 lg:mt-8 mb-4 max-w-[60ch] mx-auto lg:mx-0"
                 style={{ opacity: 0 }}f
-              <p className="text-[15px] lg:text-[17px] leading-relaxed text-[#e3e3e3] mb-6 lg:mb-8 max-w-[65ch] mx-auto lg:mx-0">
+              ></p>
+
                 En Day by Day convertimos esa urgencia en estrategia; construimos sistemas adaptativos de Automatización de procesos y Marketing + IA 
                 que refuerzan tu identidad, optimizan la gestión y liberan a tu equipo de tareas repetitivas.
                 Devolviendoos tiempo para hacer crecer vuestra visión con sentido y coherencia, día a día. 
