@@ -259,6 +259,8 @@ const Servicios = () => {
               Servicios
             </h2>
           </div>
+        {/* Closing the section tag */}
+      </section>
 
           {/* IZQUIERDA: Enfoque */}
           <div className="col-span-12 lg:col-span-7">
@@ -275,24 +277,24 @@ const Servicios = () => {
                 Enfoque Day by Day
               </span>
 
-              {/* Título (repetido aquí si es necesario) */}
+              /* Título (repetido aquí si es necesario) */
               <h3
                 ref={headingRef}
-                className="text-[1.6rem] sm:text-[1.88rem] lg:text-[2.22rem] font-white leading-[1.15] tracking-tight"
+                className="text-[1.6rem] sm:text-[1.88rem] lg:text-[2.22rem] font-white leading-[1.15] tracking-tight text-white"
                 style={{ opacity: 0 }}
               >
                 SISTEMAS QUE TRABAJAN POR TI, SIN COMPROMETER TU ESENCIA
               </h3>
 
-              {/* Descripción (repetida aquí si es necesario) */}
+              /* Descripción (repetida aquí si es necesario) */
               <div className="mt-4">
-                {/* Párrafos descriptivos */}
+                /* Párrafos descriptivos */
                 <p
                   ref={(el) => (statCardsRef.current[0] = el)}
                   className="text-[15px] lg:text-[17px] leading-relaxed text-white mt-6 lg:mt-8 mb-4 max-w-[60ch] mx-auto"
                   style={{ opacity: 1 }}
                 >
-                  En un mercado donde el 92 % de los líderes considera la automatización esencial para mantenerse competitivos, el 77 % ya está mejorando sus conversiones gracias a ella, y el <strong>70%</strong> planea incrementar su inversión en este ámbito. <strong>Quedarse quieto no es una opción.</strong>
+                  En un mercado donde el 92 % de los líderes considera la automatización esencial para mantenerse competitivos, el 77 % ya está mejorando sus conversiones gracias a ella, y el <strong>70%</strong> planea incrementar su inversión en este ámbito.
                 </p>
 
                 <p
@@ -300,7 +302,7 @@ const Servicios = () => {
                   className="text-[15px] lg:text-[17px] leading-relaxed text-white mt-6 lg:mt-8 mb-4 max-w-[60ch] mx-auto"
                   style={{ opacity: 1 }}
                 >
-                  Pero como líder que aspira a un crecimiento sostenible, sabes que no se trata solo de velocidad: necesitas sistemas. Sistemas que eliminen tareas repetitivas, aumenten tu capacidad operativa y trabajen incansablemente, sin comprometer la esencia de tu marca.
+                  <strong>Quedarse quieto no es una opción.</strong>
                 </p>
 
                 <p
@@ -308,7 +310,7 @@ const Servicios = () => {
                   className="text-[15px] lg:text-[17px] leading-relaxed text-white mt-6 lg:mt-8 mb-4 max-w-[60ch] mx-auto"
                   style={{ opacity: 1 }}
                 >
-                  En Day by Day transformamos esa necesidad en estrategia. Diseñamos sistemas adaptativos de Automatización de Procesos y Marketing + IA que potencian tu identidad, optimizan la gestión y liberan a tu equipo de tareas repetitivas. Te devolvemos tiempo para que puedas hacer crecer tu visión con propósito y coherencia, día a día.
+                  Pero como líder que aspira a un crecimiento sostenible, sabes que no se trata solo de velocidad: necesitas sistemas. Sistemas que eliminen tareas repetitivas, aumenten tu capacidad operativa y trabajen incansablemente, sin comprometer la esencia de tu marca.
                 </p>
 
                 <p
@@ -316,30 +318,32 @@ const Servicios = () => {
                   className="text-[15px] lg:text-[17px] leading-relaxed text-white mt-6 lg:mt-8 mb-4 max-w-[60ch] mx-auto"
                   style={{ opacity: 1 }}
                 >
+                  En Day by Day transformamos esa necesidad en estrategia. Diseñamos sistemas adaptativos de Automatización de Procesos y Marketing + IA que potencian tu identidad, optimizan la gestión y liberan a tu equipo de tareas repetitivas. Te devolvemos tiempo para que puedas hacer crecer tu visión con propósito y coherencia, día a día.
+                </p>
+
+                <p
+                  ref={(el) => (statCardsRef.current[4] = el)}
+                  className="text-[15px] lg:text-[17px] leading-relaxed text-white mt-6 lg:mt-8 mb-4 max-w-[60ch] mx-auto"
+                  style={{ opacity: 1 }}
+                >
                   Liberamos tiempo, optimizamos recursos y te preparamos para competir y prosperar en un mercado en constante cambio.
                 </p>
               </div>
-
-              {/* MÉTRICAS: Impacto + Rendimiento arriba, Resultado abajo */}
-              <div className="grid grid-cols-2 gap-3 mt-4">
-                {/* IMPACTO */}
-                <div
-                  ref={(el) => (statCardsRef.current[0] = el)}
-                  className="metric metric-compact rounded-2xl"
-                  style={{ opacity: 0 }}
-                >
-                  <div className="metric-top p-4 pb-0">
-                    <span className="metric-dot" aria-hidden="true" /> IMPACTO
-                  </div>
-                  <div className="px-4">
-                    <div className="metric-value metric-value-sm">80%</div>
-                    <p className="metric-sub">
-                      De las empresas que automatizan aumentan sus oportunidades de negocio 
-                    </p>
-                  </div>
+              <div
+                ref={(el) => (statCardsRef.current[0] = el)}
+                className="metric metric-compact rounded-2xl"
+                style={{ opacity: 0 }}
+              >
+                <div className="metric-top p-4 pb-0">
+                  <span className="metric-dot" aria-hidden="true" /> IMPACTO
                 </div>
-
-                {/* RENDIMIENTO */}
+                <div className="px-4">
+                  <div className="metric-value metric-value-sm">80%</div>
+                  <p className="metric-sub">
+                    De las empresas que automatizan aumentan sus oportunidades de negocio
+                  </p>
+                </div>
+              </div>
                 <div
                   ref={(el) => (statCardsRef.current[1] = el)}
                   className="metric metric-compact rounded-2xl"
