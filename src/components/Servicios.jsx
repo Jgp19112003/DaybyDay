@@ -237,7 +237,7 @@ const Servicios = () => {
       id="servicios"
       ref={sectionRef}
       className="w-full bg-[#181414] text-white"
-      style={{ touchAction: "pan-y" }}
+      style={{ touchAction: "pan-y", opacity: 1, visibility: "visible" }} // Cambiado para que sea visible
     >
       <div className="max-w-[1400px] mx-auto px-4 lg:px-8 py-12 lg:py-16">
         {/* Cabecera */}
@@ -253,11 +253,16 @@ const Servicios = () => {
               backgroundClip: "text",
               color: "transparent",
               transform: "translateZ(0)",
+              opacity: 1, // Cambiado para que sea visible
+              visibility: "visible", // Cambiado para que sea visible
             }}
           >
             Servicios
           </h2>
-          <p className="text-[#e5e5e5] mt-3 max-w-[820px] mx-auto">
+          <p
+            className="text-[#e5e5e5] mt-3 max-w-[820px] mx-auto"
+            style={{ opacity: 1, visibility: "visible" }} // Cambiado para que sea visible
+          >
             En Day by Day transformamos esa necesidad en estrategia. Diseñamos
             sistemas adaptativos de Automatización de Procesos y Marketing + IA que
             potencian tu identidad, optimizan la gestión y liberan a tu equipo de
@@ -268,7 +273,10 @@ const Servicios = () => {
         {/* Contenido principal */}
         <div className="mt-6">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
-            <div className="lg:col-span-7 space-y-5">
+            <div
+              className="lg:col-span-7 space-y-5"
+              style={{ opacity: 1, visibility: "visible" }} // Cambiado para que sea visible
+            >
               <p className="text-[#e3e3e3]">
                 En un mercado donde el 92 % de los líderes considera la
                 automatización esencial para mantenerse competitivos, el 77 % ya
@@ -284,7 +292,10 @@ const Servicios = () => {
               </p>
             </div>
 
-            <div className="lg:col-span-5">
+            <div
+              className="lg:col-span-5"
+              style={{ opacity: 1, visibility: "visible" }} // Cambiado para que sea visible
+            >
               <h4 className="text-[1.6rem] font-black leading-[1.1]">
                 Optimización y resultados
               </h4>
