@@ -233,112 +233,75 @@ const Servicios = () => {
   }, []);
 
   return (
-    <div className="w-full min-h-screen bg-[#181414] flex items-center justify-center">
-      <section
-        id="servicios"
-        ref={sectionRef}
-        aria-labelledby="servicios-heading"
-        role="region"
-        tabIndex={-1}
-        className="w-full max-w-[1400px] px-4 lg:px-8 pb-10 lg:pb-16"
-        style={{
-          opacity: 1,
-          visibility: "visible",
-        }}
-      >
-        {/* Título global */}
-        <div className="col-span-12 text-center">
+    <section
+      id="servicios"
+      ref={sectionRef}
+      className="w-full bg-[#181414] text-white"
+      style={{ touchAction: "pan-y" }}
+    >
+      <div className="max-w-[1400px] mx-auto px-4 lg:px-8 py-12 lg:py-16">
+        {/* Cabecera */}
+        <header className="text-center">
           <h2
-            id="servicios-heading"
             ref={titleRef}
-            className="text-[2.2rem] sm:text-[2.6rem] lg:text-[4rem] font-black leading-none tracking-tight text-white"
-            style={{ opacity: 1, visibility: "visible" }}
+            className="text-[2rem] lg:text-[3.2rem] font-black leading-[1.05]"
+            style={{
+              background:
+                "linear-gradient(90deg, #fff 0%, rgba(255,255,255,0.8) 100%)",
+              WebkitBackgroundClip: "text",
+              WebkitTextFillColor: "transparent",
+              backgroundClip: "text",
+              color: "transparent",
+              transform: "translateZ(0)",
+            }}
           >
             Servicios
           </h2>
-        </div>
+          <p className="text-[#e5e5e5] mt-3 max-w-[820px] mx-auto">
+            En Day by Day transformamos esa necesidad en estrategia. Diseñamos
+            sistemas adaptativos de Automatización de Procesos y Marketing + IA que
+            potencian tu identidad, optimizan la gestión y liberan a tu equipo de
+            tareas repetitivas.
+          </p>
+        </header>
 
-        {/* IZQUIERDA: Enfoque */}
-        <div className="col-span-12 lg:col-span-7 text-center">
-          <div className="max-w-[800px] mx-auto lg:mx-0">
-            {/* Badge + Título */}
-            <div className="flex flex-col gap-2">
-              <span
-                ref={badgeRef}
-                className="inline-flex items-center gap-2 text-[12px] font-semibold tracking-wide uppercase rounded-[16px] bg-white text-[#181414] px-3 py-1 mb-3 mx-auto lg:mx-0"
-                style={{ opacity: 1 }}
-              >
-                Enfoque Day by Day
-              </span>
+        {/* Contenido principal */}
+        <div className="mt-6">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
+            <div className="lg:col-span-7 space-y-5">
+              <p className="text-[#e3e3e3]">
+                En un mercado donde el 92 % de los líderes considera la
+                automatización esencial para mantenerse competitivos, el 77 % ya
+                está mejorando sus conversiones gracias a ella, y el{" "}
+                <strong>70%</strong> planea incrementar su inversión en este
+                ámbito.
+              </p>
+              <p className="text-[#e3e3e3]">
+                Pero como líder que aspira a un crecimiento sostenible, sabes que
+                no se trata solo de velocidad: necesitas sistemas. Sistemas que
+                eliminen tareas repetitivas, aumenten tu capacidad operativa y
+                trabajen incansablemente, sin comprometer la esencia de tu marca.
+              </p>
+            </div>
 
-              <h3
-                ref={headingRef}
-                className="text-[1.6rem] sm:text-[1.88rem] lg:text-[2.22rem] font-white leading-[1.15] tracking-tight text-white"
-                style={{ opacity: 1 }}
-              >
-                SISTEMAS QUE TRABAJAN POR TI, SIN COMPROMETER TU ESENCIA
-              </h3>
-
-              <div className="mt-4 text-center text-justify">
-                <p
-                  ref={(el) => (statCardsRef.current[0] = el)}
-                  className="text-[15px] lg:text-[17px] leading-relaxed text-white mt-6 lg:mt-8 mb-4 max-w-[60ch] mx-auto"
-                  style={{ opacity: 1 }}
-                >
-                  En un mercado donde el 92 % de los líderes considera la
-                  automatización esencial para mantenerse competitivos, el 77 % ya
-                  está mejorando sus conversiones gracias a ella, y el{" "}
-                  <strong>70%</strong> planea incrementar su inversión en este
-                  ámbito.
-                </p>
-
-                <p
-                  ref={(el) => (statCardsRef.current[1] = el)}
-                  className="text-[15px] lg:text-[17px] leading-relaxed text-white mt-6 lg:mt-8 mb-4 max-w-[60ch] mx-auto"
-                  style={{ opacity: 1 }}
-                >
-                  <strong>Quedarse quieto no es una opción.</strong>
-                </p>
-
-                <p
-                  ref={(el) => (statCardsRef.current[2] = el)}
-                  className="text-[15px] lg:text-[17px] leading-relaxed text-white mt-6 lg:mt-8 mb-4 max-w-[60ch] mx-auto"
-                  style={{ opacity: 1 }}
-                >
-                  Pero como líder que aspira a un crecimiento sostenible, sabes
-                  que no se trata solo de velocidad: necesitas sistemas. Sistemas
-                  que eliminen tareas repetitivas, aumenten tu capacidad operativa
-                  y trabajen incansablemente, sin comprometer la esencia de tu
-                  marca.
-                </p>
-
-                <p
-                  ref={(el) => (statCardsRef.current[3] = el)}
-                  className="text-[15px] lg:text-[17px] leading-relaxed text-white mt-6 lg:mt-8 mb-4 max-w-[60ch] mx-auto"
-                  style={{ opacity: 1 }}
-                >
-                  En Day by Day transformamos esa necesidad en estrategia.
-                  Diseñamos sistemas adaptativos de Automatización de Procesos y
-                  Marketing + IA que potencian tu identidad, optimizan la gestión
-                  y liberan a tu equipo de tareas repetitivas. Te devolvemos
-                  tiempo para que puedas hacer crecer tu visión con propósito y
-                  coherencia, día a día.
-                </p>
-
-                <p
-                  ref={(el) => (statCardsRef.current[4] = el)}
-                  className="text-[15px] lg:text-[17px] leading-relaxed text-white mt-6 lg:mt-8 mb-4 max-w-[60ch] mx-auto"
-                  style={{ opacity: 1 }}
-                >
-                  Liberamos tiempo, optimizamos recursos y te preparamos para
-                  competir y prosperar en un mercado en constante cambio.
-                </p>
-              </div>
+            <div className="lg:col-span-5">
+              <h4 className="text-[1.6rem] font-black leading-[1.1]">
+                Optimización y resultados
+              </h4>
+              <ul className="space-y-3">
+                <li className="text-[#e3e3e3]">
+                  +30% leads calificados en 90 días.
+                </li>
+                <li className="text-[#e3e3e3]">
+                  -40% tiempo de gestión comercial.
+                </li>
+                <li className="text-[#e3e3e3]">+25% tasa de conversión.</li>
+              </ul>
             </div>
           </div>
         </div>
-      </section>
-    </div>
+      </div>
+    </section>
   );
 };
 
