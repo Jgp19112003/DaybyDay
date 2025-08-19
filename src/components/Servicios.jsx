@@ -259,66 +259,126 @@ const Servicios = () => {
             </h2>
           </div>
 
-          /* IZQUIERDA: Enfoque */
-                <div
-                ref={infoRef}
-                className="col-span-12 lg:col-span-7 text-white pr-0 lg:pr-6 text-center lg:text-left"
-                style={{ opacity: 0 }}
-                >
-                <article
-                  ref={insightRef}
-                  className="rounded-2xl bg-[#1f1a1a]/80 backdrop-blur border border-white/10 shadow-[0_6px_18px_rgba(0,0,0,0.18)] p-5 lg:p-6 mx-auto"
-                  style={{ opacity: 0 }}
-                >
-                  <span
+          {/* IZQUIERDA: Enfoque */}
+          <div className="col-span-12 lg:col-span-7">
+            {/* Contenedor para el badge + título + descripción */}
+            <div className="max-w-[800px] mx-auto lg:mx-0">
+              {/* Badge + Título */}
+              <div className="flex flex-col gap-2">
+                {/* Badge */}
+                <span
                   ref={badgeRef}
                   className="inline-flex items-center gap-2 text-[12px] font-semibold tracking-wide uppercase rounded-[16px] bg-white text-[#181414] px-3 py-1 mb-3 mx-auto lg:mx-0"
                   style={{ opacity: 0 }}
-                  >
-                  Enfoque Day by Day 
-                  </span>
+                >
+                  Enfoque Day by Day
+                </span>
 
-                  <h3
+                {/* Título */}
+                <h3
                   ref={headingRef}
                   className="text-[1.6rem] sm:text-[1.88rem] lg:text-[2.22rem] font-black leading-[1.15] tracking-tight"
                   style={{ opacity: 0 }}
-                  >
+                >
                   SISTEMAS QUE TRABAJAN POR TI, SIN COMPROMETER TU ESENCIA
-                  </h3>
+                </h3>
+              </div>
 
-                  <p
-                  ref={p1Ref}
+              {/* Descripción */}
+              <div className="mt-4">
+                {/* Párrafos descriptivos */}
+                <p
+                  ref={el => pRefs.current[0] = el}
                   className="text-[15px] lg:text-[17px] leading-relaxed text-[#e3e3e3] mt-6 lg:mt-8 mb-4 max-w-[60ch] mx-auto lg:mx-0"
                   style={{ opacity: 0 }}
-                  >
+                >
                   En un mercado donde el 92 % de los líderes considera la automatización esencial para mantenerse competitivos, el 77 % ya está mejorando sus conversiones gracias a ella, y el <strong>70%</strong> planea incrementar su inversión en este ámbito. <strong>Quedarse quieto no es una opción.</strong>
-                  </p>
-
-                  <p
-                  ref={p1Ref}
+                </p>
+                <p
+                  ref={el => pRefs.current[1] = el}
                   className="text-[15px] lg:text-[17px] leading-relaxed text-[#e3e3e3] mt-6 lg:mt-8 mb-4 max-w-[60ch] mx-auto lg:mx-0"
                   style={{ opacity: 0 }}
-                  >
+                >
                   Pero como líder que aspira a un crecimiento sostenible, sabes que no se trata solo de velocidad: necesitas sistemas. Sistemas que eliminen tareas repetitivas, aumenten tu capacidad operativa y trabajen incansablemente, sin comprometer la esencia de tu marca.
-                  </p>
-
-                  <p
-                  ref={p1Ref}
+                </p>
+                <p
+                  ref={el => pRefs.current[2] = el}
                   className="text-[15px] lg:text-[17px] leading-relaxed text-[#e3e3e3] mt-6 lg:mt-8 mb-4 max-w-[60ch] mx-auto lg:mx-0"
                   style={{ opacity: 0 }}
-                  >
+                >
                   En Day by Day transformamos esa necesidad en estrategia. Diseñamos sistemas adaptativos de Automatización de Procesos y Marketing + IA que potencian tu identidad, optimizan la gestión y liberan a tu equipo de tareas repetitivas. Te devolvemos tiempo para que puedas hacer crecer tu visión con propósito y coherencia, día a día.
-                  </p>
-
-                  <p
+                </p>
+                <p
                   ref={p2Ref}
                   className="text-[15px] lg:text-[17px] mt-3 leading-relaxed text-[#e3e3e3] mb-6 lg:mb-8 max-w-[65ch] mx-auto lg:mx-0"
                   style={{ opacity: 0 }}
-                  >
+                >
                   Liberamos tiempo, optimizamos recursos y te preparamos para competir y prosperar en un mercado en constante cambio.
-                  </p>
+                </p>
+              </div>
+            </div>
 
-                  {/* MÉTRICAS: Impacto + Rendimiento arriba, Resultado abajo */}
+            {/* Article completo (con métricas) */}
+            <article
+              ref={insightRef}
+              className="rounded-2xl bg-[#1f1a1a]/80 backdrop-blur border border-white/10 shadow-[0_6px_18px_rgba(0,0,0,0.18)] p-5 lg:p-6 mx-auto"
+              style={{ opacity: 0 }}
+            >
+              {/* Badge (repetido aquí si es necesario) */}
+              <span
+                ref={badgeRef}
+                className="inline-flex items-center gap-2 text-[12px] font-semibold tracking-wide uppercase rounded-[16px] bg-white text-[#181414] px-3 py-1 mb-3 mx-auto lg:mx-0"
+                style={{ opacity: 0 }}
+              >
+                Enfoque Day by Day
+              </span>
+
+              {/* Título (repetido aquí si es necesario) */}
+              <h3
+                ref={headingRef}
+                className="text-[1.6rem] sm:text-[1.88rem] lg:text-[2.22rem] font-black leading-[1.15] tracking-tight"
+                style={{ opacity: 0 }}
+              >
+                SISTEMAS QUE TRABAJAN POR TI, SIN COMPROMETER TU ESENCIA
+              </h3>
+
+              {/* Descripción (repetida aquí si es necesario) */}
+              <div className="mt-4">
+                {/* Párrafos descriptivos */}
+                <p
+                  ref={p1Ref}
+                  className="text-[15px] lg:text-[17px] leading-relaxed text-[#e3e3e3] mt-6 lg:mt-8 mb-4 max-w-[60ch] mx-auto lg:mx-0"
+                  style={{ opacity: 0 }}
+                >
+                  En un mercado donde el 92 % de los líderes considera la automatización esencial para mantenerse competitivos, el 77 % ya está mejorando sus conversiones gracias a ella, y el <strong>70%</strong> planea incrementar su inversión en este ámbito. <strong>Quedarse quieto no es una opción.</strong>
+                </p>
+
+                <p
+                  ref={p1Ref}
+                  className="text-[15px] lg:text-[17px] leading-relaxed text-[#e3e3e3] mt-6 lg:mt-8 mb-4 max-w-[60ch] mx-auto lg:mx-0"
+                  style={{ opacity: 0 }}
+                >
+                  Pero como líder que aspira a un crecimiento sostenible, sabes que no se trata solo de velocidad: necesitas sistemas. Sistemas que eliminen tareas repetitivas, aumenten tu capacidad operativa y trabajen incansablemente, sin comprometer la esencia de tu marca.
+                </p>
+
+                <p
+                  ref={p1Ref}
+                  className="text-[15px] lg:text-[17px] leading-relaxed text-[#e3e3e3] mt-6 lg:mt-8 mb-4 max-w-[60ch] mx-auto lg:mx-0"
+                  style={{ opacity: 0 }}
+                >
+                  En Day by Day transformamos esa necesidad en estrategia. Diseñamos sistemas adaptativos de Automatización de Procesos y Marketing + IA que potencian tu identidad, optimizan la gestión y liberan a tu equipo de tareas repetitivas. Te devolvemos tiempo para que puedas hacer crecer tu visión con propósito y coherencia, día a día.
+                </p>
+
+                <p
+                  ref={p2Ref}
+                  className="text-[15px] lg:text-[17px] mt-3 leading-relaxed text-[#e3e3e3] mb-6 lg:mb-8 max-w-[65ch] mx-auto lg:mx-0"
+                  style={{ opacity: 0 }}
+                >
+                  Liberamos tiempo, optimizamos recursos y te preparamos para competir y prosperar en un mercado en constante cambio.
+                </p>
+              </div>
+
+              {/* MÉTRICAS: Impacto + Rendimiento arriba, Resultado abajo */}
               <div className="grid grid-cols-2 gap-3 mt-4">
                 {/* IMPACTO */}
                 <div
