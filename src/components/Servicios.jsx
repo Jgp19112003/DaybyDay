@@ -292,6 +292,12 @@ const Servicios = () => {
                 style={{ opacity: 0 }}
               >
                En un mercado donde el 92 % de los líderes considera la automatización esencial para mantenerse competitivos, el 77 % ya está mejorando sus conversiones gracias a ella, y el 70% planea incrementar su inversión en este ámbito. 
+               
+               <p
+                ref={p1Ref}
+                className="text-[15px] lg:text-[17px] leading-relaxed text-[#e3e3e3] mt-6 lg:mt-8 mb-4 max-w-[60ch] mx-auto lg:mx-0"
+                style={{ opacity: 0 }}
+              ></p>
                Pero como líder que aspira a un crecimiento sostenible, sabes que no se trata solo de velocidad: necesitas sistemas. 
                Sistemas que eliminen tareas repetitivas, aumenten tu capacidad operativa y trabajen incansablemente, sin comprometer la esencia de tu marca.
               </p>
@@ -304,6 +310,11 @@ const Servicios = () => {
                 En Day by Day transformamos esa necesidad en estrategia. 
                 Diseñamos sistemas adaptativos de Automatización de Procesos y Marketing + IA que potencian tu identidad, 
                 optimizan la gestión y liberan a tu equipo de tareas repetitivas. 
+                <p
+                ref={p1Ref}
+                className="text-[15px] lg:text-[17px] leading-relaxed text-[#e3e3e3] mt-6 lg:mt-8 mb-4 max-w-[60ch] mx-auto lg:mx-0"
+                style={{ opacity: 0 }}
+              ></p>
                 Adaptamos tu empresa al mercado plasmando su esencia cada día
                 que estás con nosotros. 
                 Te devolvemos tu tiempo para que puedas hacer crecer tu visión 
