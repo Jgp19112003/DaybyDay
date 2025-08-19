@@ -242,8 +242,8 @@ const Servicios = () => {
         tabIndex={-1}
         className="w-full max-w-[1400px] mx-auto px-4 lg:px-8 pb-10 lg:pb-16 pt-[200px] lg:pt-[120px]"
         style={{
-          opacity: 1, // Cambiado a 1 para que sea visible
-          visibility: "visible", // Cambiado a visible
+          opacity: 1,
+          visibility: "visible",
         }}
       >
         {/* Título global */}
@@ -289,19 +289,11 @@ const Servicios = () => {
                   automatización esencial para mantenerse competitivos, el 77 % ya
                   está mejorando sus conversiones gracias a ella, y el{" "}
                   <strong>70%</strong> planea incrementar su inversión en este
-                  ámbito.
+                  ámbito. <strong>Quedarse quieto no es una opción.</strong>
                 </p>
 
                 <p
                   ref={(el) => (statCardsRef.current[1] = el)}
-                  className="text-[15px] lg:text-[17px] leading-relaxed text-white mt-6 lg:mt-8 mb-4 max-w-[60ch] mx-auto"
-                  style={{ opacity: 1 }}
-                >
-                  <strong>Quedarse quieto no es una opción.</strong>
-                </p>
-
-                <p
-                  ref={(el) => (statCardsRef.current[2] = el)}
                   className="text-[15px] lg:text-[17px] leading-relaxed text-white mt-6 lg:mt-8 mb-4 max-w-[60ch] mx-auto"
                   style={{ opacity: 1 }}
                 >
@@ -313,25 +305,26 @@ const Servicios = () => {
                 </p>
 
                 <p
-                  ref={(el) => (statCardsRef.current[3] = el)}
+                  ref={(el) => (statCardsRef.current[2] = el)}
                   className="text-[15px] lg:text-[17px] leading-relaxed text-white mt-6 lg:mt-8 mb-4 max-w-[60ch] mx-auto"
                   style={{ opacity: 1 }}
                 >
                   En Day by Day transformamos esa necesidad en estrategia.
                   Diseñamos sistemas adaptativos de Automatización de Procesos y
                   Marketing + IA que potencian tu identidad, optimizan la gestión
-                  y liberan a tu equipo de tareas repetitivas. Te devolvemos
-                  tiempo para que puedas hacer crecer tu visión con propósito y
-                  coherencia, día a día.
+                  y eliminan tareas repetitivas. 
+                  Te devolvemos tu tiempo para que puedas hacer crecer tu visión 
+                  con propósito y coherencia. 
+                  Día a Día.
                 </p>
 
                 <p
-                  ref={(el) => (statCardsRef.current[4] = el)}
+                  ref={(el) => (statCardsRef.current[3] = el)}
                   className="text-[15px] lg:text-[17px] leading-relaxed text-white mt-6 lg:mt-8 mb-4 max-w-[60ch] mx-auto"
                   style={{ opacity: 1 }}
                 >
-                  Liberamos tiempo, optimizamos recursos y te preparamos para
-                  competir y prosperar en un mercado en constante cambio.
+                  Optimizamos recursos, te preparamos para competir y escalar en
+                  un mercado en constante cambio.
                 </p>
               </div>
             </div>
