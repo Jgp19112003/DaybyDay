@@ -278,7 +278,7 @@ const Servicios = () => {
               {/* Título (repetido aquí si es necesario) */}
               <h3
                 ref={headingRef}
-                className="text-[1.6rem] sm:text-[1.88rem] lg:text-[2.22rem] font-black leading-[1.15] tracking-tight"
+                className="text-[1.6rem] sm:text-[1.88rem] lg:text-[2.22rem] font-white leading-[1.15] tracking-tight"
                 style={{ opacity: 0 }}
               >
                 SISTEMAS QUE TRABAJAN POR TI, SIN COMPROMETER TU ESENCIA
@@ -289,7 +289,7 @@ const Servicios = () => {
                 {/* Párrafos descriptivos */}
                 <p
                   ref={(el) => (statCardsRef.current[0] = el)}
-                  className="text-[15px] lg:text-[17px] leading-relaxed text-[#e3e3e3] mt-6 lg:mt-8 mb-4 max-w-[60ch] mx-auto"
+                  className="text-[15px] lg:text-[17px] leading-relaxed text-white mt-6 lg:mt-8 mb-4 max-w-[60ch] mx-auto"
                   style={{ opacity: 1 }}
                 >
                   En un mercado donde el 92 % de los líderes considera la automatización esencial para mantenerse competitivos, el 77 % ya está mejorando sus conversiones gracias a ella, y el <strong>70%</strong> planea incrementar su inversión en este ámbito. <strong>Quedarse quieto no es una opción.</strong>
@@ -297,7 +297,7 @@ const Servicios = () => {
 
                 <p
                   ref={(el) => (statCardsRef.current[1] = el)}
-                  className="text-[15px] lg:text-[17px] leading-relaxed text-[#e3e3e3] mt-6 lg:mt-8 mb-4 max-w-[60ch] mx-auto"
+                  className="text-[15px] lg:text-[17px] leading-relaxed text-white mt-6 lg:mt-8 mb-4 max-w-[60ch] mx-auto"
                   style={{ opacity: 1 }}
                 >
                   Pero como líder que aspira a un crecimiento sostenible, sabes que no se trata solo de velocidad: necesitas sistemas. Sistemas que eliminen tareas repetitivas, aumenten tu capacidad operativa y trabajen incansablemente, sin comprometer la esencia de tu marca.
@@ -305,7 +305,7 @@ const Servicios = () => {
 
                 <p
                   ref={(el) => (statCardsRef.current[2] = el)}
-                  className="text-[15px] lg:text-[17px] leading-relaxed text-[#e3e3e3] mt-6 lg:mt-8 mb-4 max-w-[60ch] mx-auto"
+                  className="text-[15px] lg:text-[17px] leading-relaxed text-white mt-6 lg:mt-8 mb-4 max-w-[60ch] mx-auto"
                   style={{ opacity: 1 }}
                 >
                   En Day by Day transformamos esa necesidad en estrategia. Diseñamos sistemas adaptativos de Automatización de Procesos y Marketing + IA que potencian tu identidad, optimizan la gestión y liberan a tu equipo de tareas repetitivas. Te devolvemos tiempo para que puedas hacer crecer tu visión con propósito y coherencia, día a día.
@@ -313,7 +313,7 @@ const Servicios = () => {
 
                 <p
                   ref={(el) => (statCardsRef.current[3] = el)}
-                  className="text-[15px] lg:text-[17px] mt-3 leading-relaxed text-[#e3e3e3] mb-6 lg:mb-8 max-w-[65ch] mx-auto"
+                  className="text-[15px] lg:text-[17px] leading-relaxed text-white mt-6 lg:mt-8 mb-4 max-w-[60ch] mx-auto"
                   style={{ opacity: 1 }}
                 >
                   Liberamos tiempo, optimizamos recursos y te preparamos para competir y prosperar en un mercado en constante cambio.
