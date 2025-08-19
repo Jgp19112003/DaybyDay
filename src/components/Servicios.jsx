@@ -275,7 +275,7 @@ const Servicios = () => {
                 className="inline-flex items-center gap-2 text-[12px] font-semibold tracking-wide uppercase rounded-[16px] bg-white text-[#181414] px-3 py-1 mb-3 mx-auto lg:mx-0"
                 style={{ opacity: 0 }}
               >
-                Day by Day enfoque
+               Enfoque Day by Day 
               </span>
 
               <h3
@@ -283,7 +283,7 @@ const Servicios = () => {
                 className="text-[1.6rem] sm:text-[1.88rem] lg:text-[2.22rem] font-black leading-[1.15] tracking-tight"
                 style={{ opacity: 0 }}
               >
-                Sistemas que trabajan por ti, sin perder tu esencia
+                SISTEMAS QUE TRABAJAN POR TI, SIN COMPROMETER TU ESENCIA
               </h3>
 
               <p
@@ -291,12 +291,9 @@ const Servicios = () => {
                 className="text-[15px] lg:text-[17px] leading-relaxed text-[#e3e3e3] mt-6 lg:mt-8 mb-4 max-w-[60ch] mx-auto lg:mx-0"
                 style={{ opacity: 0 }}
               >
-                En un mercado donde el <strong>80%</strong> de las empresas que
-                automatizan aumentan sus oportunidades y un <strong>77%</strong>{" "}
-                mejora sus conversiones, quedarse quieto no es una opción. 
-                Pero tú como líder que sueñas con un crecimiento sostenible, sabes que
-                no basta con correr más rápido: necesitas sistemas que trabajen
-                por tí, día y noche, sin perder la esencia de tu marca. patatas fritas
+               En un mercado donde el 92 % de los líderes considera la automatización esencial para mantenerse competitivos, el 77 % ya está mejorando sus conversiones gracias a ella, y el 70% planea incrementar su inversión en este ámbito. 
+               Pero como líder que aspira a un crecimiento sostenible, sabes que no se trata solo de velocidad: necesitas sistemas. 
+               Sistemas que eliminen tareas repetitivas, aumenten tu capacidad operativa y trabajen incansablemente, sin comprometer la esencia de tu marca.
               </p>
 
               <p
@@ -304,15 +301,14 @@ const Servicios = () => {
                 className="text-[15px] lg:text-[17px] mt-3 leading-relaxed text-[#e3e3e3] mb-6 lg:mb-8 max-w-[65ch] mx-auto lg:mx-0"
                 style={{ opacity: 0 }}
               >
-                En <strong>Day by Day</strong> no solo entendemos esa visión; la
-                transformamos en acción. Creamos soluciones adaptativas de{" "}
-                <strong>
-                  automatización de marketing + inteligencia artificial
-                </strong>{" "}
-                que conectan, ordenan y aceleran cada paso de tu negocio.
+                En Day by Day transformamos esa necesidad en estrategia. 
+                Diseñamos sistemas adaptativos de Automatización de Procesos y Marketing + IA que potencian tu identidad, 
+                optimizan la gestión y liberan a tu equipo de tareas repetitivas. 
                 Adaptamos tu empresa al mercado plasmando su esencia cada día
-                que estás con nosotros. Liberamos tiempo, optimizamos recursos y
-                te preparamos para competir y crecer en un mercado impredecible.
+                que estás con nosotros. 
+                Te devolvemos tu tiempo para que puedas hacer crecer tu visión 
+                con propósito y coherencia. 
+                Día a Día.
               </p>
 
               {/* MÉTRICAS: Impacto + Rendimiento arriba, Resultado abajo */}
