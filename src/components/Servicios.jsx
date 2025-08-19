@@ -44,7 +44,7 @@ const Sectores = ({ onAgendarClick }) => {
       hacemos: [
         "Entendemos, Organizamos, Personalizamos y Automatizamos tu captación y seguimiento.",
         "Conectamos tus canales (mail, rrss, wpp..) y CRM en un único flujo.",
-        "Automatizamos en trato con el cliente a lo largo de tu funnel de ventas"
+        "Automatizamos en trato con el cliente a lo largo de tu funnel de ventas",
         "Cierra más clientes con menos esfuerzo operativo.",
       ],
       quickWins: [
