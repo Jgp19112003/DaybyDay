@@ -288,33 +288,33 @@ const Servicios = () => {
               <div className="mt-4">
                 {/* Párrafos descriptivos */}
                 <p
-                  ref={p1Ref}
-                  className="text-[15px] lg:text-[17px] leading-relaxed text-[#e3e3e3] mt-6 lg:mt-8 mb-4 max-w-[60ch] mx-auto lg:mx-0"
-                  style={{ opacity: 0 }}
+                  ref={(el) => (statCardsRef.current[0] = el)}
+                  className="text-[15px] lg:text-[17px] leading-relaxed text-[#e3e3e3] mt-6 lg:mt-8 mb-4 max-w-[60ch] mx-auto"
+                  style={{ opacity: 1 }}
                 >
                   En un mercado donde el 92 % de los líderes considera la automatización esencial para mantenerse competitivos, el 77 % ya está mejorando sus conversiones gracias a ella, y el <strong>70%</strong> planea incrementar su inversión en este ámbito. <strong>Quedarse quieto no es una opción.</strong>
                 </p>
 
                 <p
-                  ref={p1Ref}
-                  className="text-[15px] lg:text-[17px] leading-relaxed text-[#e3e3e3] mt-6 lg:mt-8 mb-4 max-w-[60ch] mx-auto lg:mx-0"
-                  style={{ opacity: 0 }}
+                  ref={(el) => (statCardsRef.current[1] = el)}
+                  className="text-[15px] lg:text-[17px] leading-relaxed text-[#e3e3e3] mt-6 lg:mt-8 mb-4 max-w-[60ch] mx-auto"
+                  style={{ opacity: 1 }}
                 >
                   Pero como líder que aspira a un crecimiento sostenible, sabes que no se trata solo de velocidad: necesitas sistemas. Sistemas que eliminen tareas repetitivas, aumenten tu capacidad operativa y trabajen incansablemente, sin comprometer la esencia de tu marca.
                 </p>
 
                 <p
-                  ref={p1Ref}
-                  className="text-[15px] lg:text-[17px] leading-relaxed text-[#e3e3e3] mt-6 lg:mt-8 mb-4 max-w-[60ch] mx-auto lg:mx-0"
-                  style={{ opacity: 0 }}
+                  ref={(el) => (statCardsRef.current[2] = el)}
+                  className="text-[15px] lg:text-[17px] leading-relaxed text-[#e3e3e3] mt-6 lg:mt-8 mb-4 max-w-[60ch] mx-auto"
+                  style={{ opacity: 1 }}
                 >
                   En Day by Day transformamos esa necesidad en estrategia. Diseñamos sistemas adaptativos de Automatización de Procesos y Marketing + IA que potencian tu identidad, optimizan la gestión y liberan a tu equipo de tareas repetitivas. Te devolvemos tiempo para que puedas hacer crecer tu visión con propósito y coherencia, día a día.
                 </p>
 
                 <p
-                  ref={p2Ref}
-                  className="text-[15px] lg:text-[17px] mt-3 leading-relaxed text-[#e3e3e3] mb-6 lg:mb-8 max-w-[65ch] mx-auto lg:mx-0"
-                  style={{ opacity: 0 }}
+                  ref={(el) => (statCardsRef.current[3] = el)}
+                  className="text-[15px] lg:text-[17px] mt-3 leading-relaxed text-[#e3e3e3] mb-6 lg:mb-8 max-w-[65ch] mx-auto"
+                  style={{ opacity: 1 }}
                 >
                   Liberamos tiempo, optimizamos recursos y te preparamos para competir y prosperar en un mercado en constante cambio.
                 </p>
@@ -334,7 +334,7 @@ const Servicios = () => {
                   <div className="px-4">
                     <div className="metric-value metric-value-sm">80%</div>
                     <p className="metric-sub">
-                      De las empresas aumentan sus oportunidades de negocio y crecimiento al automatizar
+                      De las empresas que automatizan aumentan sus oportunidades de negocio 
                     </p>
                   </div>
                 </div>
@@ -352,7 +352,7 @@ const Servicios = () => {
                   <div className="px-4">
                     <div className="metric-value metric-value-sm">77%</div>
                     <p className="metric-sub">
-                      Mejora su tasa de conversiones con automatización + IA
+                      Mejora su tasa de conversiones con automatización + IA.
                       Más rapida, más personalizada.
                     </p>
                   </div>
