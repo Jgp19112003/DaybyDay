@@ -242,59 +242,54 @@ const Servicios = () => {
         tabIndex={-1}
         className="w-full max-w-[1400px] mx-auto px-4 lg:px-8 pb-10 lg:pb-16 pt-[200px] lg:pt-[120px]"
         style={{
-          opacity: 0,
-          visibility: "hidden",
+          opacity: 1, // Cambiado a 1 para que sea visible
+          visibility: "visible", // Cambiado a visible
         }}
       >
-        <div className="grid grid-cols-12 gap-6 lg:gap-12 items-start">
+        {/* Título global */}
+        <div className="col-span-12 text-center">
+          <h2
+            id="servicios-heading"
+            ref={titleRef}
+            className="text-[2.2rem] sm:text-[2.6rem] lg:text-[4rem] font-black leading-none tracking-tight text-white"
+            style={{ opacity: 1, visibility: "visible" }}
+          >
+            Servicios
+          </h2>
         </div>
-          {/* Título global */}
-          <div className="col-span-12">
-            <h2
-              id="servicios-heading"
-              ref={titleRef}
-              className="text-[2.2rem] sm:text-[2.6rem] lg:text-[4rem] font-black leading-none tracking-tight text-white text-center lg:text-left"
-              style={{ opacity: 0, visibility: "hidden" }}
-            >
-              Servicios
-            </h2>
-          </div>
-        {/* Closing the section tag */}
-      </section>
 
-          {/* IZQUIERDA: Enfoque */}
-          <div className="col-span-12 lg:col-span-7">
-            {/* Contenedor para el badge + título + descripción */}
-            <div className="max-w-[800px] mx-auto lg:mx-0">
-              {/* Badge + Título */}
-              <div className="flex flex-col gap-2">
-                {/* Badge */}
-                <span
-                  ref={badgeRef}
-                  className="inline-flex items-center gap-2 text-[12px] font-semibold tracking-wide uppercase rounded-[16px] bg-white text-[#181414] px-3 py-1 mb-3 mx-auto lg:mx-0"
-                  style={{ opacity: 100 }}
-                >
+        {/* IZQUIERDA: Enfoque */}
+        <div className="col-span-12 lg:col-span-7 text-center">
+          <div className="max-w-[800px] mx-auto lg:mx-0">
+            {/* Badge + Título */}
+            <div className="flex flex-col gap-2">
+              <span
+                ref={badgeRef}
+                className="inline-flex items-center gap-2 text-[12px] font-semibold tracking-wide uppercase rounded-[16px] bg-white text-[#181414] px-3 py-1 mb-3 mx-auto lg:mx-0"
+                style={{ opacity: 1 }}
+              >
                 Enfoque Day by Day
               </span>
 
-              /* Título (repetido aquí si es necesario) */
               <h3
                 ref={headingRef}
                 className="text-[1.6rem] sm:text-[1.88rem] lg:text-[2.22rem] font-white leading-[1.15] tracking-tight text-white"
-                style={{ opacity: 0 }}
+                style={{ opacity: 1 }}
               >
                 SISTEMAS QUE TRABAJAN POR TI, SIN COMPROMETER TU ESENCIA
               </h3>
 
-              /* Descripción (repetida aquí si es necesario) */
-              <div className="mt-4">
-                /* Párrafos descriptivos */
+              <div className="mt-4 text-center text-justify">
                 <p
                   ref={(el) => (statCardsRef.current[0] = el)}
                   className="text-[15px] lg:text-[17px] leading-relaxed text-white mt-6 lg:mt-8 mb-4 max-w-[60ch] mx-auto"
                   style={{ opacity: 1 }}
                 >
-                  En un mercado donde el 92 % de los líderes considera la automatización esencial para mantenerse competitivos, el 77 % ya está mejorando sus conversiones gracias a ella, y el <strong>70%</strong> planea incrementar su inversión en este ámbito.
+                  En un mercado donde el 92 % de los líderes considera la
+                  automatización esencial para mantenerse competitivos, el 77 % ya
+                  está mejorando sus conversiones gracias a ella, y el{" "}
+                  <strong>70%</strong> planea incrementar su inversión en este
+                  ámbito.
                 </p>
 
                 <p
@@ -310,7 +305,11 @@ const Servicios = () => {
                   className="text-[15px] lg:text-[17px] leading-relaxed text-white mt-6 lg:mt-8 mb-4 max-w-[60ch] mx-auto"
                   style={{ opacity: 1 }}
                 >
-                  Pero como líder que aspira a un crecimiento sostenible, sabes que no se trata solo de velocidad: necesitas sistemas. Sistemas que eliminen tareas repetitivas, aumenten tu capacidad operativa y trabajen incansablemente, sin comprometer la esencia de tu marca.
+                  Pero como líder que aspira a un crecimiento sostenible, sabes
+                  que no se trata solo de velocidad: necesitas sistemas. Sistemas
+                  que eliminen tareas repetitivas, aumenten tu capacidad operativa
+                  y trabajen incansablemente, sin comprometer la esencia de tu
+                  marca.
                 </p>
 
                 <p
@@ -318,7 +317,12 @@ const Servicios = () => {
                   className="text-[15px] lg:text-[17px] leading-relaxed text-white mt-6 lg:mt-8 mb-4 max-w-[60ch] mx-auto"
                   style={{ opacity: 1 }}
                 >
-                  En Day by Day transformamos esa necesidad en estrategia. Diseñamos sistemas adaptativos de Automatización de Procesos y Marketing + IA que potencian tu identidad, optimizan la gestión y liberan a tu equipo de tareas repetitivas. Te devolvemos tiempo para que puedas hacer crecer tu visión con propósito y coherencia, día a día.
+                  En Day by Day transformamos esa necesidad en estrategia.
+                  Diseñamos sistemas adaptativos de Automatización de Procesos y
+                  Marketing + IA que potencian tu identidad, optimizan la gestión
+                  y liberan a tu equipo de tareas repetitivas. Te devolvemos
+                  tiempo para que puedas hacer crecer tu visión con propósito y
+                  coherencia, día a día.
                 </p>
 
                 <p
@@ -326,224 +330,9 @@ const Servicios = () => {
                   className="text-[15px] lg:text-[17px] leading-relaxed text-white mt-6 lg:mt-8 mb-4 max-w-[60ch] mx-auto"
                   style={{ opacity: 1 }}
                 >
-                  Liberamos tiempo, optimizamos recursos y te preparamos para competir y prosperar en un mercado en constante cambio.
+                  Liberamos tiempo, optimizamos recursos y te preparamos para
+                  competir y prosperar en un mercado en constante cambio.
                 </p>
-              </div>
-              <div
-                ref={(el) => (statCardsRef.current[0] = el)}
-                className="metric metric-compact rounded-2xl"
-                style={{ opacity: 0 }}
-              >
-                <div className="metric-top p-4 pb-0">
-                  <span className="metric-dot" aria-hidden="true" /> IMPACTO
-                </div>
-                <div className="px-4">
-                  <div className="metric-value metric-value-sm">80%</div>
-                  <p className="metric-sub">
-                    De las empresas que automatizan aumentan sus oportunidades de negocio
-                  </p>
-                </div>
-              </div>
-                <div
-                  ref={(el) => (statCardsRef.current[1] = el)}
-                  className="metric metric-compact rounded-2xl"
-                  style={{ opacity: 0 }}
-                >
-                  <div className="metric-top p-4 pb-0">
-                    <span className="metric-dot" aria-hidden="true" />{" "}
-                    RENDIMIENTO
-                  </div>
-                  <div className="px-4">
-                    <div className="metric-value metric-value-sm">77%</div>
-                    <p className="metric-sub">
-                      Mejora su tasa de conversiones con automatización + IA.
-                      Más rapida, más personalizada.
-                    </p>
-                  </div>
-                </div>
-
-                {/* RESULTADO */}
-                <div
-                  ref={(el) => (statCardsRef.current[2] = el)}
-                  className="metric metric-compact rounded-2xl col-span-2"
-                  style={{ opacity: 0 }}
-                >
-                  <div className="metric-top p-4 pb-0">
-                    <span className="metric-dot" aria-hidden="true" /> RESULTADO
-                  </div>
-                  <div className="px-4 pb-4">
-                    <span className="tag-soft mb-2 inline-block">
-                      IA + Marketing
-                    </span>
-                    <p className="text-sm text-[#cfcfcf] leading-relaxed">
-                      Orquestamos datos, campañas y canales con campañas 
-                      automatizadas que escalan y conservan la voz de tu marca.
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          {/* DERECHA: Cartas de servicios (misma forma) */}
-          <div
-            ref={rightColRef}
-            className="col-span-12 lg:col-span-5 flex flex-col gap-6 pl-0 lg:pl-4"
-          >
-            {/* Card 1 */}
-            <div
-              className="rounded-[20px] w-full p-6 lg:p-8 border servicio-card card-dark focus:outline-none focus:ring-2 focus:ring-white/40"
-              ref={(el) => (cardsRef.current[0] = el)}
-              style={{ opacity: 0 }}
-              aria-labelledby="card-title-1"
-            >
-              <div
-                id="card-title-1"
-                className="card-title text-xl lg:text-2xl font-extrabold mb-3 flex items-center gap-2"
-                ref={(el) => (cardTitleRefs.current[0] = el)}
-              >
-                Marketing Digital
-                <svg
-                  className="w-6 h-6 ml-1 flex-shrink-0"
-                  fill="currentColor"
-                  viewBox="0 0 24 24"
-                  ref={(el) => (cardSvgRefs.current[0] = el)}
-                  aria-hidden="true"
-                  focusable="false"
-                >
-                  <path d="M3 13h8V3H9v6H3v4zm8-8V3h2v2h-2zm4 0V3h6v2h-6zm6 6h-6v2h6v-2zm0 4h-6v6h6v-6zm-8 6h2v-6h-2v6zm-2-2H3v2h8v-2z" />
-                </svg>
-              </div>
-              <div
-                className="card-description text-sm lg:text-base mb-4"
-                ref={(el) => (cardDescRefs.current[0] = el)}
-              >
-                Desarrollamos estrategias personalizadas para aumentar tu
-                visibilidad online y alcanzar tus objetivos de negocio.
-                Analizamos tu mercado y creamos campañas efectivas para
-                posicionar tu marca y captar clientes.
-              </div>
-              <div
-                className="flex flex-wrap gap-2 mt-1"
-                ref={(el) => (cardTagsRefs.current[0] = el)}
-              >
-                <span className="card-tag">Estrategia Digital</span>
-                <span className="card-tag">SEO/SEM</span>
-                <span className="card-tag">Publicidad Online</span>
-              </div>
-            </div>
-
-            {/* Card 2 */}
-            <div
-              className="rounded-[20px] w-full p-6 lg:p-8 border servicio-card card-dark focus:outline-none focus:ring-2 focus:ring-white/40"
-              ref={(el) => (cardsRef.current[1] = el)}
-              style={{ opacity: 0 }}
-              aria-labelledby="card-title-2"
-            >
-              <div
-                id="card-title-2"
-                className="card-title text-xl lg:text-2xl font-extrabold mb-3 flex items-center gap-2"
-                ref={(el) => (cardTitleRefs.current[1] = el)}
-              >
-                Automatización
-                <svg
-                  className="w-6 h-6 ml-1 flex-shrink-0"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="#fff"
-                  strokeWidth="1.5"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  ref={(el) => (cardSvgRefs.current[1] = el)}
-                  aria-hidden="true"
-                  focusable="false"
-                >
-                  <rect
-                    x="7"
-                    y="7"
-                    width="10"
-                    height="10"
-                    rx="3"
-                    fill="#fff"
-                    stroke="#fff"
-                  />
-                  <circle cx="12" cy="12" r="2.5" fill="#181414" />
-                  <path
-                    d="M12 2v2M12 20v2M4 12H2M22 12h-2M5.6 5.6l-1.4-1.4M18.4 18.4l1.4 1.4M18.4 5.6l1.4-1.4M5.6 18.4l-1.4 1.4"
-                    stroke="#fff"
-                  />
-                </svg>
-              </div>
-              <div
-                className="card-description text-sm lg:text-base mb-4"
-                ref={(el) => (cardDescRefs.current[1] = el)}
-              >
-                Optimizamos tus procesos de marketing y ventas mediante el uso
-                de automatizaciones inteligentes. Automatizamos procesos de
-                negocio, desarrollamos chatbots, implementamos IA y soluciones
-                tecnológicas para mejorar la eficiencia y experiencia de tus
-                clientes.
-              </div>
-              <div
-                className="flex flex-wrap gap-2 mt-1"
-                ref={(el) => (cardTagsRefs.current[1] = el)}
-              >
-                <span className="card-tag">Automatización de Marketing</span>
-                <span className="card-tag">Chatbots</span>
-                <span className="card-tag">Inteligencia Artificial</span>
-              </div>
-            </div>
-
-            {/* Card 3 */}
-            <div
-              className="rounded-[20px] w-full p-6 lg:p-8 border servicio-card card-dark focus:outline-none focus:ring-2 focus:ring-white/40"
-              ref={(el) => (cardsRef.current[2] = el)}
-              style={{ opacity: 0 }}
-              aria-labelledby="card-title-3"
-            >
-              <div
-                id="card-title-3"
-                className="card-title text-xl lg:text-2xl font-extrabold mb-3 flex items-center gap-2"
-                ref={(el) => (cardTitleRefs.current[2] = el)}
-              >
-                Gestión de Redes Sociales
-                <svg
-                  className="w-6 h-6 ml-1 flex-shrink-0"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="#fff"
-                  strokeWidth="1.5"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  ref={(el) => (cardSvgRefs.current[2] = el)}
-                  aria-hidden="true"
-                  focusable="false"
-                >
-                  <path
-                    d="M3 13V7a2 2 0 0 1 2-2h2l9-3v16l-9-3H5a2 2 0 0 1-2-2v-6z"
-                    fill="#fff"
-                    stroke="#fff"
-                  />
-                  <circle cx="17.5" cy="12" r="1.5" fill="#181414" />
-                  <path d="M7 15v2a2 2 0 0 0 2 2h1" stroke="#fff" />
-                </svg>
-              </div>
-              <div
-                className="card-description text-sm lg:text-base mb-4"
-                ref={(el) => (cardDescRefs.current[2] = el)}
-              >
-                Potenciamos tu presencia en redes sociales mediante contenido
-                atractivo y estrategias de crecimiento. Gestionamos tus
-                perfiles, creamos contenido relevante y conectamos con tu
-                audiencia para fortalecer tu marca.
-              </div>
-              <div
-                className="flex flex-wrap gap-2 mt-1"
-                ref={(el) => (cardTagsRefs.current[2] = el)}
-              >
-                <span className="card-tag">Social Media</span>
-                <span className="card-tag">Crecimiento</span>
-                <span className="card-tag">Contenido Creativo</span>
               </div>
             </div>
           </div>
