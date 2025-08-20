@@ -321,7 +321,7 @@ const Servicios = () => {
 
                 <p
                 ref={p2Ref}
-                className="text-[15px] lg:text-[17px] mt-3 leading-relaxed text-[#e3e3e3] mb-10 lg:mb-10 max-w-[65ch] mx-auto lg:mx-0"
+                className="text-[15px] lg:text-[17px] mt-3 leading-relaxed text-[#e3e3e3] mt-8 lg:mt-8 mb-8 max-w-[60ch] mx-auto lg:mx-0"
                 style={{ opacity: 0 }}
                 >
                 En Day by Day transformamos esa necesidad en estrategia. 
