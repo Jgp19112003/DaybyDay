@@ -314,32 +314,35 @@ const Servicios = () => {
                   opacity: 1, // Cambiado a 1 para que sea visible
                   visibility: "visible", // Cambiado a visible
                 }}
-              >
+                >
                 Pero como líder que aspira a un crecimiento sostenible, sabes que no se trata solo de velocidad: necesitas sistemas. 
                 Sistemas que eliminen tareas repetitivas, aumenten tu capacidad operativa y trabajen incansablemente, sin comprometer la esencia de tu marca.
-              </p>
+                </p>
 
-              <p
+                <p
                 ref={p2Ref}
-                className="text-[15px] lg:text-[17px] mt-3 leading-relaxed text-[#e3e3e3] mb-6 lg:mb-8 max-w-[65ch] mx-auto lg:mx-0"
+                className="text-[15px] lg:text-[17px] mt-3 leading-relaxed text-[#e3e3e3] mb-8 lg:mb-10 max-w-[65ch] mx-auto lg:mx-0"
                 style={{ opacity: 0 }}
-              >
+                >
                 En Day by Day transformamos esa necesidad en estrategia. 
                 Diseñamos sistemas adaptativos de Automatización de Procesos y Marketing + IA que potencian tu identidad, 
                 optimizan la gestión y liberan a tu equipo de tareas repetitivas. 
+                </p>
                 <p
                 ref={p1Ref}
-                className="text-[15px] lg:text-[17px] leading-relaxed text-[#e3e3e3] mt-6 lg:mt-8 mb-4 max-w-[60ch] mx-auto lg:mx-0"
+                className="text-[15px] lg:text-[17px] leading-relaxed text-[#e3e3e3] mt-8 lg:mt-10 mb-6 max-w-[60ch] mx-auto lg:mx-0"
                 style={{ opacity: 0 }}
-              ></p>
+                >
                 Adaptamos tu empresa al mercado plasmando su esencia cada día
                 que estás con nosotros. 
                 Te devolvemos tu tiempo para que puedas hacer crecer tu visión 
                 con propósito y coherencia. 
+                
+              <div className="h-2"></div> {/* Tiny space added here */}
                 Día a Día.
-              </p>
+                </p>
 
-              {/* MÉTRICAS: Impacto + Rendimiento arriba, Resultado abajo */}
+                {/* MÉTRICAS: Impacto + Rendimiento arriba, Resultado abajo */}
               <div className="grid grid-cols-2 gap-3 mt-4">
                 {/* IMPACTO */}
                 <div
