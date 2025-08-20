@@ -291,7 +291,8 @@ const Servicios = () => {
                 className="text-[15px] lg:text-[17px] leading-relaxed text-[#e3e3e3] mt-6 lg:mt-8 mb-4 max-w-[60ch] mx-auto lg:mx-0"
                 style={{ opacity: 0 }}
               >
-               En un mercado donde el 92 % de los líderes considera la automatización esencial para mantenerse competitivos, el 77 % ya está mejorando sus conversiones gracias a ella, y el 70% planea incrementar su inversión en este ámbito. 
+               En un mercado donde el 92 % de los líderes considera la automatización esencial para mantenerse competitivos, 
+               el 77 % ya está mejorando sus conversiones gracias a ella, y el 70% planea incrementar su inversión en este ámbito. 
                
                <p
                 ref={p1Ref}
