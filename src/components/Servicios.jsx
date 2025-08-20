@@ -295,7 +295,7 @@ const Servicios = () => {
                 }}
                 >
                 En un mercado donde el 92 % de los líderes consideran que la automatización es esencial para mantenerse competitivos, 
-                el 77 % ya está mejorando sus conversiones gracias a ella, y el 70% planea incrementar su inversión en este ámbito,
+                el 77 % ya está mejorando sus conversiones gracias a ella y el 70% planea incrementar su inversión en este ámbito,
                 </p>
                 <p
                 ref={p1Ref}
@@ -316,7 +316,7 @@ const Servicios = () => {
                 }}
                 >
                 El crecimiento escalable y sostenible no depende solo de la velocidad, sino de sistemas que eliminan tareas repetitivas, 
-                aumentan la capacidad operativa y trabajan preservando la esencia de cada marca. 
+                aumentan la capacidad operativa y trabajan preservando la esencia de marca. 
                 </p>
 
                 <p
@@ -333,7 +333,7 @@ const Servicios = () => {
                 className="text-[15px] lg:text-[17px] leading-relaxed text-[#e3e3e3] mt-6 lg:mt-6 mb-15 max-w-[60ch] mx-auto lg:mx-0"
                 style={{ opacity: 0 }}
                 >
-                Día a Día dispondrás del tiempo que tu emmpresa necesita.
+                Día a Día dispondrás del tiempo que tu empresa necesita.
               <div className="h-2"></div> {/* Tiny space added here */}
                               </p>
 
