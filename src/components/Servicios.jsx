@@ -309,7 +309,7 @@ const Servicios = () => {
                 </p>
                 <p
                 ref={p1Ref}
-                className="text-[15px] lg:text-[17px] leading-relaxed text-[#e3e3e3] mt-6 lg:mt-8 mb-4 max-w-[60ch] mx-auto lg:mx-0"
+                className="text-[15px] lg:text-[17px] leading-relaxed text-[#e3e3e3] mt-8 lg:mt-8 mb-4 max-w-[60ch] mx-auto lg:mx-0"
                 style={{
                   opacity: 1, // Cambiado a 1 para que sea visible
                   visibility: "visible", // Cambiado a visible
@@ -321,7 +321,7 @@ const Servicios = () => {
 
                 <p
                 ref={p2Ref}
-                className="text-[15px] lg:text-[17px] mt-3 leading-relaxed text-[#e3e3e3] mb-8 lg:mb-10 max-w-[65ch] mx-auto lg:mx-0"
+                className="text-[15px] lg:text-[17px] mt-3 leading-relaxed text-[#e3e3e3] mb-10 lg:mb-10 max-w-[65ch] mx-auto lg:mx-0"
                 style={{ opacity: 0 }}
                 >
                 En Day by Day transformamos esa necesidad en estrategia. 
@@ -330,7 +330,7 @@ const Servicios = () => {
                 </p>
                 <p
                 ref={p1Ref}
-                className="text-[15px] lg:text-[17px] leading-relaxed text-[#e3e3e3] mt-8 lg:mt-10 mb-6 max-w-[60ch] mx-auto lg:mx-0"
+                className="text-[15px] lg:text-[17px] leading-relaxed text-[#e3e3e3] mt-6 lg:mt-6 mb-15 max-w-[60ch] mx-auto lg:mx-0"
                 style={{ opacity: 0 }}
                 >
                 Adaptamos tu empresa al mercado plasmando su esencia cada día
@@ -356,7 +356,7 @@ const Servicios = () => {
                   <div className="px-4">
                     <div className="metric-value metric-value-sm">80%</div>
                     <p className="metric-sub">
-                      De las empresas aumentan sus oportunidades de negocio y crecimiento al automatizar
+                      De las empresas aumentan sus oportunidades de negocio y crecimiento al automatizar con IA.
                     </p>
                   </div>
                 </div>
@@ -374,8 +374,8 @@ const Servicios = () => {
                   <div className="px-4">
                     <div className="metric-value metric-value-sm">77%</div>
                     <p className="metric-sub">
-                      Mejora su tasa de conversiones con automatización + IA.
-                      Más rapida, más personalizada.                    </p>
+                      Mejora su tasa de conversiones con Marketing de Automatización + IA.
+                      Más rapido, más personalizado.                    </p>
                   </div>
                 </div>
 
@@ -390,11 +390,11 @@ const Servicios = () => {
                   </div>
                   <div className="px-4 pb-4">
                     <span className="tag-soft mb-2 inline-block">
-                      IA + Marketing
+                      IA + Marketing Automatizado 
                     </span>
                     <p className="text-sm text-[#cfcfcf] leading-relaxed">
-                      Orquestamos datos, campañas y canales con sistemas 
-                      automatizadas que escalan y conservan la voz de tu marca.
+                      Orquestamos datos y campañas con sistemas 
+                      automatizados que preservan y escalan la esencia de tu marca.
                     </p>
                   </div>
                 </div>
