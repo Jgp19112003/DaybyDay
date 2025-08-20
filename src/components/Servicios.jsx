@@ -361,7 +361,7 @@ const Servicios = () => {
                   <div className="px-4">
                     <div className="metric-value metric-value-sm">77%</div>
                     <p className="metric-sub">
-                      Mejora su tasa de conversiones con automatización + IA
+                      Mejora su tasa de conversiones con automatización + IA.
                       Más rapida, más personalizada.                    </p>
                   </div>
                 </div>
@@ -380,7 +380,7 @@ const Servicios = () => {
                       IA + Marketing
                     </span>
                     <p className="text-sm text-[#cfcfcf] leading-relaxed">
-                      Orquestamos datos, campañas y canales con campañas 
+                      Orquestamos datos, campañas y canales con sistemas 
                       automatizadas que escalan y conservan la voz de tu marca.
                     </p>
                   </div>
