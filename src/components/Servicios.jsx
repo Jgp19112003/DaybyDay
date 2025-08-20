@@ -294,8 +294,8 @@ const Servicios = () => {
                   visibility: "visible", // Cambiado a visible
                 }}
                 >
-                En un mercado donde el 92 % de los líderes considera la automatización esencial para mantenerse competitivos, 
-                el 77 % ya está mejorando sus conversiones gracias a ella, y el 70% planea incrementar su inversión en este ámbito.
+                En un mercado donde el 92 % de los líderes consideran que la automatización es esencial para mantenerse competitivos, 
+                el 77 % ya está mejorando sus conversiones gracias a ella, y el 70% planea incrementar su inversión en este ámbito,
                 </p>
                 <p
                 ref={p1Ref}
@@ -315,8 +315,8 @@ const Servicios = () => {
                   visibility: "visible", // Cambiado a visible
                 }}
                 >
-                Pero como líder que aspira a un crecimiento sostenible, sabes que no se trata solo de velocidad: necesitas sistemas. 
-                Sistemas que eliminen tareas repetitivas, aumenten tu capacidad operativa y trabajen incansablemente, sin comprometer la esencia de tu marca.
+                El crecimiento escalable y sostenible no depende solo de la velocidad, sino de sistemas que eliminan tareas repetitivas, 
+                aumentan la capacidad operativa y trabajan preservando la esencia de cada marca. 
                 </p>
 
                 <p
@@ -324,23 +324,18 @@ const Servicios = () => {
                 className="text-[15px] lg:text-[17px] mt-3 leading-relaxed text-[#e3e3e3] mt-8 lg:mt-8 mb-8 max-w-[60ch] mx-auto lg:mx-0"
                 style={{ opacity: 0 }}
                 >
-                En Day by Day transformamos esa necesidad en estrategia. 
-                Diseñamos sistemas adaptativos de Automatización de Procesos y Marketing + IA que potencian tu identidad, 
-                optimizan la gestión y liberan a tu equipo de tareas repetitivas. 
+                  En Day by Day transformamos esa necesidad en estrategia.
+                  Diseñamos sistemas adaptativos de Automatización de Procesos y Marketing con IA que potencian la identidad, 
+                  optimizan la gestión y liberan a los equipos para centrarse en lo que realmente genera valor.
                 </p>
                 <p
                 ref={p1Ref}
                 className="text-[15px] lg:text-[17px] leading-relaxed text-[#e3e3e3] mt-6 lg:mt-6 mb-15 max-w-[60ch] mx-auto lg:mx-0"
                 style={{ opacity: 0 }}
                 >
-                Adaptamos tu empresa al mercado plasmando su esencia cada día
-                que estás con nosotros. 
-                Te devolvemos tu tiempo para que puedas hacer crecer tu visión 
-                con propósito y coherencia. 
-                
+                Día a Día dispondrás del tiempo que tu emmpresa necesita.
               <div className="h-2"></div> {/* Tiny space added here */}
-                Día a Día.
-                </p>
+                              </p>
 
                 {/* MÉTRICAS: Impacto + Rendimiento arriba, Resultado abajo */}
               <div className="grid grid-cols-2 gap-3 mt-4">
