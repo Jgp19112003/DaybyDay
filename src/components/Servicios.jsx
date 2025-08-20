@@ -293,23 +293,23 @@ const Servicios = () => {
                   opacity: 1, // Cambiado a 1 para que sea visible
                   visibility: "visible", // Cambiado a visible
                 }}
-              >
+                >
                 En un mercado donde el 92 % de los líderes considera la automatización esencial para mantenerse competitivos, 
-                el 77 % ya está mejorando sus conversiones gracias a ella, y el 70% planea incrementar su inversión en este ámbito. 
-              </p>
-              <p
+                el 77 % ya está mejorando sus conversiones gracias a ella, y el 70% planea incrementar su inversión en este ámbito.
+                </p>
+                <p
                 ref={p1Ref}
-                className="text-[15px] lg:text-[17px] leading-relaxed text-[#e3e3e3] mt-6 lg:mt-8 mb-4 max-w-[60ch] mx-auto lg:mx-0"
+                className="text-[15px] lg:text-[17px] leading-relaxed text-[#e3e3e3] mt-4 lg:mt-6 mb-3 max-w-[60ch] mx-auto lg:mx-0"
                 style={{
                   opacity: 1, // Cambiado a 1 para que sea visible
                   visibility: "visible", // Cambiado a visible
                 }}
-              >
+                >
                 Quedarse quieto no es una opción.
-              </p>
-              <p
+                </p>
+                <p
                 ref={p1Ref}
-                className="text-[15px] lg:text-[17px] leading-relaxed text-[#e3e3e3] mt-6 lg:mt-8 mb-4 max-w-[60ch] mx-auto lg:mx-0"
+                className="text-[15px] lg:text-[17px] leading-relaxed text-[#e3e3e3] mt-4 lg:mt-6 mb-3 max-w-[60ch] mx-auto lg:mx-0"
                 style={{
                   opacity: 1, // Cambiado a 1 para que sea visible
                   visibility: "visible", // Cambiado a visible
