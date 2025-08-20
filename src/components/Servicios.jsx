@@ -305,7 +305,7 @@ const Servicios = () => {
                   visibility: "visible", // Cambiado a visible
                 }}
                 >
-                Quedarse quieto no es una opción.
+                 <em>Quedarse quieto no es una opción.</em>
                 </p>
                 <p
                 ref={p1Ref}
