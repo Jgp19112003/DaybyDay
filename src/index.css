@@ -1,0 +1,663 @@
+@import "tailwindcss";
+
+* {
+  font-family: "Inter", sans-serif;
+  font-weight: 700;
+}
+
+html,
+body {
+  overflow-x: hidden; /* Evita scroll horizontal */
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+body > main {
+  flex: 1; /* Empuja el footer al final en páginas con poco contenido */
+}
+
+body {
+  background: #181414;
+  margin: 0;
+  padding: 0;
+  padding-top: 150px; /* Aumenta el espacio superior para separar el contenido del navbar fijo */
+}
+
+main {
+  max-width: 100vw;
+  margin: 0 auto;
+  padding: 0;
+  margin-top: 0; /* Se elimina el margen extra, ya que el padding-top en body crea la separación */
+}
+
+.flex-center {
+  @apply flex justify-center items-center;
+}
+
+.navbar {
+  /* Se actualiza para que permanezca fijo */
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  padding: 15px 25px;
+  /* Se elimina el margin original para centrar mejor el contenido */
+  margin: 0 auto;
+  max-width: 1000px;
+  border-radius: 16px;
+  background: #f5f5f5;
+  box-shadow: 4px 6px 1px #e0e0e0;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  margin-top: 24px; /* Separación visual desde la parte superior */
+}
+
+.logo-container {
+  display: flex;
+  align-items: center;
+}
+
+.logo-text {
+  display: flex;
+  flex-direction: column;
+  line-height: 0.9;
+  position: relative;
+}
+
+.logo-line {
+  display: flex;
+  align-items: baseline;
+}
+
+.logo-first-line {
+  margin-bottom: -2px;
+}
+
+.logo-second-line {
+  position: relative;
+}
+
+.logo-day {
+  font-family: "Inter", sans-serif;
+  font-weight: 900;
+  font-size: 26px;
+  color: #000;
+  letter-spacing: -0.02em;
+}
+
+.logo-y {
+  font-family: "Inter", sans-serif;
+  font-weight: 900;
+  font-size: 26px;
+  color: #000;
+  letter-spacing: -0.02em;
+}
+
+.logo-by {
+  font-family: "Inter", sans-serif;
+  font-weight: 400;
+  font-size: 14px;
+  color: #000;
+  font-style: italic;
+  position: absolute;
+  top: -4px;
+  right: -20px;
+}
+
+.rotated {
+  /* Remove the default rotation, let GSAP handle all transforms */
+  display: inline-block;
+}
+
+.nav-container {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-left: 20px; /* Separación del logo */
+}
+
+.nav-link {
+  padding: 8px 12px;
+  font-size: 16px;
+  color: #000;
+  text-decoration: none;
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  transform: scale(1);
+  opacity: 1;
+}
+
+.nav-container:hover .nav-link:not(.btn-primary) {
+  transform: scale(0.9);
+  opacity: 0.7;
+  color: #676767;
+}
+
+.nav-container:hover .nav-link:not(.btn-primary):hover {
+  transform: scale(1);
+  opacity: 1;
+  color: #de0015;
+}
+
+.nav-container:has(.btn-primary:hover) .nav-link:not(.btn-primary) {
+  transform: scale(1) !important;
+  opacity: 1 !important;
+  color: #000 !important;
+}
+
+.logo-hidden {
+  visibility: hidden;
+}
+
+.nav-hidden {
+  visibility: hidden;
+  opacity: 0;
+  transform: translateY(-50px); /* Ensure items are positioned off-screen */
+}
+
+.servicios-hidden {
+  visibility: hidden;
+  opacity: 0;
+}
+
+.nav-link.btn-primary {
+  border-radius: 0.4rem;
+  border: none;
+  font-weight: 600;
+  cursor: pointer;
+  background: linear-gradient(#2a2a2a, #000000);
+  color: white;
+  box-shadow: inset 0pt 3pt 2pt -1pt #4a4a4a, 0pt 3pt 4pt -2pt #0009;
+  border-bottom: 1.5pt solid #000000;
+  transition: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.nav-link.btn-primary:hover {
+  border-bottom: 3pt solid #000000;
+  transform: translateY(-0.5pt);
+  opacity: 1;
+  color: white;
+}
+
+.nav-link.btn-primary:active {
+  box-shadow: inset 0pt 3pt 2pt -1pt #4a4a4a, 0pt 3pt 4pt -2pt #0000;
+  border-bottom: 0.5pt solid #000000;
+  transform: translateY(0pt);
+}
+
+.whatsapp-button {
+  position: fixed;
+  bottom: 15px;
+  right: 15px;
+  width: 60px;
+  height: 60px;
+  background: #25d366;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  text-decoration: none;
+  box-shadow: 0 4px 12px rgba(37, 211, 102, 0.4);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  z-index: 1000;
+  animation: whatsapp-pulse 2s infinite;
+}
+
+.whatsapp-button.mobile {
+  bottom: 15px;
+  right: 15px;
+}
+
+@keyframes whatsapp-pulse {
+  0% {
+    box-shadow: 0 4px 12px rgba(37, 211, 102, 0.4),
+      0 0 0 0 rgba(37, 211, 102, 0.7);
+  }
+  70% {
+    box-shadow: 0 4px 12px rgba(37, 211, 102, 0.4),
+      0 0 0 10px rgba(37, 211, 102, 0);
+  }
+  100% {
+    box-shadow: 0 4px 12px rgba(37, 211, 102, 0.4),
+      0 0 0 0 rgba(37, 211, 102, 0);
+  }
+}
+
+@media (max-width: 768px) {
+  .navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    margin: 8px;
+    border-radius: 16px;
+    padding: 10px 15px;
+    max-width: calc(100vw - 16px);
+    z-index: 9999;
+    min-height: auto;
+    flex-direction: column;
+    gap: 8px;
+    margin-bottom: 12px;
+    height: auto; /* Let navbar determine its own height */
+  }
+
+  /* Remove body padding-top as we'll calculate from navbar */
+  body {
+    padding-top: 0;
+  }
+
+  /* Mobile spacing for meeting scheduler */
+  .meeting-scheduler-mobile {
+    margin-top: calc(140px + 4vh) !important;
+    margin-bottom: calc(80px + 2vh) !important;
+    padding-top: 20px;
+    padding-bottom: 20px;
+  }
+
+  /* Responsive mobile spacing for servicios section - increased significantly */
+  .servicios-mobile {
+    margin-top: calc(130px + 5vh) !important;
+    padding-top: clamp(20px, 5vw, 30px);
+  }
+
+  .navbar.mobile .logo-container {
+    margin-bottom: 2px;
+    align-self: center;
+  }
+
+  .navbar.mobile .logo-text {
+    display: flex;
+    flex-direction: column;
+    line-height: 0.8;
+    position: relative;
+  }
+
+  .navbar.mobile .logo-first-line {
+    margin-bottom: -2px;
+  }
+
+  .navbar.mobile .logo-second-line {
+    position: relative;
+    margin-top: 1px;
+  }
+
+  .navbar.mobile .logo-day {
+    font-size: 16px;
+    margin-bottom: 2px;
+    letter-spacing: -0.01em;
+    /* Remove will-change and backface-visibility that might interfere */
+  }
+
+  .navbar.mobile .logo-y {
+    font-size: 16px;
+    letter-spacing: -0.01em;
+    /* Remove will-change and backface-visibility that might interfere */
+  }
+
+  .navbar.mobile .logo-by {
+    font-size: 9px;
+    top: -1px;
+    right: -10px;
+    /* Remove will-change and backface-visibility that might interfere */
+  }
+
+  .nav-container.nav-mobile {
+    flex-direction: row;
+    gap: 0.375rem;
+    width: 100%;
+    visibility: visible !important;
+    justify-content: center;
+    flex-wrap: wrap;
+    opacity: 1 !important;
+    /* Add hardware acceleration for smoother animations */
+    transform: translateZ(0);
+    will-change: transform;
+  }
+
+  .nav-link {
+    font-size: 12px;
+    padding: 6px 8px;
+    text-align: center;
+    border-radius: 8px;
+    background: rgba(0, 0, 0, 0.05);
+    margin: 1px;
+    flex: 1;
+    min-width: auto;
+    border: none;
+    box-shadow: none;
+    transition: background-color 0.2s ease, color 0.2s ease, transform 0.2s ease;
+    /* Add hardware acceleration for smoother animations */
+    transform: translateZ(0);
+    will-change: transform;
+  }
+
+  .nav-link:hover {
+    background: rgba(0, 0, 0, 0.1);
+    transform: scale(1.05);
+  }
+
+  .nav-link.btn-primary {
+    background: linear-gradient(#2a2a2a, #000000) !important;
+    color: white !important;
+    margin-top: 0;
+    font-size: 11px;
+    padding: 6px 8px;
+    border: none !important;
+    box-shadow: none !important;
+    border-bottom: none !important;
+    transition: background 0.2s ease, opacity 0.2s ease !important;
+    transform: none !important;
+  }
+
+  .nav-link.btn-primary:hover {
+    background: linear-gradient(#1a1a1a, #000000) !important;
+    border-bottom: none !important;
+    opacity: 0.9 !important;
+    transform: none !important;
+  }
+
+  .nav-link.btn-primary:active {
+    background: linear-gradient(#0a0a0a, #000000) !important;
+    border-bottom: none !important;
+    box-shadow: none !important;
+    transform: none !important;
+  }
+
+  .meeting-form {
+    padding: 16px;
+  }
+
+  .calendar-grid {
+    gap: 4px;
+  }
+
+  .time-slots {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  /* Neumorphism for service cards - matching navbar exactly */
+  .servicio-card {
+    background: #f5f5f5 !important;
+    border-radius: 20px;
+    box-shadow: 4px 6px 1px #e0e0e0 !important;
+    border: none !important;
+    transition: background 0.8s ease-in-out, box-shadow 0.8s ease-in-out,
+      transform 0.3s ease;
+  }
+
+  .servicio-card.card-dark {
+    background: #232323 !important;
+    box-shadow: 4px 6px 1px #1a1a1a !important;
+    border: none !important;
+  }
+
+  /* Add cursor pointer for mobile */
+  @media (max-width: 768px) {
+    .servicio-card {
+      cursor: pointer;
+      user-select: none;
+    }
+  }
+}
+
+/* Additional responsive breakpoints for smaller devices */
+@media (max-width: 480px) {
+  .servicios-mobile {
+    margin-top: calc(120px + 6vh) !important;
+    padding-top: clamp(18px, 4vw, 25px);
+  }
+
+  .meeting-scheduler-mobile {
+    margin-top: calc(130px + 5vh) !important;
+    margin-bottom: calc(70px + 2vh) !important;
+  }
+}
+
+@media (max-width: 360px) {
+  .servicios-mobile {
+    margin-top: calc(110px + 8vh) !important;
+    padding-top: clamp(16px, 3.5vw, 22px);
+  }
+
+  .meeting-scheduler-mobile {
+    margin-top: calc(120px + 6vh) !important;
+    margin-bottom: calc(65px + 2vh) !important;
+  }
+}
+
+/* For very tall mobile screens */
+@media (max-width: 768px) and (min-height: 800px) {
+  .servicios-mobile {
+    margin-top: calc(140px + 4vh) !important;
+  }
+
+  .meeting-scheduler-mobile {
+    margin-top: calc(150px + 4vh) !important;
+  }
+}
+
+/* For shorter mobile screens */
+@media (max-width: 768px) and (max-height: 600px) {
+  .servicios-mobile {
+    margin-top: calc(120px + 10vh) !important;
+  }
+
+  .meeting-scheduler-mobile {
+    margin-top: calc(130px + 8vh) !important;
+  }
+}
+
+.navbar.mobile .logo-first-line .logo-day {
+  margin-right: 6px !important;
+}
+.navbar.mobile .logo-second-line .logo-day {
+  margin-right: 3px !important;
+}
+
+/* Add smooth transitions for card tags */
+.card-tag {
+  transition: background-color 0.3s ease, border-color 0.3s ease,
+    color 0.3s ease;
+}
+
+/* Neumorphism for service cards - matching navbar exactly */
+.servicio-card {
+  background: #f5f5f5 !important;
+  border-radius: 20px;
+  box-shadow: 4px 6px 1px #e0e0e0 !important;
+  border: none !important;
+  transition: background 0.8s ease-in-out, box-shadow 0.8s ease-in-out,
+    transform 0.3s ease;
+}
+
+.servicio-card.card-dark {
+  background: #232323 !important;
+  box-shadow: 4px 6px 1px #1a1a1a !important;
+  border: none !important;
+}
+
+.servicio-card.card-dark {
+  background: #181414;
+  box-shadow: 4px 6px 16px #232323, -4px -6px 12px #222;
+  border: none;
+}
+
+/* Meeting scheduler styles */
+.meeting-form input:focus,
+.meeting-form textarea:focus,
+.meeting-form select:focus {
+  outline: none;
+  background: #d0d0d0;
+}
+
+.calendar-day:hover {
+  transform: scale(1.05);
+}
+
+.calendar-day.selected {
+  transform: scale(1.1);
+}
+
+.time-slot:hover {
+  transform: translateY(-1px);
+}
+
+.nav-link.active {
+  color: #de0015 !important;
+  font-weight: 700;
+}
+
+.nav-link.btn-primary.active {
+  color: white !important;
+  opacity: 0.9;
+}
+
+/* Meeting scheduler initial state - prevent scrollbar flicker */
+.meeting-scheduler-container {
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(60px);
+  overflow: hidden;
+  transition: none;
+}
+
+.meeting-scheduler-container.initialized {
+  visibility: visible;
+  overflow: visible;
+}
+
+/* Prevent body scrollbar changes during animations */
+body.animating {
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
+.meeting-form-container {
+  opacity: 0;
+  transform: translateY(40px);
+  overflow: hidden;
+}
+
+/* Prevenir flash de contenido no estilizado */
+.meeting-title-container {
+  opacity: 0;
+  visibility: hidden;
+  overflow: hidden;
+}
+
+/* Prevenir flash inicial en componentes principales */
+#nosotros h2 {
+  opacity: 0;
+  visibility: hidden;
+}
+
+/* Comentar o remover esta regla que puede estar ocultando servicios */
+/*
+.servicios-mobile h2 {
+  opacity: 0;
+  visibility: hidden;
+}
+*/
+
+/* Asegurar que servicios sea visible por defecto */
+.servicios-mobile {
+  opacity: 1 !important;
+  visibility: visible !important;
+}
+
+/* Smooth transitions para todos los elementos animados */
+* {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.card-dark {
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.03),
+    rgba(255, 255, 255, 0.01)
+  );
+  border-color: rgba(255, 255, 255, 0.08) !important;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.18);
+}
+.card-title svg {
+  opacity: 0.95;
+}
+.card-tag {
+  color: #e9e9e9;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.02);
+  border-radius: 16px;
+  padding: 6px 12px;
+  display: inline-block;
+  transition: background-color 0.3s ease, border-color 0.3s ease,
+    color 0.3s ease;
+}
+
+/* Métricas (compactas y altura auto) */
+.metric {
+  background: radial-gradient(
+      120% 140% at 10% 0%,
+      rgba(255, 49, 49, 0.06),
+      rgba(255, 255, 255, 0.02) 45%
+    ),
+    #1f1a1a;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.18);
+  color: #f4f4f4;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+}
+.metric-compact {
+  padding-bottom: 20px;
+}
+
+.metric-top {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  font-size: 12px;
+  text-transform: uppercase;
+  color: #e7e7e7;
+}
+.metric-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 999px;
+  background: #de0015;
+  display: inline-block;
+  box-shadow: 0 0 10px rgba(255, 49, 49, 0.6);
+}
+
+.metric-value {
+  font-weight: 900;
+  line-height: 1;
+  margin: 6px 0 6px;
+  letter-spacing: -0.02em;
+}
+.metric-value-sm {
+  font-size: clamp(28px, 4.5vw, 42px);
+}
+
+.metric-sub {
+  color: #cfcfcf;
+  margin: 0;
+}
+.tag-soft {
+  font-size: 12px;
+  font-weight: 700;
+  color: #181414;
+  background: #ffffff;
+  padding: 6px 10px;
+  border-radius: 16px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
