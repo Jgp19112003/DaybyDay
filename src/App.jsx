@@ -17,15 +17,12 @@ const App = () => {
 
   const serviciosRef = useRef(null);
 
-  // Scroll al top siempre al recargar la página - mejorado
   useEffect(() => {
-    // Múltiples métodos para asegurar scroll al top
     window.history.scrollRestoration = "manual";
     document.documentElement.scrollTop = 0;
     document.body.scrollTop = 0;
     window.scrollTo(0, 0);
 
-    // Forzar scroll después de que se renderice todo
     const forceScrollTop = () => {
       window.scrollTo({ top: 0, left: 0, behavior: "auto" });
       document.documentElement.scrollTop = 0;
@@ -37,7 +34,6 @@ const App = () => {
     setTimeout(forceScrollTop, 100);
   }, []);
 
-  // Handler para scroll suave desde NavBar
   const handleNavScroll = (section) => {
     if (section === "agendar") {
       setCurrentView("agendar");
@@ -62,7 +58,6 @@ const App = () => {
     }
   };
 
-  // Scroll al componente después de cambiar a home
   useEffect(() => {
     if (currentView === "home" && pendingScroll) {
       if (pendingScroll === "inicio") {
@@ -88,9 +83,8 @@ const App = () => {
       />
       {currentView === "home" && (
         <>
-          <div ref={serviciosRef}>
-            <Servicios />
-          </div>
+          {/* Render Servicios, which includes Inicio */}
+          <Servicios ref={serviciosRef} />
           <Sectores onAgendarClick={() => handleNavScroll("agendar")} />
         </>
       )}

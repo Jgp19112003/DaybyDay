@@ -10,6 +10,7 @@ import {
   initServiceCardsCycling,
   serviciosMouseFollowAnimation,
 } from "../animation";
+import Inicio from "./Inicio";
 
 // Utilidad: obtener altura del navbar (id/clases más comunes)
 const getNAV = () =>
@@ -231,6 +232,7 @@ const Servicios = () => {
 
   return (
     <div className="w-full min-h-screen bg-[#181414]">
+      <Inicio />
       <section
         id="servicios"
         ref={sectionRef}

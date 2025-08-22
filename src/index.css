@@ -21,7 +21,8 @@ body {
   background: #181414;
   margin: 0;
   padding: 0;
-  padding-top: 150px; /* Aumenta el espacio superior para separar el contenido del navbar fijo */
+  /* padding-top: 150px; / * Aumenta el espacio superior para separar el contenido del navbar fijo * / */
+  /* Remover padding-top para que Inicio esté centrado */
 }
 
 main {
@@ -658,4 +659,19 @@ body.animating {
   border-radius: 16px;
   margin-top: 10px;
   margin-bottom: 10px;
+}
+
+/* Agregar padding solo para las secciones que vienen después de Inicio */
+#servicios,
+#sectores,
+.servicios-mobile {
+  padding-top: 150px;
+}
+
+@media (max-width: 768px) {
+  #servicios,
+  #sectores,
+  .servicios-mobile {
+    padding-top: calc(140px + 4vh);
+  }
 }

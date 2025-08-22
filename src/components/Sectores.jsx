@@ -282,7 +282,7 @@ const DesktopSectores = ({ onAgendarClick }) => {
       </div>
 
       <div className="mt-3">
-        <h3 className="text-[1.6rem] lg:text-[2.1rem] font-black leading-[1.1]">
+        <h3 className="text-[2rem] lg:text-[3rem] font-black leading-[1.1]">
           {s.h2}
         </h3>
         <p className="text-[#e3e3e3] mt-2">{s.sub}</p>
@@ -527,7 +527,7 @@ const MobileSectores = ({ onAgendarClick }) => {
       </div>
 
       <div className="mt-3">
-        <h3 className="text-[1.6rem] font-black leading-[1.1]">{s.h2}</h3>
+        <h3 className="text-[1.8rem] font-black leading-[1.1]">{s.h2}</h3>
         <p className="text-[#e3e3e3] mt-2">{s.sub}</p>
       </div>
 
