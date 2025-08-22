@@ -16,6 +16,7 @@ const TITLE_SCRAMBLE_MS_MOBILE = 1200;
 // Opacidad inicial de las cartas (desktop y móvil)
 const INITIAL_CARD_OPACITY = 0.35;
 
+// ====================== HOOKS ======================
 const useMedia = (query, initial = false) => {
   const [matches, setMatches] = useState(() => {
     if (typeof window === "undefined") return initial;
@@ -25,13 +26,12 @@ const useMedia = (query, initial = false) => {
     if (typeof window === "undefined") return;
     const mql = window.matchMedia(query);
     const onChange = () => setMatches(mql.matches);
-    mql.addEventListener
-      ? mql.addEventListener("change", onChange)
-      : mql.addListener(onChange);
-    return () =>
-      mql.removeEventListener
-        ? mql.removeEventListener("change", onChange)
-        : mql.removeListener(onChange);
+    if (mql.addEventListener) mql.addEventListener("change", onChange);
+    else mql.addListener(onChange);
+    return () => {
+      if (mql.removeEventListener) mql.removeEventListener("change", onChange);
+      else mql.removeListener(onChange);
+    };
   }, [query]);
   return matches;
 };
@@ -152,7 +152,7 @@ const useData = () =>
     []
   );
 
-// ====================== HOVER HANDLERS ======================
+// ====================== HOVER HANDLERS (CTA) ======================
 const setupBtnHover = (el) => {
   if (!el) return;
   el.onmouseenter = () =>
@@ -180,13 +180,12 @@ const setupBtnHover = (el) => {
 // ====================== DESKTOP ======================
 const DesktopSectores = ({ onAgendarClick }) => {
   const data = useData();
-  const sectionRef = useRef(null);
   const titleRef = useRef(null);
   const subRef = useRef(null);
   const cardRefs = useRef([]);
   const btnRefs = useRef([]);
 
-  // Intro: scramble y sub; SIN fade del header (se mantiene siempre)
+  // Título fijo + sub (sin fade en scroll)
   useEffect(() => {
     if (titleRef.current) titleRef.current.textContent = "";
     scrambleTextAnimation(titleRef.current, FINAL_TITLE, {
@@ -200,32 +199,66 @@ const DesktopSectores = ({ onAgendarClick }) => {
     );
   }, []);
 
-  // Aparición por carta (manteniendo el movimiento chulo) + hover botones
+  // Aparición con parallax (scrub) + quick wins + hover CTA
   useEffect(() => {
     const cards = cardRefs.current.filter(Boolean);
     cards.forEach((card) => {
       if (card.__st) card.__st.kill();
+
       const tl = gsap.timeline({
         defaults: { ease: "power2.out", overwrite: "auto" },
         scrollTrigger: {
           trigger: card,
-          start: "top 82%", // comienza a entrar suave
-          end: "bottom 35%", // leve parallax al salir
+          start: "top 82%",
+          end: "bottom 35%",
           scrub: true,
           fastScrollEnd: true,
           preventOverlaps: true,
         },
       });
+
       tl.fromTo(
         card,
         { y: 36, autoAlpha: INITIAL_CARD_OPACITY, scale: 0.985 },
         { y: -24, autoAlpha: 1, scale: 1, duration: 1 }
       );
+
+      // Quick wins con animación scroll-linked (igual estilo que la tarjeta)
+      const wins = card.querySelectorAll(".sb-win");
+      if (wins?.length) {
+        gsap.fromTo(
+          wins,
+          { y: 18, autoAlpha: 0 },
+          {
+            y: -6,
+            autoAlpha: 1,
+            stagger: 0.06,
+            ease: "power2.out",
+            scrollTrigger: {
+              trigger: card,
+              start: "top 82%", // sincronizado con la tarjeta
+              end: "bottom 35%",
+              scrub: true,
+              fastScrollEnd: true,
+              preventOverlaps: true,
+            },
+          }
+        );
+      }
+
       card.__st = tl.scrollTrigger;
     });
 
+    // Hover botones CTA
     btnRefs.current.forEach(setupBtnHover);
-    return () => cards.forEach((c) => c?.__st?.kill?.());
+
+    return () => {
+      cards.forEach((c) => c?.__st?.kill?.());
+      ScrollTrigger.getAll().forEach((st) => {
+        // No matar triggers ajenos a esta sección (filtrar por el trigger DOM)
+        if (cards.includes(st?.vars?.trigger)) st.kill();
+      });
+    };
   }, [data]);
 
   const leftData = data.slice(0, 2);
@@ -247,6 +280,7 @@ const DesktopSectores = ({ onAgendarClick }) => {
           {s.badge}
         </span>
       </div>
+
       <div className="mt-3">
         <h3 className="text-[1.6rem] lg:text-[2.1rem] font-black leading-[1.1]">
           {s.h2}
@@ -272,6 +306,7 @@ const DesktopSectores = ({ onAgendarClick }) => {
             </ol>
           </div>
         </div>
+
         <div className="lg:col-span-5">
           <h4 className="sb-block-title flex items-center gap-2">
             <svg
@@ -284,7 +319,6 @@ const DesktopSectores = ({ onAgendarClick }) => {
             >
               <path d="M5 12h14M12 5l7 7-7 7" />
             </svg>
-            Servicios rápidos
           </h4>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             {s.quickWins.map((q, i) => (
@@ -327,6 +361,7 @@ const DesktopSectores = ({ onAgendarClick }) => {
             </span>
           ))}
         </div>
+
         <button
           ref={(el) => (btnRefs.current[idx] = el)}
           className="sb-cta ml-0 lg:ml-auto flex items-center gap-2 px-5 py-3 font-extrabold rounded-xl shadow transition-all duration-200"
@@ -357,13 +392,8 @@ const DesktopSectores = ({ onAgendarClick }) => {
   );
 
   return (
-    <section
-      ref={sectionRef}
-      id="sectores"
-      className="w-full bg-[#181414] text-white"
-    >
+    <section id="sectores" className="w-full bg-[#181414] text-white">
       <div className="max-w-[1500px] mx-auto px-6 pt-12 pb-8">
-        {/* Header: se mantiene siempre, sin fade */}
         <header>
           <h2
             ref={titleRef}
@@ -396,8 +426,6 @@ const DesktopSectores = ({ onAgendarClick }) => {
           </div>
         </div>
       </div>
-
-      <style>{commonStyles}</style>
     </section>
   );
 };
@@ -427,7 +455,7 @@ const MobileSectores = ({ onAgendarClick }) => {
     );
   }, []);
 
-  // Animación del slide activo (aparición)
+  // Animación del slide activo (aparición + quick wins)
   const animateActiveSlide = (idx) => {
     const card = cardRefs.current[idx];
     if (!card) return;
@@ -438,19 +466,25 @@ const MobileSectores = ({ onAgendarClick }) => {
         { y: 18, autoAlpha: INITIAL_CARD_OPACITY, scale: 0.995 },
         { y: 0, autoAlpha: 1, scale: 1, duration: 0.35, ease: "power2.out" }
       );
+      // wins animation actualizado
       const wins = card.querySelectorAll(".sb-win");
       if (wins.length) {
-        gsap.from(wins, {
-          y: 8,
-          autoAlpha: 0,
-          duration: 0.25,
-          stagger: 0.06,
-          ease: "power2.out",
-        });
+        gsap.fromTo(
+          wins,
+          { y: 14, autoAlpha: 0 },
+          {
+            y: 0,
+            autoAlpha: 1,
+            duration: 0.32,
+            stagger: 0.06,
+            ease: "power2.out",
+          }
+        );
       }
     }
   };
 
+  // mover carrusel + animar slide activo + hover CTA
   useEffect(() => {
     if (!trackRef.current) return;
     const pct = -activeIdx * (100 / data.length);
@@ -460,6 +494,7 @@ const MobileSectores = ({ onAgendarClick }) => {
     btnRefs.current.forEach(setupBtnHover);
   }, [activeIdx, data.length]);
 
+  // ajustar transición en resize
   useEffect(() => {
     const onResize = () => {
       if (!trackRef.current) return;
@@ -490,6 +525,7 @@ const MobileSectores = ({ onAgendarClick }) => {
           {s.badge}
         </span>
       </div>
+
       <div className="mt-3">
         <h3 className="text-[1.6rem] font-black leading-[1.1]">{s.h2}</h3>
         <p className="text-[#e3e3e3] mt-2">{s.sub}</p>
@@ -551,6 +587,7 @@ const MobileSectores = ({ onAgendarClick }) => {
             </span>
           ))}
         </div>
+
         <button
           ref={(el) => (btnRefs.current[idx] = el)}
           className="sb-cta flex items-center gap-2 px-5 py-3 font-extrabold rounded-xl shadow transition-all duration-200"
@@ -675,9 +712,6 @@ const MobileSectores = ({ onAgendarClick }) => {
           </button>
         </div>
       </div>
-
-      <style>{commonStyles}</style>
-      <style>{mobileArrowStyles}</style>
     </section>
   );
 };
@@ -685,15 +719,26 @@ const MobileSectores = ({ onAgendarClick }) => {
 // ====================== WRAPPER ======================
 const Sectores = ({ onAgendarClick }) => {
   const isDesktop = useMedia("(min-width: 1024px)", true);
+
   useEffect(() => {
+    // Variables CSS para fondos blur
     const r = document.documentElement;
     r.style.setProperty("--card-bg-d", DESKTOP_CARD_BG);
     r.style.setProperty("--card-bg-m", MOBILE_CARD_BG);
   }, []);
+
   return isDesktop ? (
-    <DesktopSectores onAgendarClick={onAgendarClick} />
+    <>
+      <DesktopSectores onAgendarClick={onAgendarClick} />
+      <style>{commonStyles}</style>
+      <style>{mobileArrowStyles}</style>
+    </>
   ) : (
-    <MobileSectores onAgendarClick={onAgendarClick} />
+    <>
+      <MobileSectores onAgendarClick={onAgendarClick} />
+      <style>{commonStyles}</style>
+      <style>{mobileArrowStyles}</style>
+    </>
   );
 };
 
@@ -701,57 +746,195 @@ export default Sectores;
 
 // ====================== ESTILOS ======================
 const commonStyles = `
-/* fondos */
-.bg-card{ background: var(--card-bg-d); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); }
-.bg-card-mobile{ background: var(--card-bg-m); }
+/* Fondos tarjeta */
+.bg-card {
+  background: var(--card-bg-d);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+.bg-card-mobile {
+  background: var(--card-bg-m);
+}
 
 /* Badges y elementos comunes */
-.sb-badge{display:inline-flex;align-items:center;gap:8px;background:#fff;color:#181414;border-radius:999px;padding:6px 12px;font-size:12px;font-weight:700;letter-spacing:.02em;text-transform:uppercase;}
-.sb-dot{width:8px;height:8px;border-radius:999px;background:#de0015;display:inline-block;box-shadow:0 0 10px rgba(255,49,49,0.65);flex-shrink:0;}
-.sb-quote{position:relative;display:flex;align-items:flex-start;gap:12px;background:#211c1c;border:1px solid rgba(255,255,255,.08);border-radius:18px;padding:14px 16px;box-shadow:0 6px 18px rgba(0,0,0,.18);}
-.sb-quote-mark{font-weight:900;font-size:24px;line-height:1;color:#ffeded;}
-.sb-quote-text{color:#f1f1f1;font-size:16px;line-height:1.5;}
-.sb-block-title{font-weight:800;font-size:1.05rem;margin-bottom:.5rem;}
-.sb-step{display:flex;align-items:flex-start;gap:10px;background:linear-gradient(180deg,rgba(255,255,255,.03),rgba(255,255,255,.01));border:1px solid rgba(255,255,255,.08);border-radius:14px;padding:10px 12px;}
-.sb-step-num{display:inline-flex;align-items:center;justify-content:center;width:24px;height:24px;border-radius:999px;background:#de0015;color:#fff;font-weight:900;font-size:12px;box-shadow:0 4px 10px rgba(255,49,49,.25);}
-.sb-step-text{color:#eaeaea;}
+.sb-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: #fff;
+  color: #181414;
+  border-radius: 999px;
+  padding: 6px 12px;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+}
+.sb-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 999px;
+  background: #de0015;
+  display: inline-block;
+  box-shadow: 0 0 10px rgba(255, 49, 49, 0.65);
+  flex-shrink: 0;
+}
+.sb-quote {
+  position: relative;
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  background: #211c1c;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 18px;
+  padding: 14px 16px;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.18);
+}
+.sb-quote-mark {
+  font-weight: 900;
+  font-size: 24px;
+  line-height: 1;
+  color: #ffeded;
+}
+.sb-quote-text {
+  color: #f1f1f1;
+  font-size: 16px;
+  line-height: 1.5;
+}
+.sb-block-title {
+  font-weight: 800;
+  font-size: 1.05rem;
+  margin-bottom: 0.5rem;
+}
+.sb-step {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.03), rgba(255, 255, 255, 0.01));
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 14px;
+  padding: 10px 12px;
+}
+.sb-step-num {
+  padding: 5px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  border-radius: 999px;
+  background: #de0015;
+  color: #fff;
+  font-weight: 900;
+  font-size: 12px;
+  box-shadow: 0 4px 10px rgba(255, 49, 49, 0.25);
+}
+.sb-step-text {
+  color: #eaeaea;
+}
 
+/* Tarjetas pequeñas, proyectos, KPIs */
 .sb-win,
 .sb-project,
-.sb-kpi,.sb-quote,.sb-step, .sb-badge { transition:transform .2s ease, box-shadow .2s ease; will-change: transform; }
-.sb-win{
-  border:1px solid rgba(255,255,255,.1);
-  background:#1f1a1a;
-  border-radius:16px;
-  padding:12px;
-  box-shadow:0 6px 18px rgba(0,0,0,.18);
-  display:flex;
-  flex-direction:column;
-  min-height:72px;
+.sb-kpi,
+.sb-quote,
+.sb-step,
+.sb-badge {
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  will-change: transform;
 }
-.sb-win-text{
-  margin-top:6px;
-  color:#e8e8e8;
-  font-size:14px;
-  line-height:1.45;
-  overflow-wrap:anywhere;
-  white-space:pre-line;
+
+/* ====== HOVER Interno SOLO Desktop (pointer fino y soporte hover) ====== */
+@media (min-width: 1024px) and (hover: hover) and (pointer: fine) {
+  .sb-win:hover,
+  .sb-project:hover,
+  .sb-kpi:hover,
+  .sb-quote:hover,
+  .sb-step:hover,
+  .sb-badge:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 26px rgba(0, 0, 0, 0.28);
+  }
 }
-.sb-win-head{display:flex;align-items:center;gap:8px;text-transform:uppercase;font-weight:700;font-size:12px;color:#fff;}
 
-.sb-project{display:flex;border:1px solid rgba(255,255,255,.1);background:#1c1818;border-radius:16px;overflow:hidden;}
-.sb-project-rail{width:6px;background:linear-gradient(180deg,#de0015,#de0100);}
-.sb-project-body{padding:12px;}
-.sb-project-head{display:flex;align-items:center;gap:8px;text-transform:uppercase;font-weight:700;font-size:12px;}
-.sb-project-text{margin-top:6px;color:#dcdcdc;font-size:14px;line-height:1.45;}
+.sb-win {
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: #1f1a1a;
+  border-radius: 16px;
+  padding: 12px;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.18);
+  display: flex;
+  flex-direction: column;
+  min-height: 72px;
+}
+.sb-win-text {
+  margin-top: 6px;
+  color: #e8e8e8;
+  font-size: 14px;
+  line-height: 1.45;
+  overflow-wrap: anywhere;
+  white-space: pre-line;
+}
+.sb-win-head {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  text-transform: uppercase;
+  font-weight: 700;
+  font-size: 12px;
+  color: #fff;
+}
 
-.sb-kpi{display:inline-flex;align-items:center;gap:8px;border:1px solid rgba(255,255,255,.1);background:rgba(255,255,255,.05);border-radius:999px;padding:8px 12px;font-size:14px;}
+.sb-project {
+  display: flex;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: #1c1818;
+  border-radius: 16px;
+  overflow: hidden;
+}
+.sb-project-rail {
+  width: 6px;
+  background: linear-gradient(180deg, #de0015, #de0100);
+}
+.sb-project-body {
+  padding: 12px;
+}
+.sb-project-head {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  text-transform: uppercase;
+  font-weight: 700;
+  font-size: 12px;
+}
+.sb-project-text {
+  margin-top: 6px;
+  color: #dcdcdc;
+  font-size: 14px;
+  line-height: 1.45;
+}
 
-.sector-card{
+.sb-kpi {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 999px;
+  padding: 8px 12px;
+  font-size: 14px;
+}
+
+/* Tarjeta grande */
+.sector-card {
   border-radius: 22px;
-  transition: box-shadow .22s ease, border-color .22s ease, transform .22s ease;
+  transition: box-shadow 0.22s ease, border-color 0.22s ease, transform 0.22s ease;
 }
-.sector-card:hover{ transform: translateY(-2px); box-shadow:0 12px 28px rgba(0,0,0,.28); border-color:rgba(255,255,255,.14); }
+.sector-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.28);
+  border-color: rgba(255, 255, 255, 0.14);
+}
 `;
 
 // Flechas (móvil)
