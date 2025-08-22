@@ -275,9 +275,8 @@ const Servicios = () => {
                 className="inline-flex items-center gap-2 text-[12px] font-semibold tracking-wide uppercase rounded-[16px] bg-white text-[#181414] px-3 py-1 mb-3 mx-auto lg:mx-0"
                 style={{ opacity: 0 }}
               >
-               Enfoque Day by Day 
+                Enfoque Day by Day
               </span>
-
               <h3
                 ref={headingRef}
                 className="text-[1.6rem] sm:text-[1.88rem] lg:text-[2.22rem] font-black leading-[1.15] tracking-tight"
@@ -285,7 +284,6 @@ const Servicios = () => {
               >
                 SISTEMAS QUE TRABAJAN POR TI, SIN COMPROMETER TU ESENCIA
               </h3>
-
               <p
                 ref={p1Ref}
                 className="text-[15px] lg:text-[17px] leading-relaxed text-[#e3e3e3] mt-6 lg:mt-8 mb-4 max-w-[60ch] mx-auto lg:mx-0"
@@ -293,51 +291,55 @@ const Servicios = () => {
                   opacity: 1, // Cambiado a 1 para que sea visible
                   visibility: "visible", // Cambiado a visible
                 }}
-                >
-                En un mercado donde el 92 % de los líderes consideran que la automatización es esencial para mantenerse competitivos, 
-                el 77 % ya está mejorando sus conversiones gracias a ella y el 70% planea incrementar su inversión en este ámbito,
-                </p>
-                <p
+              >
+                En un mercado donde el 92 % de los líderes consideran que la
+                automatización es esencial para mantenerse competitivos, el 77 %
+                ya está mejorando sus conversiones gracias a ella y el 70%
+                planea incrementar su inversión en este ámbito,
+              </p>
+              <p
                 ref={p1Ref}
                 className="text-[16px] lg:text-[18px] leading-relaxed text-[#e3e3e3] mt-1 lg:mt-2 mb-1 max-w-[60ch] mx-auto lg:mx-0"
                 style={{
                   opacity: 1, // Cambiado a 1 para que sea visible
                   visibility: "visible", // Cambiado a visible
                 }}
-                >
-                 <em>Quedarse quieto no es una opción.</em>
-                </p>
-                <p
+              >
+                <em>Quedarse quieto no es una opción.</em>
+              </p>
+              <p
                 ref={p1Ref}
                 className="text-[15px] lg:text-[17px] leading-relaxed text-[#e3e3e3] mt-8 lg:mt-8 mb-4 max-w-[60ch] mx-auto lg:mx-0"
                 style={{
                   opacity: 1, // Cambiado a 1 para que sea visible
                   visibility: "visible", // Cambiado a visible
                 }}
-                >
-                El crecimiento escalable y sostenible no depende solo de la velocidad, sino de sistemas que eliminan tareas repetitivas, 
-                aumentan la capacidad operativa y trabajan preservando la esencia de marca. 
-                </p>
-
-                <p
+              >
+                El crecimiento escalable y sostenible no depende solo de la
+                velocidad, sino de sistemas que eliminan tareas repetitivas,
+                aumentan la capacidad operativa y trabajan preservando la
+                esencia de marca.
+              </p>
+              <p
                 ref={p2Ref}
                 className="text-[15px] lg:text-[17px] mt-3 leading-relaxed text-[#e3e3e3] mt-8 lg:mt-8 mb-8 max-w-[60ch] mx-auto lg:mx-0"
                 style={{ opacity: 0 }}
-                >
-                  En Day by Day transformamos esa necesidad en estrategia.
-                  Diseñamos sistemas adaptativos de Automatización de Procesos y Marketing con IA que potencian la identidad, 
-                  optimizan la gestión y liberan a los equipos para centrarse en lo que realmente genera valor.
-                </p>
-                <p
+              >
+                En Day by Day transformamos esa necesidad en estrategia.
+                Diseñamos sistemas adaptativos de Automatización de Procesos y
+                Marketing con IA que potencian la identidad, optimizan la
+                gestión y liberan a los equipos para centrarse en lo que
+                realmente genera valor.
+              </p>
+              <p
                 ref={p1Ref}
                 className="text-[15px] lg:text-[17px] leading-relaxed text-[#e3e3e3] mt-6 lg:mt-6 mb-15 max-w-[60ch] mx-auto lg:mx-0"
                 style={{ opacity: 0 }}
-                >
+              >
                 Día a Día dispondrás del tiempo que tu empresa necesita.
+              </p>
               <div className="h-2"></div> {/* Tiny space added here */}
-                              </p>
-
-                {/* MÉTRICAS: Impacto + Rendimiento arriba, Resultado abajo */}
+              {/* MÉTRICAS: Impacto + Rendimiento arriba, Resultado abajo */}
               <div className="grid grid-cols-2 gap-3 mt-4">
                 {/* IMPACTO */}
                 <div
@@ -351,7 +353,8 @@ const Servicios = () => {
                   <div className="px-4">
                     <div className="metric-value metric-value-sm">80%</div>
                     <p className="metric-sub">
-                      De las empresas aumentan sus oportunidades de negocio y crecimiento al automatizar con IA.
+                      De las empresas aumentan sus oportunidades de negocio y
+                      crecimiento al automatizar con IA.
                     </p>
                   </div>
                 </div>
@@ -369,8 +372,9 @@ const Servicios = () => {
                   <div className="px-4">
                     <div className="metric-value metric-value-sm">77%</div>
                     <p className="metric-sub">
-                      Mejora su tasa de conversiones con Marketing de Automatización + IA.
-                      Más rapido, más personalizado.                    </p>
+                      Mejora su tasa de conversiones con Marketing de
+                      Automatización + IA. Más rapido, más personalizado.{" "}
+                    </p>
                   </div>
                 </div>
 
@@ -385,11 +389,11 @@ const Servicios = () => {
                   </div>
                   <div className="px-4 pb-4">
                     <span className="tag-soft mb-2 inline-block">
-                      IA + Marketing Automatizado 
+                      IA + Marketing Automatizado
                     </span>
                     <p className="text-sm text-[#cfcfcf] leading-relaxed">
-                      Orquestamos datos y campañas con sistemas 
-                      automatizados que preservan y escalan la esencia de tu marca.
+                      Orquestamos datos y campañas con sistemas automatizados
+                      que preservan y escalan la esencia de tu marca.
                     </p>
                   </div>
                 </div>
