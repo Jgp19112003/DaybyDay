@@ -1,50 +1,40 @@
 // /components/Sectores.jsx
-import React, {
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-  useCallback,
-} from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/all";
 import { scrambleTextAnimation } from "../animation";
 
 gsap.registerPlugin(ScrollTrigger);
 
-// ====================== UTILIDADES COMUNES ======================
+// ====================== CONFIG ======================
 const FINAL_TITLE = "Soluciones por nicho, listas para acelerar";
 const DESKTOP_CARD_BG = "rgba(27,23,23,0.80)";
 const MOBILE_CARD_BG = "rgba(27,23,23,0.95)";
+const TITLE_SCRAMBLE_MS_DESKTOP = 1600;
+const TITLE_SCRAMBLE_MS_MOBILE = 1200;
+
+// Opacidad inicial de las cartas (desktop y móvil)
+const INITIAL_CARD_OPACITY = 0.35;
 
 const useMedia = (query, initial = false) => {
   const [matches, setMatches] = useState(() => {
     if (typeof window === "undefined") return initial;
     return window.matchMedia(query).matches;
   });
-
   useEffect(() => {
     if (typeof window === "undefined") return;
     const mql = window.matchMedia(query);
     const onChange = () => setMatches(mql.matches);
-
-    if (mql.addEventListener) {
-      mql.addEventListener("change", onChange);
-      return () => mql.removeEventListener("change", onChange);
-    } else {
-      mql.addListener(onChange);
-      return () => mql.removeListener(onChange);
-    }
+    mql.addEventListener
+      ? mql.addEventListener("change", onChange)
+      : mql.addListener(onChange);
+    return () =>
+      mql.removeEventListener
+        ? mql.removeEventListener("change", onChange)
+        : mql.removeListener(onChange);
   }, [query]);
-
   return matches;
 };
-
-const getNAV = () =>
-  (typeof document !== "undefined" &&
-    (document.querySelector("#navbar, .site-nav, header")?.offsetHeight ||
-      80)) ||
-  80;
 
 const useData = () =>
   useMemo(
@@ -162,190 +152,11 @@ const useData = () =>
     []
   );
 
-// ====================== DESKTOP (STACK CON GSAP) ======================
-const DesktopSectores = ({ onAgendarClick }) => {
-  const prefersReducedMotion = useMedia(
-    "(prefers-reduced-motion: reduce)",
-    false
-  );
-  const data = useData();
-
-  const sectionRef = useRef(null);
-  const headerRef = useRef(null);
-  const titleRef = useRef(null);
-  const subRef = useRef(null);
-
-  const stackRef = useRef(null);
-  const cardsRef = useRef([]);
-  const btnRefs = useRef([]);
-
-  const footerSpacerRef = useRef(null);
-  const stInstancesRef = useRef([]);
-
-  // Intro header
-  useEffect(() => {
-    gsap.ticker.lagSmoothing(700, 24);
-    ScrollTrigger.config({ ignoreMobileResize: true });
-
-    gsap.set(sectionRef.current, { autoAlpha: 1 });
-    gsap.set(headerRef.current, { autoAlpha: 1, force3D: true });
-    if (titleRef.current) titleRef.current.textContent = "";
-    gsap.set(subRef.current, { autoAlpha: 0, y: 14 });
-
-    const tl = gsap
-      .timeline({ paused: true, defaults: { ease: "power2.out" } })
-      .fromTo(
-        headerRef.current,
-        { autoAlpha: 0, y: 28 },
-        { autoAlpha: 1, y: 0, duration: 0.6 }
-      )
-      .add(() => {
-        scrambleTextAnimation(titleRef.current, FINAL_TITLE, {
-          duration: 1800,
-          delay: 0,
-        });
-        gsap.to(subRef.current, {
-          autoAlpha: 1,
-          y: 0,
-          duration: 0.6,
-          delay: 0.15,
-        });
-      });
-
-    const enterST = ScrollTrigger.create({
-      trigger: sectionRef.current,
-      start: "top 80%",
-      once: true,
-      onEnter: () => tl.play(0),
-    });
-
-    return () => {
-      enterST?.kill();
-      tl?.kill();
-    };
-  }, []);
-
-  // Stack
-  const buildStack = useCallback(() => {
-    stInstancesRef.current.forEach((st) => st?.kill?.());
-    stInstancesRef.current = [];
-    if (prefersReducedMotion) return;
-
-    const container = stackRef.current;
-    const cards = cardsRef.current.filter(Boolean);
-    if (!container || cards.length === 0) return;
-
-    const scales = [0.92, 0.88, 0.84, 0.8, 0.76];
-    const vh = window.innerHeight;
-    const offsets = [0.06, 0.04, 0.02, 0.01, 0.0].map((v) => v * vh);
-
-    gsap.set(container, {
-      minHeight: "92vh",
-      position: "relative",
-      paddingTop: `calc(14vh + ${getNAV()}px)`,
-      paddingBottom: `calc(16vh + env(safe-area-inset-bottom) + 24px)`,
-      autoAlpha: 1,
-      force3D: true,
-      willChange: "transform, opacity",
-    });
-
-    cards.forEach((el, i) => {
-      const scale = scales[i] ?? scales[scales.length - 1];
-      const offset = offsets[i] ?? 0;
-      gsap.set(el, {
-        position: "absolute",
-        left: "50%",
-        xPercent: -50,
-        top: 0,
-        width: "100%",
-        zIndex: cards.length - i,
-        transformOrigin: "bottom center",
-        scale,
-        y: offset,
-      });
-    });
-
-    const steps = cards.length;
-    const navOffset = getNAV() + 56;
-    const totalDist = () => window.innerHeight * steps * 1.15;
-
-    const tl = gsap.timeline({
-      defaults: { ease: "none" },
-      scrollTrigger: {
-        trigger: container,
-        start: () => `top top+=${navOffset}`,
-        end: () => `+=${totalDist()}`,
-        scrub: 0.9,
-        pin: true,
-        pinType: "fixed",
-        anticipatePin: 1,
-        fastScrollEnd: true,
-        preventOverlaps: true,
-        invalidateOnRefresh: true,
-      },
-    });
-
-    cards.forEach((card, i) => {
-      const moveY = -card.offsetHeight * 2.05;
-      tl.to(card, { y: moveY, duration: 1.2 }, i * 0.75);
-      if (cards[i + 1]) {
-        tl.to(cards[i + 1], { scale: 1, duration: 0.9 }, i * 0.75 + 0.35);
-      }
-    });
-
-    const fadeST = ScrollTrigger.create({
-      trigger: container,
-      start: () => `top top+=${navOffset}`,
-      end: () => `+=${totalDist()}`,
-      scrub: true,
-      onUpdate: (self) => {
-        const p = gsap.utils.clamp(0, 1, self.progress * 1.8);
-        gsap.to(headerRef.current, {
-          autoAlpha: 1 - p,
-          overwrite: true,
-          duration: 0.1,
-        });
-      },
-      onLeave: () => gsap.set(headerRef.current, { autoAlpha: 0 }),
-      onEnterBack: () =>
-        gsap.to(headerRef.current, { autoAlpha: 1, duration: 0.2 }),
-      invalidateOnRefresh: true,
-    });
-
-    stInstancesRef.current.push(tl.scrollTrigger, fadeST);
-    requestAnimationFrame(() => ScrollTrigger.refresh());
-  }, [prefersReducedMotion]);
-
-  useEffect(() => {
-    buildStack();
-    const setFooterSpacer = () => {
-      if (!footerSpacerRef.current) return;
-      const extra = 14 * (window.innerHeight / 100);
-      footerSpacerRef.current.style.height = `${extra + getNAV()}px`;
-    };
-    setFooterSpacer();
-
-    const onResize = () => {
-      setFooterSpacer();
-      ScrollTrigger.refresh();
-    };
-    window.addEventListener("resize", onResize, { passive: true });
-
-    return () => {
-      window.removeEventListener("resize", onResize);
-      stInstancesRef.current.forEach((st) => st?.kill?.());
-      stInstancesRef.current = [];
-      // More specific cleanup for ScrollTriggers in this section
-      ScrollTrigger.getAll().forEach((st) => {
-        if (st.trigger && st.trigger.closest("#sectores")) {
-          st.kill();
-        }
-      });
-    };
-  }, [buildStack]);
-
-  const handleBtnHover = (idx) =>
-    gsap.to(btnRefs.current[idx], {
+// ====================== HOVER HANDLERS ======================
+const setupBtnHover = (el) => {
+  if (!el) return;
+  el.onmouseenter = () =>
+    gsap.to(el, {
       scale: 1.07,
       boxShadow: "0 4px 24px rgba(222,0,21,0.18)",
       background: "#de0015",
@@ -353,8 +164,8 @@ const DesktopSectores = ({ onAgendarClick }) => {
       duration: 0.25,
       force3D: true,
     });
-  const handleBtnLeave = (idx) =>
-    gsap.to(btnRefs.current[idx], {
+  el.onmouseleave = () =>
+    gsap.to(el, {
       scale: 1,
       boxShadow: "0 2px 8px rgba(0,0,0,0.10)",
       background: "#fff",
@@ -362,36 +173,74 @@ const DesktopSectores = ({ onAgendarClick }) => {
       duration: 0.25,
       force3D: true,
     });
-  const handleBtnDown = (idx) =>
-    gsap.to(btnRefs.current[idx], { scale: 0.96, duration: 0.12 });
-  const handleBtnUp = (idx) =>
-    gsap.to(btnRefs.current[idx], { scale: 1.07, duration: 0.12 });
+  el.onmousedown = () => gsap.to(el, { scale: 0.96, duration: 0.12 });
+  el.onmouseup = () => gsap.to(el, { scale: 1.07, duration: 0.12 });
+};
+
+// ====================== DESKTOP ======================
+const DesktopSectores = ({ onAgendarClick }) => {
+  const data = useData();
+  const sectionRef = useRef(null);
+  const titleRef = useRef(null);
+  const subRef = useRef(null);
+  const cardRefs = useRef([]);
+  const btnRefs = useRef([]);
+
+  // Intro: scramble y sub; SIN fade del header (se mantiene siempre)
+  useEffect(() => {
+    if (titleRef.current) titleRef.current.textContent = "";
+    scrambleTextAnimation(titleRef.current, FINAL_TITLE, {
+      duration: TITLE_SCRAMBLE_MS_DESKTOP,
+      delay: 0,
+    });
+    gsap.fromTo(
+      subRef.current,
+      { autoAlpha: 0, y: 14 },
+      { autoAlpha: 1, y: 0, duration: 0.5, delay: 0.15 }
+    );
+  }, []);
+
+  // Aparición por carta (manteniendo el movimiento chulo) + hover botones
+  useEffect(() => {
+    const cards = cardRefs.current.filter(Boolean);
+    cards.forEach((card) => {
+      if (card.__st) card.__st.kill();
+      const tl = gsap.timeline({
+        defaults: { ease: "power2.out", overwrite: "auto" },
+        scrollTrigger: {
+          trigger: card,
+          start: "top 82%", // comienza a entrar suave
+          end: "bottom 35%", // leve parallax al salir
+          scrub: true,
+          fastScrollEnd: true,
+          preventOverlaps: true,
+        },
+      });
+      tl.fromTo(
+        card,
+        { y: 36, autoAlpha: INITIAL_CARD_OPACITY, scale: 0.985 },
+        { y: -24, autoAlpha: 1, scale: 1, duration: 1 }
+      );
+      card.__st = tl.scrollTrigger;
+    });
+
+    btnRefs.current.forEach(setupBtnHover);
+    return () => cards.forEach((c) => c?.__st?.kill?.());
+  }, [data]);
+
+  const leftData = data.slice(0, 2);
+  const rightData = data.slice(2, 4);
 
   const Card = ({ s, idx }) => (
     <article
-      key={s.key}
-      ref={(el) => (cardsRef.current[idx] = el)}
-      className="sector-block relative rounded-3xl border border-white/10 px-5 py-6 lg:p-8 shadow-[0_6px_18px_rgba(0,0,0,0.18)] overflow-hidden w-full"
+      ref={(el) => (cardRefs.current[idx] = el)}
+      className="sector-card relative rounded-3xl border border-white/10 p-6 lg:p-8 shadow-[0_6px_18px_rgba(0,0,0,0.18)] bg-card backdrop-blur-md"
       style={{
-        background: DESKTOP_CARD_BG,
-        backdropFilter: "blur(8px)",
-        WebkitBackdropFilter: "blur(8px)",
-        willChange: "transform",
+        backfaceVisibility: "hidden",
         transform: "translateZ(0)",
+        willChange: "transform, opacity",
       }}
     >
-      <div
-        className="pointer-events-none absolute -z-10 inset-0"
-        style={{
-          opacity: 0.7,
-          background:
-            idx % 2 === 0
-              ? "radial-gradient(40% 60% at 15% 20%, rgba(255,49,49,0.12), transparent 60%), radial-gradient(50% 80% at 90% 10%, rgba(255,255,255,0.06), transparent 60%)"
-              : "radial-gradient(40% 60% at 80% 20%, rgba(255,49,49,0.12), transparent 60%), radial-gradient(50% 80% at 10% 10%, rgba(255,255,255,0.06), transparent 60%)",
-          filter: "blur(20px)",
-        }}
-        aria-hidden="true"
-      />
       <div className="flex items-center gap-3">
         <span className="sb-badge">
           <span className="sb-dot" />
@@ -399,11 +248,12 @@ const DesktopSectores = ({ onAgendarClick }) => {
         </span>
       </div>
       <div className="mt-3">
-        <h3 className="text-[1.6rem] lg:text-[2.2rem] font-black leading-[1.1]">
+        <h3 className="text-[1.6rem] lg:text-[2.1rem] font-black leading-[1.1]">
           {s.h2}
         </h3>
         <p className="text-[#e3e3e3] mt-2">{s.sub}</p>
       </div>
+
       <div className="mt-6 grid grid-cols-1 lg:grid-cols-12 gap-6">
         <div className="lg:col-span-7 space-y-5">
           <div className="sb-quote">
@@ -449,6 +299,7 @@ const DesktopSectores = ({ onAgendarClick }) => {
           </div>
         </div>
       </div>
+
       <div className="mt-6">
         <h4 className="sb-block-title">Proyectos completos</h4>
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-3">
@@ -466,6 +317,7 @@ const DesktopSectores = ({ onAgendarClick }) => {
           ))}
         </div>
       </div>
+
       <div className="mt-6 flex flex-col lg:flex-row lg:items-center gap-4 lg:gap-6">
         <div className="flex flex-wrap gap-2">
           {s.resultados.map((r, i) => (
@@ -485,14 +337,10 @@ const DesktopSectores = ({ onAgendarClick }) => {
             color: "#181414",
             boxShadow: "0 2px 8px rgba(0,0,0,0.10)",
           }}
-          onMouseEnter={() => handleBtnHover(idx)}
-          onMouseLeave={() => handleBtnLeave(idx)}
-          onMouseDown={() => handleBtnDown(idx)}
-          onMouseUp={() => handleBtnUp(idx)}
           type="button"
           onClick={onAgendarClick}
         >
-          <span>Quiero saber más</span>
+          <span>{s.cta}</span>
           <svg
             className="w-5 h-5"
             viewBox="0 0 24 24"
@@ -514,11 +362,12 @@ const DesktopSectores = ({ onAgendarClick }) => {
       id="sectores"
       className="w-full bg-[#181414] text-white"
     >
-      <div className="max-w-[1400px] mx-auto px-4 lg:px-8 py-12 lg:py-16">
-        <header ref={headerRef}>
+      <div className="max-w-[1500px] mx-auto px-6 pt-12 pb-8">
+        {/* Header: se mantiene siempre, sin fade */}
+        <header>
           <h2
             ref={titleRef}
-            className="text-[2rem] lg:text-[3.2rem] font-black leading-[1.05]"
+            className="text-[2.2rem] lg:text-[3.2rem] font-black leading-[1.05]"
             style={{
               background:
                 "linear-gradient(90deg, #fff 0%, rgba(255,255,255,0.8) 100%)",
@@ -534,21 +383,18 @@ const DesktopSectores = ({ onAgendarClick }) => {
           </p>
         </header>
 
-        <div ref={stackRef} className="relative w-full max-w-[1000px] mx-auto">
-          {data.map((s, idx) => (
-            <Card key={s.key} s={s} idx={idx} />
-          ))}
+        <div className="mt-8 grid grid-cols-1 lg:grid-cols-2 gap-6">
+          <div className="flex flex-col gap-6">
+            {leftData.map((s, i) => (
+              <Card key={`L-${s.key}`} s={s} idx={i} />
+            ))}
+          </div>
+          <div className="flex flex-col gap-6">
+            {rightData.map((s, i) => (
+              <Card key={`R-${s.key}`} s={s} idx={i + 2} />
+            ))}
+          </div>
         </div>
-
-        <div
-          ref={footerSpacerRef}
-          className="w-full"
-          aria-hidden="true"
-          style={{
-            height: "18vh",
-            paddingBottom: "calc(env(safe-area-inset-bottom) + 48px)",
-          }}
-        />
       </div>
 
       <style>{commonStyles}</style>
@@ -556,66 +402,88 @@ const DesktopSectores = ({ onAgendarClick }) => {
   );
 };
 
-// ====================== MÓVIL (FLECHAS CAMUFLADAS, FUERA DE LA TARJETA) ======================
+// ====================== MÓVIL (CARRUSEL CON FLECHAS) ======================
 const MobileSectores = ({ onAgendarClick }) => {
   const data = useData();
-
-  const sectionRef = useRef(null);
-  const headerRef = useRef(null);
   const titleRef = useRef(null);
   const subRef = useRef(null);
 
   const [activeIdx, setActiveIdx] = useState(0);
   const trackRef = useRef(null);
+  const cardRefs = useRef([]);
+  const btnRefs = useRef([]);
 
+  // Header: scramble + sub (sin fade en scroll)
   useEffect(() => {
     if (titleRef.current) titleRef.current.textContent = "";
     scrambleTextAnimation(titleRef.current, FINAL_TITLE, {
-      duration: 1600,
+      duration: TITLE_SCRAMBLE_MS_MOBILE,
       delay: 0,
     });
+    gsap.fromTo(
+      subRef.current,
+      { autoAlpha: 0, y: 12 },
+      { autoAlpha: 1, y: 0, duration: 0.5, delay: 0.15 }
+    );
   }, []);
 
-  // Remove unused functions and use setActiveIdx directly
-  // const goPrev = () => setActiveIdx((i) => Math.max(0, i - 1));
-  // const goNext = () => setActiveIdx((i) => Math.min(data.length - 1, i + 1));
+  // Animación del slide activo (aparición)
+  const animateActiveSlide = (idx) => {
+    const card = cardRefs.current[idx];
+    if (!card) return;
+    if (!card.__entered) {
+      card.__entered = true;
+      gsap.fromTo(
+        card,
+        { y: 18, autoAlpha: INITIAL_CARD_OPACITY, scale: 0.995 },
+        { y: 0, autoAlpha: 1, scale: 1, duration: 0.35, ease: "power2.out" }
+      );
+      const wins = card.querySelectorAll(".sb-win");
+      if (wins.length) {
+        gsap.from(wins, {
+          y: 8,
+          autoAlpha: 0,
+          duration: 0.25,
+          stagger: 0.06,
+          ease: "power2.out",
+        });
+      }
+    }
+  };
 
-  // Mantener slide correcta en rotación de pantalla
+  useEffect(() => {
+    if (!trackRef.current) return;
+    const pct = -activeIdx * (100 / data.length);
+    trackRef.current.style.transform = `translate3d(${pct}%,0,0)`;
+    trackRef.current.style.transition = "transform 320ms ease-out";
+    animateActiveSlide(activeIdx);
+    btnRefs.current.forEach(setupBtnHover);
+  }, [activeIdx, data.length]);
+
   useEffect(() => {
     const onResize = () => {
       if (!trackRef.current) return;
       trackRef.current.style.transition = "none";
-      trackRef.current.style.transform = `translate3d(${
-        -activeIdx * 100
-      }%,0,0)`;
+      const pct = -activeIdx * (100 / data.length);
+      trackRef.current.style.transform = `translate3d(${pct}%,0,0)`;
       requestAnimationFrame(
-        () => (trackRef.current.style.transition = "transform 280ms ease-out")
+        () => (trackRef.current.style.transition = "transform 320ms ease-out")
       );
     };
     window.addEventListener("resize", onResize, { passive: true });
     return () => window.removeEventListener("resize", onResize);
-  }, [activeIdx]);
+  }, [activeIdx, data.length]);
 
   const Card = ({ s, idx }) => (
     <article
-      className="sector-block relative rounded-3xl border border-white/10 px-5 py-6 shadow-[0_6px_18px_rgba(0,0,0,0.18)] overflow-hidden w-full"
+      ref={(el) => (cardRefs.current[idx] = el)}
+      className="sector-card relative rounded-3xl border border-white/10 px-5 py-6 shadow-[0_6px_18px_rgba(0,0,0,0.18)] bg-card-mobile"
       style={{
-        background: MOBILE_CARD_BG,
-        willChange: "transform",
         transform: "translateZ(0)",
+        backfaceVisibility: "hidden",
+        willChange: "transform, opacity",
       }}
     >
-      <div
-        className="pointer-events-none absolute -z-10 inset-0"
-        style={{
-          opacity: 0.45,
-          background:
-            idx % 2 === 0
-              ? "radial-gradient(40% 60% at 15% 20%, rgba(255,49,49,0.12), transparent 60%), radial-gradient(50% 80% at 90% 10%, rgba(255,255,255,0.06), transparent 60%)"
-              : "radial-gradient(40% 60% at 80% 20%, rgba(255,49,49,0.12), transparent 60%), radial-gradient(50% 80% at 10% 10%, rgba(255,255,255,0.06), transparent 60%)",
-        }}
-        aria-hidden="true"
-      />
       <div className="flex items-center gap-3">
         <span className="sb-badge">
           <span className="sb-dot" />
@@ -674,24 +542,6 @@ const MobileSectores = ({ onAgendarClick }) => {
         </div>
       </div>
 
-      <div className="mt-6">
-        <h4 className="sb-block-title">Proyectos completos</h4>
-        <div className="grid grid-cols-1 gap-3">
-          {s.proyectos.map((p, i) => (
-            <div key={i} className="sb-project">
-              <div className="sb-project-rail" />
-              <div className="sb-project-body">
-                <div className="sb-project-head">
-                  <span className="sb-dot" />
-                  Proyecto
-                </div>
-                <p className="sb-project-text">{p}</p>
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
-
       <div className="mt-6 flex flex-col gap-4">
         <div className="flex flex-wrap gap-2">
           {s.resultados.map((r, i) => (
@@ -702,6 +552,7 @@ const MobileSectores = ({ onAgendarClick }) => {
           ))}
         </div>
         <button
+          ref={(el) => (btnRefs.current[idx] = el)}
           className="sb-cta flex items-center gap-2 px-5 py-3 font-extrabold rounded-xl shadow transition-all duration-200"
           style={{
             whiteSpace: "nowrap",
@@ -730,14 +581,9 @@ const MobileSectores = ({ onAgendarClick }) => {
   );
 
   return (
-    <section
-      ref={sectionRef}
-      id="sectores"
-      className="w-full bg-[#181414] text-white"
-    >
-      <div className="max-w-[1400px] mx-auto px-4 py-12">
-        {/* Cabecera */}
-        <header ref={headerRef}>
+    <section id="sectores" className="w-full bg-[#181414] text-white">
+      <div className="max-w-[1500px] mx-auto px-4 py-12">
+        <header>
           <h2
             ref={titleRef}
             className="text-[2rem] font-black leading-[1.05]"
@@ -756,9 +602,8 @@ const MobileSectores = ({ onAgendarClick }) => {
           </p>
         </header>
 
-        {/* Contenedor exterior para flechas fuera del viewport de la tarjeta */}
+        {/* Carrusel */}
         <div className="mt-6 relative">
-          {/* Viewport y pista */}
           <div className="overflow-hidden rounded-2xl">
             <div
               ref={trackRef}
@@ -770,7 +615,7 @@ const MobileSectores = ({ onAgendarClick }) => {
                 transform: `translate3d(${
                   -activeIdx * (100 / data.length)
                 }%,0,0)`,
-                transition: "transform 280ms ease-out",
+                transition: "transform 320ms ease-out",
                 willChange: "transform",
               }}
             >
@@ -780,6 +625,7 @@ const MobileSectores = ({ onAgendarClick }) => {
                   style={{
                     flex: `0 0 ${100 / data.length}%`,
                     maxWidth: `${100 / data.length}%`,
+                    padding: "2px",
                   }}
                 >
                   <Card s={s} idx={idx} />
@@ -788,7 +634,7 @@ const MobileSectores = ({ onAgendarClick }) => {
             </div>
           </div>
 
-          {/* Flechas camufladas, fuera de la tarjeta */}
+          {/* Flechas */}
           <button
             type="button"
             onClick={() => setActiveIdx((i) => Math.max(0, i - 1))}
@@ -827,22 +673,6 @@ const MobileSectores = ({ onAgendarClick }) => {
               <path d="M9 6l6 6-6 6" />
             </svg>
           </button>
-
-          {/* Dots */}
-          <div className="flex items-center justify-center gap-2 mt-4">
-            {data.map((_, i) => (
-              <button
-                key={i}
-                onClick={() => setActiveIdx(i)}
-                aria-label={`Ir a la tarjeta ${i + 1}`}
-                className="w-2.5 h-2.5 rounded-full transition-opacity"
-                style={{
-                  opacity: activeIdx === i ? 1 : 0.35,
-                  background: "#fff",
-                }}
-              />
-            ))}
-          </div>
         </div>
       </div>
 
@@ -852,9 +682,14 @@ const MobileSectores = ({ onAgendarClick }) => {
   );
 };
 
-// ====================== WRAPPER: ELIJE UNO U OTRO ======================
+// ====================== WRAPPER ======================
 const Sectores = ({ onAgendarClick }) => {
   const isDesktop = useMedia("(min-width: 1024px)", true);
+  useEffect(() => {
+    const r = document.documentElement;
+    r.style.setProperty("--card-bg-d", DESKTOP_CARD_BG);
+    r.style.setProperty("--card-bg-m", MOBILE_CARD_BG);
+  }, []);
   return isDesktop ? (
     <DesktopSectores onAgendarClick={onAgendarClick} />
   ) : (
@@ -864,8 +699,13 @@ const Sectores = ({ onAgendarClick }) => {
 
 export default Sectores;
 
-// ====================== ESTILOS COMUNES ======================
+// ====================== ESTILOS ======================
 const commonStyles = `
+/* fondos */
+.bg-card{ background: var(--card-bg-d); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); }
+.bg-card-mobile{ background: var(--card-bg-m); }
+
+/* Badges y elementos comunes */
 .sb-badge{display:inline-flex;align-items:center;gap:8px;background:#fff;color:#181414;border-radius:999px;padding:6px 12px;font-size:12px;font-weight:700;letter-spacing:.02em;text-transform:uppercase;}
 .sb-dot{width:8px;height:8px;border-radius:999px;background:#de0015;display:inline-block;box-shadow:0 0 10px rgba(255,49,49,0.65);flex-shrink:0;}
 .sb-quote{position:relative;display:flex;align-items:flex-start;gap:12px;background:#211c1c;border:1px solid rgba(255,255,255,.08);border-radius:18px;padding:14px 16px;box-shadow:0 6px 18px rgba(0,0,0,.18);}
@@ -875,51 +715,69 @@ const commonStyles = `
 .sb-step{display:flex;align-items:flex-start;gap:10px;background:linear-gradient(180deg,rgba(255,255,255,.03),rgba(255,255,255,.01));border:1px solid rgba(255,255,255,.08);border-radius:14px;padding:10px 12px;}
 .sb-step-num{display:inline-flex;align-items:center;justify-content:center;width:24px;height:24px;border-radius:999px;background:#de0015;color:#fff;font-weight:900;font-size:12px;box-shadow:0 4px 10px rgba(255,49,49,.25);}
 .sb-step-text{color:#eaeaea;}
+
 .sb-win,
 .sb-project,
-.sb-kpi,.sb-quote,.sb-step, .sb-badge {
-  transition:transform .2s ease, box-shadow .2s ease;
-  will-change: transform;
+.sb-kpi,.sb-quote,.sb-step, .sb-badge { transition:transform .2s ease, box-shadow .2s ease; will-change: transform; }
+.sb-win{
+  border:1px solid rgba(255,255,255,.1);
+  background:#1f1a1a;
+  border-radius:16px;
+  padding:12px;
+  box-shadow:0 6px 18px rgba(0,0,0,.18);
+  display:flex;
+  flex-direction:column;
+  min-height:72px;
 }
-.sb-win{border:1px solid rgba(255,255,255,.1);background:#1f1a1a;border-radius:16px;padding:12px;box-shadow:0 6px 18px rgba(0,0,0,.18);}
-.sb-win:hover,
-.sb-project:hover,
-.sb-kpi:hover, .sb-quote:hover, .sb-step:hover, .sb-badge:hover {
-  transform:translateY(-2px);
-  box-shadow:0 10px 26px rgba(0,0,0,.28);
+.sb-win-text{
+  margin-top:6px;
+  color:#e8e8e8;
+  font-size:14px;
+  line-height:1.45;
+  overflow-wrap:anywhere;
+  white-space:pre-line;
 }
 .sb-win-head{display:flex;align-items:center;gap:8px;text-transform:uppercase;font-weight:700;font-size:12px;color:#fff;}
-.sb-win-text{margin-top:6px;color:#dcdcdc;font-size:14px;line-height:1.4;}
+
 .sb-project{display:flex;border:1px solid rgba(255,255,255,.1);background:#1c1818;border-radius:16px;overflow:hidden;}
 .sb-project-rail{width:6px;background:linear-gradient(180deg,#de0015,#de0100);}
 .sb-project-body{padding:12px;}
 .sb-project-head{display:flex;align-items:center;gap:8px;text-transform:uppercase;font-weight:700;font-size:12px;}
 .sb-project-text{margin-top:6px;color:#dcdcdc;font-size:14px;line-height:1.45;}
+
 .sb-kpi{display:inline-flex;align-items:center;gap:8px;border:1px solid rgba(255,255,255,.1);background:rgba(255,255,255,.05);border-radius:999px;padding:8px 12px;font-size:14px;}
-.sector-block{transition: box-shadow .25s ease, transform .25s ease, border-color .25s ease;}
-.sector-block:hover{transform: translateY(-2px);box-shadow:0 10px 28px rgba(0,0,0,.28);border-color:rgba(255,255,255,.14);}
+
+.sector-card{
+  border-radius: 22px;
+  transition: box-shadow .22s ease, border-color .22s ease, transform .22s ease;
+}
+.sector-card:hover{ transform: translateY(-2px); box-shadow:0 12px 28px rgba(0,0,0,.28); border-color:rgba(255,255,255,.14); }
 `;
 
-// Estilos de flechas camufladas y fuera del contenido
+// Flechas (móvil)
 const mobileArrowStyles = `
 .arrow-btn{
+  margin: 0 4px;
   position:absolute;
   top:50%;
   transform:translateY(-50%);
-  width:38px;height:38px;
-  display:grid;place-items:center;
+  width:28px;
+  height:28px;
+  display:grid;
+  place-items:center;
   border-radius:999px;
   background:rgba(255,255,255,0.06);
   color:rgba(255,255,255,0.92);
   border:1px solid rgba(255,255,255,0.12);
   backdrop-filter: blur(6px);
-  box-shadow:0 6px 16px rgba(0,0,0,0.28);
+  -webkit-backdrop-filter: blur(6px);
+  box-shadow:0 4px 12px rgba(0,0,0,0.25);
   transition:opacity .2s ease, transform .2s ease, background .2s ease;
   pointer-events:auto;
   z-index:20;
 }
-.arrow-btn.left{ left:-18px; }
-.arrow-btn.right{ right:-18px; }
-.arrow-btn:active{ transform:translateY(-50%) scale(0.96); }
+.arrow-btn.left{ left:-14px; }
+.arrow-btn.right{ right:-14px; }
+.arrow-btn:active{ transform:translateY(-50%) scale(0.94); }
 .arrow-btn[disabled]{ opacity:.35; }
 `;

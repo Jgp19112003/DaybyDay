@@ -257,7 +257,7 @@ export const scrambleTextAnimation = (element, targetText, options = {}) => {
 
             setTimeout(revealNextCharacter, charRevealSpeed);
           } else {
-            // Animation complete
+            // Animation complete - resolve the promise
             element.textContent = targetText;
             resolve();
           }

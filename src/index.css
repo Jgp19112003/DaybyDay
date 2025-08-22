@@ -266,15 +266,13 @@ main {
   }
 
   .navbar.mobile .logo-container {
-    margin-bottom: 2px;
+    margin: 0 6px;
     align-self: center;
   }
-
   .navbar.mobile .logo-text {
-    display: flex;
-    flex-direction: column;
-    line-height: 0.8;
-    position: relative;
+    transform: scale(
+      0.9
+    ); /* opcional para que no se vea más grande que los links */
   }
 
   .navbar.mobile .logo-first-line {

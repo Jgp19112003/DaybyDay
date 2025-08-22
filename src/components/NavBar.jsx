@@ -1,3 +1,4 @@
+// /components/NavBar.jsx
 import React, { useRef, useEffect, useState } from "react";
 import { gsap } from "gsap";
 import { ScrollToPlugin } from "gsap/ScrollToPlugin";
@@ -19,8 +20,27 @@ const NavBar = ({ onAnimationComplete, currentView, onNavScroll }) => {
     checkMobile();
     window.addEventListener("resize", checkMobile);
 
+    return () => window.removeEventListener("resize", checkMobile);
+  }, []);
+
+  // Oculta/muestra el logo según isMobile
+  useEffect(() => {
+    if (logoRef.current) {
+      if (isMobile) {
+        logoRef.current.classList.add("logo-hidden");
+      } else {
+        logoRef.current.classList.remove("logo-hidden");
+      }
+    }
+    // Oculta el nav en cada cambio de isMobile
+    if (navRef.current) {
+      navRef.current.classList.add("nav-hidden");
+    }
+  }, [isMobile]);
+
+  useEffect(() => {
     const runAnimations = async () => {
-      if (logoRef.current) logoRef.current.classList.add("logo-hidden");
+      if (logoRef.current) gsap.set(logoRef.current, { autoAlpha: 1 });
       if (navRef.current) navRef.current.classList.add("nav-hidden");
 
       if (isMobile) {
@@ -37,7 +57,7 @@ const NavBar = ({ onAnimationComplete, currentView, onNavScroll }) => {
     };
 
     runAnimations();
-    return () => window.removeEventListener("resize", checkMobile);
+    // Solo depende de isMobile y onAnimationComplete
   }, [onAnimationComplete, isMobile]);
 
   // Scroll suave genérico
@@ -50,22 +70,19 @@ const NavBar = ({ onAnimationComplete, currentView, onNavScroll }) => {
     });
   };
 
-  // 👉 Scroll a "Nosotros" dejando el H2 un poco por debajo del navbar
-  // y SIN disparar la animación de cartas durante el scroll.
+  // Scroll a "Nosotros" dejando el H2 un poco por debajo del navbar
   const handleNosotrosCenter = (e) => {
     e.preventDefault();
 
-    // Primero navegar a inicio
     if (typeof onNavScroll === "function") onNavScroll("inicio");
 
-    // Luego hacer scroll al apartado nosotros después de un delay más largo
     setTimeout(() => {
       const navH = getNAV();
       const h2 = document.querySelector("#nosotros h2");
       const section = document.querySelector("#nosotros");
 
       let targetY = 0;
-      const OFFSET_BELOW_NAV = 12; // h2 queda un poquito por debajo del navbar (no centrado)
+      const OFFSET_BELOW_NAV = 12;
 
       if (h2) {
         const rect = h2.getBoundingClientRect();
@@ -81,7 +98,6 @@ const NavBar = ({ onAnimationComplete, currentView, onNavScroll }) => {
         );
       }
 
-      // ⚠️ Bandera temporal para que Nosotros.jsx NO inicie la intro de cartas
       window.__skipNosotrosIntro = Date.now();
 
       gsap.to(window, {
@@ -89,7 +105,6 @@ const NavBar = ({ onAnimationComplete, currentView, onNavScroll }) => {
         duration: 0.9,
         ease: "power2.out",
         onComplete: () => {
-          // Quita la bandera un rato después, por si hay inercia de scroll
           setTimeout(() => {
             window.__skipNosotrosIntro = null;
           }, 1400);
@@ -98,27 +113,33 @@ const NavBar = ({ onAnimationComplete, currentView, onNavScroll }) => {
     }, 300);
   };
 
-  return (
-    <nav className={`navbar ${isMobile ? "mobile" : ""}`}>
-      <div
-        className="logo-container"
-        onClick={() => {
-          window.scrollTo({ top: 0, behavior: "smooth" });
-          onAnimationComplete?.();
-        }}
-        style={{ cursor: "pointer" }}
-      >
-        <div className="logo-text logo-hidden" ref={logoRef}>
-          <div className="logo-line logo-first-line">
-            <span className="logo-day">Day</span>
-          </div>
-          <div className="logo-line logo-second-line">
-            <span className="logo-day">Da</span>
-            <span className="logo-y rotated">y</span>
-            <span className="logo-by rotated">by</span>
-          </div>
+  // Bloque del logo reutilizable
+  const LogoBlock = () => (
+    <div
+      className="logo-container"
+      onClick={() => {
+        window.scrollTo({ top: 0, behavior: "smooth" });
+        onAnimationComplete?.();
+      }}
+      style={{ cursor: "pointer" }}
+    >
+      <div className="logo-text" ref={logoRef}>
+        <div className="logo-line logo-first-line">
+          <span className="logo-day">Day</span>
+        </div>
+        <div className="logo-line logo-second-line">
+          <span className="logo-day">Da</span>
+          <span className="logo-y rotated">y</span>
+          <span className="logo-by rotated">by</span>
         </div>
       </div>
+    </div>
+  );
+
+  return (
+    <nav className={`navbar ${isMobile ? "mobile" : ""}`}>
+      {/* Desktop: logo fuera */}
+      {!isMobile && <LogoBlock />}
 
       <div
         className={`nav-container ${isMobile ? "nav-mobile" : ""} nav-hidden`}
@@ -145,6 +166,9 @@ const NavBar = ({ onAnimationComplete, currentView, onNavScroll }) => {
         >
           Servicios
         </a>
+
+        {/* Logo en medio solo en móvil */}
+        {isMobile && <LogoBlock />}
 
         <a href="#nosotros" className="nav-link" onClick={handleNosotrosCenter}>
           Nosotros
