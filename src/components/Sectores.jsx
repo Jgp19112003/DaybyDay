@@ -403,7 +403,7 @@ const DesktopSectores = ({ onAgendarClick }) => {
             }}
           />
           <p ref={subRef} className="text-[#e5e5e5] mt-3 max-w-[820px]">
-            Bloques claros, resultados medibles y automatizaciones que se
+            Solucions claras y automatizaciones que se
             adaptan a tu forma de trabajar.
           </p>
         </header>
