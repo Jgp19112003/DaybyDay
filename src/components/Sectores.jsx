@@ -43,13 +43,11 @@ const useData = () =>
         key: "consultorias",
         badge: "Consultorías de negocio / estrategia",
         h2: "Convierte cada propuesta en cliente sin sumar horas de trabajo",
-        sub: "Flujos de trabajo con Automatización + IA para cerrar más ventas sin ampliar tu equipo.",
         jtb: "“Necesito que mis leads se conviertan más rápido sin que mi equipo esté colapsado.”",
         hacemos: [
           "Entendemos, Organizamos, Personalizamos y Automatizamos tu captación y seguimiento.",
           "Conectamos tus canales (E-mail, RRSS, Wpp..) y CRM en un único flujo.",
           "Automatizamos en trato con el cliente a lo largo de tu funnel de ventas.",
-          "Cierra más clientes con menos esfuerzo operativo.",
         ],
         quickWins: [
           "Secuencia automatizada de emails para nuevos prospectos.",
@@ -71,7 +69,6 @@ const useData = () =>
         key: "formativos",
         badge: "Centros formativos / cursos online high ticket",
         h2: "Llenamos tus plazas sin sobrecargar a tu equipo de admisiones",
-        sub: "Automatizamos el seguimiento y la captación para maximizar matrículas.",
         jtb: "“Necesito llenar las plazas de mi máster sin duplicar presupuesto ni saturar al equipo.”",
         hacemos: [
           "Unificamos tu captación de leads y seguimiento en un sistema automatizado.",
@@ -98,7 +95,6 @@ const useData = () =>
         key: "startups",
         badge: "Startups B2B en crecimiento",
         h2: "Escala rápido sin romper tus procesos",
-        sub: "Funnel, CRM y ventas conectados para crecer sin fricciones.",
         jtb: "“Necesito un funnel que escale sin que se rompa mi flujo de marketing y ventas.”",
         hacemos: [
           "Entendemos tu start-up y diseñamos tu funnel completo desde captación a cierre.",
@@ -125,7 +121,6 @@ const useData = () =>
         key: "pymes",
         badge: "PYMEs B2B tradicionales",
         h2: "Moderniza tus ventas sin reinventar tu empresa",
-        sub: "Automatización adaptada a tu equipo y a tu forma de vender.",
         jtb: "“Necesito vender más sin dejar atrás a mi equipo actual ni perder clientes.”",
         hacemos: [
           "Digitalizamos tu proceso comercial manteniendo tus herramientas de siempre.",
