@@ -7,7 +7,7 @@ import { scrambleTextAnimation } from "../animation";
 gsap.registerPlugin(ScrollTrigger);
 
 // ====================== CONFIG ======================
-const FINAL_TITLE = "Soluciones por nicho, listas para acelerar";
+const FINAL_TITLE = "Soluciones por nicho, listas para acelerar.";
 const DESKTOP_CARD_BG = "rgba(27,23,23,0.80)";
 const MOBILE_CARD_BG = "rgba(27,23,23,0.95)";
 const TITLE_SCRAMBLE_MS_DESKTOP = 1600;
@@ -403,7 +403,7 @@ const DesktopSectores = ({ onAgendarClick }) => {
             }}
           />
           <p ref={subRef} className="text-[#e5e5e5] mt-3 max-w-[820px]">
-            Solucions claras y automatizaciones que se
+             Soluciones a problemas claros, automatizaciones que se
             adaptan a tu forma de trabajar.
           </p>
         </header>
