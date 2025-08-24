@@ -100,20 +100,40 @@ const Servicios = () => {
     };
     init();
 
-    // ===== animaciones de servicios PRIMERO =====
-    if (!prefersReduced) {
-      serviciosTitleAnimation(titleRef, sectionRef);
-      serviciosInfoAnimation(infoRef, sectionRef);
-      serviciosCardsAnimation(cardsRef, sectionRef);
-      serviciosCardHoverAnimation(cardsRef);
-    } else {
-      // Estado accesible si el usuario prefiere menos movimiento
-      if (titleRef.current)
-        gsap.set(titleRef.current, { opacity: 1, visibility: "visible" });
-      if (infoRef.current) gsap.set(infoRef.current, { opacity: 1, y: 0 });
-      cardsRef.current.forEach(
-        (c) => c && gsap.set(c, { opacity: 1, scale: 1 })
-      );
+    // ===== animación de fade-in principal SOLO cuando entra en viewport =====
+    if (sectionRef.current) {
+      gsap.set(sectionRef.current, { opacity: 0, visibility: "hidden" });
+      gsap.to(sectionRef.current, {
+        opacity: 1,
+        visibility: "visible",
+        duration: 0.7,
+        ease: "power2.out",
+        scrollTrigger: {
+          trigger: sectionRef.current,
+          start: "top bottom", // Changed from "top 90%" to start when section enters viewport
+          once: true,
+        },
+        onComplete: () => {
+          // Animaciones internas solo después del fade-in
+          if (!prefersReduced) {
+            // Primero anima el título y espera a que termine
+            serviciosTitleAnimation(titleRef, sectionRef).then(() => {
+              // Solo después de que el texto termine, anima info y cards
+              serviciosInfoAnimation(infoRef, sectionRef);
+              serviciosCardsAnimation(cardsRef, sectionRef);
+              serviciosCardHoverAnimation(cardsRef);
+            });
+          } else {
+            if (titleRef.current)
+              gsap.set(titleRef.current, { opacity: 1, visibility: "visible" });
+            if (infoRef.current)
+              gsap.set(infoRef.current, { opacity: 1, y: 0 });
+            cardsRef.current.forEach(
+              (c) => c && gsap.set(c, { opacity: 1, scale: 1 })
+            );
+          }
+        },
+      });
     }
 
     const cleanupCycling = initServiceCardsCycling(cardsRef, tagsRef);
@@ -147,7 +167,7 @@ const Servicios = () => {
           y: 0,
           duration: 0.8,
           ease: "power3.out",
-          delay: 0.5, // aumentado el delay para que salga después de servicios
+          delay: 0, // Reduced from 0.2 to start immediately
         }
       );
     } else {
@@ -158,11 +178,11 @@ const Servicios = () => {
     const tl = gsap.timeline({
       scrollTrigger: {
         trigger: insightRef.current,
-        start: "top 80%",
+        start: "top bottom", // Changed from "top 95%" to start when element enters viewport
         once: true,
       },
       defaults: { ease: "power3.out", duration: 0.6 },
-      delay: 0.3, // delay de 0.3s después de que aparezca el container
+      delay: 0, // Reduced from 0.1s to start immediately
     });
 
     if (!prefersReduced) {
@@ -213,7 +233,7 @@ const Servicios = () => {
           delay: i * 0.12,
         });
       });
-    }, 800); // delay para empezar después de la animación del insight
+    }, 200); // Reduced from 400ms to start pulse animations much sooner
 
     // Pequeño refresh tras montar para asegurar posiciones correctas
     const refreshTimeout = window.setTimeout(() => {
@@ -239,19 +259,19 @@ const Servicios = () => {
         aria-labelledby="servicios-heading"
         role="region"
         tabIndex={-1}
-        className="w-full max-w-[1400px] mx-auto px-4 lg:px-8 pb-10 lg:pb-16 pt-[200px] lg:pt-[120px]"
+        className="w-full max-w-[1400px] mx-auto px-4 lg:px-8 pb-10 lg:pb-16 pt-[120px] lg:pt-[120px] flex flex-col items-center"
         style={{
           opacity: 0,
           visibility: "hidden",
         }}
       >
-        <div className="grid grid-cols-12 gap-6 lg:gap-12 items-start">
+        <div className="w-full flex flex-col items-center">
           {/* Título global */}
-          <div className="col-span-12">
+          <div className="w-full flex justify-center mb-6">
             <h2
               id="servicios-heading"
               ref={titleRef}
-              className="text-[2.2rem] sm:text-[2.6rem] lg:text-[4rem] font-black leading-none tracking-tight text-white text-center lg:text-left"
+              className="text-[2.2rem] sm:text-[2.6rem] lg:text-[4rem] font-black leading-none tracking-tight text-white text-center"
               style={{ opacity: 0, visibility: "hidden" }}
             >
               Servicios
@@ -261,83 +281,89 @@ const Servicios = () => {
           {/* IZQUIERDA: Enfoque */}
           <div
             ref={infoRef}
-            className="col-span-12 lg:col-span-7 text-white pr-0 lg:pr-6 text-center lg:text-left"
+            className="w-full flex justify-center"
             style={{ opacity: 0 }}
           >
             <article
               ref={insightRef}
-              className="rounded-2xl bg-[#1f1a1a]/80 backdrop-blur border border-white/10 shadow-[0_6px_18px_rgba(0,0,0,0.18)] p-5 lg:p-6 mx-auto"
-              style={{ opacity: 0 }}
+              className="rounded-2xl bg-[#1f1a1a]/80 backdrop-blur border border-white/10 shadow-[0_6px_18px_rgba(0,0,0,0.18)] p-5 lg:p-10 mx-auto text-center"
+              style={{
+                opacity: 0,
+                maxWidth: "900px",
+                width: "100%",
+                margin: "0 auto",
+              }}
             >
               <span
                 ref={badgeRef}
-                className="inline-flex items-center gap-2 text-[12px] font-semibold tracking-wide uppercase rounded-[16px] bg-white text-[#181414] px-3 py-1 mb-3 mx-auto lg:mx-0"
+                className="inline-flex items-center gap-2 text-[12px] font-semibold tracking-wide uppercase rounded-[16px] bg-white text-[#181414] px-3 py-1 mb-3 mx-auto"
                 style={{ opacity: 0 }}
               >
                 Enfoque Day by Day
               </span>
               <h3
                 ref={headingRef}
-                className="text-[1.6rem] sm:text-[1.88rem] lg:text-[2.22rem] font-black leading-[1.15] tracking-tight"
+                className="text-[1.6rem] sm:text-[1.88rem] lg:text-[2.22rem] font-black leading-[1.15] tracking-tight text-white text-center"
                 style={{ opacity: 0 }}
               >
                 SISTEMAS QUE TRABAJAN POR TI, SIN COMPROMETER TU ESENCIA
               </h3>
-              <p
-                ref={p1Ref}
-                className="text-[15px] lg:text-[17px] leading-relaxed text-[#e3e3e3] mt-6 lg:mt-8 mb-4 max-w-[60ch] mx-auto lg:mx-0"
-                style={{
-                  opacity: 1, // Cambiado a 1 para que sea visible
-                  visibility: "visible", // Cambiado a visible
-                }}
-              >
-                En un mercado donde el 92 % de los líderes consideran que la
-                automatización es esencial para mantenerse competitivos, el 77 %
-                ya está mejorando sus conversiones gracias a ella y el 70%
-                planea incrementar su inversión en este ámbito,
-              </p>
-              <p
-                ref={p1Ref}
-                className="text-[16px] lg:text-[18px] leading-relaxed text-[#e3e3e3] mt-1 lg:mt-2 mb-1 max-w-[60ch] mx-auto lg:mx-0"
-                style={{
-                  opacity: 1, // Cambiado a 1 para que sea visible
-                  visibility: "visible", // Cambiado a visible
-                }}
-              >
-                <em>Quedarse quieto no es una opción.</em>
-              </p>
-              <p
-                ref={p1Ref}
-                className="text-[15px] lg:text-[17px] leading-relaxed text-[#e3e3e3] mt-8 lg:mt-8 mb-4 max-w-[60ch] mx-auto lg:mx-0"
-                style={{
-                  opacity: 1, // Cambiado a 1 para que sea visible
-                  visibility: "visible", // Cambiado a visible
-                }}
-              >
-                El crecimiento escalable y sostenible no depende solo de la
-                velocidad, sino de sistemas que eliminan tareas repetitivas,
-                aumentan la capacidad operativa y trabajan preservando la
-                esencia de marca.
-              </p>
-              <p
-                ref={p2Ref}
-                className="text-[15px] lg:text-[17px] mt-3 leading-relaxed text-[#e3e3e3] mt-8 lg:mt-8 mb-8 max-w-[60ch] mx-auto lg:mx-0"
-                style={{ opacity: 0 }}
-              >
-                En Day by Day transformamos esa necesidad en estrategia.
-                Diseñamos sistemas adaptativos de Automatización de Procesos y
-                Marketing con IA que potencian la identidad, optimizan la
-                gestión y liberan a los equipos para centrarse en lo que
-                realmente genera valor.
-              </p>
-              <p
-                ref={p1Ref}
-                className="text-[15px] lg:text-[17px] leading-relaxed text-[#e3e3e3] mt-6 lg:mt-6 mb-15 max-w-[60ch] mx-auto lg:mx-0"
-                style={{ opacity: 0 }}
-              >
-                Día a Día dispondrás del tiempo que tu empresa necesita.
-              </p>
-              <div className="h-2"></div> {/* Tiny space added here */}
+              <div className="flex flex-col items-center w-full">
+                <p
+                  ref={p1Ref}
+                  className="text-[15px] lg:text-[17px] leading-relaxed text-[#e3e3e3] mt-6 lg:mt-8 mb-4 max-w-[60ch] text-center"
+                  style={{
+                    opacity: 1,
+                    visibility: "visible",
+                  }}
+                >
+                  En un mercado donde el 92 % de los líderes consideran que la
+                  automatización es esencial para mantenerse competitivos, el 77
+                  % ya está mejorando sus conversiones gracias a ella y el 70%
+                  planea incrementar su inversión en este ámbito,
+                </p>
+                <p
+                  ref={p1Ref}
+                  className="text-[16px] lg:text-[18px] leading-relaxed text-[#e3e3e3] mt-1 lg:mt-2 mb-1 max-w-[60ch] text-center"
+                  style={{
+                    opacity: 1,
+                    visibility: "visible",
+                  }}
+                >
+                  <em>Quedarse quieto no es una opción.</em>
+                </p>
+                <p
+                  ref={p1Ref}
+                  className="text-[15px] lg:text-[17px] leading-relaxed text-[#e3e3e3] mt-8 lg:mt-8 mb-4 max-w-[60ch] text-center"
+                  style={{
+                    opacity: 1,
+                    visibility: "visible",
+                  }}
+                >
+                  El crecimiento escalable y sostenible no depende solo de la
+                  velocidad, sino de sistemas que eliminan tareas repetitivas,
+                  aumentan la capacidad operativa y trabajan preservando la
+                  esencia de marca.
+                </p>
+                <p
+                  ref={p2Ref}
+                  className="text-[15px] lg:text-[17px] mt-3 leading-relaxed text-[#e3e3e3] mt-8 lg:mt-8 mb-8 max-w-[60ch] text-center"
+                  style={{ opacity: 1, visibility: "visible" }}
+                >
+                  En Day by Day transformamos esa necesidad en estrategia.
+                  Diseñamos sistemas adaptativos de Automatización de Procesos y
+                  Marketing con IA que potencian la identidad, optimizan la
+                  gestión y liberan a los equipos para centrarse en lo que
+                  realmente genera valor.
+                </p>
+                <p
+                  ref={p1Ref}
+                  className="text-[15px] lg:text-[17px] leading-relaxed text-[#e3e3e3] mt-6 lg:mt-6 mb-8 max-w-[60ch] text-center"
+                  style={{ opacity: 1, visibility: "visible" }}
+                >
+                  Día a Día dispondrás del tiempo que tu empresa necesita.
+                </p>
+              </div>
               {/* MÉTRICAS: Impacto + Rendimiento arriba, Resultado abajo */}
               <div className="grid grid-cols-2 gap-3 mt-4">
                 {/* IMPACTO */}

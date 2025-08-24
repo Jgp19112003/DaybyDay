@@ -119,7 +119,7 @@ export const serviciosInfoAnimation = (infoRef, sectionRef) => {
 
   ScrollTrigger.create({
     trigger: sectionRef.current,
-    start: "top 80%",
+    start: "top bottom", // Changed from "top 95%" to start when section enters viewport
     once: true,
     onEnter: () => {
       // Simple fade in animation without touching paragraph content
@@ -134,7 +134,7 @@ export const serviciosInfoAnimation = (infoRef, sectionRef) => {
 };
 
 export const serviciosTitleAnimation = (titleRef, sectionRef) => {
-  if (!titleRef.current) return;
+  if (!titleRef.current) return Promise.resolve();
 
   // Set initial state - ensure element is hidden
   gsap.set(titleRef.current, { opacity: 0 });
@@ -146,28 +146,31 @@ export const serviciosTitleAnimation = (titleRef, sectionRef) => {
     }
   });
 
-  // Create scroll trigger that starts the scramble animation
-  ScrollTrigger.create({
-    trigger: sectionRef.current,
-    start: "top 80%",
-    once: true,
-    onEnter: () => {
-      // NO remover clases, la sección ya debe ser visible
-
-      // Fade in the element and start the scramble animation
-      gsap.to(titleRef.current, {
-        opacity: 1,
-        duration: 0.3,
-        ease: "power2.out",
-        onComplete: () => {
-          // Use unified scramble animation
-          scrambleTextAnimation(titleRef.current, "Servicios", {
-            duration: 1000,
-            delay: 200,
-          });
-        },
-      });
-    },
+  // Return a Promise that resolves when animation is complete
+  return new Promise((resolve) => {
+    // Create scroll trigger that starts the scramble animation
+    ScrollTrigger.create({
+      trigger: sectionRef.current,
+      start: "top bottom", // Changed from "top 95%" to start when section enters viewport
+      once: true,
+      onEnter: () => {
+        // Fade in the element and start the scramble animation
+        gsap.to(titleRef.current, {
+          opacity: 1,
+          duration: 0.3,
+          ease: "power2.out",
+          onComplete: () => {
+            // Use unified scramble animation and resolve when complete
+            scrambleTextAnimation(titleRef.current, "Servicios", {
+              duration: 800, // Reduced from 1000 to make text appear faster
+              delay: 0, // Reduced from 200 to start immediately
+            }).then(() => {
+              resolve(); // Resolve the promise when text animation is complete
+            });
+          },
+        });
+      },
+    });
   });
 };
 
@@ -297,7 +300,7 @@ export const serviciosCardsAnimation = (cardsRef) => {
         transformOrigin: "center center",
       },
       {
-        delay: 2.5, // Delay to allow text content to appear first
+        delay: 0.1, // Reduced from 0.3 to appear immediately after title
         opacity: 1,
         scale: 1,
         duration: 1,
@@ -308,7 +311,7 @@ export const serviciosCardsAnimation = (cardsRef) => {
     return;
   }
 
-  // Desktop animation - keep the original dramatic entrance but with increased delay
+  // Desktop animation - reduced delay significantly
   gsap.set(cardsRef.current, {
     opacity: 0,
     scale: 2,
@@ -323,7 +326,7 @@ export const serviciosCardsAnimation = (cardsRef) => {
       transformOrigin: "center center",
     },
     {
-      delay: 1.5, // Increased delay to allow text content to appear first
+      delay: 0.1, // Reduced from 0.2 to appear immediately after title
       opacity: 1,
       scale: 1,
       duration: 1,

@@ -388,7 +388,7 @@ const DesktopSectores = ({ onAgendarClick }) => {
 
   return (
     <section id="sectores" className="w-full bg-[#181414] text-white">
-      <div className="max-w-[1500px] mx-auto px-6 pt-12 pb-8">
+      <div className="max-w-[1500px] mx-auto px-6 pt-6 pb-8">
         <header>
           <h2
             ref={titleRef}
@@ -403,8 +403,8 @@ const DesktopSectores = ({ onAgendarClick }) => {
             }}
           />
           <p ref={subRef} className="text-[#e5e5e5] mt-3 max-w-[820px]">
-             Soluciones a problemas claros, automatizaciones que se
-            adaptan a tu forma de trabajar.
+            Soluciones a problemas claros, automatizaciones que se adaptan a tu
+            forma de trabajar.
           </p>
         </header>
 
@@ -436,6 +436,13 @@ const MobileSectores = ({ onAgendarClick }) => {
   const cardRefs = useRef([]);
   const btnRefs = useRef([]);
 
+  // Touch handling refs and state
+  const touchStartX = useRef(0);
+  const touchEndX = useRef(0);
+  const isDragging = useRef(false);
+  const carouselRef = useRef(null);
+  const animatedCards = useRef(new Set()); // Track which cards have been animated
+
   // Header: scramble + sub (sin fade en scroll)
   useEffect(() => {
     if (titleRef.current) titleRef.current.textContent = "";
@@ -450,42 +457,47 @@ const MobileSectores = ({ onAgendarClick }) => {
     );
   }, []);
 
-  // Animación del slide activo (aparición + quick wins)
+  // Animación del slide activo (aparición + quick wins) - MEJORADA
   const animateActiveSlide = (idx) => {
     const card = cardRefs.current[idx];
-    if (!card) return;
-    if (!card.__entered) {
-      card.__entered = true;
+    if (!card || animatedCards.current.has(idx)) return;
+
+    animatedCards.current.add(idx);
+
+    gsap.fromTo(
+      card,
+      { y: 18, autoAlpha: INITIAL_CARD_OPACITY, scale: 0.995 },
+      { y: 0, autoAlpha: 1, scale: 1, duration: 0.35, ease: "power2.out" }
+    );
+
+    const wins = card.querySelectorAll(".sb-win");
+    if (wins.length) {
       gsap.fromTo(
-        card,
-        { y: 18, autoAlpha: INITIAL_CARD_OPACITY, scale: 0.995 },
-        { y: 0, autoAlpha: 1, scale: 1, duration: 0.35, ease: "power2.out" }
+        wins,
+        { y: 14, autoAlpha: 0 },
+        {
+          y: 0,
+          autoAlpha: 1,
+          duration: 0.32,
+          stagger: 0.06,
+          ease: "power2.out",
+        }
       );
-      // wins animation actualizado
-      const wins = card.querySelectorAll(".sb-win");
-      if (wins.length) {
-        gsap.fromTo(
-          wins,
-          { y: 14, autoAlpha: 0 },
-          {
-            y: 0,
-            autoAlpha: 1,
-            duration: 0.32,
-            stagger: 0.06,
-            ease: "power2.out",
-          }
-        );
-      }
     }
   };
 
-  // mover carrusel + animar slide activo + hover CTA
+  // mover carrusel + animar slide activo + hover CTA - OPTIMIZADO
   useEffect(() => {
     if (!trackRef.current) return;
-    const pct = -activeIdx * (100 / data.length);
-    trackRef.current.style.transform = `translate3d(${pct}%,0,0)`;
-    trackRef.current.style.transition = "transform 320ms ease-out";
-    animateActiveSlide(activeIdx);
+
+    // Solo animar si no estamos arrastrando
+    if (!isDragging.current) {
+      const pct = -activeIdx * (100 / data.length);
+      trackRef.current.style.transform = `translate3d(${pct}%,0,0)`;
+      trackRef.current.style.transition = "transform 320ms ease-out";
+      animateActiveSlide(activeIdx);
+    }
+
     btnRefs.current.forEach(setupBtnHover);
   }, [activeIdx, data.length]);
 
@@ -500,9 +512,74 @@ const MobileSectores = ({ onAgendarClick }) => {
         () => (trackRef.current.style.transition = "transform 320ms ease-out")
       );
     };
-    window.addEventListener("resize", onResize, { passive: true });
+    window.addEventListener("resize", onResize);
     return () => window.removeEventListener("resize", onResize);
   }, [activeIdx, data.length]);
+
+  // Touch handlers for swipe functionality - MEJORADOS
+  const handleTouchStart = (e) => {
+    touchStartX.current = e.touches[0].clientX;
+    touchEndX.current = e.touches[0].clientX;
+    isDragging.current = true;
+    if (trackRef.current) {
+      trackRef.current.style.transition = "none";
+    }
+  };
+
+  const handleTouchMove = (e) => {
+    if (!isDragging.current || !trackRef.current) return;
+
+    touchEndX.current = e.touches[0].clientX;
+    const diff = touchStartX.current - touchEndX.current;
+    const currentTransform = -activeIdx * (100 / data.length);
+    const dragPercentage = (diff / window.innerWidth) * 30; // Reduced sensitivity
+
+    const newTransform = Math.max(
+      Math.min(currentTransform - dragPercentage, 5), // Small overscroll allowance
+      -(data.length - 1) * (100 / data.length) - 5
+    );
+
+    trackRef.current.style.transform = `translate3d(${newTransform}%, 0, 0)`;
+  };
+
+  const handleTouchEnd = () => {
+    if (!isDragging.current) return;
+
+    const diff = touchStartX.current - touchEndX.current;
+    const threshold = 50;
+    let newIdx = activeIdx;
+
+    if (Math.abs(diff) > threshold) {
+      if (diff > 0 && activeIdx < data.length - 1) {
+        newIdx = activeIdx + 1;
+      } else if (diff < 0 && activeIdx > 0) {
+        newIdx = activeIdx - 1;
+      }
+    }
+
+    isDragging.current = false;
+
+    if (trackRef.current) {
+      trackRef.current.style.transition = "transform 320ms ease-out";
+      const pct = -newIdx * (100 / data.length);
+      trackRef.current.style.transform = `translate3d(${pct}%, 0, 0)`;
+    }
+
+    // Only update state if index changed
+    if (newIdx !== activeIdx) {
+      setActiveIdx(newIdx);
+    }
+
+    touchStartX.current = 0;
+    touchEndX.current = 0;
+  };
+
+  // Initialize first card animation
+  useEffect(() => {
+    if (cardRefs.current[0] && !animatedCards.current.has(0)) {
+      animateActiveSlide(0);
+    }
+  }, []);
 
   const Card = ({ s, idx }) => (
     <article
@@ -614,7 +691,7 @@ const MobileSectores = ({ onAgendarClick }) => {
 
   return (
     <section id="sectores" className="w-full bg-[#181414] text-white">
-      <div className="max-w-[1500px] mx-auto px-4 py-12">
+      <div className="max-w-[1500px] mx-auto px-4 pt-6 pb-8">
         <header>
           <h2
             ref={titleRef}
@@ -629,14 +706,37 @@ const MobileSectores = ({ onAgendarClick }) => {
             }}
           />
           <p ref={subRef} className="text-[#e5e5e5] mt-3 max-w-[820px]">
-            Bloques claros, resultados medibles y automatizaciones que se
-            adaptan a tu forma de trabajar.
+            Soluciones a problemas claros, automatizaciones que se adaptan a tu
+            forma de trabajar.
           </p>
         </header>
 
         {/* Carrusel */}
         <div className="mt-6 relative">
-          <div className="overflow-hidden rounded-2xl">
+          {/* Pagination Dots */}
+          <div className="flex justify-center items-center gap-2 mb-4">
+            {data.map((_, idx) => (
+              <button
+                key={idx}
+                type="button"
+                onClick={() => setActiveIdx(idx)}
+                className={`pagination-dot ${
+                  idx === activeIdx ? "active" : ""
+                }`}
+                aria-label={`Ir a slide ${idx + 1}`}
+              />
+            ))}
+          </div>
+
+          <div
+            ref={carouselRef}
+            className="overflow-hidden rounded-2xl"
+            onTouchStart={handleTouchStart}
+            onTouchMove={handleTouchMove}
+            onTouchEnd={handleTouchEnd}
+            onTouchCancel={handleTouchEnd}
+            style={{ touchAction: "pan-y" }}
+          >
             <div
               ref={trackRef}
               style={{
@@ -929,6 +1029,26 @@ const commonStyles = `
   transform: translateY(-2px);
   box-shadow: 0 12px 28px rgba(0, 0, 0, 0.28);
   border-color: rgba(255, 255, 255, 0.14);
+}
+
+/* Pagination dots */
+.pagination-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.3);
+  border: none;
+  transition: all 0.25s ease;
+  cursor: pointer;
+}
+.pagination-dot.active {
+  background: #de0015;
+  width: 24px;
+  box-shadow: 0 0 10px rgba(222, 0, 21, 0.4);
+}
+.pagination-dot:hover:not(.active) {
+  background: rgba(255, 255, 255, 0.5);
+  transform: scale(1.1);
 }
 `;
 

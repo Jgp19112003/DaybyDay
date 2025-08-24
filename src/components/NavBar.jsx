@@ -14,6 +14,7 @@ const NavBar = ({ onAnimationComplete, currentView, onNavScroll }) => {
   const logoRef = useRef(null);
   const navRef = useRef(null);
   const [isMobile, setIsMobile] = useState(false);
+  const [hideOnScroll, setHideOnScroll] = useState(false); // Nuevo estado
 
   useEffect(() => {
     const checkMobile = () => setIsMobile(window.innerWidth <= 768);
@@ -22,6 +23,33 @@ const NavBar = ({ onAnimationComplete, currentView, onNavScroll }) => {
 
     return () => window.removeEventListener("resize", checkMobile);
   }, []);
+
+  // Detecta scroll en móvil y oculta/muestra el navbar
+  useEffect(() => {
+    if (!isMobile) return;
+
+    let lastScrollY = window.scrollY;
+    let ticking = false;
+
+    const handleScroll = () => {
+      if (!ticking) {
+        window.requestAnimationFrame(() => {
+          const currentScrollY = window.scrollY;
+          if (currentScrollY > lastScrollY) {
+            setHideOnScroll(true); // Oculta al hacer cualquier scroll abajo
+          } else if (currentScrollY < lastScrollY) {
+            setHideOnScroll(false); // Muestra al hacer cualquier scroll arriba
+          }
+          lastScrollY = currentScrollY;
+          ticking = false;
+        });
+        ticking = true;
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, [isMobile]);
 
   // Oculta/muestra el logo según isMobile
   useEffect(() => {
@@ -137,7 +165,11 @@ const NavBar = ({ onAnimationComplete, currentView, onNavScroll }) => {
   );
 
   return (
-    <nav className={`navbar ${isMobile ? "mobile" : ""}`}>
+    <nav
+      className={`navbar ${isMobile ? "mobile" : ""} ${
+        isMobile && hideOnScroll ? "navbar-hidden-mobile" : ""
+      }`}
+    >
       {/* Desktop: logo fuera */}
       {!isMobile && <LogoBlock />}
 
@@ -161,7 +193,41 @@ const NavBar = ({ onAnimationComplete, currentView, onNavScroll }) => {
           className="nav-link"
           onClick={(e) => {
             e.preventDefault();
-            if (typeof onNavScroll === "function") onNavScroll("inicio");
+
+            if (typeof onNavScroll === "function") onNavScroll("servicios");
+
+            setTimeout(() => {
+              const navH = getNAV();
+              const serviciosSection = document.querySelector("#servicios");
+              const serviciosTitle = document.querySelector("#servicios h2");
+
+              let targetY = 0;
+              const OFFSET_BELOW_NAV = 20; // Extra space below navbar
+
+              if (serviciosTitle) {
+                const rect = serviciosTitle.getBoundingClientRect();
+                targetY = Math.max(
+                  0,
+                  Math.round(
+                    window.pageYOffset + rect.top - navH - OFFSET_BELOW_NAV
+                  )
+                );
+              } else if (serviciosSection) {
+                const rect = serviciosSection.getBoundingClientRect();
+                targetY = Math.max(
+                  0,
+                  Math.round(
+                    window.pageYOffset + rect.top - navH - OFFSET_BELOW_NAV
+                  )
+                );
+              }
+
+              gsap.to(window, {
+                scrollTo: { y: targetY, autoKill: false },
+                duration: 1,
+                ease: "power2.out",
+              });
+            }, 100);
           }}
         >
           Servicios

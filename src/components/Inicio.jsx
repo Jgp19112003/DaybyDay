@@ -33,9 +33,9 @@ const inicioLogoHangingAnimation = (logoElement) => {
     y: 0,
     opacity: 1,
     rotation: 0,
-    duration: 0.8, // Reduced from 1.4 to 0.8
+    duration: 1,
     ease: "bounce.out",
-    delay: 0.1, // Reduced from 0.2 to 0.1
+    delay: 0.2,
     force3D: true,
   });
 
@@ -43,36 +43,44 @@ const inicioLogoHangingAnimation = (logoElement) => {
     y: 0,
     opacity: 1,
     rotation: 0,
-    duration: 0.8, // Reduced from 1.4 to 0.8
+    duration: 1, // Same as firstDay
     ease: "bounce.out",
-    delay: 0.2, // Reduced from 0.4 to 0.2
+    delay: 0.4,
     force3D: true,
   });
 
   gsap.to(secondY, {
     y: 0,
     opacity: 1,
-    rotation: 1.1, // Más rotación final
-    duration: 0.7, // Reduced from 1.3 to 0.7
+    rotation: 12, // Keep the original rotation
+    duration: 0.9,
     ease: "bounce.out",
-    delay: 0.3, // Reduced from 0.6 to 0.3
+    delay: 0.6,
     force3D: true,
   });
 
   gsap.to(by, {
     y: 0,
     opacity: 1,
-    rotation: 18,
-    duration: 1, // Reduced from 1.2 to 0.6
+    rotation: 12, // Keep the original rotation
+    duration: 0.8,
     ease: "bounce.out",
-    delay: 0.6, // Reduced from 0.8 to 0.4
+    delay: 0.8,
     force3D: true,
   });
 };
 
+const heroLines = [
+  "En un mercado donde el 92 % de los líderes consideran que la automatización es esencial para mantenerse competitivos,",
+  "el 77 % ya está mejorando sus conversiones gracias a ella",
+  "y el 70% planea incrementar su inversión en este ámbito",
+];
+
 const Inicio = () => {
   const logoRef = useRef(null);
   const sectionRef = useRef(null);
+  const heroRef = useRef(null);
+  const heroLineRefs = useRef(heroLines.map(() => React.createRef()));
 
   useEffect(() => {
     if (!logoRef.current || !sectionRef.current) return;
@@ -92,6 +100,12 @@ const Inicio = () => {
       // Usar la función copiada exacta del navbar
       inicioLogoHangingAnimation(logoRef.current);
 
+      // Inicializa hero invisible y abajo
+      gsap.set(heroRef.current, { opacity: 0, y: 100 });
+      heroLineRefs.current.forEach((ref) => {
+        gsap.set(ref.current, { opacity: 0, y: 40 });
+      });
+
       // Enhanced scroll animation - SLOWED DOWN significantly
       const scrollTimeline = gsap.timeline({
         scrollTrigger: {
@@ -105,12 +119,31 @@ const Inicio = () => {
           onUpdate: (self) => {
             const progress = self.progress;
 
-            // Day by Day logo animation
+            // Logo animation (desaparece y sube)
             gsap.set(logoRef.current, {
               scale: 1 - progress * 0.6, // Reduced scale change
               y: -progress * 250, // Reduced movement
               opacity: Math.max(0, 1 - progress * 1.5), // Adjusted for full transparency
               transformOrigin: "center center",
+            });
+
+            // Hero container animation (fade-in y sube)
+            gsap.set(heroRef.current, {
+              opacity: Math.min(1, progress * 2),
+              y: 100 - progress * 100,
+            });
+
+            // Animación secuencial de líneas del hero
+            heroLineRefs.current.forEach((ref, idx) => {
+              // Cada línea aparece con un pequeño retraso según el progreso
+              const lineProgress = Math.max(
+                0,
+                Math.min(1, (progress - 0.2 * idx) * 2)
+              );
+              gsap.set(ref.current, {
+                opacity: lineProgress,
+                y: 40 - lineProgress * 40,
+              });
             });
 
             // Reveal Servicios component
@@ -194,6 +227,40 @@ const Inicio = () => {
             </div>
           </div>
         </div>
+        {/* Hero text - aparece inversamente al logo */}
+        <div
+          ref={heroRef}
+          className="hero-text absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-white text-center max-w-2xl pointer-events-none"
+          style={{
+            fontFamily: '"Inter", "Montserrat", Arial, sans-serif',
+            fontWeight: 600,
+            fontSize: "clamp(1.2rem, 3vw, 2rem)",
+            lineHeight: 1.35,
+            letterSpacing: "-0.01em",
+            willChange: "transform, opacity",
+            textShadow: "0 2px 16px rgba(0,0,0,0.18)",
+            filter: "drop-shadow(0 2px 8px rgba(0,0,0,0.12))",
+            padding: "0 0.5em",
+            maxWidth: "38em",
+          }}
+        >
+          {heroLines.map((line, idx) => (
+            <div
+              key={idx}
+              ref={heroLineRefs.current[idx]}
+              className="hero-line"
+              style={{
+                marginBottom: idx < heroLines.length - 1 ? "0.5em" : 0,
+                opacity: 0,
+                willChange: "transform, opacity",
+                transition: "opacity 0.3s, transform 0.3s",
+                fontSize: "inherit",
+              }}
+            >
+              {line}
+            </div>
+          ))}
+        </div>
       </section>
 
       <style>{`
@@ -215,16 +282,36 @@ const Inicio = () => {
           font-size: 66px;
           font-style: italic;
           position: absolute;
-          top: -4px;
-          right: -100px;
+          top: -24px;
+          right: -90px;
           letter-spacing: -0.02em;
           color: ${LOGO_COLOR} !important;
         }
-
+        #inicio .hero-text {
+          font-family: "Inter", "Montserrat", Arial, sans-serif;
+          font-weight: 600;
+          letter-spacing: -0.01em;
+          text-shadow: 0 2px 16px rgba(0,0,0,0.18);
+          filter: drop-shadow(0 2px 8px rgba(0,0,0,0.12));
+          max-width: 38em;
+        }
+        #inicio .hero-line {
+          margin-bottom: 0.5em;
+        }
         @media (max-width: 768px) {
           #inicio .logo-by {
             right: -60px;
             font-size: 50px;
+          }
+          #inicio .hero-text {
+            font-size: 1.02rem;
+            max-width: 97vw;
+            padding: 0 0.2em;
+            line-height: 1.22;
+          }
+          #inicio .hero-line {
+            margin-bottom: 0.25em;
+            font-size: 1em;
           }
         }
       `}</style>
