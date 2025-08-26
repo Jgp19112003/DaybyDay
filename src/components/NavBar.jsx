@@ -71,14 +71,31 @@ const NavBar = React.forwardRef(
       const handleScroll = () => {
         if (!ticking) {
           window.requestAnimationFrame(() => {
+            const currentScrollY = window.scrollY;
+
+            // Obtener la posición de la sección servicios
+            const serviciosSection = document.querySelector("#servicios");
+            const serviciosSectionTop = serviciosSection
+              ? serviciosSection.offsetTop
+              : 0;
+
             // Si forceVisible está activo, no cambiar el estado del navbar
             if (forceVisible) {
-              lastScrollY = window.scrollY;
+              lastScrollY = currentScrollY;
               ticking = false;
               return;
             }
 
-            const currentScrollY = window.scrollY;
+            // Si está arriba de la sección servicios, ocultar siempre el navbar
+            if (currentScrollY < serviciosSectionTop - 100) {
+              // 100px de margen
+              setHideOnScroll(true);
+              lastScrollY = currentScrollY;
+              ticking = false;
+              return;
+            }
+
+            // Comportamiento normal de scroll una vez que llegue a servicios
             if (currentScrollY > lastScrollY) {
               setHideOnScroll(true); // Oculta al hacer cualquier scroll abajo
             } else if (currentScrollY < lastScrollY) {

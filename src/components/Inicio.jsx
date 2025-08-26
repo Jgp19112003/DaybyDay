@@ -99,10 +99,38 @@ const Inicio = () => {
     setVH();
 
     // Actualizar en cambio de tamaño (para rotación de pantalla)
-    window.addEventListener("resize", setVH);
+    const handleResize = () => {
+      setVH();
+      // Refresh ScrollTrigger después de cambios de viewport
+      if (window.ScrollTrigger) {
+        setTimeout(() => {
+          window.ScrollTrigger.refresh();
+        }, 100);
+      }
+    };
+
+    window.addEventListener("resize", handleResize);
     window.addEventListener("orientationchange", () => {
-      setTimeout(setVH, 100); // Delay para esperar a que el navegador se actualice
+      setTimeout(handleResize, 150); // Delay más largo para iOS
     });
+
+    // Listener específico para iOS que maneja el cambio de altura cuando aparecen/desaparecen las barras
+    if (/iPad|iPhone|iPod/.test(navigator.userAgent)) {
+      window.addEventListener(
+        "scroll",
+        () => {
+          // Solo actualizar la altura si hay un cambio significativo
+          const currentVH = window.innerHeight * 0.01;
+          const storedVH = parseFloat(
+            document.documentElement.style.getPropertyValue("--vh")
+          );
+          if (Math.abs(currentVH - storedVH) > 0.5) {
+            setVH();
+          }
+        },
+        { passive: true }
+      );
+    }
 
     // Force scroll to top on component mount to ensure animation starts from beginning
     window.scrollTo(0, 0);
@@ -123,39 +151,43 @@ const Inicio = () => {
         gsap.set(ref.current, { opacity: 0, y: 40 });
       });
 
-      // Enhanced scroll animation - Optimizado para móviles
+      // Enhanced scroll animation - Optimizado para móviles y iOS
       const isMobile = window.innerWidth <= 768;
+      const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
 
       const scrollTimeline = gsap.timeline({
         scrollTrigger: {
           trigger: currentSection,
           start: "top top",
           end: isMobile ? "+=200vh" : "+=150vh", // Más distancia en móvil para scroll más suave
-          scrub: isMobile ? 1.5 : 2, // Scroll más responsivo en móvil
+          scrub: isIOS ? 0.8 : isMobile ? 1.5 : 2, // Scroll más suave en iOS
           pin: true,
           anticipatePin: 1,
           refreshPriority: -1,
           invalidateOnRefresh: true, // Ayuda con el rendimiento en móvil
+          fastScrollEnd: isIOS ? true : false, // Mejora para iOS
           onUpdate: (self) => {
             const progress = self.progress;
 
-            // Logo animation (desaparece y sube) - Suavizado para móvil
+            // Logo animation (desaparece y sube) - Suavizado para móvil e iOS
             gsap.set(logoRef.current, {
               scale: 1 - progress * (isMobile ? 0.5 : 0.6), // Menos cambio de escala en móvil
               y: -progress * (isMobile ? 200 : 250), // Menos movimiento en móvil
               opacity: Math.max(0, 1 - progress * 1.5),
               transformOrigin: "center center",
               force3D: true, // Mejorar rendimiento en móvil
+              willChange: isIOS ? "transform, opacity" : "auto", // Optimización específica para iOS
             });
 
-            // Hero container animation (fade-in y sube) - Optimizado para móvil
+            // Hero container animation (fade-in y sube) - Optimizado para móvil e iOS
             gsap.set(heroRef.current, {
               opacity: Math.min(1, progress * 2),
               y: (isMobile ? 80 : 100) - progress * (isMobile ? 80 : 100), // Menos movimiento en móvil
               force3D: true,
+              willChange: isIOS ? "transform, opacity" : "auto", // Optimización específica para iOS
             });
 
-            // Animación secuencial de líneas del hero
+            // Animación secuencial de líneas del hero - Optimizada para iOS
             heroLineRefs.current.forEach((ref, idx) => {
               // Cada línea aparece con un pequeño retraso según el progreso
               const lineProgress = Math.max(
@@ -166,6 +198,7 @@ const Inicio = () => {
                 opacity: lineProgress,
                 y: (isMobile ? 30 : 40) - lineProgress * (isMobile ? 30 : 40), // Menos movimiento en móvil
                 force3D: true,
+                willChange: isIOS ? "transform, opacity" : "auto", // Optimización específica para iOS
               });
             });
 
@@ -176,6 +209,7 @@ const Inicio = () => {
                 opacity: Math.max(0, (progress - 0.7) * 3.33), // Normalizar desde 0.7 a 1
                 y: (1 - progress) * 100,
                 force3D: true,
+                willChange: isIOS ? "transform, opacity" : "auto", // Optimización específica para iOS
               });
             }
           },
@@ -195,8 +229,8 @@ const Inicio = () => {
       clearTimeout(initDelay);
 
       // Limpiar event listeners del viewport
-      window.removeEventListener("resize", setVH);
-      window.removeEventListener("orientationchange", setVH);
+      window.removeEventListener("resize", handleResize);
+      window.removeEventListener("orientationchange", handleResize);
 
       ScrollTrigger.getAll().forEach((trigger) => {
         if (trigger.trigger === currentSection) {
@@ -347,6 +381,10 @@ const Inicio = () => {
             left: 50% !important;
             transform: translate(-50%, -50%) !important;
             z-index: 10;
+            /* Optimizaciones para iOS */
+            -webkit-transform: translate3d(-50%, -50%, 0) !important;
+            -webkit-backface-visibility: hidden;
+            -webkit-perspective: 1000;
           }
           
           #inicio .logo-by {
@@ -362,10 +400,17 @@ const Inicio = () => {
             top: 50% !important;
             left: 50% !important;
             transform: translate(-50%, -50%) !important;
+            /* Optimizaciones para iOS */
+            -webkit-transform: translate3d(-50%, -50%, 0) !important;
+            -webkit-backface-visibility: hidden;
+            -webkit-perspective: 1000;
           }
           #inicio .hero-line {
             margin-bottom: 0.25em;
             font-size: 1em;
+            /* Optimizaciones para iOS */
+            -webkit-transform: translateZ(0);
+            -webkit-backface-visibility: hidden;
           }
           
           /* Forzar altura de pantalla completa en móvil */
@@ -374,6 +419,28 @@ const Inicio = () => {
             height: 100dvh !important; /* Para navegadores que lo soporten */
             min-height: 100vh !important;
             min-height: 100dvh !important;
+            /* Optimizaciones para iOS scroll */
+            -webkit-overflow-scrolling: touch;
+            overflow: hidden;
+            -webkit-transform: translateZ(0);
+            -webkit-backface-visibility: hidden;
+          }
+        }
+        
+        /* Optimizaciones específicas para iOS */
+        @supports (-webkit-touch-callout: none) {
+          #inicio {
+            -webkit-transform: translate3d(0, 0, 0);
+            -webkit-backface-visibility: hidden;
+            -webkit-perspective: 1000;
+          }
+          
+          #inicio .logo-container,
+          #inicio .hero-text,
+          #inicio .hero-line {
+            -webkit-transform: translateZ(0);
+            -webkit-backface-visibility: hidden;
+            will-change: transform;
           }
         }
       `}</style>
