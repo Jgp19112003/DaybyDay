@@ -1,10 +1,5 @@
 // /components/Servicios.jsx
-import React, {
-  useRef,
-  useEffect,
-  forwardRef,
-  useImperativeHandle,
-} from "react";
+import React, { useRef, useEffect } from "react";
 import { ScrollTrigger } from "gsap/all";
 import { gsap } from "gsap";
 import {
@@ -21,15 +16,12 @@ import Inicio from "./Inicio";
 const getNAV = () =>
   document.querySelector("#navbar, .site-nav, header")?.offsetHeight || 80;
 
-const Servicios = forwardRef(({ onAnimationComplete }, ref) => {
+const Servicios = () => {
   const sectionRef = useRef(null);
   const infoRef = useRef(null);
   const titleRef = useRef(null);
   const cardsRef = useRef([]);
   const tagsRef = useRef([]);
-
-  // Expose the section ref to parent component
-  useImperativeHandle(ref, () => sectionRef.current);
 
   // Izquierda (enfoque + métricas)
   const insightRef = useRef(null);
@@ -118,7 +110,7 @@ const Servicios = forwardRef(({ onAnimationComplete }, ref) => {
         ease: "power2.out",
         scrollTrigger: {
           trigger: sectionRef.current,
-          start: "top 80%", // Cambiado de "top bottom" a "top 80%" para que aparezca cuando esté más visible
+          start: "top bottom", // Changed from "top 90%" to start when section enters viewport
           once: true,
         },
         onComplete: () => {
@@ -128,14 +120,6 @@ const Servicios = forwardRef(({ onAnimationComplete }, ref) => {
             serviciosTitleAnimation(titleRef, sectionRef).then(() => {
               // Solo después de que el texto termine, anima info y cards
               serviciosInfoAnimation(infoRef, sectionRef);
-
-              // Esperar a que las animaciones de texto e info estén más avanzadas antes de mostrar el navbar
-              setTimeout(() => {
-                if (onAnimationComplete) {
-                  onAnimationComplete();
-                }
-              }, 80); // Delay de 800ms para asegurar que el navbar aparezca después
-
               serviciosCardsAnimation(cardsRef, sectionRef);
               serviciosCardHoverAnimation(cardsRef);
             });
@@ -147,10 +131,6 @@ const Servicios = forwardRef(({ onAnimationComplete }, ref) => {
             cardsRef.current.forEach(
               (c) => c && gsap.set(c, { opacity: 1, scale: 1 })
             );
-            // Para animaciones reducidas, llamar inmediatamente
-            if (onAnimationComplete) {
-              onAnimationComplete();
-            }
           }
         },
       });
@@ -268,7 +248,7 @@ const Servicios = forwardRef(({ onAnimationComplete }, ref) => {
       window.clearTimeout(refreshTimeout);
       ScrollTrigger.killAll();
     };
-  }, [onAnimationComplete]);
+  }, []);
 
   return (
     <div className="w-full min-h-screen bg-[#181414]">
@@ -367,7 +347,7 @@ const Servicios = forwardRef(({ onAnimationComplete }, ref) => {
                 </p>
                 <p
                   ref={p2Ref}
-                  className="text-[15px] lg:text-[17px] leading-relaxed text-[#e3e3e3] mt-8 lg:mt-8 mb-8 max-w-[60ch] text-center"
+                  className="text-[15px] lg:text-[17px] mt-3 leading-relaxed text-[#e3e3e3] mt-8 lg:mt-8 mb-8 max-w-[60ch] text-center"
                   style={{ opacity: 1, visibility: "visible" }}
                 >
                   En Day by Day transformamos esa necesidad en estrategia.
@@ -449,8 +429,6 @@ const Servicios = forwardRef(({ onAnimationComplete }, ref) => {
       </section>
     </div>
   );
-});
-
-Servicios.displayName = "Servicios";
+};
 
 export default Servicios;
