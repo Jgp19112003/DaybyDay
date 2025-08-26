@@ -23,7 +23,7 @@ const NavBar = React.forwardRef(
     const forceVisibleTimeoutRef = useRef(null);
 
     // Función para activar la visibilidad forzada (será llamada desde Servicios)
-    const activateForceVisible = (duration = 3000) => {
+    const activateForceVisible = () => {
       setForceVisible(true);
       setHideOnScroll(false); // Asegurar que esté visible
 
@@ -35,7 +35,7 @@ const NavBar = React.forwardRef(
       // Establecer timeout para desactivar la visibilidad forzada
       forceVisibleTimeoutRef.current = setTimeout(() => {
         setForceVisible(false);
-      }, duration);
+      }, 2500); // Forzar visibilidad durante 15 segundos
     };
 
     // Exponer la función para que pueda ser llamada desde el componente padre

@@ -118,7 +118,7 @@ const Servicios = forwardRef(({ onAnimationComplete }, ref) => {
         ease: "power2.out",
         scrollTrigger: {
           trigger: sectionRef.current,
-          start: "top bottom", // Changed from "top 90%" to start when section enters viewport
+          start: "top 80%", // Cambiado de "top bottom" a "top 80%" para que aparezca cuando esté más visible
           once: true,
         },
         onComplete: () => {
@@ -129,10 +129,12 @@ const Servicios = forwardRef(({ onAnimationComplete }, ref) => {
               // Solo después de que el texto termine, anima info y cards
               serviciosInfoAnimation(infoRef, sectionRef);
 
-              // Llamar onAnimationComplete JUSTO cuando empiezan las tarjetas
-              if (onAnimationComplete) {
-                onAnimationComplete();
-              }
+              // Esperar a que las animaciones de texto e info estén más avanzadas antes de mostrar el navbar
+              setTimeout(() => {
+                if (onAnimationComplete) {
+                  onAnimationComplete();
+                }
+              }, 80); // Delay de 800ms para asegurar que el navbar aparezca después
 
               serviciosCardsAnimation(cardsRef, sectionRef);
               serviciosCardHoverAnimation(cardsRef);

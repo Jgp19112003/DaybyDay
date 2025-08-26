@@ -123,31 +123,36 @@ const Inicio = () => {
         gsap.set(ref.current, { opacity: 0, y: 40 });
       });
 
-      // Enhanced scroll animation - SLOWED DOWN significantly
+      // Enhanced scroll animation - Optimizado para móviles
+      const isMobile = window.innerWidth <= 768;
+
       const scrollTimeline = gsap.timeline({
         scrollTrigger: {
           trigger: currentSection,
           start: "top top",
-          end: "+=150vh", // Increased from 100vh to 150vh for slower animation
-          scrub: 2, // Increased from 1 to 2 for slower response
+          end: isMobile ? "+=200vh" : "+=150vh", // Más distancia en móvil para scroll más suave
+          scrub: isMobile ? 1.5 : 2, // Scroll más responsivo en móvil
           pin: true,
           anticipatePin: 1,
           refreshPriority: -1,
+          invalidateOnRefresh: true, // Ayuda con el rendimiento en móvil
           onUpdate: (self) => {
             const progress = self.progress;
 
-            // Logo animation (desaparece y sube)
+            // Logo animation (desaparece y sube) - Suavizado para móvil
             gsap.set(logoRef.current, {
-              scale: 1 - progress * 0.6, // Reduced scale change
-              y: -progress * 250, // Reduced movement
-              opacity: Math.max(0, 1 - progress * 1.5), // Adjusted for full transparency
+              scale: 1 - progress * (isMobile ? 0.5 : 0.6), // Menos cambio de escala en móvil
+              y: -progress * (isMobile ? 200 : 250), // Menos movimiento en móvil
+              opacity: Math.max(0, 1 - progress * 1.5),
               transformOrigin: "center center",
+              force3D: true, // Mejorar rendimiento en móvil
             });
 
-            // Hero container animation (fade-in y sube)
+            // Hero container animation (fade-in y sube) - Optimizado para móvil
             gsap.set(heroRef.current, {
               opacity: Math.min(1, progress * 2),
-              y: 100 - progress * 100,
+              y: (isMobile ? 80 : 100) - progress * (isMobile ? 80 : 100), // Menos movimiento en móvil
+              force3D: true,
             });
 
             // Animación secuencial de líneas del hero
@@ -159,15 +164,18 @@ const Inicio = () => {
               );
               gsap.set(ref.current, {
                 opacity: lineProgress,
-                y: 40 - lineProgress * 40,
+                y: (isMobile ? 30 : 40) - lineProgress * (isMobile ? 30 : 40), // Menos movimiento en móvil
+                force3D: true,
               });
             });
 
-            // Reveal Servicios component
-            if (currentSection) {
+            // Reveal Servicios component - Retrasado para evitar aparición prematura del navbar
+            if (currentSection && progress > 0.7) {
+              // Solo cuando el progreso sea mayor al 70%
               gsap.set(currentSection.nextElementSibling, {
-                opacity: progress,
-                y: (1 - progress) * 100, // Slide up effect
+                opacity: Math.max(0, (progress - 0.7) * 3.33), // Normalizar desde 0.7 a 1
+                y: (1 - progress) * 100,
+                force3D: true,
               });
             }
           },
