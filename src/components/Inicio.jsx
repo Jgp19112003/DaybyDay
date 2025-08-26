@@ -85,7 +85,24 @@ const Inicio = () => {
   useEffect(() => {
     if (!logoRef.current || !sectionRef.current) return;
 
+    const currentSection = sectionRef.current; // Capturar la referencia al inicio del efecto
+
     gsap.registerPlugin(ScrollTrigger);
+
+    // Función para establecer la altura correcta del viewport en móviles
+    const setVH = () => {
+      const vh = window.innerHeight * 0.01;
+      document.documentElement.style.setProperty("--vh", `${vh}px`);
+    };
+
+    // Establecer altura inicial
+    setVH();
+
+    // Actualizar en cambio de tamaño (para rotación de pantalla)
+    window.addEventListener("resize", setVH);
+    window.addEventListener("orientationchange", () => {
+      setTimeout(setVH, 100); // Delay para esperar a que el navegador se actualice
+    });
 
     // Force scroll to top on component mount to ensure animation starts from beginning
     window.scrollTo(0, 0);
@@ -109,7 +126,7 @@ const Inicio = () => {
       // Enhanced scroll animation - SLOWED DOWN significantly
       const scrollTimeline = gsap.timeline({
         scrollTrigger: {
-          trigger: sectionRef.current,
+          trigger: currentSection,
           start: "top top",
           end: "+=150vh", // Increased from 100vh to 150vh for slower animation
           scrub: 2, // Increased from 1 to 2 for slower response
@@ -147,8 +164,8 @@ const Inicio = () => {
             });
 
             // Reveal Servicios component
-            if (sectionRef.current) {
-              gsap.set(sectionRef.current.nextElementSibling, {
+            if (currentSection) {
+              gsap.set(currentSection.nextElementSibling, {
                 opacity: progress,
                 y: (1 - progress) * 100, // Slide up effect
               });
@@ -162,19 +179,24 @@ const Inicio = () => {
       });
 
       // Store timeline reference for cleanup
-      sectionRef.current._scrollTimeline = scrollTimeline;
+      currentSection._scrollTimeline = scrollTimeline;
     }, 150); // Increased delay
 
     // Cleanup
     return () => {
       clearTimeout(initDelay);
+
+      // Limpiar event listeners del viewport
+      window.removeEventListener("resize", setVH);
+      window.removeEventListener("orientationchange", setVH);
+
       ScrollTrigger.getAll().forEach((trigger) => {
-        if (trigger.trigger === sectionRef.current) {
+        if (trigger.trigger === currentSection) {
           trigger.kill();
         }
       });
-      if (sectionRef.current?._scrollTimeline) {
-        sectionRef.current._scrollTimeline.kill();
+      if (currentSection?._scrollTimeline) {
+        currentSection._scrollTimeline.kill();
       }
     };
   }, []);
@@ -202,11 +224,22 @@ const Inicio = () => {
       <section
         id="inicio"
         ref={sectionRef}
-        className="w-full h-screen bg-[#181414] flex flex-col items-center justify-center overflow-hidden relative"
+        className="w-full bg-[#181414] flex flex-col items-center justify-center overflow-hidden relative"
+        style={{
+          // Para móviles, usar 100dvh si está disponible (altura dinámica del viewport)
+          height: "var(--vh, 100vh)",
+          minHeight: "100vh",
+        }}
         aria-label="Inicio - Day by Day"
       >
         {/* Day by Day Logo */}
-        <div className="logo-container absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+        <div
+          className="logo-container fixed top-1/2 left-1/2 z-10"
+          style={{
+            transform: "translate(-50%, -50%)",
+            willChange: "transform, opacity",
+          }}
+        >
           <div
             className="logo-text logo-hidden"
             ref={logoRef}
@@ -299,6 +332,15 @@ const Inicio = () => {
           margin-bottom: 0.5em;
         }
         @media (max-width: 768px) {
+          /* Asegurar que el logo esté perfectamente centrado en móvil */
+          #inicio .logo-container {
+            position: fixed !important;
+            top: 50% !important;
+            left: 50% !important;
+            transform: translate(-50%, -50%) !important;
+            z-index: 10;
+          }
+          
           #inicio .logo-by {
             right: -60px;
             font-size: 50px;
@@ -308,10 +350,22 @@ const Inicio = () => {
             max-width: 97vw;
             padding: 0 0.2em;
             line-height: 1.22;
+            position: fixed !important;
+            top: 50% !important;
+            left: 50% !important;
+            transform: translate(-50%, -50%) !important;
           }
           #inicio .hero-line {
             margin-bottom: 0.25em;
             font-size: 1em;
+          }
+          
+          /* Forzar altura de pantalla completa en móvil */
+          #inicio {
+            height: 100vh !important;
+            height: 100dvh !important; /* Para navegadores que lo soporten */
+            min-height: 100vh !important;
+            min-height: 100dvh !important;
           }
         }
       `}</style>
