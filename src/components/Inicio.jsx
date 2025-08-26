@@ -85,7 +85,7 @@ const Inicio = () => {
   useEffect(() => {
     if (!logoRef.current || !sectionRef.current) return;
 
-    const currentSection = sectionRef.current; // Capturar la referencia al inicio del efecto
+    const currentSection = sectionRef.current;
 
     gsap.registerPlugin(ScrollTrigger);
 
@@ -202,19 +202,18 @@ const Inicio = () => {
               });
             });
 
-            // Reveal Servicios component - Retrasado para evitar aparición prematura del navbar
-            if (currentSection && progress > 0.7) {
-              // Solo cuando el progreso sea mayor al 70%
+            // Reveal Servicios component - earlier reveal for navbar transition
+            if (currentSection && progress > 0.6) {
               gsap.set(currentSection.nextElementSibling, {
-                opacity: Math.max(0, (progress - 0.7) * 3.33), // Normalizar desde 0.7 a 1
+                opacity: Math.max(0, (progress - 0.6) * 2.5),
                 y: (1 - progress) * 100,
                 force3D: true,
-                willChange: isIOS ? "transform, opacity" : "auto", // Optimización específica para iOS
+                willChange: isIOS ? "transform, opacity" : "auto",
               });
             }
           },
           onComplete: () => {
-            // When animation completes, dispatch event to show Servicios
+            // When animation completes, ensure servicios is fully visible
             window.dispatchEvent(new CustomEvent("inicioComplete"));
           },
         },

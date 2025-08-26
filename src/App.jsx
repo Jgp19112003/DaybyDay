@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, useCallback } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import gsap from "gsap";
 import { ScrollTrigger, SplitText } from "gsap/all";
 import NavBar from "./components/NavBar";
@@ -14,20 +14,9 @@ const App = () => {
   const [currentView, setCurrentView] = useState("home");
   const [pendingScroll, setPendingScroll] = useState(null);
   const [isTransitioning] = useState(false);
-  const [serviciosAnimationComplete, setServiciosAnimationComplete] =
-    useState(false);
 
   const serviciosRef = useRef(null);
-  const navBarRef = useRef(null); // Nueva referencia para el NavBar
-
-  const handleServiciosAnimationComplete = useCallback(() => {
-    setServiciosAnimationComplete(true);
-
-    // Activar visibilidad forzada del navbar en móvil cuando termine la animación de servicios
-    if (navBarRef.current && navBarRef.current.activateForceVisible) {
-      navBarRef.current.activateForceVisible(1000); // 4 segundos de visibilidad forzada
-    }
-  }, []);
+  const navBarRef = useRef(null);
 
   useEffect(() => {
     window.history.scrollRestoration = "manual";
@@ -93,15 +82,10 @@ const App = () => {
         currentView={currentView}
         onAgendarClick={() => handleNavScroll("agendar")}
         onNavScroll={handleNavScroll}
-        isVisible={serviciosAnimationComplete}
       />
       {currentView === "home" && (
         <>
-          {/* Render Servicios, which includes Inicio */}
-          <Servicios
-            ref={serviciosRef}
-            onAnimationComplete={handleServiciosAnimationComplete}
-          />
+          <Servicios ref={serviciosRef} />
           <Sectores onAgendarClick={() => handleNavScroll("agendar")} />
         </>
       )}

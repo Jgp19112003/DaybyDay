@@ -284,6 +284,9 @@ export const scrambleTextAnimation = (element, targetText, options = {}) => {
 export const serviciosCardsAnimation = (cardsRef) => {
   const isMobile = window.innerWidth <= 768;
 
+  // Dispatch event to show navbar right when cards animation starts
+  window.dispatchEvent(new CustomEvent("serviciosCardsAnimationStart"));
+
   if (isMobile) {
     // On mobile, use the same dramatic entrance as desktop
     gsap.set(cardsRef.current, {
@@ -300,7 +303,7 @@ export const serviciosCardsAnimation = (cardsRef) => {
         transformOrigin: "center center",
       },
       {
-        delay: 0.5, // Aumentado para dar tiempo al navbar a aparecer
+        delay: 0.5,
         opacity: 1,
         scale: 1,
         duration: 1,
@@ -311,7 +314,7 @@ export const serviciosCardsAnimation = (cardsRef) => {
     return;
   }
 
-  // Desktop animation - delay aumentado para sincronizar con navbar
+  // Desktop animation
   gsap.set(cardsRef.current, {
     opacity: 0,
     scale: 2,
@@ -326,7 +329,7 @@ export const serviciosCardsAnimation = (cardsRef) => {
       transformOrigin: "center center",
     },
     {
-      delay: 0.5, // Aumentado para dar tiempo al navbar a aparecer suavemente
+      delay: 0.5,
       opacity: 1,
       scale: 1,
       duration: 1,
@@ -775,4 +778,220 @@ export const btnPrimaryAppearAnimation = (btnRef) => {
     duration: 0.7,
     ease: "power2.out",
   });
+};
+
+export const initNavbarScrollVisibility = (navbarElement) => {
+  if (!navbarElement) return () => {};
+
+  let isVisible = false;
+  let ticking = false;
+  let hasBeenTriggered = false;
+  let lastScrollY = window.scrollY;
+  let scrollDirection = "up";
+  let scrollThreshold = 10; // Pixels mínimos para detectar scroll significativo
+  let graceTimeout = null; // Timeout para el período de gracia
+  let isInGracePeriod = false; // Flag para controlar el período de gracia
+
+  const isMobile = window.innerWidth <= 768;
+
+  const showNavbar = () => {
+    if (!isVisible) {
+      isVisible = true;
+      if (isMobile) {
+        // Móvil: transición rápida pero suave
+        gsap.to(navbarElement, {
+          opacity: 1,
+          y: 0,
+          duration: 0.2,
+          ease: "power2.out",
+          display: "flex",
+        });
+      } else {
+        // Desktop: animación suave
+        gsap.to(navbarElement, {
+          opacity: 1,
+          y: 0,
+          duration: 0.6,
+          ease: "power2.out",
+          display: "flex",
+        });
+      }
+    }
+  };
+
+  const hideNavbar = () => {
+    if (isVisible) {
+      isVisible = false;
+      if (isMobile) {
+        // Móvil: transición rápida pero suave hacia arriba
+        gsap.to(navbarElement, {
+          opacity: 0,
+          y: -60,
+          duration: 0.15,
+          ease: "power2.in",
+          onComplete: () => {
+            gsap.set(navbarElement, { display: "none" });
+          },
+        });
+      } else {
+        // Desktop: animación suave
+        gsap.to(navbarElement, {
+          opacity: 0,
+          y: -20,
+          duration: 0.4,
+          ease: "power2.in",
+          onComplete: () => {
+            gsap.set(navbarElement, { display: "none" });
+          },
+        });
+      }
+    }
+  };
+
+  const updateNavbarVisibility = () => {
+    const scrollY = window.scrollY;
+    const windowHeight = window.innerHeight;
+    const serviciosSection = document.querySelector("#servicios");
+
+    // Detectar dirección del scroll con threshold para evitar micro-movimientos
+    const scrollDiff = scrollY - lastScrollY;
+    if (Math.abs(scrollDiff) > scrollThreshold) {
+      scrollDirection = scrollDiff > 0 ? "down" : "up";
+    }
+
+    // --- MÓVIL: lógica de scroll con período de gracia ---
+    if (isMobile && hasBeenTriggered) {
+      // Si estamos en período de gracia, no aplicar la lógica de scroll
+      if (isInGracePeriod) {
+        lastScrollY = scrollY;
+        ticking = false;
+        return;
+      }
+
+      // Verificar si estamos en el hero para ocultarlo
+      const heroSection = document.querySelector("#inicio");
+      if (heroSection) {
+        const heroRect = heroSection.getBoundingClientRect();
+        // En móvil, si el hero está visible, ocultar navbar
+        const heroIsVisible =
+          heroRect.bottom > windowHeight * 0.3 &&
+          heroRect.top <= windowHeight * 0.7;
+
+        if (heroIsVisible) {
+          if (isVisible) {
+            hideNavbar();
+          }
+          lastScrollY = scrollY;
+          ticking = false;
+          return;
+        }
+      }
+
+      // Aplicar lógica de scroll normal si no estamos en el hero
+      if (Math.abs(scrollDiff) > scrollThreshold) {
+        if (scrollDirection === "down" && scrollY > 100) {
+          // Scroll hacia abajo y no estamos en el top: ocultar inmediatamente
+          hideNavbar();
+        } else if (scrollDirection === "up") {
+          // Scroll hacia arriba: mostrar inmediatamente (solo si no estamos en hero)
+          showNavbar();
+        }
+      }
+
+      lastScrollY = scrollY;
+      ticking = false;
+      return;
+    }
+
+    // --- Lógica normal para desktop o antes de que aparezca por primera vez ---
+    if (!isMobile && hasBeenTriggered) {
+      // Desktop: lógica mejorada basada en la visibilidad del hero
+      const heroSection = document.querySelector("#inicio");
+      const serviciosSection = document.querySelector("#servicios");
+
+      if (heroSection && serviciosSection) {
+        const heroRect = heroSection.getBoundingClientRect();
+        const serviciosRect = serviciosSection.getBoundingClientRect();
+
+        // En PC, desaparecer mucho antes - cuando el hero apenas empiece a aparecer
+        const heroIsVisible =
+          heroRect.bottom > windowHeight * 0.6 &&
+          heroRect.top <= windowHeight * 0.8;
+
+        // Si servicios está en el viewport
+        const serviciosIsVisible = serviciosRect.top <= windowHeight * 0.8;
+
+        if (heroIsVisible && !serviciosIsVisible) {
+          // Estamos en el hero, ocultar navbar
+          if (isVisible) {
+            hideNavbar();
+          }
+        } else if (serviciosIsVisible) {
+          // Servicios está visible, mostrar navbar
+          if (!isVisible) {
+            showNavbar();
+          }
+        }
+      }
+    } else if (!hasBeenTriggered && serviciosSection) {
+      // Lógica original para la primera aparición
+      const serviciosRect = serviciosSection.getBoundingClientRect();
+      const serviciosTop = serviciosRect.top + scrollY;
+
+      const shouldShow = scrollY >= serviciosTop - windowHeight * 0.8;
+
+      if (shouldShow && !isVisible) {
+        showNavbar();
+      }
+    }
+
+    lastScrollY = scrollY;
+    ticking = false;
+  };
+
+  const handleScroll = () => {
+    if (!ticking) {
+      requestAnimationFrame(updateNavbarVisibility);
+      ticking = true;
+    }
+  };
+
+  // Set initial state - hidden
+  gsap.set(navbarElement, {
+    opacity: 0,
+    y: -20,
+    display: "none",
+  });
+
+  window.addEventListener("scroll", handleScroll, { passive: true });
+
+  // Listen for custom event to show navbar when cards animation starts
+  const handleServiciosCardsStart = () => {
+    hasBeenTriggered = true;
+    showNavbar();
+
+    // Iniciar período de gracia de 3 segundos solo en móvil
+    if (isMobile) {
+      isInGracePeriod = true;
+      if (graceTimeout) clearTimeout(graceTimeout);
+      graceTimeout = setTimeout(() => {
+        isInGracePeriod = false;
+      }, 1500);
+    }
+  };
+
+  window.addEventListener(
+    "serviciosCardsAnimationStart",
+    handleServiciosCardsStart
+  );
+
+  // Cleanup function
+  return () => {
+    window.removeEventListener("scroll", handleScroll);
+    window.removeEventListener(
+      "serviciosCardsAnimationStart",
+      handleServiciosCardsStart
+    );
+    if (graceTimeout) clearTimeout(graceTimeout);
+  };
 };

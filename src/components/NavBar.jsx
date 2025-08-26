@@ -1,8 +1,18 @@
 // /components/NavBar.jsx
-import React, { useRef, useEffect, useState } from "react";
+import React, {
+  useRef,
+  useEffect,
+  useState,
+  forwardRef,
+  useImperativeHandle,
+} from "react";
 import { gsap } from "gsap";
 import { ScrollToPlugin } from "gsap/ScrollToPlugin";
-import { logoHangingAnimation, navMenuAnimation } from "../animation";
+import {
+  logoHangingAnimation,
+  navMenuAnimation,
+  initNavbarScrollVisibility,
+} from "../animation";
 
 gsap.registerPlugin(ScrollToPlugin);
 
@@ -10,11 +20,16 @@ gsap.registerPlugin(ScrollToPlugin);
 const getNAV = () =>
   document.querySelector("#navbar, .site-nav, header")?.offsetHeight || 80;
 
-const NavBar = ({ onAnimationComplete, currentView, onNavScroll }) => {
+const NavBar = forwardRef(({ currentView, onNavScroll }, ref) => {
   const logoRef = useRef(null);
   const navRef = useRef(null);
+  const navbarRef = useRef(null);
   const [isMobile, setIsMobile] = useState(false);
-  const [hideOnScroll, setHideOnScroll] = useState(false); // Nuevo estado
+  const scrollCleanupRef = useRef(null);
+
+  useImperativeHandle(ref, () => ({
+    // Expose methods if needed
+  }));
 
   useEffect(() => {
     const checkMobile = () => setIsMobile(window.innerWidth <= 768);
@@ -24,32 +39,24 @@ const NavBar = ({ onAnimationComplete, currentView, onNavScroll }) => {
     return () => window.removeEventListener("resize", checkMobile);
   }, []);
 
-  // Detecta scroll en móvil y oculta/muestra el navbar
+  // Inicializa la visibilidad del navbar basada en el scroll
   useEffect(() => {
-    if (!isMobile) return;
+    if (navbarRef.current) {
+      // Limpiar el listener de scroll anterior
+      if (scrollCleanupRef.current) {
+        scrollCleanupRef.current();
+      }
 
-    let lastScrollY = window.scrollY;
-    let ticking = false;
+      // Inicializar nueva visibilidad por scroll
+      scrollCleanupRef.current = initNavbarScrollVisibility(navbarRef.current);
+    }
 
-    const handleScroll = () => {
-      if (!ticking) {
-        window.requestAnimationFrame(() => {
-          const currentScrollY = window.scrollY;
-          if (currentScrollY > lastScrollY) {
-            setHideOnScroll(true); // Oculta al hacer cualquier scroll abajo
-          } else if (currentScrollY < lastScrollY) {
-            setHideOnScroll(false); // Muestra al hacer cualquier scroll arriba
-          }
-          lastScrollY = currentScrollY;
-          ticking = false;
-        });
-        ticking = true;
+    return () => {
+      if (scrollCleanupRef.current) {
+        scrollCleanupRef.current();
       }
     };
-
-    window.addEventListener("scroll", handleScroll, { passive: true });
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, [isMobile]);
+  }, []);
 
   // Oculta/muestra el logo según isMobile
   useEffect(() => {
@@ -80,13 +87,10 @@ const NavBar = ({ onAnimationComplete, currentView, onNavScroll }) => {
         logoHangingAnimation(logoRef.current);
         await navMenuAnimation(navRef.current);
       }
-
-      onAnimationComplete?.();
     };
 
     runAnimations();
-    // Solo depende de isMobile y onAnimationComplete
-  }, [onAnimationComplete, isMobile]);
+  }, [isMobile]);
 
   // Scroll suave genérico
   const handleNavClick = (e, target) => {
@@ -166,9 +170,17 @@ const NavBar = ({ onAnimationComplete, currentView, onNavScroll }) => {
 
   return (
     <nav
-      className={`navbar ${isMobile ? "mobile" : ""} ${
-        isMobile && hideOnScroll ? "navbar-hidden-mobile" : ""
-      }`}
+      ref={navbarRef}
+      className={`navbar ${isMobile ? "mobile" : ""}`}
+      style={{
+        position: "fixed",
+        top: 0,
+        left: 0,
+        right: 0,
+        zIndex: 1000,
+        opacity: 0,
+        display: "none",
+      }}
     >
       {/* Desktop: logo fuera */}
       {!isMobile && <LogoBlock />}
@@ -270,6 +282,8 @@ const NavBar = ({ onAnimationComplete, currentView, onNavScroll }) => {
       </div>
     </nav>
   );
-};
+});
+
+NavBar.displayName = "NavBar";
 
 export default NavBar;
