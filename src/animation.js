@@ -300,7 +300,7 @@ export const serviciosCardsAnimation = (cardsRef) => {
         transformOrigin: "center center",
       },
       {
-        delay: 0.1, // Reduced from 0.3 to appear immediately after title
+        delay: 0.5, // Aumentado para dar tiempo al navbar a aparecer
         opacity: 1,
         scale: 1,
         duration: 1,
@@ -311,7 +311,7 @@ export const serviciosCardsAnimation = (cardsRef) => {
     return;
   }
 
-  // Desktop animation - reduced delay significantly
+  // Desktop animation - delay aumentado para sincronizar con navbar
   gsap.set(cardsRef.current, {
     opacity: 0,
     scale: 2,
@@ -326,7 +326,7 @@ export const serviciosCardsAnimation = (cardsRef) => {
       transformOrigin: "center center",
     },
     {
-      delay: 0.1, // Reduced from 0.2 to appear immediately after title
+      delay: 0.5, // Aumentado para dar tiempo al navbar a aparecer suavemente
       opacity: 1,
       scale: 1,
       duration: 1,
