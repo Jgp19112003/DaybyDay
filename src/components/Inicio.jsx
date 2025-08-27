@@ -192,12 +192,23 @@ const Inicio = () => {
 
       // Inicializar cartas de métricas como invisibles
       if (metricsContainerRef.current) {
-        gsap.set(metricsContainerRef.current, { opacity: 0, y: 100 });
+        // Oculte con visibility para evitar que permanezcan ocultas aun cuando cambiemos opacity
+        gsap.set(metricsContainerRef.current, {
+          opacity: 0,
+          y: 100,
+          visibility: "hidden",
+        });
         console.log("Métricas container inicializado como invisible");
       }
       metricsCardsRef.current.forEach((ref, idx) => {
         if (ref) {
-          gsap.set(ref, { opacity: 0, y: 60, scale: 0.9 });
+          // Igual: ocultar con visibility y controlar visibilidad desde la animación
+          gsap.set(ref, {
+            opacity: 0,
+            y: 60,
+            scale: 0.9,
+            visibility: "hidden",
+          });
           console.log(`Carta métrica ${idx} inicializada como invisible`);
         }
       });
@@ -366,9 +377,11 @@ const Inicio = () => {
                       const containerOpacity = Math.min(1, metricsProgress * 2);
                       const containerY = 100 - containerOpacity * 100;
 
+                      // Asegurarse de marcar visible cuando hay progreso
                       gsap.set(metricsContainerRef.current, {
                         opacity: containerOpacity,
                         y: containerY,
+                        visibility: containerOpacity > 0 ? "visible" : "hidden",
                         force3D: true,
                       });
                     }
@@ -387,36 +400,40 @@ const Inicio = () => {
                           const cardY = 60 - cardProgress * 60;
                           const cardScale = 0.9 + cardProgress * 0.1;
 
+                          // Hacer visible la carta cuando empieza a animarse
                           gsap.set(ref, {
                             opacity: cardOpacity,
                             y: cardY,
                             scale: cardScale,
+                            visibility: "visible",
                             force3D: true,
                           });
                         }
                       }
                     });
-                  }
-                } else {
-                  // Phase-3 no está completamente visible, ocultar cartas
-                  if (metricsContainerRef.current) {
-                    gsap.set(metricsContainerRef.current, {
-                      opacity: 0,
-                      y: 100,
-                      force3D: true,
-                    });
-                  }
-
-                  metricsCardsRef.current.forEach((ref) => {
-                    if (ref) {
-                      gsap.set(ref, {
+                  } else {
+                    // Phase-3 no está completamente visible, ocultar cartas
+                    if (metricsContainerRef.current) {
+                      gsap.set(metricsContainerRef.current, {
                         opacity: 0,
-                        y: 60,
-                        scale: 0.9,
+                        y: 100,
+                        visibility: "hidden",
                         force3D: true,
                       });
                     }
-                  });
+
+                    metricsCardsRef.current.forEach((ref) => {
+                      if (ref) {
+                        gsap.set(ref, {
+                          opacity: 0,
+                          y: 60,
+                          scale: 0.9,
+                          visibility: "hidden",
+                          force3D: true,
+                        });
+                      }
+                    });
+                  }
                 }
               }
             });
@@ -584,7 +601,6 @@ const Inicio = () => {
                 boxShadow: "0 8px 32px rgba(0,0,0,0.18)",
                 color: "#181414",
                 opacity: 0,
-                visibility: "hidden",
                 minHeight: "120px",
               }}
             >
@@ -645,7 +661,6 @@ const Inicio = () => {
                 boxShadow: "0 8px 32px rgba(0,0,0,0.18)",
                 color: "#181414",
                 opacity: 0,
-                visibility: "hidden",
                 minHeight: "120px",
               }}
             >
@@ -706,7 +721,6 @@ const Inicio = () => {
                 boxShadow: "0 8px 32px rgba(0,0,0,0.18)",
                 color: "#181414",
                 opacity: 0,
-                visibility: "hidden",
                 minHeight: "120px",
                 gridColumn: "1 / -1",
               }}
