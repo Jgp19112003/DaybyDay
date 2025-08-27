@@ -115,6 +115,10 @@ const Inicio = () => {
     heroPhases.flatMap((phase) => phase.lines.map(() => React.createRef()))
   );
 
+  // Referencias para las cartas de métricas de la última fase
+  const metricsCardsRef = useRef([]);
+  const metricsContainerRef = useRef(null);
+
   useEffect(() => {
     if (!logoRef.current || !sectionRef.current) return;
 
@@ -178,247 +182,247 @@ const Inicio = () => {
       // Usar la función copiada exacta del navbar
       inicioLogoHangingAnimation(logoRef.current);
 
-      // Inicializar todas las fases como invisibles
+      // Inicializar todas las fases como invisibles con mayor recorrido
       heroPhaseRefs.current.forEach((ref) => {
-        gsap.set(ref.current, { opacity: 0, y: 100 });
+        gsap.set(ref.current, { opacity: 0, y: 200 });
       });
       heroLineRefs.current.forEach((ref) => {
-        gsap.set(ref.current, { opacity: 0, y: 40 });
+        gsap.set(ref.current, { opacity: 0, y: 80 });
       });
 
-      // Enhanced scroll animation con sistema de fases
-      const isMobile = window.innerWidth <= 768;
-      const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
+      // Inicializar cartas de métricas como invisibles
+      if (metricsContainerRef.current) {
+        gsap.set(metricsContainerRef.current, { opacity: 0, y: 100 });
+        console.log("Métricas container inicializado como invisible");
+      }
+      metricsCardsRef.current.forEach((ref, idx) => {
+        if (ref) {
+          gsap.set(ref, { opacity: 0, y: 60, scale: 0.9 });
+          console.log(`Carta métrica ${idx} inicializada como invisible`);
+        }
+      });
+
+      // Enhanced scroll animation - SIMPLIFICADO
 
       const scrollTimeline = gsap.timeline({
         scrollTrigger: {
           trigger: currentSection,
           start: "top top",
-          end: isMobile ? "+=1200vh" : "+=1000vh", // Mucho más scroll para más tiempo por fase
-          scrub: isIOS ? 3 : isMobile ? 4 : 5, // Scroll aún más lento
+          end: "+=1800vh", // Más scroll para transiciones suaves
+          scrub: 3, // Scroll suave pero no excesivo
           pin: true,
           anticipatePin: 1,
           refreshPriority: -1,
           invalidateOnRefresh: true,
-          fastScrollEnd: isIOS ? true : false,
           onUpdate: (self) => {
             const progress = self.progress;
+            const isMobile = window.innerWidth <= 768;
 
-            // Definir las fases del scroll con MUCHO más espacio entre ellas
-            // Fase 0: Logo visible (0% - 20%) - Más tiempo para apreciar el logo
-            // Fase 1: Primera sección de hero (20% - 55%) - MUCHO MÁS TIEMPO para leer
-            // Fase 2: Segunda sección de hero (55% - 75%) - Tiempo suficiente para leer
-            // Fase 3: Tercera sección de hero (75% - 90%) - Tiempo suficiente para leer
-            // Fase 4: Cuarta sección de hero (90% - 100%) - Tiempo final
-
-            // Logo animation - permanece más tiempo visible
-            if (progress <= 0.2) {
+            // Logo animation - se desvanece gradualmente
+            if (progress <= 0.15) {
               gsap.set(logoRef.current, {
                 opacity: 1,
                 scale: 1,
                 y: 0,
                 force3D: true,
-                willChange: isIOS ? "transform, opacity" : "auto",
               });
-            } else if (progress > 0.2 && progress <= 0.55) {
-              // Transición MUCHO MÁS SUAVE del logo a la primera fase
-              const fadeProgress = (progress - 0.2) / 0.35; // Transición más larga
+            } else if (progress > 0.15 && progress <= 0.25) {
+              // Transición suave del logo
+              const fadeProgress = (progress - 0.15) / 0.1;
               gsap.set(logoRef.current, {
-                opacity: 1 - fadeProgress, // Transición gradual original
-                scale: 1 - fadeProgress * 0.3,
+                opacity: 1 - fadeProgress,
+                scale: 1 - fadeProgress * 0.2,
                 y: -fadeProgress * (isMobile ? 150 : 200),
                 force3D: true,
-                willChange: isIOS ? "transform, opacity" : "auto",
               });
             } else {
-              // Logo completamente invisible después de la primera fase
+              // Logo completamente invisible
               gsap.set(logoRef.current, {
                 opacity: 0,
-                scale: 0.7,
+                scale: 0.8,
                 y: -(isMobile ? 150 : 200),
                 force3D: true,
-                willChange: isIOS ? "transform, opacity" : "auto",
               });
             }
 
-            // Animación de fases del hero
+            // Animación de fases del hero restaurada y mejorada
             heroPhases.forEach((phase, phaseIdx) => {
               let phaseStart, phaseEnd;
 
+              // Distribución de fases a lo largo del scroll
+              const phaseDuration = 0.3; // 30% de duración para cada fase
+              const transitionDuration = 0.08; // Transiciones rápidas
+              const gap = 0.05; // Gap entre fases
+
               if (phaseIdx === 0) {
-                // Primera fase: MUCHO MÁS TIEMPO - transición suave
-                phaseStart = 0.2;
-                phaseEnd = 0.55; // 35% del scroll total para la primera fase
+                phaseStart = 0.2; // Empezar después del logo
+                phaseEnd = phaseStart + phaseDuration;
               } else if (phaseIdx === 1) {
-                // Segunda fase: tiempo considerable
-                phaseStart = 0.55;
-                phaseEnd = 0.75; // 20% del scroll
+                phaseStart = 0.2 + phaseDuration + gap;
+                phaseEnd = phaseStart + phaseDuration;
               } else if (phaseIdx === 2) {
-                // Tercera fase: tiempo considerable
-                phaseStart = 0.75;
-                phaseEnd = 0.9; // 15% del scroll
+                phaseStart = 0.2 + (phaseDuration + gap) * 2;
+                phaseEnd = phaseStart + phaseDuration;
               } else {
-                // Cuarta fase: tiempo final
-                phaseStart = 0.9;
-                phaseEnd = 1.0; // 10% del scroll
+                // Última fase permanece hasta el final
+                phaseStart = 0.2 + (phaseDuration + gap) * 3;
+                phaseEnd = 1.0;
               }
 
               let phaseOpacity = 0;
-              let phaseY = 0;
+              let phaseY = 200;
 
-              if (phaseIdx === 0) {
-                // PRIMERA FASE: Transición suave original MÁS LENTA
-                if (progress >= phaseStart && progress <= phaseEnd) {
-                  const localProgress =
-                    (progress - phaseStart) / (phaseEnd - phaseStart);
-                  phaseOpacity = Math.min(1, localProgress * 1.5); // Aparición más lenta
-                  phaseY = 100 - localProgress * 100; // Movimiento suave
-                } else if (
-                  progress > phaseEnd &&
-                  phaseIdx < heroPhases.length - 1
-                ) {
-                  // Desaparece más gradualmente para dar lugar a la siguiente
-                  const fadeOutStart = phaseEnd;
-                  const fadeOutEnd = phaseEnd + 0.1; // Transición de salida más lenta
+              // Lógica de visibilidad de fase
+              if (progress < phaseStart) {
+                phaseOpacity = 0;
+                phaseY = 200;
+              } else if (
+                progress >= phaseStart &&
+                progress <= phaseStart + transitionDuration
+              ) {
+                // Entrada suave
+                const entryProgress =
+                  (progress - phaseStart) / transitionDuration;
+                phaseOpacity = entryProgress;
+                phaseY = 200 - entryProgress * 200;
+              } else if (
+                progress > phaseStart + transitionDuration &&
+                progress < phaseEnd - transitionDuration
+              ) {
+                // Completamente visible
+                phaseOpacity = 1;
+                phaseY = 0;
+              } else if (
+                progress >= phaseEnd - transitionDuration &&
+                progress <= phaseEnd &&
+                phaseIdx < heroPhases.length - 1
+              ) {
+                // Salida suave (solo para fases que no son la última)
+                const exitProgress =
+                  (progress - (phaseEnd - transitionDuration)) /
+                  transitionDuration;
+                phaseOpacity = 1 - exitProgress;
+                phaseY = -exitProgress * 150;
+              } else if (
+                progress > phaseEnd &&
+                phaseIdx < heroPhases.length - 1
+              ) {
+                phaseOpacity = 0;
+                phaseY = -150;
+              }
 
-                  if (progress <= fadeOutEnd) {
-                    const fadeOutProgress = (progress - fadeOutStart) / 0.1;
-                    phaseOpacity = 1 - fadeOutProgress;
-                    phaseY = -fadeOutProgress * 30; // Movimiento más sutil
-                  } else {
-                    phaseOpacity = 0;
-                    phaseY = -30;
-                  }
-                }
-              } else {
-                // RESTO DE FASES: Sustitución más suave (no tan abrupta)
-                if (progress >= phaseStart && progress <= phaseEnd) {
-                  // Fase activa - pero con una ligera transición de entrada
-                  const entryProgress = Math.min(
-                    1,
-                    (progress - phaseStart) / 0.05
-                  ); // 5% para entrada
-                  phaseOpacity = entryProgress;
-                  phaseY = (1 - entryProgress) * 20; // Pequeño movimiento de entrada
-                } else if (
-                  progress > phaseEnd &&
-                  phaseIdx < heroPhases.length - 1
-                ) {
-                  // Transición de salida más suave
-                  const exitStart = phaseEnd;
-                  const exitEnd = phaseEnd + 0.05; // 5% para salida
-
-                  if (progress <= exitEnd) {
-                    const exitProgress = (progress - exitStart) / 0.05;
-                    phaseOpacity = 1 - exitProgress;
-                    phaseY = -exitProgress * 20;
-                  } else {
-                    phaseOpacity = 0;
-                    phaseY = -20;
-                  }
-                } else if (
-                  phaseIdx === heroPhases.length - 1 &&
-                  progress >= phaseStart
-                ) {
-                  // La última fase permanece visible
-                  phaseOpacity = 1;
-                  phaseY = 0;
-                } else {
-                  // Fase completamente inactiva
-                  phaseOpacity = 0;
-                  phaseY = 20;
-                }
+              // Para la última fase, permanece visible
+              if (
+                phaseIdx === heroPhases.length - 1 &&
+                progress >= phaseStart + transitionDuration
+              ) {
+                phaseOpacity = 1;
+                phaseY = 0;
               }
 
               // Aplicar animación a la fase
-              gsap.set(heroPhaseRefs.current[phaseIdx].current, {
-                opacity: phaseOpacity,
-                y: phaseY,
-                force3D: true,
-                willChange: isIOS ? "transform, opacity" : "auto",
-              });
-
-              // Animación de líneas individuales
-              if (progress >= phaseStart && progress <= phaseEnd) {
-                let lineIndex = heroPhases
-                  .slice(0, phaseIdx)
-                  .reduce((acc, ph) => acc + ph.lines.length, 0);
-
-                phase.lines.forEach((_, lineIdx) => {
-                  const lineDelay = phaseIdx === 0 ? 0.05 : 0.03; // Más delay en primera fase
-                  const lineStart = phaseStart + lineIdx * lineDelay;
-
-                  let lineOpacity = 0;
-                  let lineY = 0;
-
-                  if (phaseIdx === 0) {
-                    // Primera fase: animación gradual de líneas MÁS LENTA
-                    const lineProgress = Math.max(
-                      0,
-                      Math.min(1, (progress - lineStart) * 4) // Más lento que antes (era 8)
-                    );
-                    lineOpacity = lineProgress;
-                    lineY =
-                      (isMobile ? 25 : 35) -
-                      lineProgress * (isMobile ? 25 : 35);
-                  } else {
-                    // Resto de fases: aparición más suave (no instantánea)
-                    if (progress >= lineStart) {
-                      const lineAppearProgress = Math.min(
-                        1,
-                        (progress - lineStart) / 0.02
-                      );
-                      lineOpacity = lineAppearProgress;
-                      lineY = (1 - lineAppearProgress) * 15;
-                    }
-                  }
-
-                  if (heroLineRefs.current[lineIndex + lineIdx]) {
-                    gsap.set(
-                      heroLineRefs.current[lineIndex + lineIdx].current,
-                      {
-                        opacity: lineOpacity,
-                        y: lineY,
-                        force3D: true,
-                        willChange: isIOS ? "transform, opacity" : "auto",
-                      }
-                    );
-                  }
-                });
-              } else {
-                // Ocultar todas las líneas de fases inactivas
-                let lineIndex = heroPhases
-                  .slice(0, phaseIdx)
-                  .reduce((acc, ph) => acc + ph.lines.length, 0);
-
-                phase.lines.forEach((_, lineIdx) => {
-                  if (heroLineRefs.current[lineIndex + lineIdx]) {
-                    gsap.set(
-                      heroLineRefs.current[lineIndex + lineIdx].current,
-                      {
-                        opacity: 0,
-                        y: phaseIdx === 0 ? 35 : 15,
-                        force3D: true,
-                        willChange: isIOS ? "transform, opacity" : "auto",
-                      }
-                    );
-                  }
+              if (heroPhaseRefs.current[phaseIdx]?.current) {
+                gsap.set(heroPhaseRefs.current[phaseIdx].current, {
+                  opacity: phaseOpacity,
+                  y: phaseY,
+                  force3D: true,
                 });
               }
-            });
 
-            // Reveal Servicios component al final - más tardío
-            if (currentSection && progress > 0.98) {
-              gsap.set(currentSection.nextElementSibling, {
-                opacity: Math.max(0, (progress - 0.98) * 50),
-                y: (1 - progress) * 50,
-                force3D: true,
-                willChange: isIOS ? "transform, opacity" : "auto",
+              // Animar líneas de la fase
+              let lineIndex = heroPhases
+                .slice(0, phaseIdx)
+                .reduce((acc, ph) => acc + ph.lines.length, 0);
+
+              phase.lines.forEach((_, lineIdx) => {
+                if (heroLineRefs.current[lineIndex + lineIdx]?.current) {
+                  gsap.set(heroLineRefs.current[lineIndex + lineIdx].current, {
+                    opacity: phaseOpacity,
+                    y: phaseY,
+                    force3D: true,
+                  });
+                }
               });
-            }
+
+              // MOSTRAR CARTAS DESPUÉS DE PHASE-3 (índice 2)
+              if (phaseIdx === 2) {
+                // phase-3 "Nuestra Propuesta"
+                // Las cartas aparecen cuando phase-3 está completamente visible
+                if (
+                  progress > phaseStart + transitionDuration &&
+                  progress < phaseEnd - transitionDuration
+                ) {
+                  // Phase-3 está completamente visible, mostrar cartas
+                  const metricsDelay = 0.3; // Pequeño delay después de que el texto esté visible
+                  const metricsProgress = Math.min(
+                    1,
+                    (progress - (phaseStart + transitionDuration)) /
+                      (phaseDuration - 2 * transitionDuration - metricsDelay)
+                  );
+
+                  if (metricsProgress > 0) {
+                    // Animar contenedor de métricas
+                    if (metricsContainerRef.current) {
+                      const containerOpacity = Math.min(1, metricsProgress * 2);
+                      const containerY = 100 - containerOpacity * 100;
+
+                      gsap.set(metricsContainerRef.current, {
+                        opacity: containerOpacity,
+                        y: containerY,
+                        force3D: true,
+                      });
+                    }
+
+                    // Animar cartas individuales con stagger
+                    metricsCardsRef.current.forEach((ref, cardIdx) => {
+                      if (ref) {
+                        const cardDelay = cardIdx * 0.1; // Stagger entre cartas
+                        const cardProgress = Math.max(
+                          0,
+                          Math.min(1, (metricsProgress - cardDelay) * 2)
+                        );
+
+                        if (cardProgress > 0) {
+                          const cardOpacity = cardProgress;
+                          const cardY = 60 - cardProgress * 60;
+                          const cardScale = 0.9 + cardProgress * 0.1;
+
+                          gsap.set(ref, {
+                            opacity: cardOpacity,
+                            y: cardY,
+                            scale: cardScale,
+                            force3D: true,
+                          });
+                        }
+                      }
+                    });
+                  }
+                } else {
+                  // Phase-3 no está completamente visible, ocultar cartas
+                  if (metricsContainerRef.current) {
+                    gsap.set(metricsContainerRef.current, {
+                      opacity: 0,
+                      y: 100,
+                      force3D: true,
+                    });
+                  }
+
+                  metricsCardsRef.current.forEach((ref) => {
+                    if (ref) {
+                      gsap.set(ref, {
+                        opacity: 0,
+                        y: 60,
+                        scale: 0.9,
+                        force3D: true,
+                      });
+                    }
+                  });
+                }
+              }
+            });
           },
           onComplete: () => {
-            // When animation completes, ensure servicios is fully visible
+            // Animation completes successfully
             window.dispatchEvent(new CustomEvent("inicioComplete"));
           },
         },
@@ -516,7 +520,7 @@ const Inicio = () => {
             <div
               key={phase.id}
               ref={heroPhaseRefs.current[phaseIdx]}
-              className={`hero-phase ${phase.id} absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-white text-center max-w-4xl pointer-events-none`}
+              className={`hero-phase ${phase.id} text-white text-center pointer-events-none`}
               style={{
                 fontFamily: '"Inter", "Montserrat", Arial, sans-serif',
                 fontWeight: 600,
@@ -526,8 +530,6 @@ const Inicio = () => {
                 willChange: "transform, opacity",
                 textShadow: "0 2px 16px rgba(0,0,0,0.18)",
                 filter: "drop-shadow(0 2px 8px rgba(0,0,0,0.12))",
-                padding: "0 0.5em",
-                maxWidth: "48em",
                 opacity: 0,
               }}
             >
@@ -554,6 +556,212 @@ const Inicio = () => {
             </div>
           );
         })}
+
+        {/* Cartas de métricas - aparecen en la última fase */}
+        <div
+          ref={metricsContainerRef}
+          className="fixed"
+          style={{
+            zIndex: 9999,
+            width: "100%",
+            maxWidth: "750px",
+            padding: "0 2rem",
+            top: "60%",
+            left: "50%",
+            transform: "translateX(-50%)",
+            background: "transparent",
+          }}
+        >
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4 w-full max-w-[550px] mx-auto">
+            {/* IMPACTO - SIMPLIFICADO */}
+            <div
+              ref={(el) => (metricsCardsRef.current[0] = el)}
+              style={{
+                background: "#ffffff",
+                border: "2px solid #de0015",
+                borderRadius: "16px",
+                padding: "16px",
+                boxShadow: "0 8px 32px rgba(0,0,0,0.18)",
+                color: "#181414",
+                opacity: 0,
+                visibility: "hidden",
+                minHeight: "120px",
+              }}
+            >
+              <div
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  gap: "8px",
+                  marginBottom: "12px",
+                  color: "#de0015",
+                  fontWeight: "700",
+                  fontSize: "12px",
+                  textTransform: "uppercase",
+                }}
+              >
+                <div
+                  style={{
+                    width: "8px",
+                    height: "8px",
+                    borderRadius: "50%",
+                    background: "#de0015",
+                    boxShadow: "0 0 10px rgba(255, 49, 49, 0.6)",
+                  }}
+                ></div>
+                IMPACTO
+              </div>
+              <div
+                style={{
+                  fontSize: "32px",
+                  fontWeight: "900",
+                  color: "#de0015",
+                  marginBottom: "8px",
+                }}
+              >
+                80%
+              </div>
+              <p
+                style={{
+                  fontSize: "14px",
+                  color: "#181414",
+                  margin: 0,
+                  lineHeight: "1.4",
+                }}
+              >
+                De las empresas aumentan sus oportunidades de negocio y
+                crecimiento al automatizar con IA.
+              </p>
+            </div>
+
+            {/* RENDIMIENTO - SIMPLIFICADO */}
+            <div
+              ref={(el) => (metricsCardsRef.current[1] = el)}
+              style={{
+                background: "#ffffff",
+                border: "2px solid #de0015",
+                borderRadius: "16px",
+                padding: "16px",
+                boxShadow: "0 8px 32px rgba(0,0,0,0.18)",
+                color: "#181414",
+                opacity: 0,
+                visibility: "hidden",
+                minHeight: "120px",
+              }}
+            >
+              <div
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  gap: "8px",
+                  marginBottom: "12px",
+                  color: "#de0015",
+                  fontWeight: "700",
+                  fontSize: "12px",
+                  textTransform: "uppercase",
+                }}
+              >
+                <div
+                  style={{
+                    width: "8px",
+                    height: "8px",
+                    borderRadius: "50%",
+                    background: "#de0015",
+                    boxShadow: "0 0 10px rgba(255, 49, 49, 0.6)",
+                  }}
+                ></div>
+                RENDIMIENTO
+              </div>
+              <div
+                style={{
+                  fontSize: "32px",
+                  fontWeight: "900",
+                  color: "#de0015",
+                  marginBottom: "8px",
+                }}
+              >
+                77%
+              </div>
+              <p
+                style={{
+                  fontSize: "14px",
+                  color: "#181414",
+                  margin: 0,
+                  lineHeight: "1.4",
+                }}
+              >
+                Mejora su tasa de conversiones con Marketing de Automatización +
+                IA. Más rápido, más personalizado.
+              </p>
+            </div>
+
+            {/* RESULTADO - SIMPLIFICADO */}
+            <div
+              ref={(el) => (metricsCardsRef.current[2] = el)}
+              style={{
+                background: "#ffffff",
+                border: "2px solid #de0015",
+                borderRadius: "16px",
+                padding: "16px",
+                boxShadow: "0 8px 32px rgba(0,0,0,0.18)",
+                color: "#181414",
+                opacity: 0,
+                visibility: "hidden",
+                minHeight: "120px",
+                gridColumn: "1 / -1",
+              }}
+            >
+              <div
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  gap: "8px",
+                  marginBottom: "12px",
+                  color: "#de0015",
+                  fontWeight: "700",
+                  fontSize: "12px",
+                  textTransform: "uppercase",
+                }}
+              >
+                <div
+                  style={{
+                    width: "8px",
+                    height: "8px",
+                    borderRadius: "50%",
+                    background: "#de0015",
+                    boxShadow: "0 0 10px rgba(255, 49, 49, 0.6)",
+                  }}
+                ></div>
+                RESULTADO
+              </div>
+              <div
+                style={{
+                  background: "#de0015",
+                  color: "#fff",
+                  padding: "6px 10px",
+                  borderRadius: "16px",
+                  fontSize: "12px",
+                  fontWeight: "700",
+                  marginBottom: "8px",
+                  display: "inline-block",
+                }}
+              >
+                IA + Marketing Automatizado
+              </div>
+              <p
+                style={{
+                  fontSize: "14px",
+                  color: "#181414",
+                  margin: 0,
+                  lineHeight: "1.4",
+                }}
+              >
+                Orquestamos datos y campañas con sistemas automatizados que
+                preservan y escalan la esencia de tu marca.
+              </p>
+            </div>
+          </div>
+        </div>
       </section>
 
       <style>{`
@@ -586,7 +794,20 @@ const Inicio = () => {
           letter-spacing: -0.01em;
           text-shadow: 0 2px 16px rgba(0,0,0,0.18);
           filter: drop-shadow(0 2px 8px rgba(0,0,0,0.12));
-          max-width: 48em;
+          max-width: 42em; /* Reducido de 48em a 42em para texto más compacto */
+          /* Centrado perfecto en desktop */
+          position: fixed !important;
+          top: 50% !important;
+          left: 50% !important;
+          transform: translate(-50%, -50%) !important;
+          width: 100%;
+          max-width: 900px; /* Cambiado de 1200px a 900px */
+          padding: 0 2rem;
+          text-align: center;
+          /* Optimizaciones de renderizado */
+          -webkit-transform: translate3d(-50%, -50%, 0) !important;
+          -webkit-backface-visibility: hidden;
+          -webkit-perspective: 1000;
         }
         #inicio .hero-phase.phase-2 .hero-line:first-child {
           font-weight: 700;
@@ -602,7 +823,38 @@ const Inicio = () => {
         }
         #inicio .hero-line {
           margin-bottom: 0.5em;
+          /* Optimizaciones para desktop */
+          -webkit-transform: translateZ(0);
+          -webkit-backface-visibility: hidden;
         }
+        
+        /* Estilos específicos para DESKTOP - Centrado perfecto */
+        @media (min-width: 769px) {
+          #inicio .hero-phase {
+            position: fixed !important;
+            top: 50% !important;
+            left: 50% !important;
+            transform: translate(-50%, -50%) !important;
+            width: 100vw;
+            max-width: 900px; /* Reducido de 1200px a 900px para texto más compacto */
+            padding: 0 3rem;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            /* Asegurar que todas las fases estén en la misma posición */
+            z-index: 5;
+          }
+          
+          #inicio .hero-line {
+            width: 100%;
+            max-width: 700px; /* Reducido de 900px a 700px para líneas más compactas */
+            margin: 0 auto 0.5em auto;
+            text-align: center;
+          }
+        }
+        
         @media (max-width: 768px) {
           /* Asegurar que el logo esté perfectamente centrado en móvil */
           #inicio .logo-container {
@@ -626,14 +878,7 @@ const Inicio = () => {
             max-width: 95vw;
             padding: 0 0.3em;
             line-height: 1.25;
-            position: fixed !important;
-            top: 50% !important;
-            left: 50% !important;
-            transform: translate(-50%, -50%) !important;
-            /* Optimizaciones para iOS */
-            -webkit-transform: translate3d(-50%, -50%, 0) !important;
-            -webkit-backface-visibility: hidden;
-            -webkit-perspective: 1000;
+            /* El position fixed ya está definido arriba para desktop y mobile */
           }
           #inicio .hero-phase.phase-2 .hero-line:first-child {
             font-size: 1.1em;

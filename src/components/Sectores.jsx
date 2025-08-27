@@ -197,16 +197,9 @@ const DesktopSectores = ({ onAgendarClick }) => {
   // Aparición con parallax (scrub) + quick wins + hover CTA
   useEffect(() => {
     const cards = cardRefs.current.filter(Boolean);
-
-    // Kill only ScrollTriggers that belong to this section's cards
     cards.forEach((card) => {
-      if (card.__st) {
-        card.__st.kill();
-        card.__st = null;
-      }
-    });
+      if (card.__st) card.__st.kill();
 
-    cards.forEach((card) => {
       const tl = gsap.timeline({
         defaults: { ease: "power2.out", overwrite: "auto" },
         scrollTrigger: {
@@ -216,7 +209,6 @@ const DesktopSectores = ({ onAgendarClick }) => {
           scrub: true,
           fastScrollEnd: true,
           preventOverlaps: true,
-          id: `sectores-card-${card.dataset?.index || Math.random()}`, // Add unique ID
         },
       });
 
@@ -244,7 +236,6 @@ const DesktopSectores = ({ onAgendarClick }) => {
               scrub: true,
               fastScrollEnd: true,
               preventOverlaps: true,
-              id: `sectores-wins-${card.dataset?.index || Math.random()}`, // Add unique ID
             },
           }
         );
@@ -257,19 +248,10 @@ const DesktopSectores = ({ onAgendarClick }) => {
     btnRefs.current.forEach(setupBtnHover);
 
     return () => {
-      // Clean up only this section's ScrollTriggers
-      cards.forEach((card) => {
-        if (card?.__st) {
-          card.__st.kill();
-          card.__st = null;
-        }
-      });
-
-      // More targeted cleanup - only kill ScrollTriggers with sectores ID
+      cards.forEach((c) => c?.__st?.kill?.());
       ScrollTrigger.getAll().forEach((st) => {
-        if (st.vars?.id && st.vars.id.includes("sectores")) {
-          st.kill();
-        }
+        // No matar triggers ajenos a esta sección (filtrar por el trigger DOM)
+        if (cards.includes(st?.vars?.trigger)) st.kill();
       });
     };
   }, [data]);
@@ -280,7 +262,6 @@ const DesktopSectores = ({ onAgendarClick }) => {
   const Card = ({ s, idx }) => (
     <article
       ref={(el) => (cardRefs.current[idx] = el)}
-      data-index={idx} // Add data attribute for identification
       className="sector-card relative rounded-3xl border border-white/10 p-6 lg:p-8 shadow-[0_6px_18px_rgba(0,0,0,0.18)] bg-card backdrop-blur-md"
       style={{
         backfaceVisibility: "hidden",

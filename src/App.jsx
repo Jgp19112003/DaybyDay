@@ -3,7 +3,7 @@ import gsap from "gsap";
 import { ScrollTrigger, SplitText } from "gsap/all";
 import NavBar from "./components/NavBar";
 import WhatsAppButton from "./components/WhatsAppButton";
-import Servicios from "./components/Servicios";
+import Inicio from "./components/Inicio";
 import Sectores from "./components/Sectores";
 import AgendarReunion from "./components/AgendarReunion";
 import Footer from "./components/Footer";
@@ -15,7 +15,6 @@ const App = () => {
   const [pendingScroll, setPendingScroll] = useState(null);
   const [isTransitioning] = useState(false);
 
-  const serviciosRef = useRef(null);
   const navBarRef = useRef(null);
 
   useEffect(() => {
@@ -49,12 +48,17 @@ const App = () => {
     } else {
       if (section === "inicio") {
         window.scrollTo({ top: 0, behavior: "smooth" });
-      } else {
-        let ref = null;
-        if (section === "servicios") ref = serviciosRef;
-        if (ref && ref.current) {
-          ref.current.scrollIntoView({ behavior: "smooth" });
-        }
+      } else if (section === "sectores") {
+        // Scroll to sectores section
+        setTimeout(() => {
+          const sectoresSection = document.querySelector("#sectores");
+          if (sectoresSection) {
+            const navHeight = 80; // Approximate navbar height
+            const offset = 20; // Extra space below navbar
+            const targetY = sectoresSection.offsetTop - navHeight - offset;
+            window.scrollTo({ top: targetY, behavior: "smooth" });
+          }
+        }, 100);
       }
     }
   };
@@ -63,13 +67,17 @@ const App = () => {
     if (currentView === "home" && pendingScroll) {
       if (pendingScroll === "inicio") {
         window.scrollTo({ top: 0, behavior: "smooth" });
-      } else {
-        const ref = pendingScroll === "servicios" ? serviciosRef : null;
-        if (ref && ref.current) {
-          setTimeout(() => {
-            ref.current.scrollIntoView({ behavior: "smooth" });
-          }, 100);
-        }
+      } else if (pendingScroll === "sectores") {
+        // Scroll to sectores section
+        setTimeout(() => {
+          const sectoresSection = document.querySelector("#sectores");
+          if (sectoresSection) {
+            const navHeight = 80; // Approximate navbar height
+            const offset = 20; // Extra space below navbar
+            const targetY = sectoresSection.offsetTop - navHeight - offset;
+            window.scrollTo({ top: targetY, behavior: "smooth" });
+          }
+        }, 100);
       }
       setPendingScroll(null);
     }
@@ -82,10 +90,11 @@ const App = () => {
         currentView={currentView}
         onAgendarClick={() => handleNavScroll("agendar")}
         onNavScroll={handleNavScroll}
+        isVisible={true}
       />
       {currentView === "home" && (
         <>
-          <Servicios ref={serviciosRef} />
+          <Inicio />
           <Sectores onAgendarClick={() => handleNavScroll("agendar")} />
         </>
       )}

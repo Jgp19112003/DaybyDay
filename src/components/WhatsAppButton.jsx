@@ -4,7 +4,7 @@ const WhatsAppButton = () => {
   const [isMobile, setIsMobile] = useState(false);
   const phoneNumber = "34644387715";
   const message =
-    "¡Hola! Me gustaría más información sobre los servicios que ofrecéis.";
+    "¡Hola! Me gustaría más información sobre sus soluciones de automatización.";
 
   const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(
     message

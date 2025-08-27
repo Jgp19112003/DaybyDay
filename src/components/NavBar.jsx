@@ -151,7 +151,6 @@ const NavBar = forwardRef(({ currentView, onNavScroll }, ref) => {
       className="logo-container"
       onClick={() => {
         window.scrollTo({ top: 0, behavior: "smooth" });
-        onAnimationComplete?.();
       }}
       style={{ cursor: "pointer" }}
     >
@@ -206,26 +205,17 @@ const NavBar = forwardRef(({ currentView, onNavScroll }, ref) => {
           onClick={(e) => {
             e.preventDefault();
 
-            if (typeof onNavScroll === "function") onNavScroll("servicios");
+            if (typeof onNavScroll === "function") onNavScroll("sectores");
 
             setTimeout(() => {
               const navH = getNAV();
-              const serviciosSection = document.querySelector("#servicios");
-              const serviciosTitle = document.querySelector("#servicios h2");
+              const sectoresSection = document.querySelector("#sectores");
 
               let targetY = 0;
               const OFFSET_BELOW_NAV = 20; // Extra space below navbar
 
-              if (serviciosTitle) {
-                const rect = serviciosTitle.getBoundingClientRect();
-                targetY = Math.max(
-                  0,
-                  Math.round(
-                    window.pageYOffset + rect.top - navH - OFFSET_BELOW_NAV
-                  )
-                );
-              } else if (serviciosSection) {
-                const rect = serviciosSection.getBoundingClientRect();
+              if (sectoresSection) {
+                const rect = sectoresSection.getBoundingClientRect();
                 targetY = Math.max(
                   0,
                   Math.round(

@@ -160,11 +160,6 @@ main {
   transform: translateY(-50px); /* Ensure items are positioned off-screen */
 }
 
-.servicios-hidden {
-  visibility: hidden;
-  opacity: 0;
-}
-
 .nav-link.btn-primary {
   border-radius: 0.4rem;
   border: none;
@@ -262,18 +257,6 @@ main {
     ) !important; /* Reduced from calc(80px + 2vh) */
     padding-top: 15px; /* Reduced from 20px */
     padding-bottom: 15px; /* Reduced from 20px */
-  }
-
-  /* Responsive mobile spacing for servicios section - reduced significantly */
-  .servicios-mobile {
-    margin-top: calc(
-      80px + 2vh
-    ) !important; /* Reduced from calc(130px + 5vh) */
-    padding-top: clamp(
-      15px,
-      3vw,
-      20px
-    ); /* Reduced from clamp(20px, 5vw, 30px) */
   }
 
   .navbar.mobile .logo-container {
@@ -375,30 +358,6 @@ main {
     grid-template-columns: repeat(2, 1fr);
   }
 
-  /* Neumorphism for service cards - matching navbar exactly */
-  .servicio-card {
-    background: #f5f5f5 !important;
-    border-radius: 20px;
-    box-shadow: 4px 6px 1px #e0e0e0 !important;
-    border: none !important;
-    transition: background 0.8s ease-in-out, box-shadow 0.8s ease-in-out,
-      transform 0.3s ease;
-  }
-
-  .servicio-card.card-dark {
-    background: #232323 !important;
-    box-shadow: 4px 6px 1px #1a1a1a !important;
-    border: none !important;
-  }
-
-  /* Add cursor pointer for mobile */
-  @media (max-width: 768px) {
-    .servicio-card {
-      cursor: pointer;
-      user-select: none;
-    }
-  }
-
   .navbar-hidden-mobile {
     opacity: 0 !important;
     pointer-events: none !important;
@@ -412,17 +371,6 @@ main {
 
 /* Additional responsive breakpoints for smaller devices */
 @media (max-width: 480px) {
-  .servicios-mobile {
-    margin-top: calc(
-      70px + 3vh
-    ) !important; /* Reduced from calc(120px + 6vh) */
-    padding-top: clamp(
-      12px,
-      3vw,
-      18px
-    ); /* Reduced from clamp(18px, 4vw, 25px) */
-  }
-
   .meeting-scheduler-mobile {
     margin-top: calc(
       90px + 3vh
@@ -434,17 +382,6 @@ main {
 }
 
 @media (max-width: 360px) {
-  .servicios-mobile {
-    margin-top: calc(
-      65px + 4vh
-    ) !important; /* Reduced from calc(110px + 8vh) */
-    padding-top: clamp(
-      10px,
-      2.5vw,
-      16px
-    ); /* Reduced from clamp(16px, 3.5vw, 22px) */
-  }
-
   .meeting-scheduler-mobile {
     margin-top: calc(
       80px + 4vh
@@ -457,12 +394,6 @@ main {
 
 /* For very tall mobile screens */
 @media (max-width: 768px) and (min-height: 800px) {
-  .servicios-mobile {
-    margin-top: calc(
-      90px + 2vh
-    ) !important; /* Reduced from calc(140px + 4vh) */
-  }
-
   .meeting-scheduler-mobile {
     margin-top: calc(
       110px + 2vh
@@ -472,273 +403,141 @@ main {
 
 /* For shorter mobile screens */
 @media (max-width: 768px) and (max-height: 600px) {
-  .servicios-mobile {
-    margin-top: calc(
-      75px + 5vh
-    ) !important; /* Reduced from calc(120px + 10vh) */
-  }
-
   .meeting-scheduler-mobile {
-    margin-top: calc(
-      85px + 5vh
-    ) !important; /* Reduced from calc(130px + 8vh) */
+    .meeting-scheduler-mobile {
+      margin-top: calc(
+        85px + 5vh
+      ) !important; /* Reduced from calc(130px + 8vh) */
+    }
   }
-}
 
-/* Remove these mobile-specific overrides that interfere with GSAP */
-/* 
-.navbar.mobile .logo-first-line .logo-day {
-  margin-right: 6px !important;
-}
-.navbar.mobile .logo-second-line .logo-day {
-  margin-right: 3px !important;
-}
-*/
+  /* Meeting scheduler styles */
+  .meeting-form input:focus,
+  .meeting-form textarea:focus,
+  .meeting-form select:focus {
+    outline: none;
+    background: #d0d0d0;
+  }
 
-/* Add smooth transitions for card tags */
-.card-tag {
-  transition: background-color 0.3s ease, border-color 0.3s ease,
-    color 0.3s ease;
-}
+  .calendar-day:hover {
+    transform: scale(1.05);
+  }
 
-/* Neumorphism for service cards - matching navbar exactly */
-.servicio-card {
-  background: #f5f5f5 !important;
-  border-radius: 20px;
-  box-shadow: 4px 6px 1px #e0e0e0 !important;
-  border: none !important;
-  transition: background 0.8s ease-in-out, box-shadow 0.8s ease-in-out,
-    transform 0.3s ease;
-}
+  .calendar-day.selected {
+    transform: scale(1.1);
+  }
 
-.servicio-card.card-dark {
-  background: #232323 !important;
-  box-shadow: 4px 6px 1px #1a1a1a !important;
-  border: none !important;
-}
+  .time-slot:hover {
+    transform: translateY(-1px);
+  }
 
-.servicio-card.card-dark {
-  background: #181414;
-  box-shadow: 4px 6px 16px #232323, -4px -6px 12px #222;
-  border: none;
-}
+  .nav-link.active {
+    color: #de0015 !important;
+    font-weight: 700;
+  }
 
-/* Meeting scheduler styles */
-.meeting-form input:focus,
-.meeting-form textarea:focus,
-.meeting-form select:focus {
-  outline: none;
-  background: #d0d0d0;
-}
+  .nav-link.btn-primary.active {
+    color: white !important;
+    opacity: 0.9;
+  }
 
-.calendar-day:hover {
-  transform: scale(1.05);
-}
+  /* Meeting scheduler initial state - prevent scrollbar flicker */
+  .meeting-scheduler-container {
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(60px);
+    overflow: hidden;
+    transition: none;
+  }
 
-.calendar-day.selected {
-  transform: scale(1.1);
-}
+  .meeting-scheduler-container.initialized {
+    visibility: visible;
+    overflow: visible;
+  }
 
-.time-slot:hover {
-  transform: translateY(-1px);
-}
+  /* Prevent body scrollbar changes during animations */
+  body.animating {
+    overflow-x: hidden;
+    overflow-y: auto;
+  }
 
-.nav-link.active {
-  color: #de0015 !important;
-  font-weight: 700;
-}
+  .meeting-form-container {
+    opacity: 0;
+    transform: translateY(40px);
+    overflow: hidden;
+  }
 
-.nav-link.btn-primary.active {
-  color: white !important;
-  opacity: 0.9;
-}
+  /* Prevenir flash de contenido no estilizado */
+  .meeting-title-container {
+    opacity: 0;
+    visibility: hidden;
+    overflow: hidden;
+  }
 
-/* Meeting scheduler initial state - prevent scrollbar flicker */
-.meeting-scheduler-container {
-  opacity: 0;
-  visibility: hidden;
-  transform: translateY(60px);
-  overflow: hidden;
-  transition: none;
-}
+  /* Prevenir flash inicial en componentes principales */
+  #nosotros h2 {
+    opacity: 0;
+    visibility: hidden;
+  }
 
-.meeting-scheduler-container.initialized {
-  visibility: visible;
-  overflow: visible;
-}
+  /* Smooth transitions para todos los elementos animados */
+  * {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
 
-/* Prevent body scrollbar changes during animations */
-body.animating {
-  overflow-x: hidden;
-  overflow-y: auto;
-}
+  .card-dark {
+    background: linear-gradient(
+      180deg,
+      rgba(255, 255, 255, 0.03),
+      rgba(255, 255, 255, 0.01)
+    );
+    border-color: rgba(255, 255, 255, 0.08) !important;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.18);
+  }
+  .card-title svg {
+    opacity: 0.95;
+  }
+  .card-tag {
+    color: #e9e9e9;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    background: rgba(255, 255, 255, 0.02);
+    border-radius: 16px;
+    padding: 6px 12px;
+    display: inline-block;
+    transition: background-color 0.3s ease, border-color 0.3s ease,
+      color 0.3s ease;
+  }
 
-.meeting-form-container {
-  opacity: 0;
-  transform: translateY(40px);
-  overflow: hidden;
-}
-
-/* Prevenir flash de contenido no estilizado */
-.meeting-title-container {
-  opacity: 0;
-  visibility: hidden;
-  overflow: hidden;
-}
-
-/* Prevenir flash inicial en componentes principales */
-#nosotros h2 {
-  opacity: 0;
-  visibility: hidden;
-}
-
-/* Comentar o remover esta regla que puede estar ocultando servicios */
-/*
-.servicios-mobile h2 {
-  opacity: 0;
-  visibility: hidden;
-}
-*/
-
-/* Asegurar que servicios sea visible por defecto */
-.servicios-mobile {
-  opacity: 1 !important;
-  visibility: visible !important;
-}
-
-/* Smooth transitions para todos los elementos animados */
-* {
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
-.card-dark {
-  background: linear-gradient(
-    180deg,
-    rgba(255, 255, 255, 0.03),
-    rgba(255, 255, 255, 0.01)
-  );
-  border-color: rgba(255, 255, 255, 0.08) !important;
-  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.18);
-}
-.card-title svg {
-  opacity: 0.95;
-}
-.card-tag {
-  color: #e9e9e9;
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  background: rgba(255, 255, 255, 0.02);
-  border-radius: 16px;
-  padding: 6px 12px;
-  display: inline-block;
-  transition: background-color 0.3s ease, border-color 0.3s ease,
-    color 0.3s ease;
-}
-
-/* Métricas (compactas y altura auto) */
-.metric {
-  background: radial-gradient(
-      120% 140% at 10% 0%,
-      rgba(255, 49, 49, 0.06),
-      rgba(255, 255, 255, 0.02) 45%
-    ),
-    #1f1a1a;
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.18);
-  color: #f4f4f4;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-}
-.metric-compact {
-  padding-bottom: 20px;
-}
-
-.metric-top {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  font-weight: 700;
-  letter-spacing: 0.02em;
-  font-size: 12px;
-  text-transform: uppercase;
-  color: #e7e7e7;
-}
-.metric-dot {
-  width: 8px;
-  height: 8px;
-  border-radius: 999px;
-  background: #de0015;
-  display: inline-block;
-  box-shadow: 0 0 10px rgba(255, 49, 49, 0.6);
-}
-
-.metric-value {
-  font-weight: 900;
-  line-height: 1;
-  margin: 6px 0 6px;
-  letter-spacing: -0.02em;
-}
-.metric-value-sm {
-  font-size: clamp(28px, 4.5vw, 42px);
-}
-
-.metric-sub {
-  color: #cfcfcf;
-  margin: 0;
-}
-.tag-soft {
-  font-size: 12px;
-  font-weight: 700;
-  color: #181414;
-  background: #ffffff;
-  padding: 6px 10px;
-  border-radius: 16px;
-  margin-top: 10px;
-  margin-bottom: 10px;
-}
-
-/* Clean, simple spacing rules for sections */
-#servicios,
-#sectores {
-  padding-top: 60px; /* Reduced significantly */
-}
-
-/* Mobile spacing - much more compact */
-@media (max-width: 768px) {
-  #servicios,
+  /* Clean, simple spacing rules for sections */
   #sectores {
-    padding-top: 30px !important; /* Very compact for mobile */
+    padding-top: 60px; /* Reduced significantly */
   }
 
-  /* Remove excessive mobile-specific margins */
-  .servicios-mobile {
-    margin-top: 60px !important; /* Much smaller than before */
-    padding-top: 15px !important;
+  /* Mobile spacing - much more compact */
+  @media (max-width: 768px) {
+    #sectores {
+      padding-top: 30px !important; /* Very compact for mobile */
+    }
+
+    /* Remove excessive mobile-specific margins */
+    .meeting-scheduler-mobile {
+      margin-top: 80px !important; /* Reduced from calc(140px + 4vh) */
+      margin-bottom: 40px !important;
+      padding-top: 10px;
+      padding-bottom: 10px;
+    }
   }
 
-  .meeting-scheduler-mobile {
-    margin-top: 80px !important; /* Reduced from calc(140px + 4vh) */
-    margin-bottom: 40px !important;
-    padding-top: 10px;
-    padding-bottom: 10px;
-  }
-}
+  /* For very small screens - even more compact */
+  @media (max-width: 480px) {
+    #sectores {
+      padding-top: 20px !important;
+    }
 
-/* For very small screens - even more compact */
-@media (max-width: 480px) {
-  #servicios,
-  #sectores {
-    padding-top: 20px !important;
-  }
-
-  .servicios-mobile {
-    margin-top: 50px !important;
-    padding-top: 10px !important;
-  }
-
-  .meeting-scheduler-mobile {
-    margin-top: 60px !important;
-    margin-bottom: 30px !important;
+    .meeting-scheduler-mobile {
+      margin-top: 60px !important;
+      margin-bottom: 30px !important;
+    }
   }
 }
