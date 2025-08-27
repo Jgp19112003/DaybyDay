@@ -3,6 +3,8 @@ import React, { useEffect, useRef } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/all";
 
+gsap.registerPlugin(ScrollTrigger);
+
 // Config exclusivo de Inicio
 const LOGO_COLOR = "#fff";
 const LOGO_SIZE = "clamp(6rem, 30vw, 24rem)";
@@ -18,15 +20,13 @@ const inicioLogoHangingAnimation = (logoElement) => {
 
   gsap.set([firstDay, secondDay, secondY, by], { clearProps: "all" });
 
-  // Aumentar valores proporcionalmente para logo más grande
   gsap.set([firstDay, secondDay, secondY, by], {
-    y: -400, // Más distancia inicial para logo grande
+    y: -400,
     opacity: 0,
-    rotation: (i) => -30 + i * 15, // Más rotación inicial
+    rotation: (i) => -30 + i * 15,
     force3D: true,
   });
 
-  // Now remove initial hiding class
   logoElement.classList.remove("logo-hidden");
 
   gsap.to(firstDay, {
@@ -43,7 +43,7 @@ const inicioLogoHangingAnimation = (logoElement) => {
     y: 0,
     opacity: 1,
     rotation: 0,
-    duration: 1, // Same as firstDay
+    duration: 1,
     ease: "bounce.out",
     delay: 0.4,
     force3D: true,
@@ -52,7 +52,7 @@ const inicioLogoHangingAnimation = (logoElement) => {
   gsap.to(secondY, {
     y: 0,
     opacity: 1,
-    rotation: 12, // Keep the original rotation
+    rotation: 12,
     duration: 0.9,
     ease: "bounce.out",
     delay: 0.6,
@@ -62,7 +62,7 @@ const inicioLogoHangingAnimation = (logoElement) => {
   gsap.to(by, {
     y: 0,
     opacity: 1,
-    rotation: 12, // Keep the original rotation
+    rotation: 12,
     duration: 0.8,
     ease: "bounce.out",
     delay: 0.8,
@@ -100,45 +100,31 @@ const heroPhases = [
       "y liberan a los equipos para centrarse en lo que realmente genera valor.",
     ],
   },
-  {
-    id: "phase-4",
-    title: "El Resultado",
-    lines: ["Día a Día dispondrás del tiempo que tu empresa necesita."],
-  },
 ];
 
 const Inicio = () => {
   const logoRef = useRef(null);
   const sectionRef = useRef(null);
+  const metricsRef = useRef(null);
   const heroPhaseRefs = useRef(heroPhases.map(() => React.createRef()));
   const heroLineRefs = useRef(
     heroPhases.flatMap((phase) => phase.lines.map(() => React.createRef()))
   );
 
-  // Referencias para las cartas de métricas de la última fase
-  const metricsCardsRef = useRef([]);
-  const metricsContainerRef = useRef(null);
-
+  // ====== ANIMACIÓN HERO SCROLL ======
   useEffect(() => {
     if (!logoRef.current || !sectionRef.current) return;
-
     const currentSection = sectionRef.current;
-
-    gsap.registerPlugin(ScrollTrigger);
 
     // Función para establecer la altura correcta del viewport en móviles
     const setVH = () => {
       const vh = window.innerHeight * 0.01;
       document.documentElement.style.setProperty("--vh", `${vh}px`);
     };
-
-    // Establecer altura inicial
     setVH();
 
-    // Actualizar en cambio de tamaño (para rotación de pantalla)
     const handleResize = () => {
       setVH();
-      // Refresh ScrollTrigger después de cambios de viewport
       if (window.ScrollTrigger) {
         setTimeout(() => {
           window.ScrollTrigger.refresh();
@@ -148,41 +134,30 @@ const Inicio = () => {
 
     window.addEventListener("resize", handleResize);
     window.addEventListener("orientationchange", () => {
-      setTimeout(handleResize, 150); // Delay más largo para iOS
+      setTimeout(handleResize, 150);
     });
 
-    // Listener específico para iOS que maneja el cambio de altura cuando aparecen/desaparecen las barras
     if (/iPad|iPhone|iPod/.test(navigator.userAgent)) {
-      window.addEventListener(
-        "scroll",
-        () => {
-          // Solo actualizar la altura si hay un cambio significativo
-          const currentVH = window.innerHeight * 0.01;
-          const storedVH = parseFloat(
-            document.documentElement.style.getPropertyValue("--vh")
-          );
-          if (Math.abs(currentVH - storedVH) > 0.5) {
-            setVH();
-          }
-        },
-        { passive: true }
-      );
+      const iosScroll = () => {
+        const currentVH = window.innerHeight * 0.01;
+        const storedVH = parseFloat(
+          document.documentElement.style.getPropertyValue("--vh")
+        );
+        if (Math.abs(currentVH - storedVH) > 0.5) setVH();
+      };
+      window.addEventListener("scroll", iosScroll, { passive: true });
     }
 
-    // Force scroll to top on component mount to ensure animation starts from beginning
+    // Scroll to top
     window.scrollTo(0, 0);
     document.body.scrollTop = 0;
     document.documentElement.scrollTop = 0;
 
-    // Aplicar clase logo-hidden inicialmente
     logoRef.current.classList.add("logo-hidden");
 
-    // Small delay to ensure everything is properly initialized
     const initDelay = setTimeout(() => {
-      // Usar la función copiada exacta del navbar
       inicioLogoHangingAnimation(logoRef.current);
 
-      // Inicializar todas las fases como invisibles con mayor recorrido
       heroPhaseRefs.current.forEach((ref) => {
         gsap.set(ref.current, { opacity: 0, y: 200 });
       });
@@ -190,37 +165,12 @@ const Inicio = () => {
         gsap.set(ref.current, { opacity: 0, y: 80 });
       });
 
-      // Inicializar cartas de métricas como invisibles
-      if (metricsContainerRef.current) {
-        // Oculte con visibility para evitar que permanezcan ocultas aun cuando cambiemos opacity
-        gsap.set(metricsContainerRef.current, {
-          opacity: 0,
-          y: 100,
-          visibility: "hidden",
-        });
-        console.log("Métricas container inicializado como invisible");
-      }
-      metricsCardsRef.current.forEach((ref, idx) => {
-        if (ref) {
-          // Igual: ocultar con visibility y controlar visibilidad desde la animación
-          gsap.set(ref, {
-            opacity: 0,
-            y: 60,
-            scale: 0.9,
-            visibility: "hidden",
-          });
-          console.log(`Carta métrica ${idx} inicializada como invisible`);
-        }
-      });
-
-      // Enhanced scroll animation - SIMPLIFICADO
-
       const scrollTimeline = gsap.timeline({
         scrollTrigger: {
           trigger: currentSection,
           start: "top top",
-          end: "+=1800vh", // Más scroll para transiciones suaves
-          scrub: 3, // Scroll suave pero no excesivo
+          end: "+=1800vh",
+          scrub: 3,
           pin: true,
           anticipatePin: 1,
           refreshPriority: -1,
@@ -229,7 +179,6 @@ const Inicio = () => {
             const progress = self.progress;
             const isMobile = window.innerWidth <= 768;
 
-            // Logo animation - se desvanece gradualmente
             if (progress <= 0.15) {
               gsap.set(logoRef.current, {
                 opacity: 1,
@@ -238,7 +187,6 @@ const Inicio = () => {
                 force3D: true,
               });
             } else if (progress > 0.15 && progress <= 0.25) {
-              // Transición suave del logo
               const fadeProgress = (progress - 0.15) / 0.1;
               gsap.set(logoRef.current, {
                 opacity: 1 - fadeProgress,
@@ -247,7 +195,6 @@ const Inicio = () => {
                 force3D: true,
               });
             } else {
-              // Logo completamente invisible
               gsap.set(logoRef.current, {
                 opacity: 0,
                 scale: 0.8,
@@ -256,17 +203,15 @@ const Inicio = () => {
               });
             }
 
-            // Animación de fases del hero restaurada y mejorada
             heroPhases.forEach((phase, phaseIdx) => {
               let phaseStart, phaseEnd;
 
-              // Distribución de fases a lo largo del scroll
-              const phaseDuration = 0.3; // 30% de duración para cada fase
-              const transitionDuration = 0.08; // Transiciones rápidas
-              const gap = 0.05; // Gap entre fases
+              const phaseDuration = 0.3;
+              const transitionDuration = 0.08;
+              const gap = 0.05;
 
               if (phaseIdx === 0) {
-                phaseStart = 0.2; // Empezar después del logo
+                phaseStart = 0.2;
                 phaseEnd = phaseStart + phaseDuration;
               } else if (phaseIdx === 1) {
                 phaseStart = 0.2 + phaseDuration + gap;
@@ -275,7 +220,6 @@ const Inicio = () => {
                 phaseStart = 0.2 + (phaseDuration + gap) * 2;
                 phaseEnd = phaseStart + phaseDuration;
               } else {
-                // Última fase permanece hasta el final
                 phaseStart = 0.2 + (phaseDuration + gap) * 3;
                 phaseEnd = 1.0;
               }
@@ -283,7 +227,6 @@ const Inicio = () => {
               let phaseOpacity = 0;
               let phaseY = 200;
 
-              // Lógica de visibilidad de fase
               if (progress < phaseStart) {
                 phaseOpacity = 0;
                 phaseY = 200;
@@ -291,7 +234,6 @@ const Inicio = () => {
                 progress >= phaseStart &&
                 progress <= phaseStart + transitionDuration
               ) {
-                // Entrada suave
                 const entryProgress =
                   (progress - phaseStart) / transitionDuration;
                 phaseOpacity = entryProgress;
@@ -300,7 +242,6 @@ const Inicio = () => {
                 progress > phaseStart + transitionDuration &&
                 progress < phaseEnd - transitionDuration
               ) {
-                // Completamente visible
                 phaseOpacity = 1;
                 phaseY = 0;
               } else if (
@@ -308,7 +249,6 @@ const Inicio = () => {
                 progress <= phaseEnd &&
                 phaseIdx < heroPhases.length - 1
               ) {
-                // Salida suave (solo para fases que no son la última)
                 const exitProgress =
                   (progress - (phaseEnd - transitionDuration)) /
                   transitionDuration;
@@ -322,7 +262,6 @@ const Inicio = () => {
                 phaseY = -150;
               }
 
-              // Para la última fase, permanece visible
               if (
                 phaseIdx === heroPhases.length - 1 &&
                 progress >= phaseStart + transitionDuration
@@ -331,7 +270,6 @@ const Inicio = () => {
                 phaseY = 0;
               }
 
-              // Aplicar animación a la fase
               if (heroPhaseRefs.current[phaseIdx]?.current) {
                 gsap.set(heroPhaseRefs.current[phaseIdx].current, {
                   opacity: phaseOpacity,
@@ -340,7 +278,6 @@ const Inicio = () => {
                 });
               }
 
-              // Animar líneas de la fase
               let lineIndex = heroPhases
                 .slice(0, phaseIdx)
                 .reduce((acc, ph) => acc + ph.lines.length, 0);
@@ -354,113 +291,24 @@ const Inicio = () => {
                   });
                 }
               });
-
-              // MOSTRAR CARTAS DESPUÉS DE PHASE-3 (índice 2)
-              if (phaseIdx === 2) {
-                // phase-3 "Nuestra Propuesta"
-                // Las cartas aparecen cuando phase-3 está completamente visible
-                if (
-                  progress > phaseStart + transitionDuration &&
-                  progress < phaseEnd - transitionDuration
-                ) {
-                  // Phase-3 está completamente visible, mostrar cartas
-                  const metricsDelay = 0.3; // Pequeño delay después de que el texto esté visible
-                  const metricsProgress = Math.min(
-                    1,
-                    (progress - (phaseStart + transitionDuration)) /
-                      (phaseDuration - 2 * transitionDuration - metricsDelay)
-                  );
-
-                  if (metricsProgress > 0) {
-                    // Animar contenedor de métricas
-                    if (metricsContainerRef.current) {
-                      const containerOpacity = Math.min(1, metricsProgress * 2);
-                      const containerY = 100 - containerOpacity * 100;
-
-                      // Asegurarse de marcar visible cuando hay progreso
-                      gsap.set(metricsContainerRef.current, {
-                        opacity: containerOpacity,
-                        y: containerY,
-                        visibility: containerOpacity > 0 ? "visible" : "hidden",
-                        force3D: true,
-                      });
-                    }
-
-                    // Animar cartas individuales con stagger
-                    metricsCardsRef.current.forEach((ref, cardIdx) => {
-                      if (ref) {
-                        const cardDelay = cardIdx * 0.1; // Stagger entre cartas
-                        const cardProgress = Math.max(
-                          0,
-                          Math.min(1, (metricsProgress - cardDelay) * 2)
-                        );
-
-                        if (cardProgress > 0) {
-                          const cardOpacity = cardProgress;
-                          const cardY = 60 - cardProgress * 60;
-                          const cardScale = 0.9 + cardProgress * 0.1;
-
-                          // Hacer visible la carta cuando empieza a animarse
-                          gsap.set(ref, {
-                            opacity: cardOpacity,
-                            y: cardY,
-                            scale: cardScale,
-                            visibility: "visible",
-                            force3D: true,
-                          });
-                        }
-                      }
-                    });
-                  } else {
-                    // Phase-3 no está completamente visible, ocultar cartas
-                    if (metricsContainerRef.current) {
-                      gsap.set(metricsContainerRef.current, {
-                        opacity: 0,
-                        y: 100,
-                        visibility: "hidden",
-                        force3D: true,
-                      });
-                    }
-
-                    metricsCardsRef.current.forEach((ref) => {
-                      if (ref) {
-                        gsap.set(ref, {
-                          opacity: 0,
-                          y: 60,
-                          scale: 0.9,
-                          visibility: "hidden",
-                          force3D: true,
-                        });
-                      }
-                    });
-                  }
-                }
-              }
             });
           },
           onComplete: () => {
-            // Animation completes successfully
             window.dispatchEvent(new CustomEvent("inicioComplete"));
           },
         },
       });
 
-      // Store timeline reference for cleanup
       currentSection._scrollTimeline = scrollTimeline;
-    }, 150); // Increased delay
+    }, 150);
 
-    // Cleanup
     return () => {
       clearTimeout(initDelay);
-
-      // Limpiar event listeners del viewport
       window.removeEventListener("resize", handleResize);
       window.removeEventListener("orientationchange", handleResize);
 
       ScrollTrigger.getAll().forEach((trigger) => {
-        if (trigger.trigger === currentSection) {
-          trigger.kill();
-        }
+        if (trigger.trigger === currentSection) trigger.kill();
       });
       if (currentSection?._scrollTimeline) {
         currentSection._scrollTimeline.kill();
@@ -468,21 +316,163 @@ const Inicio = () => {
     };
   }, []);
 
-  // Additional effect to handle page visibility changes (when user returns to tab)
+  // Refresco al volver de otra pestaña
   useEffect(() => {
     const handleVisibilityChange = () => {
       if (document.visibilityState === "visible") {
-        // Small delay to ensure proper re-initialization
-        setTimeout(() => {
-          ScrollTrigger.refresh();
-        }, 100);
+        setTimeout(() => ScrollTrigger.refresh(), 100);
       }
     };
-
     document.addEventListener("visibilitychange", handleVisibilityChange);
+    return () =>
+      document.removeEventListener("visibilitychange", handleVisibilityChange);
+  }, []);
+
+  // ====== ANIMACIÓN PULSO PUNTOS MÉTRICA ======
+  useEffect(() => {
+    const pulseTimeout = setTimeout(() => {
+      const dots = document.querySelectorAll(".metric-dot");
+      dots.forEach((dot, i) => {
+        gsap.set(dot, { transformOrigin: "center center" });
+        gsap.to(dot, {
+          scale: 1.25,
+          opacity: 1,
+          duration: 0.9,
+          repeat: -1,
+          yoyo: true,
+          ease: "sine.inOut",
+          delay: i * 0.12,
+        });
+        gsap.to(dot, {
+          boxShadow: "0 0 16px rgba(255,49,49,0.95)",
+          repeat: -1,
+          yoyo: true,
+          duration: 0.9,
+          ease: "sine.inOut",
+          delay: i * 0.12,
+        });
+      });
+    }, 200);
+    return () => clearTimeout(pulseTimeout);
+  }, []);
+
+  // ====== ANIMACIÓN TILT + GLARE EN CARTAS MÉTRICAS ======
+  useEffect(() => {
+    const enableHover =
+      typeof window !== "undefined" &&
+      window.matchMedia &&
+      window.matchMedia("(hover: hover) and (pointer: fine)").matches;
+
+    // Solo PC (no móvil)
+    if (!enableHover || !metricsRef.current || window.innerWidth <= 768) return;
+
+    const cards = Array.from(metricsRef.current.querySelectorAll(".metric"));
+
+    // Guardamos handlers/bounds en mapas para cleanup
+    const boundsMap = new WeakMap();
+    const moveHandlers = new WeakMap();
+
+    const attachCard = (card) => {
+      // asegurar que existe .glare
+      let glare = card.querySelector(".glare");
+      if (!glare) {
+        glare = document.createElement("div");
+        glare.className = "glare";
+        card.appendChild(glare);
+      }
+
+      const onEnter = () => {
+        const b = card.getBoundingClientRect();
+        boundsMap.set(card, b);
+
+        gsap.to(card, {
+          scale: 1.06,
+          duration: 0.4,
+          ease: "power2.out",
+        });
+      };
+
+      const onMove = (e) => {
+        const b = boundsMap.get(card) || card.getBoundingClientRect();
+        boundsMap.set(card, b);
+
+        const mouseX = e.clientX;
+        const mouseY = e.clientY;
+        const leftX = mouseX - b.x;
+        const topY = mouseY - b.y;
+        const center = {
+          x: leftX - b.width / 2,
+          y: topY - b.height / 2,
+        };
+
+        const distance = Math.sqrt(center.x ** 2 + center.y ** 2);
+        const rotationX = center.y / 50;
+        const rotationY = -center.x / 50;
+
+        const shadowOffsetX = -rotationY * 5;
+        const shadowOffsetY = rotationX * 5;
+        const shadowBlur = 20 + distance / 120;
+
+        gsap.to(card, {
+          rotationX,
+          rotationY,
+          transformPerspective: 600,
+          transformOrigin: "center center",
+          ease: "power2.out",
+          boxShadow: `${shadowOffsetX}px ${shadowOffsetY}px ${shadowBlur}px 3px rgba(72, 65, 56, .25)`,
+        });
+
+        gsap.to(glare, {
+          autoAlpha: 1,
+          duration: 0.15,
+          backgroundImage: `
+            radial-gradient(
+              circle at
+              ${center.x * 2 + b.width / 2}px
+              ${center.y * 2 + b.height / 2}px,
+              rgba(255, 255, 255, 0.33),
+              rgba(0, 0, 0, 0.06)
+            )
+          `,
+          ease: "power2.out",
+        });
+      };
+
+      const onLeave = () => {
+        gsap.to(card, {
+          scale: 1,
+          rotationX: 0,
+          rotationY: 0,
+          boxShadow: `0px 0px 0px 0 rgba(0,0,0,0)`,
+          duration: 0.6,
+          ease: "power2.out",
+        });
+        gsap.to(card.querySelector(".glare"), {
+          autoAlpha: 0,
+          duration: 0.4,
+          ease: "power2.out",
+        });
+      };
+
+      const boundMove = (e) => onMove(e);
+      moveHandlers.set(card, boundMove);
+
+      card.addEventListener("mouseenter", onEnter);
+      card.addEventListener("mousemove", boundMove);
+      card.addEventListener("mouseleave", onLeave);
+
+      // Guardar para cleanup
+      card._cleanupTilt = () => {
+        card.removeEventListener("mouseenter", onEnter);
+        card.removeEventListener("mousemove", boundMove);
+        card.removeEventListener("mouseleave", onLeave);
+      };
+    };
+
+    cards.forEach(attachCard);
 
     return () => {
-      document.removeEventListener("visibilitychange", handleVisibilityChange);
+      cards.forEach((c) => c._cleanupTilt && c._cleanupTilt());
     };
   }, []);
 
@@ -493,7 +483,6 @@ const Inicio = () => {
         ref={sectionRef}
         className="w-full bg-[#181414] flex flex-col items-center justify-center overflow-hidden relative"
         style={{
-          // Para móviles, usar 100dvh si está disponible (altura dinámica del viewport)
           height: "var(--vh, 100vh)",
           minHeight: "100vh",
         }}
@@ -527,7 +516,8 @@ const Inicio = () => {
             </div>
           </div>
         </div>
-        {/* Hero phases - aparecen y desaparecen por fases */}
+
+        {/* Hero phases */}
         {heroPhases.map((phase, phaseIdx) => {
           let lineIndex = heroPhases
             .slice(0, phaseIdx)
@@ -573,206 +563,68 @@ const Inicio = () => {
             </div>
           );
         })}
+      </section>
 
-        {/* Cartas de métricas - aparecen en la última fase */}
+      {/* SECCIÓN DE MÉTRICAS */}
+      <section className="w-full mb-[8rem] metric-section-dia" ref={metricsRef}>
         <div
-          ref={metricsContainerRef}
-          className="fixed"
+          className="hero-phase text-white text-center pointer-events-none"
           style={{
-            zIndex: 9999,
-            width: "100%",
-            maxWidth: "750px",
-            padding: "0 2rem",
-            top: "60%",
-            left: "50%",
-            transform: "translateX(-50%)",
-            background: "transparent",
+            marginBottom: "2rem",
+            color: "#E3E3E3",
+            fontFamily: '"Inter", "Montserrat", Arial, sans-serif',
+            fontWeight: 600,
+            fontSize: "clamp(1rem, 2.4vw, 1.4rem)",
+            lineHeight: 1.4,
+            letterSpacing: "-0.01em",
+            willChange: "transform, opacity",
+            textShadow: "0 2px 16px rgba(0,0,0,0.18)",
+            filter: "drop-shadow(0 2px 8px rgba(0,0,0,0.12))",
+            opacity: 1,
           }}
         >
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4 w-full max-w-[550px] mx-auto">
-            {/* IMPACTO - SIMPLIFICADO */}
-            <div
-              ref={(el) => (metricsCardsRef.current[0] = el)}
-              style={{
-                background: "#ffffff",
-                border: "2px solid #de0015",
-                borderRadius: "16px",
-                padding: "16px",
-                boxShadow: "0 8px 32px rgba(0,0,0,0.18)",
-                color: "#181414",
-                opacity: 0,
-                minHeight: "120px",
-              }}
-            >
-              <div
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  gap: "8px",
-                  marginBottom: "12px",
-                  color: "#de0015",
-                  fontWeight: "700",
-                  fontSize: "12px",
-                  textTransform: "uppercase",
-                }}
-              >
-                <div
-                  style={{
-                    width: "8px",
-                    height: "8px",
-                    borderRadius: "50%",
-                    background: "#de0015",
-                    boxShadow: "0 0 10px rgba(255, 49, 49, 0.6)",
-                  }}
-                ></div>
-                IMPACTO
+          Día a Día dispondrás del tiempo que tu empresa necesita.
+        </div>
+
+        <div className="max-w-4xl mx-auto">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 max-w-3xl mx-auto">
+            {/* IMPACTO */}
+            <div className="metric rounded-2xl">
+              <div className="metric-top">
+                <span className="metric-dot" aria-hidden="true" /> IMPACTO
               </div>
-              <div
-                style={{
-                  fontSize: "32px",
-                  fontWeight: "900",
-                  color: "#de0015",
-                  marginBottom: "8px",
-                }}
-              >
-                80%
-              </div>
-              <p
-                style={{
-                  fontSize: "14px",
-                  color: "#181414",
-                  margin: 0,
-                  lineHeight: "1.4",
-                }}
-              >
+              <div className="metric-value metric-value-sm">80%</div>
+              <p className="metric-sub">
                 De las empresas aumentan sus oportunidades de negocio y
                 crecimiento al automatizar con IA.
               </p>
+              <div className="glare" />
             </div>
 
-            {/* RENDIMIENTO - SIMPLIFICADO */}
-            <div
-              ref={(el) => (metricsCardsRef.current[1] = el)}
-              style={{
-                background: "#ffffff",
-                border: "2px solid #de0015",
-                borderRadius: "16px",
-                padding: "16px",
-                boxShadow: "0 8px 32px rgba(0,0,0,0.18)",
-                color: "#181414",
-                opacity: 0,
-                minHeight: "120px",
-              }}
-            >
-              <div
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  gap: "8px",
-                  marginBottom: "12px",
-                  color: "#de0015",
-                  fontWeight: "700",
-                  fontSize: "12px",
-                  textTransform: "uppercase",
-                }}
-              >
-                <div
-                  style={{
-                    width: "8px",
-                    height: "8px",
-                    borderRadius: "50%",
-                    background: "#de0015",
-                    boxShadow: "0 0 10px rgba(255, 49, 49, 0.6)",
-                  }}
-                ></div>
-                RENDIMIENTO
+            {/* RENDIMIENTO */}
+            <div className="metric rounded-2xl">
+              <div className="metric-top">
+                <span className="metric-dot" aria-hidden="true" /> RENDIMIENTO
               </div>
-              <div
-                style={{
-                  fontSize: "32px",
-                  fontWeight: "900",
-                  color: "#de0015",
-                  marginBottom: "8px",
-                }}
-              >
-                77%
-              </div>
-              <p
-                style={{
-                  fontSize: "14px",
-                  color: "#181414",
-                  margin: 0,
-                  lineHeight: "1.4",
-                }}
-              >
+              <div className="metric-value metric-value-sm">77%</div>
+              <p className="metric-sub">
                 Mejora su tasa de conversiones con Marketing de Automatización +
                 IA. Más rápido, más personalizado.
               </p>
+              <div className="glare" />
             </div>
 
-            {/* RESULTADO - SIMPLIFICADO */}
-            <div
-              ref={(el) => (metricsCardsRef.current[2] = el)}
-              style={{
-                background: "#ffffff",
-                border: "2px solid #de0015",
-                borderRadius: "16px",
-                padding: "16px",
-                boxShadow: "0 8px 32px rgba(0,0,0,0.18)",
-                color: "#181414",
-                opacity: 0,
-                minHeight: "120px",
-                gridColumn: "1 / -1",
-              }}
-            >
-              <div
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  gap: "8px",
-                  marginBottom: "12px",
-                  color: "#de0015",
-                  fontWeight: "700",
-                  fontSize: "12px",
-                  textTransform: "uppercase",
-                }}
-              >
-                <div
-                  style={{
-                    width: "8px",
-                    height: "8px",
-                    borderRadius: "50%",
-                    background: "#de0015",
-                    boxShadow: "0 0 10px rgba(255, 49, 49, 0.6)",
-                  }}
-                ></div>
-                RESULTADO
+            {/* RESULTADO */}
+            <div className="metric rounded-2xl md:col-span-2">
+              <div className="metric-top">
+                <span className="metric-dot" aria-hidden="true" /> RESULTADO
               </div>
-              <div
-                style={{
-                  background: "#de0015",
-                  color: "#fff",
-                  padding: "6px 10px",
-                  borderRadius: "16px",
-                  fontSize: "12px",
-                  fontWeight: "700",
-                  marginBottom: "8px",
-                  display: "inline-block",
-                }}
-              >
-                IA + Marketing Automatizado
-              </div>
-              <p
-                style={{
-                  fontSize: "14px",
-                  color: "#181414",
-                  margin: 0,
-                  lineHeight: "1.4",
-                }}
-              >
+              <span className="tag-soft">IA + Marketing Automatizado</span>
+              <p className="metric-sub">
                 Orquestamos datos y campañas con sistemas automatizados que
                 preservan y escalan la esencia de tu marca.
               </p>
+              <div className="glare" />
             </div>
           </div>
         </div>
@@ -784,13 +636,8 @@ const Inicio = () => {
         #inicio .logo-by {
           color: ${LOGO_COLOR} !important;
         }
-        #inicio .logo-text {
-          font-size: 14px;
-        }
-        #inicio .logo-day,
-        #inicio .logo-y {
-          font-size: 100px;
-        }
+        #inicio .logo-text { font-size: 14px; }
+        #inicio .logo-day, #inicio .logo-y { font-size: 100px; }
         #inicio .logo-by {
           font-family: "Inter", sans-serif;
           font-weight: 400;
@@ -808,17 +655,15 @@ const Inicio = () => {
           letter-spacing: -0.01em;
           text-shadow: 0 2px 16px rgba(0,0,0,0.18);
           filter: drop-shadow(0 2px 8px rgba(0,0,0,0.12));
-          max-width: 42em; /* Reducido de 48em a 42em para texto más compacto */
-          /* Centrado perfecto en desktop */
+          max-width: 42em;
           position: fixed !important;
           top: 50% !important;
           left: 50% !important;
           transform: translate(-50%, -50%) !important;
           width: 100%;
-          max-width: 900px; /* Cambiado de 1200px a 900px */
+          max-width: 900px;
           padding: 0 2rem;
           text-align: center;
-          /* Optimizaciones de renderizado */
           -webkit-transform: translate3d(-50%, -50%, 0) !important;
           -webkit-backface-visibility: hidden;
           -webkit-perspective: 1000;
@@ -827,22 +672,18 @@ const Inicio = () => {
           font-weight: 700;
           font-size: 1.15em;
           margin-bottom: 1em;
-          color: #f0f0f0;
         }
         #inicio .hero-phase.phase-4 {
           font-weight: 700;
           font-size: 1.1em;
-          color: #e8e8e8;
           font-style: italic;
         }
         #inicio .hero-line {
+          color: #E3E3E3;
           margin-bottom: 0.5em;
-          /* Optimizaciones para desktop */
           -webkit-transform: translateZ(0);
           -webkit-backface-visibility: hidden;
         }
-        
-        /* Estilos específicos para DESKTOP - Centrado perfecto */
         @media (min-width: 769px) {
           #inicio .hero-phase {
             position: fixed !important;
@@ -850,87 +691,63 @@ const Inicio = () => {
             left: 50% !important;
             transform: translate(-50%, -50%) !important;
             width: 100vw;
-            max-width: 900px; /* Reducido de 1200px a 900px para texto más compacto */
+            max-width: 900px;
             padding: 0 3rem;
             text-align: center;
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            /* Asegurar que todas las fases estén en la misma posición */
             z-index: 5;
           }
-          
           #inicio .hero-line {
             width: 100%;
-            max-width: 700px; /* Reducido de 900px a 700px para líneas más compactas */
+            max-width: 700px;
             margin: 0 auto 0.5em auto;
             text-align: center;
           }
         }
-        
         @media (max-width: 768px) {
-          /* Asegurar que el logo esté perfectamente centrado en móvil */
+          .metric-section-dia { margin-top: -2.5rem !important; }
           #inicio .logo-container {
             position: fixed !important;
             top: 50% !important;
             left: 50% !important;
             transform: translate(-50%, -50%) !important;
             z-index: 10;
-            /* Optimizaciones para iOS */
             -webkit-transform: translate3d(-50%, -50%, 0) !important;
             -webkit-backface-visibility: hidden;
             -webkit-perspective: 1000;
           }
-          
-          #inicio .logo-by {
-            right: -60px;
-            font-size: 50px;
-          }
+          #inicio .logo-by { right: -60px; font-size: 50px; }
           #inicio .hero-phase {
             font-size: 0.95rem;
             max-width: 95vw;
             padding: 0 0.3em;
             line-height: 1.25;
-            /* El position fixed ya está definido arriba para desktop y mobile */
           }
           #inicio .hero-phase.phase-2 .hero-line:first-child {
-            font-size: 1.1em;
-            margin-bottom: 0.8em;
+            font-size: 1.1em; margin-bottom: 0.8em;
           }
-          #inicio .hero-phase.phase-4 {
-            font-size: 1.05em;
-          }
-          #inicio .hero-line {
-            margin-bottom: 0.3em;
-            font-size: 1em;
-            /* Optimizaciones para iOS */
-            -webkit-transform: translateZ(0);
-            -webkit-backface-visibility: hidden;
-          }
-          
-          /* Forzar altura de pantalla completa en móvil */
+          #inicio .hero-phase.phase-4 { font-size: 1.05em; }
+          #inicio .hero-line { margin-bottom: 0.3em; font-size: 1em; }
           #inicio {
             height: 100vh !important;
-            height: 100dvh !important; /* Para navegadores que lo soporten */
+            height: 100dvh !important;
             min-height: 100vh !important;
             min-height: 100dvh !important;
-            /* Optimizaciones para iOS scroll */
             -webkit-overflow-scrolling: touch;
             overflow: hidden;
             -webkit-transform: translateZ(0);
             -webkit-backface-visibility: hidden;
           }
         }
-        
-        /* Optimizaciones específicas para iOS */
         @supports (-webkit-touch-callout: none) {
           #inicio {
             -webkit-transform: translate3d(0, 0, 0);
             -webkit-backface-visibility: hidden;
             -webkit-perspective: 1000;
           }
-          
           #inicio .logo-container,
           #inicio .hero-phase,
           #inicio .hero-line {
@@ -938,6 +755,108 @@ const Inicio = () => {
             -webkit-backface-visibility: hidden;
             will-change: transform;
           }
+        }
+
+        /* ====== MÉTRICAS (base) ====== */
+        .metric {
+          position: relative;              /* necesario para glare */
+          overflow: hidden;                /* recortar glare */
+          background: radial-gradient(
+              120% 140% at 10% 0%,
+              rgba(255, 49, 49, 0.06),
+              rgba(255, 255, 255, 0.02) 45%
+            ),
+            #1f1a1a;
+          border: 1px solid rgba(255, 255, 255, 0.08);
+          box-shadow: 0 6px 18px rgba(0, 0, 0, 0.18);
+          color: #f4f4f4;
+          display: flex;
+          flex-direction: column;
+          justify-content: flex-start;
+          padding: 20px;
+          transform-style: preserve-3d;    /* profundidad para rotateX/Y */
+          will-change: transform, box-shadow;
+          transition: box-shadow 0.2s ease-out;
+          border-radius: 1rem;             /* suaviza bordes en tilt */
+        }
+        .metric-compact { padding-bottom: 20px; }
+
+        .metric-top {
+          display: flex;
+          align-items: center;
+          gap: 8px;
+          font-weight: 700;
+          letter-spacing: 0.02em;
+          font-size: 12px;
+          text-transform: uppercase;
+          color: #e7e7e7;
+        }
+        .metric-dot {
+          width: 8px;
+          height: 8px;
+          border-radius: 999px;
+          background: #de0015;
+          display: inline-block;
+          box-shadow: 0 0 10px rgba(255, 49, 49, 0.6);
+        }
+        .metric-value {
+          font-weight: 900;
+          line-height: 1;
+          margin: 6px 0 6px;
+          letter-spacing: -0.02em;
+        }
+        .metric-value-sm {
+          font-size: clamp(28px, 4.5vw, 42px);
+        }
+        .metric-sub { color: #cfcfcf; margin: 0; }
+        .tag-soft {
+          font-size: 12px;
+          font-weight: 700;
+          color: #181414;
+          background: #ffffff;
+          padding: 6px 10px;
+          border-radius: 16px;
+          margin-top: 10px;
+          margin-bottom: 10px;
+          width: fit-content;
+        }
+
+        /* Glare overlay */
+        .metric .glare {
+          position: absolute;
+          inset: 0;
+          pointer-events: none;
+          opacity: 0;
+          background: radial-gradient(
+            circle at 50% 50%,
+            rgba(255,255,255,0.15),
+            rgba(0,0,0,0.05)
+          );
+        }
+
+        /* SOLO MOVIL */
+        @media (max-width: 768px) {
+          .metric {
+            border-radius: 18px;
+            padding: 18px 14px;
+            margin-bottom: 2.2rem;
+            margin-left: 1.2rem;
+            margin-right: 1.2rem;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.22);
+            font-size: 0.97rem;
+          }
+          .metric-top { font-size: 13px; gap: 10px; }
+          .metric-dot { width: 10px; height: 10px; }
+          .metric-value-sm {
+            font-size: clamp(38px, 13vw, 54px);
+            margin-bottom: 2px;
+            margin-top: 0.5em;
+            text-align: center;
+            display: block;
+            width: 100%;
+          }
+          .metric-sub { font-size: 0.97em; margin-top: 2px; margin-bottom: 0; line-height: 1.35; }
+          .tag-soft { font-size: 13px; padding: 7px 12px; margin-top: 8px; margin-bottom: 8px; }
         }
       `}</style>
     </>
