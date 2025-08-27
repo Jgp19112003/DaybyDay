@@ -929,7 +929,7 @@ const MobileSectores = ({ onAgendarClick }) => {
 
   return (
     <section id="sectores" className="w-full bg-[#181414] text-white">
-      <div className="max-w-[1500px] mx-auto px-4 pt-6 pb-8">
+      <div className="max-w-[1500px] mx-auto px-4  pb-8">
         <header>
           <h2
             ref={titleRef}

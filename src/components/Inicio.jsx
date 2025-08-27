@@ -363,8 +363,7 @@ const Inicio = () => {
       window.matchMedia &&
       window.matchMedia("(hover: hover) and (pointer: fine)").matches;
 
-    // Solo PC (no móvil)
-    if (!enableHover || !metricsRef.current || window.innerWidth <= 768) return;
+    if (!enableHover || !metricsRef.current) return;
 
     const cards = Array.from(metricsRef.current.querySelectorAll(".metric"));
 
@@ -566,7 +565,7 @@ const Inicio = () => {
       </section>
 
       {/* SECCIÓN DE MÉTRICAS */}
-      <section className="w-full mb-[8rem] metric-section-dia" ref={metricsRef}>
+      <section className="w-full mb-10 metric-section-dia" ref={metricsRef}>
         <div
           className="hero-phase text-white text-center pointer-events-none"
           style={{
@@ -708,7 +707,7 @@ const Inicio = () => {
           }
         }
         @media (max-width: 768px) {
-          .metric-section-dia { margin-top: -2.5rem !important; }
+          .metric-section-dia { margin-top: 0 !important; }
           #inicio .logo-container {
             position: fixed !important;
             top: 50% !important;
@@ -839,7 +838,8 @@ const Inicio = () => {
           .metric {
             border-radius: 18px;
             padding: 18px 14px;
-            margin-bottom: 2.2rem;
+            margin-top: 0.5rem !important;
+            margin-bottom: 0.5rem !important;
             margin-left: 1.2rem;
             margin-right: 1.2rem;
             box-shadow: 0 4px 16px rgba(0,0,0,0.22);
