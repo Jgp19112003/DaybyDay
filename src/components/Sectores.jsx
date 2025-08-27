@@ -551,7 +551,6 @@ const MobileSectores = ({ onAgendarClick }) => {
   const isDragging = useRef(false);
   const carouselRef = useRef(null);
   const animatedCards = useRef(new Set()); // Track which cards have been animated
-  const cardAnimationTimeouts = useRef(new Map()); // Para controlar timeouts
 
   // Header: scramble + sub (sin fade en scroll)
   useEffect(() => {
@@ -567,130 +566,31 @@ const MobileSectores = ({ onAgendarClick }) => {
     );
   }, []);
 
-  // Inicializar todas las tarjetas como ocultas
-  useEffect(() => {
-    cardRefs.current.forEach((card, idx) => {
-      if (!card) return;
-
-      // Estado inicial: todas las tarjetas ocultas excepto la primera
-      gsap.set(card, {
-        y: idx === 0 ? 0 : 30,
-        autoAlpha: idx === 0 ? 1 : INITIAL_CARD_OPACITY,
-        scale: idx === 0 ? 1 : 0.98,
-        force3D: true,
-      });
-
-      // Estado inicial de elementos internos
-      const wins = card.querySelectorAll(".sb-win");
-      const projects = card.querySelectorAll(".sb-project");
-      const kpis = card.querySelectorAll(".sb-kpi");
-
-      if (idx === 0) {
-        // Primera tarjeta: elementos visibles
-        gsap.set(wins, { y: 0, autoAlpha: 1, force3D: true });
-        gsap.set(projects, { x: 0, autoAlpha: 1, force3D: true });
-        gsap.set(kpis, { scale: 1, autoAlpha: 1, force3D: true });
-        animatedCards.current.add(0);
-      } else {
-        // Resto: elementos ocultos
-        gsap.set(wins, { y: 20, autoAlpha: 0, force3D: true });
-        gsap.set(projects, { x: 20, autoAlpha: 0, force3D: true });
-        gsap.set(kpis, { scale: 0.9, autoAlpha: 0, force3D: true });
-      }
-    });
-  }, []);
-
-  // Animación del slide activo - CORREGIDA
+  // Animación del slide activo (aparición + quick wins) - MEJORADA
   const animateActiveSlide = (idx) => {
     const card = cardRefs.current[idx];
-    if (!card) return;
+    if (!card || animatedCards.current.has(idx)) return;
 
-    // Limpiar timeout anterior si existe
-    if (cardAnimationTimeouts.current.has(idx)) {
-      clearTimeout(cardAnimationTimeouts.current.get(idx));
-    }
-
-    // Si ya se animó esta tarjeta, no repetir animación completa
-    if (animatedCards.current.has(idx)) {
-      // Solo un micro-feedback de cambio
-      gsap.to(card, {
-        scale: 1.01,
-        duration: 0.2,
-        ease: "power2.out",
-        yoyo: true,
-        repeat: 1,
-      });
-      return;
-    }
-
-    // Marcar como animada
     animatedCards.current.add(idx);
 
-    // Animación principal de la tarjeta
     gsap.fromTo(
       card,
-      { y: 30, autoAlpha: INITIAL_CARD_OPACITY, scale: 0.98 },
-      {
-        y: 0,
-        autoAlpha: 1,
-        scale: 1,
-        duration: 0.4,
-        ease: "power2.out",
-        force3D: true,
-      }
+      { y: 18, autoAlpha: INITIAL_CARD_OPACITY, scale: 0.995 },
+      { y: 0, autoAlpha: 1, scale: 1, duration: 0.35, ease: "power2.out" }
     );
-
-    // Timeline para elementos internos
-    const elementsTl = gsap.timeline({ delay: 0.1 });
 
     const wins = card.querySelectorAll(".sb-win");
     if (wins.length) {
-      elementsTl.fromTo(
+      gsap.fromTo(
         wins,
-        { y: 20, autoAlpha: 0 },
+        { y: 14, autoAlpha: 0 },
         {
           y: 0,
           autoAlpha: 1,
-          duration: 0.35,
-          stagger: 0.08,
-          ease: "back.out(1.2)",
-          force3D: true,
-        },
-        0
-      );
-    }
-
-    const projects = card.querySelectorAll(".sb-project");
-    if (projects.length) {
-      elementsTl.fromTo(
-        projects,
-        { x: 20, autoAlpha: 0 },
-        {
-          x: 0,
-          autoAlpha: 1,
-          duration: 0.3,
+          duration: 0.32,
           stagger: 0.06,
           ease: "power2.out",
-          force3D: true,
-        },
-        0.1
-      );
-    }
-
-    const kpis = card.querySelectorAll(".sb-kpi");
-    if (kpis.length) {
-      elementsTl.fromTo(
-        kpis,
-        { scale: 0.9, autoAlpha: 0 },
-        {
-          scale: 1,
-          autoAlpha: 1,
-          duration: 0.25,
-          stagger: 0.04,
-          ease: "back.out(1.4)",
-          force3D: true,
-        },
-        0.15
+        }
       );
     }
   };
@@ -702,28 +602,12 @@ const MobileSectores = ({ onAgendarClick }) => {
     // Solo animar si no estamos arrastrando
     if (!isDragging.current) {
       const pct = -activeIdx * (100 / data.length);
-
-      // Aplicar transformación
-      gsap.set(trackRef.current, {
-        x: `${pct}%`,
-        force3D: true,
-      });
-
-      // Animar slide activo con un pequeño delay
-      const animationTimeout = setTimeout(() => {
-        animateActiveSlide(activeIdx);
-      }, 100);
-
-      cardAnimationTimeouts.current.set(activeIdx, animationTimeout);
+      trackRef.current.style.transform = `translate3d(${pct}%,0,0)`;
+      trackRef.current.style.transition = "transform 320ms ease-out";
+      animateActiveSlide(activeIdx);
     }
 
     btnRefs.current.forEach(setupBtnHover);
-
-    return () => {
-      // Limpiar timeouts
-      cardAnimationTimeouts.current.forEach((timeout) => clearTimeout(timeout));
-      cardAnimationTimeouts.current.clear();
-    };
   }, [activeIdx, data.length]);
 
   // ajustar transición en resize
@@ -746,10 +630,8 @@ const MobileSectores = ({ onAgendarClick }) => {
     touchStartX.current = e.touches[0].clientX;
     touchEndX.current = e.touches[0].clientX;
     isDragging.current = true;
-
-    // Parar animaciones del track durante el drag
     if (trackRef.current) {
-      gsap.killTweensOf(trackRef.current);
+      trackRef.current.style.transition = "none";
     }
   };
 
@@ -759,24 +641,21 @@ const MobileSectores = ({ onAgendarClick }) => {
     touchEndX.current = e.touches[0].clientX;
     const diff = touchStartX.current - touchEndX.current;
     const currentTransform = -activeIdx * (100 / data.length);
-    const dragPercentage = (diff / window.innerWidth) * 25; // Sensibilidad ajustada
+    const dragPercentage = (diff / window.innerWidth) * 30; // Reduced sensitivity
 
     const newTransform = Math.max(
-      Math.min(currentTransform - dragPercentage, 3), // Overscroll reducido
-      -(data.length - 1) * (100 / data.length) - 3
+      Math.min(currentTransform - dragPercentage, 5), // Small overscroll allowance
+      -(data.length - 1) * (100 / data.length) - 5
     );
 
-    gsap.set(trackRef.current, {
-      x: `${newTransform}%`,
-      force3D: true,
-    });
+    trackRef.current.style.transform = `translate3d(${newTransform}%, 0, 0)`;
   };
 
   const handleTouchEnd = () => {
     if (!isDragging.current) return;
 
     const diff = touchStartX.current - touchEndX.current;
-    const threshold = 60; // Threshold ligeramente aumentado
+    const threshold = 50;
     let newIdx = activeIdx;
 
     if (Math.abs(diff) > threshold) {
@@ -789,34 +668,26 @@ const MobileSectores = ({ onAgendarClick }) => {
 
     isDragging.current = false;
 
-    // Retornar a la posición correcta
-    const pct = -newIdx * (100 / data.length);
-    gsap.to(trackRef.current, {
-      x: `${pct}%`,
-      duration: 0.35,
-      ease: "power2.out",
-      force3D: true,
-      onComplete: () => {
-        // Solo cambiar estado si el índice cambió
-        if (newIdx !== activeIdx) {
-          setActiveIdx(newIdx);
-        } else {
-          // Si no cambió, animar la tarjeta actual
-          setTimeout(() => animateActiveSlide(activeIdx), 50);
-        }
-      },
-    });
+    if (trackRef.current) {
+      trackRef.current.style.transition = "transform 320ms ease-out";
+      const pct = -newIdx * (100 / data.length);
+      trackRef.current.style.transform = `translate3d(${pct}%, 0, 0)`;
+    }
+
+    // Only update state if index changed
+    if (newIdx !== activeIdx) {
+      setActiveIdx(newIdx);
+    }
 
     touchStartX.current = 0;
     touchEndX.current = 0;
   };
 
-  // Cleanup en desmontaje
+  // Initialize first card animation
   useEffect(() => {
-    return () => {
-      cardAnimationTimeouts.current.forEach((timeout) => clearTimeout(timeout));
-      cardAnimationTimeouts.current.clear();
-    };
+    if (cardRefs.current[0] && !animatedCards.current.has(0)) {
+      animateActiveSlide(0);
+    }
   }, []);
 
   const Card = ({ s, idx }) => (
