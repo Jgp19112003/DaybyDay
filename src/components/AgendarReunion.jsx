@@ -3,6 +3,9 @@ import { gsap } from "gsap";
 import { scrambleTextAnimation } from "../animation";
 
 const AgendarReunion = ({ onBackToHome }) => {
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }, []);
   const sectionRef = useRef(null);
   const titleRef = useRef(null);
   const formRef = useRef(null);
@@ -17,7 +20,7 @@ const AgendarReunion = ({ onBackToHome }) => {
     message: "",
   });
   const [errors, setErrors] = useState({});
-  const [isMobile, setIsMobile] = useState(false);
+  const [, setIsMobile] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const successRef = useRef(null);
   const successTitleRef = useRef(null);
@@ -106,6 +109,7 @@ const AgendarReunion = ({ onBackToHome }) => {
           },
           0.8
         );
+      // import { useEffect } from "react"; // Ya está importado arriba
     }, 50);
 
     return () => {
@@ -416,11 +420,7 @@ const AgendarReunion = ({ onBackToHome }) => {
   return (
     <section
       ref={sectionRef}
-      className={`meeting-scheduler-container w-full max-w-full flex flex-col items-center ${
-        isMobile
-          ? "meeting-scheduler-mobile mt-[120px] mb-[100px]"
-          : "mt-[80px]"
-      } px-4 lg:px-0 min-h-screen mb-[40px]`}
+      className="meeting-scheduler-container w-full max-w-full flex flex-col items-center mt-[180px] px-4 lg:px-0 min-h-screen mb-[40px]"
     >
       <div className="max-w-6xl w-full relative">
         <h2
@@ -544,11 +544,11 @@ const AgendarReunion = ({ onBackToHome }) => {
 
         <div
           ref={formRef}
-          className="meeting-form-container flex flex-col lg:flex-row gap-8 lg:gap-12"
+          className="meeting-form-container flex flex-col lg:flex-row gap-8 lg:gap-12 min-h-[600px]"
         >
           {/* Calendar Section */}
           <div
-            className="flex-1 bg-[#f5f5f5] rounded-[20px] p-6 lg:p-8"
+            className="flex-1 bg-[#f5f5f5] rounded-[20px] p-6 lg:p-8 mb-5"
             style={{ boxShadow: "4px 6px 1px #e0e0e0", overflow: "hidden" }}
           >
             <div className="mb-6">
@@ -698,7 +698,7 @@ const AgendarReunion = ({ onBackToHome }) => {
 
           {/* Form Section */}
           <div
-            className="flex-1 bg-[#f5f5f5] rounded-[20px] p-6 lg:p-8"
+            className="flex-1 bg-[#f5f5f5] rounded-[20px] p-6 lg:p-8 mb-5"
             style={{ boxShadow: "4px 6px 1px #e0e0e0", overflow: "hidden" }}
           >
             <div className="mb-6">

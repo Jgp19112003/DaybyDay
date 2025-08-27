@@ -13,7 +13,7 @@ gsap.registerPlugin(ScrollTrigger, SplitText);
 const App = () => {
   const [currentView, setCurrentView] = useState("home");
   const [pendingScroll, setPendingScroll] = useState(null);
-  const [isTransitioning] = useState(false);
+  const [isTransitioning, setIsTransitioning] = useState(false);
 
   const navBarRef = useRef(null);
 
@@ -36,27 +36,53 @@ const App = () => {
 
   const handleNavScroll = (section) => {
     if (section === "agendar") {
+      // Kill all ScrollTriggers and animations before navigation
+      ScrollTrigger.getAll().forEach((st) => st.kill());
+      gsap.killTweensOf("*");
+
+      setIsTransitioning(true);
       setCurrentView("agendar");
+
       setTimeout(() => {
         window.scrollTo({ top: 0, behavior: "smooth" });
+        setIsTransitioning(false);
       }, 100);
       return;
     }
     if (currentView !== "home") {
+      // Kill all ScrollTriggers and animations before navigation
+      ScrollTrigger.getAll().forEach((st) => st.kill());
+      gsap.killTweensOf("*");
+
+      // Force unpinning any pinned elements
+      ScrollTrigger.refresh();
+
+      setIsTransitioning(true);
       setCurrentView("home");
       setPendingScroll(section);
+
+      setTimeout(() => {
+        setIsTransitioning(false);
+        // Additional cleanup after transition
+        ScrollTrigger.refresh();
+      }, 300);
     } else {
       if (section === "inicio") {
         window.scrollTo({ top: 0, behavior: "smooth" });
       } else if (section === "sectores") {
-        // Scroll to sectores section
+        // Direct scroll when already on home page
         setTimeout(() => {
           const sectoresSection = document.querySelector("#sectores");
           if (sectoresSection) {
-            const navHeight = 80; // Approximate navbar height
-            const offset = 20; // Extra space below navbar
+            const navHeight = 80;
+            const offset = 20;
             const targetY = sectoresSection.offsetTop - navHeight - offset;
-            window.scrollTo({ top: targetY, behavior: "smooth" });
+
+            gsap.to(window, {
+              scrollTo: { y: targetY, autoKill: false },
+              duration: 1,
+              ease: "power2.out",
+            });
           }
         }, 100);
       }
@@ -67,19 +93,39 @@ const App = () => {
     if (currentView === "home" && pendingScroll) {
       if (pendingScroll === "inicio") {
         window.scrollTo({ top: 0, behavior: "smooth" });
+        setPendingScroll(null);
       } else if (pendingScroll === "sectores") {
-        // Scroll to sectores section
-        setTimeout(() => {
+        // Scroll to sectores section with multiple attempts to ensure DOM is ready
+        const scrollToSectores = () => {
           const sectoresSection = document.querySelector("#sectores");
           if (sectoresSection) {
-            const navHeight = 80; // Approximate navbar height
-            const offset = 20; // Extra space below navbar
-            const targetY = sectoresSection.offsetTop - navHeight - offset;
-            window.scrollTo({ top: targetY, behavior: "smooth" });
+            // Use requestAnimationFrame to ensure DOM is fully rendered
+            requestAnimationFrame(() => {
+              const navHeight = 80;
+              const offset = 20;
+              const targetY = sectoresSection.offsetTop - navHeight - offset;
+
+              // Force scroll using both methods for better compatibility
+              window.scrollTo({ top: targetY, behavior: "smooth" });
+
+              // Also use GSAP as fallback
+              gsap.to(window, {
+                scrollTo: { y: targetY, autoKill: false },
+                duration: 1,
+                ease: "power2.out",
+              });
+            });
+            setPendingScroll(null);
+          } else {
+            // If sectores section not found, try again after a short delay
+            console.log("Sectores section not found, retrying...");
+            setTimeout(scrollToSectores, 100);
           }
-        }, 100);
+        };
+
+        // Start with a delay to ensure component is mounted and animations are ready
+        setTimeout(scrollToSectores, 500); // Increased delay
       }
-      setPendingScroll(null);
     }
   }, [currentView, pendingScroll]);
 
@@ -88,14 +134,20 @@ const App = () => {
       <NavBar
         ref={navBarRef}
         currentView={currentView}
-        onAgendarClick={() => handleNavScroll("agendar")}
         onNavScroll={handleNavScroll}
         isVisible={true}
       />
       {currentView === "home" && (
         <>
           <Inicio />
-          <Sectores onAgendarClick={() => handleNavScroll("agendar")} />
+          <Sectores
+            onAgendarClick={() => {
+              // Kill all ScrollTriggers and animations before navigation
+              ScrollTrigger.getAll().forEach((st) => st.kill());
+              gsap.killTweensOf("*");
+              setCurrentView("agendar");
+            }}
+          />
         </>
       )}
       {currentView === "agendar" && <AgendarReunion />}

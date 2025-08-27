@@ -179,6 +179,9 @@ export const sectoresCardsScrollAnimation = (cardRefs, options = {}) => {
       card.__sectoresScrollTrigger.kill();
     }
 
+    // Check if element still exists in DOM before creating animation
+    if (!document.contains(card)) return;
+
     const tl = gsap.timeline({
       scrollTrigger: {
         trigger: card,
@@ -189,21 +192,31 @@ export const sectoresCardsScrollAnimation = (cardRefs, options = {}) => {
         preventOverlaps: true,
         id: `sectores-card-${index}`,
         onEnter: () => {
-          // Add entrance micro-animation
-          gsap.fromTo(
-            card,
-            { scale: 0.99 },
-            { scale: 1, duration: 0.3, ease: "power2.out", overwrite: "auto" }
-          );
+          // Check if element still exists before animating
+          if (document.contains(card)) {
+            gsap.fromTo(
+              card,
+              { scale: 0.99 },
+              { scale: 1, duration: 0.3, ease: "power2.out", overwrite: "auto" }
+            );
+          }
         },
         onLeave: () => {
-          // Add exit micro-animation
-          gsap.to(card, {
-            scale: 0.99,
-            duration: 0.2,
-            ease: "power2.in",
-            overwrite: "auto",
-          });
+          // Check if element still exists before animating
+          if (document.contains(card)) {
+            gsap.to(card, {
+              scale: 0.99,
+              duration: 0.2,
+              ease: "power2.in",
+              overwrite: "auto",
+            });
+          }
+        },
+        onRefresh: () => {
+          // Kill animation if element no longer exists
+          if (!document.contains(card)) {
+            tl.kill();
+          }
         },
       },
     });
@@ -240,7 +253,7 @@ export const sectoresCardsScrollAnimation = (cardRefs, options = {}) => {
           duration: 0.6,
           ease: "power2.out",
         },
-        "-=0.5" // Start slightly before the card animation ends
+        "-=0.5"
       );
     }
 
@@ -294,6 +307,9 @@ export const sectoresCardsHoverAnimation = (cardRefs) => {
     if (!card) return;
 
     const handleMouseEnter = () => {
+      // Check if element still exists before animating
+      if (!document.contains(card)) return;
+
       gsap.to(card, {
         scale: 1.02,
         y: -8,
@@ -335,6 +351,9 @@ export const sectoresCardsHoverAnimation = (cardRefs) => {
     };
 
     const handleMouseLeave = () => {
+      // Check if element still exists before animating
+      if (!document.contains(card)) return;
+
       gsap.to(card, {
         scale: 1,
         y: 0,
@@ -375,7 +394,7 @@ export const sectoresCardsHoverAnimation = (cardRefs) => {
       }
     };
 
-    // Remove existing listeners
+    // Remove existing listeners to prevent duplicates
     card.removeEventListener("mouseenter", handleMouseEnter);
     card.removeEventListener("mouseleave", handleMouseLeave);
 
@@ -753,6 +772,9 @@ export const initNavbarScrollVisibility = (navbarElement) => {
   };
 
   const updateNavbarVisibility = () => {
+    // Check if navbar element still exists in DOM
+    if (!document.contains(navbarElement)) return;
+
     const scrollY = window.scrollY;
     const windowHeight = window.innerHeight;
     const sectoresSection = document.querySelector("#sectores");
@@ -776,7 +798,7 @@ export const initNavbarScrollVisibility = (navbarElement) => {
         return;
       }
 
-      // SIEMPRE verificar si estamos en la sección de inicio para ocultarlo (sin delay)
+      // Verificar si estamos en la sección de inicio para ocultarlo (tanto móvil como desktop)
       const heroSection = document.querySelector("#inicio");
       if (heroSection) {
         const heroRect = heroSection.getBoundingClientRect();
@@ -784,12 +806,12 @@ export const initNavbarScrollVisibility = (navbarElement) => {
         let heroIsVisible = false;
 
         if (isMobile) {
-          // Lógica original de móvil
+          // Lógica de móvil
           heroIsVisible =
             heroRect.bottom > windowHeight * 0.3 &&
             heroRect.top <= windowHeight * 0.7;
         } else {
-          // Para desktop: ocultar solo cuando realmente estamos viendo el inicio/hero
+          // Para desktop: ocultar cuando realmente estamos viendo el inicio/hero
           heroIsVisible =
             heroRect.bottom > windowHeight * 0.6 &&
             heroRect.top <= windowHeight * 0.4;
@@ -806,7 +828,7 @@ export const initNavbarScrollVisibility = (navbarElement) => {
         }
       }
 
-      // Para desktop: si no estamos en el hero, siempre mostrar el navbar
+      // Para desktop: si no estamos en el hero, siempre mostrar el navbar (no se oculta por scroll)
       if (!isMobile) {
         if (!isVisible) {
           showNavbar();
@@ -871,7 +893,7 @@ export const initNavbarScrollVisibility = (navbarElement) => {
   };
 
   const handleScroll = () => {
-    if (!ticking) {
+    if (!ticking && document.contains(navbarElement)) {
       requestAnimationFrame(updateNavbarVisibility);
       ticking = true;
     }
@@ -891,5 +913,29 @@ export const initNavbarScrollVisibility = (navbarElement) => {
     window.removeEventListener("scroll", handleScroll);
     if (graceTimeout) clearTimeout(graceTimeout);
     if (scrollLogicTimeout) clearTimeout(scrollLogicTimeout);
+
+    // Kill any remaining animations on this element
+    if (document.contains(navbarElement)) {
+      gsap.killTweensOf(navbarElement);
+    }
   };
+};
+
+// Add a utility function to safely kill all animations
+export const killAllAnimations = () => {
+  // Kill all ScrollTriggers
+  ScrollTrigger.getAll().forEach((st) => {
+    try {
+      st.kill();
+    } catch (e) {
+      console.warn("Error killing ScrollTrigger:", e);
+    }
+  });
+
+  // Kill all GSAP tweens
+  try {
+    gsap.killTweensOf("*");
+  } catch (e) {
+    console.warn("Error killing GSAP tweens:", e);
+  }
 };

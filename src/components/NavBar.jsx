@@ -204,32 +204,8 @@ const NavBar = forwardRef(({ currentView, onNavScroll }, ref) => {
           className="nav-link"
           onClick={(e) => {
             e.preventDefault();
-
+            // Solo llamar a onNavScroll, que maneja toda la lógica de navegación
             if (typeof onNavScroll === "function") onNavScroll("sectores");
-
-            setTimeout(() => {
-              const navH = getNAV();
-              const sectoresSection = document.querySelector("#sectores");
-
-              let targetY = 0;
-              const OFFSET_BELOW_NAV = 20; // Extra space below navbar
-
-              if (sectoresSection) {
-                const rect = sectoresSection.getBoundingClientRect();
-                targetY = Math.max(
-                  0,
-                  Math.round(
-                    window.pageYOffset + rect.top - navH - OFFSET_BELOW_NAV
-                  )
-                );
-              }
-
-              gsap.to(window, {
-                scrollTo: { y: targetY, autoKill: false },
-                duration: 1,
-                ease: "power2.out",
-              });
-            }, 100);
           }}
         >
           Servicios
