@@ -106,6 +106,7 @@ const Inicio = () => {
   const logoRef = useRef(null);
   const sectionRef = useRef(null);
   const metricsRef = useRef(null);
+  const scrollArrowRef = useRef(null);
   const heroPhaseRefs = useRef(heroPhases.map(() => React.createRef()));
   const heroLineRefs = useRef(
     heroPhases.flatMap((phase) => phase.lines.map(() => React.createRef()))
@@ -158,6 +159,18 @@ const Inicio = () => {
     const initDelay = setTimeout(() => {
       inicioLogoHangingAnimation(logoRef.current);
 
+      // Animar flecha después del logo
+      if (scrollArrowRef.current) {
+        gsap.set(scrollArrowRef.current, { opacity: 0, y: 20 });
+        gsap.to(scrollArrowRef.current, {
+          opacity: 1,
+          y: 0,
+          duration: 1,
+          ease: "power2.out",
+          delay: 1.2,
+        });
+      }
+
       heroPhaseRefs.current.forEach((ref) => {
         gsap.set(ref.current, { opacity: 0, y: 200 });
       });
@@ -186,6 +199,13 @@ const Inicio = () => {
                 y: 0,
                 force3D: true,
               });
+              // Mostrar flecha cuando el logo está visible
+              if (scrollArrowRef.current) {
+                gsap.set(scrollArrowRef.current, {
+                  opacity: 1,
+                  force3D: true,
+                });
+              }
             } else if (progress > 0.15 && progress <= 0.25) {
               const fadeProgress = (progress - 0.15) / 0.1;
               gsap.set(logoRef.current, {
@@ -194,6 +214,13 @@ const Inicio = () => {
                 y: -fadeProgress * (isMobile ? 150 : 200),
                 force3D: true,
               });
+              // Desvanecer flecha con el logo
+              if (scrollArrowRef.current) {
+                gsap.set(scrollArrowRef.current, {
+                  opacity: 1 - fadeProgress,
+                  force3D: true,
+                });
+              }
             } else {
               gsap.set(logoRef.current, {
                 opacity: 0,
@@ -201,6 +228,13 @@ const Inicio = () => {
                 y: -(isMobile ? 150 : 200),
                 force3D: true,
               });
+              // Ocultar flecha cuando el logo desaparece
+              if (scrollArrowRef.current) {
+                gsap.set(scrollArrowRef.current, {
+                  opacity: 0,
+                  force3D: true,
+                });
+              }
             }
 
             heroPhases.forEach((phase, phaseIdx) => {
@@ -514,6 +548,37 @@ const Inicio = () => {
               <span className="logo-by rotated">by</span>
             </div>
           </div>
+        </div>
+
+        {/* Scroll Arrow */}
+        <div
+          ref={scrollArrowRef}
+          className="scroll-arrow fixed z-10"
+          style={{
+            bottom: "8vh",
+            left: "50%",
+            transform: "translateX(-50%)",
+            willChange: "transform, opacity",
+          }}
+        >
+          <div className="scroll-arrow-icon">
+            <svg
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M12 5L12 19M12 19L7 14M12 19L17 14"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+            </svg>
+          </div>
+          <span className="scroll-text"></span>
         </div>
 
         {/* Hero phases */}
@@ -857,6 +922,78 @@ const Inicio = () => {
           }
           .metric-sub { font-size: 0.97em; margin-top: 2px; margin-bottom: 0; line-height: 1.35; }
           .tag-soft { font-size: 13px; padding: 7px 12px; margin-top: 8px; margin-bottom: 8px; }
+        }
+
+        /* ====== SCROLL ARROW ====== */
+        .scroll-arrow {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          gap: 8px;
+          color: ${LOGO_COLOR};
+          opacity: 0;
+          cursor: pointer;
+          transition: opacity 0.3s ease;
+        }
+
+        .scroll-arrow-icon {
+          animation: bounce 2s infinite;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+
+        .scroll-arrow-icon svg {
+          width: 28px;
+          height: 28px;
+          filter: drop-shadow(0 2px 8px rgba(0,0,0,0.3));
+        }
+
+        .scroll-text {
+          font-family: "Inter", sans-serif;
+          font-size: 12px;
+          font-weight: 500;
+          letter-spacing: 0.05em;
+          text-transform: uppercase;
+          opacity: 0.8;
+          text-shadow: 0 2px 8px rgba(0,0,0,0.3);
+        }
+
+        @keyframes bounce {
+          0%, 20%, 50%, 80%, 100% {
+            transform: translateY(0);
+          }
+          40% {
+            transform: translateY(-8px);
+          }
+          60% {
+            transform: translateY(-4px);
+          }
+        }
+
+        @media (max-width: 768px) {
+          .scroll-arrow {
+            bottom: 6vh;
+          }
+          
+          .scroll-arrow-icon svg {
+            width: 24px;
+            height: 24px;
+          }
+          
+          .scroll-text {
+            font-size: 11px;
+          }
+        }
+
+        @media (hover: hover) and (pointer: fine) {
+          .scroll-arrow:hover {
+            opacity: 1 !important;
+          }
+          
+          .scroll-arrow:hover .scroll-arrow-icon {
+            animation-duration: 1s;
+          }
         }
       `}</style>
     </>
