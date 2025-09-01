@@ -169,6 +169,37 @@ const Inicio = () => {
           ease: "power2.out",
           delay: 1.2,
         });
+
+        // Add click handler for scroll arrow
+        const handleArrowClick = () => {
+          const currentScroll = window.scrollY;
+          const targetScroll = currentScroll + 600;
+
+          // Hide arrow immediately when clicked
+          if (scrollArrowRef.current) {
+            gsap.to(scrollArrowRef.current, {
+              opacity: 0,
+              duration: 0.2,
+              ease: "power2.out",
+            });
+          }
+
+          gsap.to(window, {
+            scrollTo: {
+              y: targetScroll,
+              autoKill: false,
+            },
+            duration: 0.3,
+            ease: "power2.out",
+          });
+        };
+
+        scrollArrowRef.current.addEventListener("click", handleArrowClick);
+
+        // Store cleanup function
+        scrollArrowRef.current._cleanupClick = () => {
+          scrollArrowRef.current.removeEventListener("click", handleArrowClick);
+        };
       }
 
       heroPhaseRefs.current.forEach((ref) => {
@@ -206,15 +237,16 @@ const Inicio = () => {
                   force3D: true,
                 });
               }
-            } else if (progress > 0.15 && progress <= 0.25) {
-              const fadeProgress = (progress - 0.15) / 0.1;
+            } else if (progress > 0.15 && progress < 0.2) {
+              // Transition zone - fade out logo and arrow
+              const fadeProgress = (progress - 0.15) / 0.05;
               gsap.set(logoRef.current, {
                 opacity: 1 - fadeProgress,
                 scale: 1 - fadeProgress * 0.2,
                 y: -fadeProgress * (isMobile ? 150 : 200),
                 force3D: true,
               });
-              // Desvanecer flecha con el logo
+              // Hide arrow before phase-1 appears
               if (scrollArrowRef.current) {
                 gsap.set(scrollArrowRef.current, {
                   opacity: 1 - fadeProgress,
@@ -222,13 +254,14 @@ const Inicio = () => {
                 });
               }
             } else {
+              // Phase-1 and beyond - hide logo and arrow
               gsap.set(logoRef.current, {
                 opacity: 0,
                 scale: 0.8,
                 y: -(isMobile ? 150 : 200),
                 force3D: true,
               });
-              // Ocultar flecha cuando el logo desaparece
+              // Keep arrow hidden when phase-1 content is visible
               if (scrollArrowRef.current) {
                 gsap.set(scrollArrowRef.current, {
                   opacity: 0,
@@ -340,6 +373,11 @@ const Inicio = () => {
       clearTimeout(initDelay);
       window.removeEventListener("resize", handleResize);
       window.removeEventListener("orientationchange", handleResize);
+
+      // Cleanup click handler
+      if (scrollArrowRef.current && scrollArrowRef.current._cleanupClick) {
+        scrollArrowRef.current._cleanupClick();
+      }
 
       ScrollTrigger.getAll().forEach((trigger) => {
         if (trigger.trigger === currentSection) trigger.kill();
@@ -553,7 +591,7 @@ const Inicio = () => {
         {/* Scroll Arrow */}
         <div
           ref={scrollArrowRef}
-          className="scroll-arrow fixed z-10"
+          className="scroll-arrow fixed z-10 cursor-pointer"
           style={{
             bottom: "8vh",
             left: "50%",
@@ -563,8 +601,8 @@ const Inicio = () => {
         >
           <div className="scroll-arrow-icon">
             <svg
-              width="24"
-              height="24"
+              width="32"
+              height="32"
               viewBox="0 0 24 24"
               fill="none"
               xmlns="http://www.w3.org/2000/svg"
@@ -578,7 +616,7 @@ const Inicio = () => {
               />
             </svg>
           </div>
-          <span className="scroll-text"></span>
+          <span className="scroll-text">Scroll</span>
         </div>
 
         {/* Hero phases */}
@@ -929,11 +967,20 @@ const Inicio = () => {
           display: flex;
           flex-direction: column;
           align-items: center;
-          gap: 8px;
+          gap: 10px;
           color: ${LOGO_COLOR};
           opacity: 0;
           cursor: pointer;
-          transition: opacity 0.3s ease;
+          transition: all 0.3s ease;
+          user-select: none;
+        }
+
+        .scroll-arrow:hover {
+          transform: translateX(-50%) scale(1.1);
+        }
+
+        .scroll-arrow:active {
+          transform: translateX(-50%) scale(0.95);
         }
 
         .scroll-arrow-icon {
@@ -944,18 +991,18 @@ const Inicio = () => {
         }
 
         .scroll-arrow-icon svg {
-          width: 28px;
-          height: 28px;
+          width: 36px;
+          height: 36px;
           filter: drop-shadow(0 2px 8px rgba(0,0,0,0.3));
         }
 
         .scroll-text {
           font-family: "Inter", sans-serif;
-          font-size: 12px;
-          font-weight: 500;
+          font-size: 13px;
+          font-weight: 600;
           letter-spacing: 0.05em;
           text-transform: uppercase;
-          opacity: 0.8;
+          opacity: 0.9;
           text-shadow: 0 2px 8px rgba(0,0,0,0.3);
         }
 
@@ -977,12 +1024,12 @@ const Inicio = () => {
           }
           
           .scroll-arrow-icon svg {
-            width: 24px;
-            height: 24px;
+            width: 32px;
+            height: 32px;
           }
           
           .scroll-text {
-            font-size: 11px;
+            font-size: 12px;
           }
         }
 
