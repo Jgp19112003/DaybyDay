@@ -9,7 +9,7 @@ const features = [
   {
     icon: (
       <img
-        src="src/assets/images/terminal.png"
+        src="/public/images/terminal.png"
         alt="Desafío de automatización"
         className="w-12 h-12 object-contain"
       />
@@ -20,7 +20,7 @@ const features = [
   {
     icon: (
       <img
-        src="src/assets/images/solucion.png"
+        src="/public/images/solucion.png"
         alt="Nuestra Solución"
         className="w-12 h-12 object-contain"
       />
@@ -31,7 +31,7 @@ const features = [
   {
     icon: (
       <img
-        src="src/assets/images/escalable.png"
+        src="/public/images/escalable.png"
         alt="Escalar servicios"
         className="w-12 h-12 object-contain"
       />
@@ -42,7 +42,7 @@ const features = [
   {
     icon: (
       <img
-        src="src/assets/images/personalizacion.png"
+        src="/public/images/personalizacion.png"
         alt="Personalización Real"
         className="w-12 h-12 object-contain"
       />
@@ -56,21 +56,21 @@ const testimonials = [
   {
     text: "“Con DaybyDay logramos procesos de marketing más ágiles y sostenibles, adaptándonos mejor a las necesidades del mercado.“",
     name: "Day",
-    img: "src/assets/images/D.png",
+    img: "/public/images/D.png",
     variant: "a",
     bg: "from-[#1a1a1a] via-[#2a2a2a] to-[#000000]",
   },
   {
     text: "“La plataforma nos permitió escalar y automatizar sin perder personalización, aumentando la eficiencia y mejorando la experiencia del cliente.”",
     name: "By",
-    img: "src/assets/images/B.png",
+    img: "/public/images/B.png",
     variant: "b",
     bg: "from-[#dc2626] via-[#ef4444] to-[#f87171]",
   },
   {
     text: "“El mercado exige innovación constante. Con DaybyDay hemos podido integrar IA y automatización para crecer de forma flexible y sostenible.”",
     name: "Day",
-    img: "src/assets/images/D.png",
+    img: "/public/images/D.png",
     variant: "c",
     bg: "from-[#1a1a1a] via-[#2a2a2a] to-[#000000]",
   },
