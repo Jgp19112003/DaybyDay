@@ -17,8 +17,6 @@ import {
 gsap.registerPlugin(ScrollToPlugin);
 
 // Altura del navbar (id/clases típicas). Fallback 80px.
-const getNAV = () =>
-  document.querySelector("#navbar, .site-nav, header")?.offsetHeight || 80;
 
 const NavBar = forwardRef(({ currentView, onNavScroll }, ref) => {
   const logoRef = useRef(null);
@@ -106,43 +104,10 @@ const NavBar = forwardRef(({ currentView, onNavScroll }, ref) => {
   const handleNosotrosCenter = (e) => {
     e.preventDefault();
 
-    if (typeof onNavScroll === "function") onNavScroll("inicio");
-
-    setTimeout(() => {
-      const navH = getNAV();
-      const h2 = document.querySelector("#nosotros h2");
-      const section = document.querySelector("#nosotros");
-
-      let targetY = 0;
-      const OFFSET_BELOW_NAV = 12;
-
-      if (h2) {
-        const rect = h2.getBoundingClientRect();
-        targetY = Math.max(
-          0,
-          Math.round(window.pageYOffset + rect.top - navH - OFFSET_BELOW_NAV)
-        );
-      } else if (section) {
-        const rect = section.getBoundingClientRect();
-        targetY = Math.max(
-          0,
-          Math.round(window.pageYOffset + rect.top - navH - 8)
-        );
-      }
-
-      window.__skipNosotrosIntro = Date.now();
-
-      gsap.to(window, {
-        scrollTo: { y: targetY, autoKill: false },
-        duration: 0.9,
-        ease: "power2.out",
-        onComplete: () => {
-          setTimeout(() => {
-            window.__skipNosotrosIntro = null;
-          }, 1400);
-        },
-      });
-    }, 300);
+    // Use the unified navigation system
+    if (typeof onNavScroll === "function") {
+      onNavScroll("nosotros");
+    }
   };
 
   // Bloque del logo reutilizable

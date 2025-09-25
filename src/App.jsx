@@ -5,6 +5,7 @@ import NavBar from "./components/NavBar";
 import WhatsAppButton from "./components/WhatsAppButton";
 import Inicio from "./components/Inicio";
 import Sectores from "./components/Sectores";
+import Nosotros from "./components/Nosotros";
 import AgendarReunion from "./components/AgendarReunion";
 import Footer from "./components/Footer";
 
@@ -85,6 +86,22 @@ const App = () => {
             });
           }
         }, 100);
+      } else if (section === "nosotros") {
+        // Direct scroll to nosotros section
+        setTimeout(() => {
+          const nosotrosSection = document.querySelector("#nosotros");
+          if (nosotrosSection) {
+            const navHeight = 80;
+            const offset = 20;
+            const targetY = nosotrosSection.offsetTop - navHeight - offset;
+
+            gsap.to(window, {
+              scrollTo: { y: targetY, autoKill: false },
+              duration: 1,
+              ease: "power2.out",
+            });
+          }
+        }, 100);
       }
     }
   };
@@ -114,6 +131,11 @@ const App = () => {
                 duration: 1,
                 ease: "power2.out",
               });
+
+              // Refresh ScrollTrigger after navigation
+              setTimeout(() => {
+                ScrollTrigger.refresh();
+              }, 100);
             });
             setPendingScroll(null);
           } else {
@@ -125,7 +147,44 @@ const App = () => {
 
         // Start with a delay to ensure component is mounted and animations are ready
         setTimeout(scrollToSectores, 500); // Increased delay
+      } else if (pendingScroll === "nosotros") {
+        // Scroll to nosotros section
+        const scrollToNosotros = () => {
+          const nosotrosSection = document.querySelector("#nosotros");
+          if (nosotrosSection) {
+            requestAnimationFrame(() => {
+              const navHeight = 80;
+              const offset = 20;
+              const targetY = nosotrosSection.offsetTop - navHeight - offset;
+
+              window.scrollTo({ top: targetY, behavior: "smooth" });
+
+              gsap.to(window, {
+                scrollTo: { y: targetY, autoKill: false },
+                duration: 1,
+                ease: "power2.out",
+              });
+
+              // Refresh ScrollTrigger after navigation
+              setTimeout(() => {
+                ScrollTrigger.refresh();
+              }, 100);
+            });
+            setPendingScroll(null);
+          } else {
+            setTimeout(scrollToNosotros, 100);
+          }
+        };
+
+        setTimeout(scrollToNosotros, 500);
       }
+    }
+
+    // Refresh ScrollTrigger when returning to home view
+    if (currentView === "home" && !pendingScroll) {
+      setTimeout(() => {
+        ScrollTrigger.refresh();
+      }, 200);
     }
   }, [currentView, pendingScroll]);
 
@@ -141,6 +200,14 @@ const App = () => {
         <>
           <Inicio />
           <Sectores
+            onAgendarClick={() => {
+              // Kill all ScrollTriggers and animations before navigation
+              ScrollTrigger.getAll().forEach((st) => st.kill());
+              gsap.killTweensOf("*");
+              setCurrentView("agendar");
+            }}
+          />
+          <Nosotros
             onAgendarClick={() => {
               // Kill all ScrollTriggers and animations before navigation
               ScrollTrigger.getAll().forEach((st) => st.kill());

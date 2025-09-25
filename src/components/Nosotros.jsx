@@ -1,355 +1,610 @@
-import React, { useRef, useEffect, useState } from "react";
+// /components/Nosotros.jsx
+import React, { useEffect, useRef } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/all";
-import { scrambleTextAnimation } from "../animation";
 
-let hasAnimated = false;
+gsap.registerPlugin(ScrollTrigger);
 
-// Altura del navbar. Fallback 80px.
-const getNAV = () =>
-  document.querySelector("#navbar, .site-nav, header")?.offsetHeight || 80;
+const features = [
+  {
+    icon: (
+      <img
+        src="src/assets/images/terminal.png"
+        alt="Desafío de automatización"
+        className="w-12 h-12 object-contain"
+      />
+    ),
+    title: "El Desafío",
+    desc: "Muchas empresas aún no adoptan la automatización de marketing e IA, perdiendo eficiencia, clientes y competitividad en un mercado cada vez más exigente.",
+  },
+  {
+    icon: (
+      <img
+        src="src/assets/images/solucion.png"
+        alt="Nuestra Solución"
+        className="w-12 h-12 object-contain"
+      />
+    ),
+    title: "Nuestra Solución",
+    desc: "Un enfoque adaptativo: estrategias flexibles y personalizadas de automatización e IA que eliminan barreras y convierten la tecnología en resultados sostenibles.",
+  },
+  {
+    icon: (
+      <img
+        src="src/assets/images/escalable.png"
+        alt="Escalar servicios"
+        className="w-12 h-12 object-contain"
+      />
+    ),
+    title: "Servicios Escalables",
+    desc: "Desde proyectos rápidos como chatbots o emails automatizados, hasta estrategias avanzadas con IA para segmentación, predicción y campañas omnicanal.",
+  },
+  {
+    icon: (
+      <img
+        src="src/assets/images/personalizacion.png"
+        alt="Personalización Real"
+        className="w-12 h-12 object-contain"
+      />
+    ),
+    title: "Personalización Real",
+    desc: "Nuestro valor central: experiencias únicas potenciadas por IA, llevando la personalización a escala sin perder el toque humano y cercano.",
+  },
+];
 
-const NAV_EXTRA_DESKTOP = 10;
-const NAV_EXTRA_MOBILE = 90;
+const testimonials = [
+  {
+    text: "“Con DaybyDay logramos procesos de marketing más ágiles y sostenibles, adaptándonos mejor a las necesidades del mercado.“",
+    name: "Day",
+    img: "src/assets/images/D.png",
+    variant: "a",
+    bg: "from-[#1a1a1a] via-[#2a2a2a] to-[#000000]",
+  },
+  {
+    text: "“La plataforma nos permitió escalar y automatizar sin perder personalización, aumentando la eficiencia y mejorando la experiencia del cliente.”",
+    name: "By",
+    img: "src/assets/images/B.png",
+    variant: "b",
+    bg: "from-[#dc2626] via-[#ef4444] to-[#f87171]",
+  },
+  {
+    text: "“El mercado exige innovación constante. Con DaybyDay hemos podido integrar IA y automatización para crecer de forma flexible y sostenible.”",
+    name: "Day",
+    img: "src/assets/images/D.png",
+    variant: "c",
+    bg: "from-[#1a1a1a] via-[#2a2a2a] to-[#000000]",
+  },
+];
 
 const Nosotros = () => {
-  const sectionRef = useRef(null);
-  const rowRef = useRef(null);
-  const stackRef = useRef(null);
-  const cardsRef = useRef([]);
-  const titleRef = useRef(null);
-  const rightColRef = useRef(null);
-  const videoTextRef = useRef(null);
-  const [showVideoMobile, setShowVideoMobile] = useState(false);
+  const featRef = useRef(null);
+  const testiRef = useRef(null);
 
+  // Animaciones bloque features
   useEffect(() => {
-    gsap.registerPlugin(ScrollTrigger);
-    hasAnimated = false;
+    if (!featRef.current) return;
+    const el = featRef.current;
+    const items = el.querySelectorAll(".feature");
+    const h2 = el.querySelector("h2");
+    const subtitle = el.querySelector(".nosotros-sub");
 
-    const isDesktop = window.innerWidth >= 1024;
-    const navOffset =
-      getNAV() + (isDesktop ? NAV_EXTRA_DESKTOP : NAV_EXTRA_MOBILE);
-    const cards = cardsRef.current.filter(Boolean);
-    if (!rowRef.current || !stackRef.current || cards.length === 0) return;
-    const steps = cards.length;
+    if (!h2 || !subtitle || !items.length) return;
 
-    // Ocultar la sección inicialmente para que no se vea hasta que se haga scroll
-    gsap.set(sectionRef.current, { autoAlpha: 0, visibility: "hidden" });
-    gsap.set(titleRef.current, { autoAlpha: 0, y: 14 });
-    gsap.set(cards, { autoAlpha: 0 });
-    gsap.set(rightColRef.current, { autoAlpha: 0, y: 0 });
-    gsap.set(videoTextRef.current, { autoAlpha: 0, y: 24 });
-
-    // ===== Timeline de animación: muestra la sección y ejecuta el resto de la animaciones =====
-    const textTl = gsap.timeline({
-      paused: true,
-      defaults: { ease: "power3.out" },
+    // Set initial state - elements hidden
+    gsap.set([h2, subtitle, items], {
+      opacity: 0,
+      y: 50,
     });
-    textTl
-      .to(sectionRef.current, {
-        autoAlpha: 1,
-        visibility: "visible",
-        duration: 0.1,
-      })
-      .to(titleRef.current, {
-        autoAlpha: 1,
+
+    const tl1 = gsap.fromTo(
+      h2,
+      { y: 40, opacity: 0 },
+      {
         y: 0,
+        opacity: 1,
+        duration: 0.8,
+        ease: "power3.out",
+        scrollTrigger: {
+          trigger: el,
+          start: "top 80%",
+          once: false,
+          refreshPriority: -1,
+        },
+      }
+    );
+
+    const tl2 = gsap.fromTo(
+      subtitle,
+      { y: 30, opacity: 0 },
+      {
+        y: 0,
+        opacity: 1,
+        duration: 0.8,
+        delay: 0.15,
+        ease: "power3.out",
+        scrollTrigger: {
+          trigger: el,
+          start: "top 80%",
+          once: false,
+          refreshPriority: -1,
+        },
+      }
+    );
+
+    const tl3 = gsap.fromTo(
+      items,
+      { y: 50, opacity: 0 },
+      {
+        y: 0,
+        opacity: 1,
         duration: 0.6,
-        onComplete: () => {
-          if (!hasAnimated) {
-            hasAnimated = true;
-            scrambleTextAnimation(titleRef.current, "Sobre Nosotros", {
-              duration: 1200,
-              delay: 0,
-            });
-          }
-        },
-      })
-      .to(
-        cards,
-        {
-          autoAlpha: 1,
-          duration: 0.5,
-          stagger: 0.1,
-          ease: "power2.out",
-        },
-        "+=0.3"
-      )
-      .to(
-        videoTextRef.current,
-        {
-          autoAlpha: 1,
-          y: 0,
-          duration: 0.8,
-          ease: "power3.out",
-        },
-        "+=0.2"
-      )
-      .to(
-        rightColRef.current,
-        {
-          autoAlpha: 1,
-          duration: 0.6,
-          ease: "power2.out",
-        },
-        "+=0.1"
-      );
-
-    // Ejecuta la animación solo cuando se haga scroll hasta la sección
-    ScrollTrigger.create({
-      trigger: sectionRef.current,
-      start: "top 80%",
-      once: true,
-      onEnter: () => textTl.play(),
-      invalidateOnRefresh: true,
-    });
-
-    // ===== Desktop stack scroll =====
-    if (isDesktop) {
-      cards.forEach((el, i) => {
-        const translate = [-5, -3.75, -2.5, -1.25, 0, 1.25][i] ?? 0;
-        const scale = [0.98, 0.93, 0.88, 0.83, 0.78, 0.73][i] ?? 0.73;
-        gsap.set(el, {
-          yPercent: 0,
-          scale,
-          zIndex: cards.length - i,
-          transformOrigin: "bottom center",
-          translateY: `${translate}vh`,
-          willChange: "transform",
-        });
-      });
-
-      const tl = gsap.timeline({
+        stagger: 0.15,
+        ease: "power2.out",
         scrollTrigger: {
-          trigger: rowRef.current,
-          start: () => `top top+=${navOffset}`,
-          end: () => `+=${window.innerHeight * steps * 0.9}`,
-          scrub: true,
-          pin: true,
-          anticipatePin: 1,
-          invalidateOnRefresh: true,
+          trigger: el,
+          start: "top 70%",
+          once: false,
+          refreshPriority: -1,
         },
-        defaults: { ease: "none" },
-      });
+      }
+    );
 
-      cards.forEach((card, i) => {
-        const isLast = i === cards.length - 1;
-        if (isLast) {
-          tl.to(card, { yPercent: -40, duration: 1 }, i + 0.3);
-        } else {
-          tl.to(card, { yPercent: -160, duration: 1 }, i);
-          tl.to(cards[i + 1], { scale: 1, duration: 1 }, i + 0.25);
-        }
-      });
-    }
-    // ===== Móvil stack scroll =====
-    else {
-      gsap.set(stackRef.current, {
-        minHeight: "100vh",
-        position: "relative",
-        paddingTop: "6vh",
-      });
-
-      cards.forEach((el, i) => {
-        const scale = [0.94, 0.9, 0.86, 0.82, 0.79, 0.76][i] ?? 0.76;
-        const translate = [-2.2, -1.6, -1.0, -0.5, 0, 0.4][i] ?? 0;
-        gsap.set(el, {
-          position: "absolute",
-          left: "50%",
-          xPercent: -50,
-          top: 0,
-          yPercent: 0,
-          width: "92vw",
-          maxWidth: "480px",
-          zIndex: cards.length - i,
-          transformOrigin: "bottom center",
-          scale,
-          translateY: `${translate}vh`,
-          willChange: "transform",
-        });
-      });
-
-      const tl = gsap.timeline({
-        scrollTrigger: {
-          trigger: stackRef.current,
-          start: () => `top top+=${navOffset}`,
-          end: () => `+=${window.innerHeight * steps * 0.55}`,
-          scrub: true,
-          pin: true,
-          anticipatePin: 1,
-          invalidateOnRefresh: true,
-        },
-        defaults: { ease: "none" },
-      });
-
-      cards.forEach((card, i) => {
-        const isLast = i === cards.length - 1;
-        if (isLast) {
-          tl.to(card, { yPercent: -35, duration: 1 }, i + 0.3);
-        } else {
-          tl.to(card, { yPercent: -155, duration: 1 }, i);
-          tl.to(cards[i + 1], { scale: 1, duration: 1 }, i + 0.25);
-        }
-      });
-
-      ScrollTrigger.create({
-        trigger: stackRef.current,
-        start: () => `top top+=${navOffset}`,
-        end: () => `+=${window.innerHeight * steps * 0.55}`,
-        onLeave: () => {
-          setShowVideoMobile(true);
-          gsap.fromTo(
-            rightColRef.current,
-            { autoAlpha: 0, y: 24, scale: 0.98 },
-            {
-              autoAlpha: 1,
-              y: 0,
-              scale: 1,
-              duration: 0.6,
-              ease: "power3.out",
-            }
-          );
-        },
-        onEnterBack: () => {
-          setShowVideoMobile(false);
-          gsap.set(rightColRef.current, { autoAlpha: 0, y: 24, scale: 0.98 });
-        },
-        invalidateOnRefresh: true,
-      });
-    }
-
-    // Fade out del título mientras se hace scroll
-    ScrollTrigger.create({
-      trigger: rowRef.current,
-      start: () => `top top+=${navOffset}`,
-      end: () => `+=${window.innerHeight * steps * (isDesktop ? 0.9 : 0.55)}`,
-      scrub: true,
-      onUpdate: (self) => {
-        const fadeOutProgress = gsap.utils.clamp(0, 1, self.progress * 2);
-        gsap.to(titleRef.current, {
-          autoAlpha: 1 - fadeOutProgress,
-          duration: 0.1,
-        });
-      },
-      invalidateOnRefresh: true,
-    });
-
-    requestAnimationFrame(() => ScrollTrigger.refresh());
     return () => {
-      ScrollTrigger.getAll().forEach((st) => st.kill());
+      tl1.kill();
+      tl2.kill();
+      tl3.kill();
     };
   }, []);
 
-  const data = [
-    {
-      title: "Nuestra historia",
-      text: "Fundada con la misión de ayudar a las empresas a prosperar en la era digital. DayByDay ha crecido hasta convertirse en una agencia líder, trabajando con negocios de todos los tamaños.",
-      img: "/images/nosotros-1.jpg",
-    },
-    {
-      title: "Nuestra misión",
-      text: "Empoderamos a las empresas para que alcancen su máximo potencial mediante estrategias digitales y soluciones de automatización eficientes.",
-      img: "/images/nosotros-2.jpg",
-    },
-    {
-      title: "Nuestros valores",
-      text: "Excelencia e innovación. Entregamos resultados excepcionales y nos mantenemos en la vanguardia de la tecnología y el mercado.",
-      img: "/images/nosotros-3.jpg",
-    },
-  ];
+  // Animaciones bloque testimonios
+  useEffect(() => {
+    if (!testiRef.current) return;
+    const el = testiRef.current;
+    const title = el.querySelector("h2");
+    const cards = el.querySelectorAll(".testimonial");
+
+    if (!title || !cards.length) return;
+
+    // Set initial state - elements hidden
+    gsap.set([title, cards], {
+      opacity: 0,
+      y: 60,
+    });
+
+    // Animate title first
+    const tl1 = gsap.fromTo(
+      title,
+      { y: 40, opacity: 0 },
+      {
+        y: 0,
+        opacity: 1,
+        duration: 0.8,
+        ease: "power3.out",
+        scrollTrigger: {
+          trigger: el,
+          start: "top 85%",
+          once: false,
+          refreshPriority: -1,
+        },
+      }
+    );
+
+    // Then animate cards
+    const tl2 = gsap.fromTo(
+      cards,
+      { y: 60, opacity: 0 },
+      {
+        y: 0,
+        opacity: 1,
+        duration: 0.7,
+        stagger: 0.22,
+        delay: 0.2,
+        ease: "power3.out",
+        scrollTrigger: {
+          trigger: el,
+          start: "top 85%",
+          once: false,
+          refreshPriority: -1,
+        },
+      }
+    );
+
+    return () => {
+      tl1.kill();
+      tl2.kill();
+    };
+  }, []);
+
+  // ====== ANIMACIÓN TILT + GLARE EN TESTIMONIOS ======
+  useEffect(() => {
+    const enableHover =
+      typeof window !== "undefined" &&
+      window.matchMedia &&
+      window.matchMedia("(hover: hover) and (pointer: fine)").matches;
+
+    if (!enableHover || !testiRef.current) return;
+
+    const cards = Array.from(testiRef.current.querySelectorAll(".testimonial"));
+
+    // Guardamos handlers/bounds en mapas para cleanup
+    const boundsMap = new WeakMap();
+    const moveHandlers = new WeakMap();
+
+    const attachCard = (card) => {
+      // asegurar que existe .glare
+      let glare = card.querySelector(".glare");
+      if (!glare) {
+        glare = document.createElement("div");
+        glare.className = "glare";
+        card.appendChild(glare);
+      }
+
+      const onEnter = () => {
+        const b = card.getBoundingClientRect();
+        boundsMap.set(card, b);
+
+        gsap.to(card, {
+          scale: 1.06,
+          duration: 0.4,
+          ease: "power2.out",
+        });
+      };
+
+      const onMove = (e) => {
+        const b = boundsMap.get(card) || card.getBoundingClientRect();
+        boundsMap.set(card, b);
+
+        const mouseX = e.clientX;
+        const mouseY = e.clientY;
+        const leftX = mouseX - b.x;
+        const topY = mouseY - b.y;
+        const center = {
+          x: leftX - b.width / 2,
+          y: topY - b.height / 2,
+        };
+
+        const distance = Math.sqrt(center.x ** 2 + center.y ** 2);
+        const rotationX = center.y / 50;
+        const rotationY = -center.x / 50;
+
+        const shadowOffsetX = -rotationY * 5;
+        const shadowOffsetY = rotationX * 5;
+        const shadowBlur = 20 + distance / 120;
+
+        gsap.to(card, {
+          rotationX,
+          rotationY,
+          transformPerspective: 600,
+          transformOrigin: "center center",
+          ease: "power2.out",
+          boxShadow: `${shadowOffsetX}px ${shadowOffsetY}px ${shadowBlur}px 3px rgba(72, 65, 56, .25)`,
+        });
+
+        gsap.to(glare, {
+          autoAlpha: 1,
+          duration: 0.15,
+          backgroundImage: `
+            radial-gradient(
+              circle at
+              ${center.x * 2 + b.width / 2}px
+              ${center.y * 2 + b.height / 2}px,
+              rgba(255, 255, 255, 0.33),
+              rgba(0, 0, 0, 0.06)
+            )
+          `,
+          ease: "power2.out",
+        });
+      };
+
+      const onLeave = () => {
+        gsap.to(card, {
+          scale: 1,
+          rotationX: 0,
+          rotationY: 0,
+          boxShadow: `0px 0px 0px 0 rgba(0,0,0,0)`,
+          duration: 0.6,
+          ease: "power2.out",
+        });
+        gsap.to(card.querySelector(".glare"), {
+          autoAlpha: 0,
+          duration: 0.4,
+          ease: "power2.out",
+        });
+      };
+
+      const boundMove = (e) => onMove(e);
+      moveHandlers.set(card, boundMove);
+
+      card.addEventListener("mouseenter", onEnter);
+      card.addEventListener("mousemove", boundMove);
+      card.addEventListener("mouseleave", onLeave);
+
+      // Guardar para cleanup
+      card._cleanupTilt = () => {
+        card.removeEventListener("mouseenter", onEnter);
+        card.removeEventListener("mousemove", boundMove);
+        card.removeEventListener("mouseleave", onLeave);
+      };
+    };
+
+    cards.forEach(attachCard);
+
+    return () => {
+      cards.forEach((c) => c._cleanupTilt && c._cleanupTilt());
+    };
+  }, []);
+
+  const shapeClass = (variant) => {
+    switch (variant) {
+      case "a":
+        return "rounded-[28px] rounded-tl-[56px] rounded-br-[56px]";
+      case "b":
+        return "rounded-[28px] rounded-tl-[56px] rounded-bl-[56px]";
+      case "c":
+        return "rounded-[28px] rounded-br-[56px]";
+      default:
+        return "rounded-2xl";
+    }
+  };
 
   return (
-    <section
-      id="nosotros"
-      ref={sectionRef}
-      className="nosotros-mobile bg-[#181414] text-white mt-[80px] lg:mt-[140px] py-16 lg:py-20 px-4 lg:px-0"
-    >
-      <div
-        ref={rowRef}
-        className="w-full max-w-full flex flex-col lg:flex-row justify-between items-start min-h-[400px] p-0 box-border gap-3 lg:gap-6"
+    <>
+      {/* ====== BLOQUE FEATURES ====== */}
+      <section
+        id="nosotros"
+        ref={featRef}
+        className="w-full bg-[#181414] text-white py-12 md:py-20 px-4 md:px-6"
       >
-        {/* IZQUIERDA */}
-        <div className="flex-1 max-w-none min-w-0 w-full lg:w-auto lg:pl-[60px] pt-4 lg:pt-10 pb-2 lg:pb-10 lg:ml-[100px]">
-          <div
-            ref={stackRef}
-            className="h-auto lg:h-[calc(100vh-20vh)] flex flex-col items-stretch justify-start"
-          >
-            <h2
-              ref={titleRef}
-              className="text-[2rem] sm:text-[2.5rem] lg:text-[4rem] font-black leading-none tracking-tight mb-6 lg:mb-16 text-center lg:text-left"
-            />
-            <div className="relative w-full flex justify-center lg:justify-start grow">
-              <div className="relative w-full">
-                {data.map((item, i) => (
-                  <article
-                    key={i}
-                    ref={(el) => (cardsRef.current[i] = el)}
-                    className="relative lg:absolute bg-[#de0015] text-white rounded-[22px] overflow-hidden shadow-[10px_13px_36px_24px_rgba(0,0,0,0.1)] w-full max-w-[560px] lg:w-[min(42vw,500px)] mx-auto lg:mx-0 mb-3 lg:mb-0"
-                  >
-                    {item.img && (
-                      <div className="w-full aspect-[4/3] overflow-hidden">
-                        <img
-                          src={item.img}
-                          alt={item.title}
-                          className="w-full h-full object-cover"
-                        />
-                      </div>
-                    )}
-                    <div className="p-5 sm:p-6 md:p-8">
-                      <h3 className="text-white text-[clamp(18px,4vw,36px)] font-black leading-tight mb-2 text-center lg:text-left">
-                        {item.title}
-                      </h3>
-                      <p className="text-white text-[clamp(13px,3.2vw,17px)] leading-relaxed text-center lg:text-left">
-                        {item.text}
-                      </p>
-                    </div>
-                  </article>
-                ))}
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* DERECHA (VÍDEO) */}
-        <div
-          className={`w-full lg:min-w-[500px] lg:max-w-[750px] px-0 lg:px-0 lg:pr-[60px] pt-2 lg:pt-10 pb-2 lg:pb-10 lg:mr-[100px] ${
-            showVideoMobile ? "" : "hidden lg:block"
-          }`}
-          style={{ marginLeft: "auto" }}
-        >
-          <div className="h-auto lg:h-[calc(100vh-12vh)] flex flex-col items-center lg:items-start">
-            <p
-              ref={videoTextRef}
-              className="text-base lg:text-lg text-[#e0e0e0] mb-4 lg:mb-8 leading-relaxed text-center lg:text-left px-2 lg:px-0"
-            >
-              Porque no solo queremos contártelo, queremos mostrártelo. Descubre
-              en este vídeo cómo nuestras soluciones pueden transformar tu
-              negocio.
+        <div className="max-w-6xl mx-auto">
+          <div className="text-center">
+            <h2 className="text-[1.8rem] md:text-[2.2rem] lg:text-[3rem] mb-3 md:mb-4 text-white">
+              Conócenos
+            </h2>
+            <p className="nosotros-sub text-base md:text-lg text-white/70 max-w-3xl mx-auto px-2 md:px-0">
+              Automatización e IA para un crecimiento sostenible. Pensamos en
+              grande, empezamos en pequeño y escalamos juntos.
             </p>
+          </div>
 
-            <div
-              ref={rightColRef}
-              className="rounded-[16px] bg-[#f5f5f5] p-3 lg:p-4 w-full max-w-[800px] mx-auto"
-              style={{ boxShadow: "4px 6px 1px #e0e0e0" }}
-            >
-              <div className="rounded-[16px] overflow-hidden w-full aspect-video">
-                <video
-                  src="ikeavideo.mp4"
-                  controls
-                  muted
-                  playsInline
-                  preload="auto"
-                  onLoadedData={(e) => (e.target.currentTime = 0)}
-                  className="w-full h-full object-cover"
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-10 mt-8 md:mt-12">
+            {features.map((f, i) => (
+              <article
+                key={i}
+                className="feature flex flex-col items-start text-left"
+              >
+                <div
+                  className={`rounded-lg p-1 border border-white/10 mb-3 md:mb-4 flex items-center justify-center ${
+                    i % 2 === 0 ? "bg-white" : "bg-[#de0015]"
+                  }`}
                 >
-                  Tu navegador no soporta el video.
-                </video>
-              </div>
-            </div>
+                  {f.icon}
+                </div>
+                <h3 className="font-semibold text-lg md:text-xl mb-2 md:mb-3">
+                  {f.title}
+                </h3>
+                <p className="text-sm text-white/70 leading-6 max-w-[28ch]">
+                  {f.desc}
+                </p>
+              </article>
+            ))}
           </div>
         </div>
-      </div>
-    </section>
+      </section>
+
+      {/* ====== TESTIMONIOS ====== */}
+      <section
+        ref={testiRef}
+        className="w-full py-12 md:py-20 px-4 md:px-6 text-white"
+      >
+        <div className="max-w-5xl mx-auto">
+          <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold mb-8 md:mb-12 text-center">
+            Lo que dicen nuestros clientes
+          </h2>
+
+          <div className="space-y-6 md:space-y-10">
+            {testimonials.map((t, i) => (
+              <article
+                key={i}
+                className={[
+                  "testimonial relative p-5 md:p-7 lg:p-9 border border-white/10 shadow-lg overflow-hidden",
+                  "bg-gradient-to-br",
+                  i === 1
+                    ? "from-[#dc2626] via-[#ef4444] to-[#b91c1c]"
+                    : "from-[#1a1a1a] to-[#2a2a2a]",
+                  shapeClass(t.variant),
+                  i === 1 ? "md:w-[86%] mx-auto" : "",
+                ]
+                  .filter(Boolean)
+                  .join(" ")}
+                style={{
+                  transformStyle: "preserve-3d",
+                  willChange: "transform, box-shadow",
+                  transition: "box-shadow 0.2s ease-out",
+                }}
+              >
+                <p className="text-base md:text-[18px] lg:text-[20px] font-medium leading-6 md:leading-7 lg:leading-8">
+                  {t.text}
+                </p>
+
+                <div
+                  className={`mt-4 md:mt-6 flex items-center gap-3 ${
+                    i === 1 ? "justify-end" : "justify-start"
+                  }`}
+                >
+                  <img
+                    src={t.img}
+                    alt={t.name}
+                    className="w-8 h-8 md:w-10 md:h-10 rounded-full bg-white p-1 object-contain"
+                  />
+                  <div className="text-xs md:text-sm opacity-90">
+                    <div className="font-bold">{t.name}</div>
+                  </div>
+                </div>
+
+                {/* Glare overlay */}
+                <div
+                  className="glare absolute inset-0 pointer-events-none opacity-0"
+                  style={{
+                    background: `radial-gradient(
+                      circle at 50% 50%,
+                      rgba(255,255,255,0.15),
+                      rgba(0,0,0,0.05)
+                    )`,
+                  }}
+                />
+              </article>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <style jsx>{`
+        /* Mobile-specific adjustments */
+        @media (max-width: 768px) {
+          .feature {
+            padding: 0 1rem;
+            text-align: center;
+            align-items: center;
+          }
+
+          .feature h3 {
+            text-align: center;
+            width: 100%;
+          }
+
+          .feature p {
+            text-align: center;
+            max-width: none;
+            line-height: 1.5;
+          }
+
+          .testimonial {
+            margin: 0 1rem 2rem 1rem;
+            /* Maintain bubble design on mobile */
+          }
+
+          /* Keep original bubble shapes but make them smaller */
+          .testimonial.rounded-[28px] {
+            border-radius: 24px !important;
+          }
+
+          .testimonial.rounded-tl-[56px] {
+            border-top-left-radius: 40px !important;
+          }
+
+          .testimonial.rounded-br-[56px] {
+            border-bottom-right-radius: 40px !important;
+          }
+
+          .testimonial.rounded-bl-[56px] {
+            border-bottom-left-radius: 40px !important;
+          }
+
+          /* Disable hover effects on mobile */
+          .testimonial {
+            transform: none !important;
+            transition: none !important;
+          }
+
+          .testimonial .glare {
+            display: none !important;
+          }
+        }
+
+        /* Touch device optimizations */
+        @media (hover: none) and (pointer: coarse) {
+          .testimonial {
+            transform: none !important;
+            transition: none !important;
+          }
+
+          .testimonial:hover {
+            transform: none !important;
+          }
+
+          .testimonial .glare {
+            display: none !important;
+          }
+        }
+
+        /* Small mobile devices */
+        @media (max-width: 480px) {
+          #nosotros {
+            padding: 2rem 1rem;
+          }
+
+          .nosotros-sub {
+            font-size: 0.95rem;
+            line-height: 1.5;
+            padding: 0 1rem;
+          }
+
+          .feature {
+            margin-bottom: 2rem;
+          }
+
+          .testimonial {
+            padding: 1.25rem;
+            margin: 0 0.75rem 1.5rem 0.75rem;
+          }
+
+          .testimonial p {
+            font-size: 0.95rem;
+            line-height: 1.6;
+          }
+
+          /* Smaller bubble shapes for very small screens */
+          .testimonial.rounded-[28px] {
+            border-radius: 20px !important;
+          }
+
+          .testimonial.rounded-tl-[56px] {
+            border-top-left-radius: 32px !important;
+          }
+
+          .testimonial.rounded-br-[56px] {
+            border-bottom-right-radius: 32px !important;
+          }
+
+          .testimonial.rounded-bl-[56px] {
+            border-bottom-left-radius: 32px !important;
+          }
+        }
+
+        /* Extra small devices */
+        @media (max-width: 360px) {
+          .grid {
+            gap: 1.5rem;
+          }
+
+          .testimonial {
+            padding: 1rem;
+            margin: 0 0.5rem 1.25rem 0.5rem;
+          }
+
+          .testimonial p {
+            font-size: 0.9rem;
+          }
+
+          /* Even smaller bubble shapes for extra small screens */
+          .testimonial.rounded-[28px] {
+            border-radius: 18px !important;
+          }
+
+          .testimonial.rounded-tl-[56px] {
+            border-top-left-radius: 28px !important;
+          }
+
+          .testimonial.rounded-br-[56px] {
+            border-bottom-right-radius: 28px !important;
+          }
+
+          .testimonial.rounded-bl-[56px] {
+            border-bottom-left-radius: 28px !important;
+          }
+        }
+      `}</style>
+    </>
   );
 };
 
