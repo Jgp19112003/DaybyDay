@@ -54,25 +54,32 @@ const features = [
 
 const testimonials = [
   {
-    text: "“Con DaybyDay logramos procesos de marketing más ágiles y sostenibles, adaptándonos mejor a las necesidades del mercado.“",
-    name: "Day",
-    img: "/images/D.png",
+    text: "“Contraté los servicios de Day by Day para la creación de la web de Araslife+. El trabajo se entregó en tiempo y forma, con gran profesionalidad y aportando ideas que mejoraron mucho la página. Todo el desarrollo en Shopify ha dado resultados excepcionales. Gracias a la satisfacción de este proyecto, también confié en ellos para Cartri.es y actualmente en la introducción de Garett.es en España. Siempre con soluciones efectivas y precios razonables, incluso en trabajos urgentes.”",
+    name: "Garett España",
+    img: "/images/garett.png",
     variant: "a",
-    bg: "from-[#1a1a1a] via-[#2a2a2a] to-[#000000]",
+    bg: "from-[#1a1a1a] via-[#2a2a2a] to-[#000000]", // negro
   },
   {
-    text: "“La plataforma nos permitió escalar y automatizar sin perder personalización, aumentando la eficiencia y mejorando la experiencia del cliente.”",
-    name: "By",
-    img: "/images/B.png",
+    text: "“Gracias a Day by Day hemos transformado la forma en la que gestionamos nuestros proyectos eCommerce. Han aportado claridad estratégica y soluciones rápidas que nos han permitido crecer con confianza.”",
+    name: "Garett España",
+    img: "/images/garett.png",
     variant: "b",
-    bg: "from-[#dc2626] via-[#ef4444] to-[#f87171]",
+    bg: "from-[#dc2626] via-[#ef4444] to-[#b91c1c]", // rojo
   },
   {
-    text: "“El mercado exige innovación constante. Con DaybyDay hemos podido integrar IA y automatización para crecer de forma flexible y sostenible.”",
-    name: "Day",
-    img: "/images/D.png",
-    variant: "c",
-    bg: "from-[#1a1a1a] via-[#2a2a2a] to-[#000000]",
+    text: "“Buscábamos una agencia capaz de ejecutar una estrategia de marketing integral. DaybyDay definió y ejecutó un funnel de captación de leads para una gran universidad española: mensajes, públicos, creatividades y campañas, todo personalizado para más de 30 programas. Lo que cambió fue nuestra relación con el cliente: ahora ahorramos tiempo, ganamos autoridad y tenemos claridad estratégica.”",
+    name: "Universidad UFV",
+    img: "/images/ufv.png",
+    variant: "a",
+    bg: "from-[#1a1a1a] via-[#2a2a2a] to-[#000000]", // negro
+  },
+  {
+    text: "“Day by Day nos aportó visión global y experiencia en métricas de campaña, algo difícil de encontrar en un mercado tan especializado. Han sido clave para escalar el negocio y automatizar procesos, haciéndolos más rentables.”",
+    name: "Universidad UFV",
+    img: "/images/ufv.png",
+    variant: "b",
+    bg: "from-[#dc2626] via-[#ef4444] to-[#b91c1c]", // rojo
   },
 ];
 
@@ -367,26 +374,31 @@ const Nosotros = () => {
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-10 mt-8 md:mt-12">
-            {features.map((f, i) => (
-              <article
-                key={i}
-                className="feature flex flex-col items-start text-left"
-              >
-                <div
-                  className={`rounded-lg p-1 border border-white/10 mb-3 md:mb-4 flex items-center justify-center ${
-                    i % 2 === 0 ? "bg-white" : "bg-[#de0015]"
-                  }`}
-                >
-                  {f.icon}
-                </div>
-                <h3 className="font-semibold text-lg md:text-xl mb-2 md:mb-3">
-                  {f.title}
-                </h3>
-                <p className="text-sm text-white/70 leading-6 max-w-[28ch]">
-                  {f.desc}
-                </p>
-              </article>
-            ))}
+            {features.map(
+              (f, i) => (
+                console.log(f, i),
+                (
+                  <article
+                    key={i}
+                    className="feature flex flex-col items-start text-left"
+                  >
+                    <div
+                      className={`rounded-lg p-1 border border-white/10 mb-3 md:mb-4 flex items-center justify-center ${
+                        i % 2 === 0 ? "bg-white" : "bg-[#de0015]"
+                      }`}
+                    >
+                      {f.icon}
+                    </div>
+                    <h3 className="font-semibold text-lg md:text-xl mb-2 md:mb-3">
+                      {f.title}
+                    </h3>
+                    <p className="text-sm text-white/70 leading-6 max-w-[28ch]">
+                      {f.desc}
+                    </p>
+                  </article>
+                )
+              )
+            )}
           </div>
         </div>
       </section>
@@ -408,11 +420,11 @@ const Nosotros = () => {
                 className={[
                   "testimonial relative p-5 md:p-7 lg:p-9 border border-white/10 shadow-lg overflow-hidden",
                   "bg-gradient-to-br",
-                  i === 1
-                    ? "from-[#dc2626] via-[#ef4444] to-[#b91c1c]"
-                    : "from-[#1a1a1a] to-[#2a2a2a]",
-                  shapeClass(t.variant),
-                  i === 1 ? "md:w-[86%] mx-auto" : "",
+                  i % 2 === 0 // Alternar entre dos estilos repetidamente
+                    ? "from-[#1a1a1a] via-[#2a2a2a] to-[#000000]"
+                    : "from-[#dc2626] via-[#ef4444] to-[#b91c1c]",
+                  shapeClass(i % 2 === 0 ? "a" : "b"), // Alternar entre variantes "a" y "b"
+                  i % 2 === 1 ? "md:w-[86%] mx-auto" : "",
                 ]
                   .filter(Boolean)
                   .join(" ")}
@@ -428,7 +440,7 @@ const Nosotros = () => {
 
                 <div
                   className={`mt-4 md:mt-6 flex items-center gap-3 ${
-                    i === 1 ? "justify-end" : "justify-start"
+                    i % 2 === 1 ? "justify-end" : "justify-start"
                   }`}
                 >
                   <img
