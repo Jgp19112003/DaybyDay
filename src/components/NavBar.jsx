@@ -90,16 +90,6 @@ const NavBar = forwardRef(({ currentView, onNavScroll }, ref) => {
     runAnimations();
   }, [isMobile]);
 
-  // Scroll suave genérico
-  const handleNavClick = (e, target) => {
-    e.preventDefault();
-    gsap.to(window, {
-      scrollTo: { y: target, autoKill: false },
-      duration: 1,
-      ease: "power2.out",
-    });
-  };
-
   // Scroll a "Nosotros" dejando el H2 un poco por debajo del navbar
   const handleNosotrosCenter = (e) => {
     e.preventDefault();
@@ -186,7 +176,10 @@ const NavBar = forwardRef(({ currentView, onNavScroll }, ref) => {
         <a
           href="#contacto"
           className="nav-link"
-          onClick={(e) => handleNavClick(e, "#contacto")}
+          onClick={(e) => {
+            e.preventDefault();
+            if (typeof onNavScroll === "function") onNavScroll("contacto");
+          }}
         >
           Contacto
         </a>

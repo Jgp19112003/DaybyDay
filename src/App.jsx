@@ -102,6 +102,21 @@ const App = () => {
             });
           }
         }, 100);
+      } else if (section === "contacto") {
+        // Scroll directo al footer
+        setTimeout(() => {
+          const footer = document.querySelector("#footer");
+          if (footer) {
+            const navHeight = 80;
+            const offset = 20;
+            const targetY = Math.max(footer.offsetTop - navHeight - offset, 0);
+            gsap.to(window, {
+              scrollTo: { y: targetY, autoKill: false },
+              duration: 1,
+              ease: "power2.out",
+            });
+          }
+        }, 100);
       }
     }
   };
@@ -177,6 +192,35 @@ const App = () => {
         };
 
         setTimeout(scrollToNosotros, 500);
+      } else if (pendingScroll === "contacto") {
+        const scrollToFooter = () => {
+          const footer = document.querySelector("#footer");
+          if (footer) {
+            requestAnimationFrame(() => {
+              const navHeight = 80;
+              const offset = 20;
+              const targetY = Math.max(
+                footer.offsetTop - navHeight - offset,
+                0
+              );
+
+              window.scrollTo({ top: targetY, behavior: "smooth" });
+              gsap.to(window, {
+                scrollTo: { y: targetY, autoKill: false },
+                duration: 1,
+                ease: "power2.out",
+              });
+
+              setTimeout(() => {
+                ScrollTrigger.refresh();
+              }, 100);
+            });
+            setPendingScroll(null);
+          } else {
+            setTimeout(scrollToFooter, 100);
+          }
+        };
+        setTimeout(scrollToFooter, 500);
       }
     }
 
@@ -219,7 +263,19 @@ const App = () => {
       )}
       {currentView === "agendar" && <AgendarReunion />}
       <WhatsAppButton />
-      <Footer />
+      {currentView !== "agendar" && (
+        <Footer
+          onAgendarClick={() => {
+            // Kill all ScrollTriggers and animations before navigation
+            ScrollTrigger.getAll().forEach((st) => st.kill());
+            gsap.killTweensOf("*");
+            setCurrentView("agendar");
+            setTimeout(() => {
+              window.scrollTo({ top: 0, behavior: "smooth" });
+            }, 100);
+          }}
+        />
+      )}
     </main>
   );
 };

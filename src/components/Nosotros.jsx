@@ -54,32 +54,36 @@ const features = [
 
 const testimonials = [
   {
-    text: "“Contraté los servicios de Day by Day para la creación de la web de Araslife+. El trabajo se entregó en tiempo y forma, con gran profesionalidad y aportando ideas que mejoraron mucho la página. Todo el desarrollo en Shopify ha dado resultados excepcionales. Gracias a la satisfacción de este proyecto, también confié en ellos para Cartri.es y actualmente en la introducción de Garett.es en España. Siempre con soluciones efectivas y precios razonables, incluso en trabajos urgentes.”",
-    name: "Garett España",
-    img: "/images/garett.png",
+    text: "“Confiamos en Day by Day para digitalizar nuestra línea B2C. Automatizaron todo el proceso desde Shopify hasta el flujo de WhatsApp, lo que nos permitió escalar ventas sin aumentar carga operativa. Hoy, nuestras campañas funcionan solas y nos centramos en crecer.”",
+    name: "Aras Life Plus",
+    tagline: "Pyme B2B tradicional - Canal B2C automatizado",
+    img: "/images/araslife.png",
     variant: "a",
-    bg: "from-[#1a1a1a] via-[#2a2a2a] to-[#000000]", // negro
+    bg: "from-[#1a1a1a] via-[#2a2a2a] to-[#000000]",
   },
   {
-    text: "“Gracias a Day by Day hemos transformado la forma en la que gestionamos nuestros proyectos eCommerce. Han aportado claridad estratégica y soluciones rápidas que nos han permitido crecer con confianza.”",
-    name: "Garett España",
-    img: "/images/garett.png",
+    text: "“Day by Day nos ayudó a redefinir nuestra estrategia digital desde cero. Pasamos de una web estática a un ecosistema automatizado de ventas y remarketing que genera resultados constantes. Siempre atentos, rápidos y claros.”",
+    name: "Cartri",
+    tagline: "Startup B2C en crecimiento",
+    img: "/images/cartri.png",
     variant: "b",
-    bg: "from-[#dc2626] via-[#ef4444] to-[#b91c1c]", // rojo
+    bg: "from-[#dc2626] via-[#ef4444] to-[#b91c1c]",
+  },
+  {
+    text: "“Contraté los servicios de Day by Day para la creación de la web de Araslife+. El trabajo se entregó en tiempo y forma, con gran profesionalidad y aportando ideas que mejoraron mucho la página. Todo el desarrollo en Shopify ha dado resultados excepcionales. Gracias a la satisfacción de este proyecto, también confié en ellos para Cartri.es y actualmente en la introducción de Garett.es en España. Siempre con soluciones efectivas y precios razonables, incluso en trabajos urgentes.”",
+    name: "Garett España",
+    tagline: "Startup B2B en crecimiento",
+    img: "/images/garett.png",
+    variant: "a",
+    bg: "from-[#1a1a1a] via-[#2a2a2a] to-[#000000]",
   },
   {
     text: "“Buscábamos una agencia capaz de ejecutar una estrategia de marketing integral. DaybyDay definió y ejecutó un funnel de captación de leads para una gran universidad española: mensajes, públicos, creatividades y campañas, todo personalizado para más de 30 programas. Lo que cambió fue nuestra relación con el cliente: ahora ahorramos tiempo, ganamos autoridad y tenemos claridad estratégica.”",
-    name: "Universidad UFV",
-    img: "/images/ufv.png",
-    variant: "a",
-    bg: "from-[#1a1a1a] via-[#2a2a2a] to-[#000000]", // negro
-  },
-  {
-    text: "“Day by Day nos aportó visión global y experiencia en métricas de campaña, algo difícil de encontrar en un mercado tan especializado. Han sido clave para escalar el negocio y automatizar procesos, haciéndolos más rentables.”",
-    name: "Universidad UFV",
-    img: "/images/ufv.png",
+    name: "Evercreate",
+    tagline: "Para una de las 5 mejores universidades privadas de España",
+    img: "/images/evercreate.png",
     variant: "b",
-    bg: "from-[#dc2626] via-[#ef4444] to-[#b91c1c]", // rojo
+    bg: "from-[#dc2626] via-[#ef4444] to-[#b91c1c]",
   },
 ];
 
@@ -450,6 +454,9 @@ const Nosotros = () => {
                   />
                   <div className="text-xs md:text-sm opacity-90">
                     <div className="font-bold">{t.name}</div>
+                    <div className="text-white/70 text-[11px] md:text-[12px] italic mt-0.5">
+                      {t.tagline}
+                    </div>
                   </div>
                 </div>
 
