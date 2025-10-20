@@ -223,7 +223,7 @@ const Footer = ({ onAgendarClick }) => {
         >
           {/* WhatsApp */}
           <SocialLink
-            href="https://wa.me/34645239745?text=Hola, quiero agendar una reunión"
+            href="https://wa.me/34644387715?text=Hola, quiero agendar una reunión"
             label="WhatsApp"
             title="WhatsApp"
           >
