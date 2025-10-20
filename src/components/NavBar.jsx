@@ -18,7 +18,7 @@ gsap.registerPlugin(ScrollToPlugin);
 
 // Altura del navbar (id/clases típicas). Fallback 80px.
 
-const NavBar = forwardRef(({ currentView, onNavScroll }, ref) => {
+const NavBar = forwardRef(({ onNavScroll }, ref) => {
   const logoRef = useRef(null);
   const navRef = useRef(null);
   const navbarRef = useRef(null);
@@ -186,9 +186,7 @@ const NavBar = forwardRef(({ currentView, onNavScroll }, ref) => {
 
         <a
           href="#agendar"
-          className={`nav-link btn-primary ${
-            currentView === "agendar" ? "active" : ""
-          }`}
+          className={`nav-link btn-primary ${""}`}
           onClick={(e) => {
             e.preventDefault();
             if (typeof onNavScroll === "function") onNavScroll("agendar");

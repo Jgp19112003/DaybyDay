@@ -6,7 +6,6 @@ import WhatsAppButton from "./components/WhatsAppButton";
 import Inicio from "./components/Inicio";
 import Sectores from "./components/Sectores";
 import Nosotros from "./components/Nosotros";
-import AgendarReunion from "./components/AgendarReunion";
 import Footer from "./components/Footer";
 
 gsap.registerPlugin(ScrollTrigger, SplitText);
@@ -35,19 +34,19 @@ const App = () => {
     setTimeout(forceScrollTop, 100);
   }, []);
 
+  const openCalendly = () => {
+    const url = "https://calendly.com/jorgedaybydayconsulting/30min";
+    if (window.Calendly && window.Calendly.initPopupWidget) {
+      window.Calendly.initPopupWidget({ url });
+    } else {
+      window.open(url, "_blank", "noopener,noreferrer");
+    }
+  };
+
   const handleNavScroll = (section) => {
     if (section === "agendar") {
-      // Kill all ScrollTriggers and animations before navigation
-      ScrollTrigger.getAll().forEach((st) => st.kill());
-      gsap.killTweensOf("*");
-
-      setIsTransitioning(true);
-      setCurrentView("agendar");
-
-      setTimeout(() => {
-        window.scrollTo({ top: 0, behavior: "smooth" });
-        setIsTransitioning(false);
-      }, 100);
+      // Open Calendly popup instead of navigating
+      openCalendly();
       return;
     }
     if (currentView !== "home") {
@@ -243,39 +242,12 @@ const App = () => {
       {currentView === "home" && (
         <>
           <Inicio />
-          <Sectores
-            onAgendarClick={() => {
-              // Kill all ScrollTriggers and animations before navigation
-              ScrollTrigger.getAll().forEach((st) => st.kill());
-              gsap.killTweensOf("*");
-              setCurrentView("agendar");
-            }}
-          />
-          <Nosotros
-            onAgendarClick={() => {
-              // Kill all ScrollTriggers and animations before navigation
-              ScrollTrigger.getAll().forEach((st) => st.kill());
-              gsap.killTweensOf("*");
-              setCurrentView("agendar");
-            }}
-          />
+          <Sectores onAgendarClick={openCalendly} />
+          <Nosotros onAgendarClick={openCalendly} />
         </>
       )}
-      {currentView === "agendar" && <AgendarReunion />}
       <WhatsAppButton />
-      {currentView !== "agendar" && (
-        <Footer
-          onAgendarClick={() => {
-            // Kill all ScrollTriggers and animations before navigation
-            ScrollTrigger.getAll().forEach((st) => st.kill());
-            gsap.killTweensOf("*");
-            setCurrentView("agendar");
-            setTimeout(() => {
-              window.scrollTo({ top: 0, behavior: "smooth" });
-            }, 100);
-          }}
-        />
-      )}
+      <Footer onAgendarClick={openCalendly} />
     </main>
   );
 };

@@ -167,8 +167,16 @@ const Footer = ({ onAgendarClick }) => {
         <button
           type="button"
           onClick={() => {
-            if (typeof onAgendarClick === "function") onAgendarClick();
-            else window.location.hash = "#agendar";
+            if (typeof onAgendarClick === "function") {
+              onAgendarClick();
+            } else {
+              const url = "https://calendly.com/jorgedaybydayconsulting/30min";
+              if (window.Calendly && window.Calendly.initPopupWidget) {
+                window.Calendly.initPopupWidget({ url });
+              } else {
+                window.open(url, "_blank", "noopener,noreferrer");
+              }
+            }
           }}
           onMouseEnter={() => setCtaHover(true)}
           onMouseLeave={() => {
