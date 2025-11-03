@@ -249,6 +249,7 @@ const App = () => {
       )}
       <WhatsAppButton />
       <Footer onAgendarClick={openCalendly} />
+      <Analytics />
     </main>
   );
 };
