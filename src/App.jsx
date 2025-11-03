@@ -7,6 +7,7 @@ import Inicio from "./components/Inicio";
 import Sectores from "./components/Sectores";
 import Nosotros from "./components/Nosotros";
 import Footer from "./components/Footer";
+import { Analytics } from "@vercel/analytics/next";
 
 gsap.registerPlugin(ScrollTrigger, SplitText);
 
