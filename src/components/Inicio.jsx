@@ -667,6 +667,137 @@ const Inicio = () => {
         })}
       </section>
 
+      {/* SECCIÓN DE ANÁLISIS GTM */}
+      <section className="bg-[#181414] text-white py-16  px-4">
+        <div className="max-w-5xl mx-auto text-center">
+          <h2 className="text-4xl sm:text-5xl font-bold mb-3 leading-tight">
+            ¿Gastando presupuesto publicitario
+            <br />
+            en corazonadas?
+          </h2>
+          <p className="text-xl sm:text-2xl font-semibold text-[#DE0015] mb-4">
+            Conoce exactamente quién te compra y por qué.
+          </p>
+          <p className="text-lg sm:text-xl mb-2">En minutos, no meses.</p>
+          <p className="text-base text-gray-400 mb-12">
+            Basado en evidencia, no en opiniones.
+          </p>
+
+          <div className="border border-gray-700 bg-[#1F1A1A] rounded-lg p-6 mb-10 text-left max-w-3xl mx-auto">
+            <h3 className="font-semibold mb-5 text-gray-300">
+              El análisis Go-To-Market Incluye:
+            </h3>
+            <ul className="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-4 text-sm text-gray-300">
+              <li className="flex items-center">
+                <svg
+                  className="w-4 h-4 mr-3 text-[#DE0015]"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
+                  ></path>
+                </svg>
+                Tu Buyer persona
+              </li>
+              <li className="flex items-center">
+                <svg
+                  className="w-4 h-4 mr-3 text-[#DE0015]"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"
+                  ></path>
+                </svg>
+                Ofertas optimizadas por valor para tu Buyer
+              </li>
+              <li className="flex items-center">
+                <svg
+                  className="w-4 h-4 mr-3 text-[#DE0015]"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    d="M7 8h10M7 12h4m1 8l-4-4H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-3l-4 4z"
+                  ></path>
+                </svg>
+                Variantes de mensajes DISC para tu Buyer
+              </li>
+              <li className="flex items-center">
+                <svg
+                  className="w-4 h-4 mr-3 text-[#DE0015]"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"
+                  ></path>
+                </svg>
+                Más de 30 variaciones creativas para tu Buyer
+              </li>
+            </ul>
+          </div>
+
+          <form
+            className="space-y-4 max-w-xl mx-auto"
+            onSubmit={(e) => {
+              e.preventDefault();
+              window.open(
+                "https://gtmfactory.daybydayconsulting.com/",
+                "_blank",
+                "noopener,noreferrer"
+              );
+            }}
+          >
+            <button
+              type="submit"
+              className="w-full bg-[#DE0015] text-white font-bold py-4 px-6 rounded-md hover:bg-red-700 transition-all duration-300 flex items-center justify-center transform hover:scale-105"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                className="lucide lucide-sparkles mr-2 h-5 w-5"
+              >
+                <path d="M9.937 15.5A2 2 0 0 0 8.5 14.063l-6.135-1.582a.5.5 0 0 1 0-.962L8.5 9.936A2 2 0 0 0 9.937 8.5l1.582-6.135a.5.5 0 0 1 .963 0L14.063 8.5A2 2 0 0 0 15.5 9.937l6.135 1.581a.5.5 0 0 1 0 .964L15.5 14.063a2 2 0 0 0-1.437 1.437l-1.582 6.135a.5.5 0 0 1-.963 0z"></path>
+                <path d="M20 3v4"></path>
+                <path d="M22 5h-4"></path>
+                <path d="M4 17v2"></path>
+                <path d="M5 18H3"></path>
+              </svg>
+              Ejecutar Análisis
+            </button>
+          </form>
+        </div>
+      </section>
+
       {/* SECCIÓN DE MÉTRICAS */}
       <section className="w-full mb-10 metric-section-dia" ref={metricsRef}>
         <div
