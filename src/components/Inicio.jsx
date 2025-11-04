@@ -668,12 +668,10 @@ const Inicio = () => {
       </section>
 
       {/* SECCIÓN DE ANÁLISIS GTM */}
-      <section className="bg-[#181414] text-white py-16  px-4">
+      <section className="bg-[#181414] text-white pt-28 pb-16 px-4 sm:pt-16">
         <div className="max-w-5xl mx-auto text-center">
-          <h2 className="text-4xl sm:text-5xl font-bold mb-3 leading-tight">
-            ¿Gastando presupuesto publicitario
-            <br />
-            en corazonadas?
+          <h2 className="text-3xl sm:text-5xl font-bold mb-3 leading-tight">
+            ¿Gastando presupuesto publicitario en corazonadas?
           </h2>
           <p className="text-xl sm:text-2xl font-semibold text-[#DE0015] mb-4">
             Conoce exactamente quién te compra y por qué.
