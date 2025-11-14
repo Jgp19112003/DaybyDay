@@ -36,7 +36,7 @@ const App = () => {
   }, []);
 
   const openCalendly = () => {
-    const url = "https://calendly.com/jorgedaybydayconsulting/30min";
+    const url = "https://calendly.com/contact-daybydayconsulting/30min";
     if (window.Calendly && window.Calendly.initPopupWidget) {
       window.Calendly.initPopupWidget({ url });
     } else {

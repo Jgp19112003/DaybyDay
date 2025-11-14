@@ -170,7 +170,8 @@ const Footer = ({ onAgendarClick }) => {
             if (typeof onAgendarClick === "function") {
               onAgendarClick();
             } else {
-              const url = "https://calendly.com/jorgedaybydayconsulting/30min";
+              const url =
+                "https://calendly.com/contact-daybydayconsulting/30min";
               if (window.Calendly && window.Calendly.initPopupWidget) {
                 window.Calendly.initPopupWidget({ url });
               } else {
@@ -243,7 +244,7 @@ const Footer = ({ onAgendarClick }) => {
 
           {/* Email */}
           <SocialLink
-            href="mailto:pablo@daybydayconsulting.com?subject=Contacto"
+            href="mailto:contact@daybydayconsulting.com?subject=Contacto"
             label="Email"
             title="Email"
             external={false}
