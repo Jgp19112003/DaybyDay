@@ -670,8 +670,11 @@ const Inicio = () => {
       {/* SECCIÓN DE ANÁLISIS GTM */}
       <section className="bg-[#181414] text-white pt-28 pb-16 px-4 sm:pt-16">
         <div className="max-w-5xl mx-auto text-center">
+          <p className="text-base text-gray-400 mb-12">
+            Un pequeño ejemplo de nuestros sistemas
+          </p>
           <h2 className="text-3xl sm:text-5xl font-bold mb-3 leading-tight">
-            ¿Gastando presupuesto publicitario en corazonadas?
+            Conoce a tus clientes
           </h2>
           <p className="text-xl sm:text-2xl font-semibold text-[#DE0015] mb-4">
             Conoce exactamente quién te compra y por qué.
@@ -946,7 +949,7 @@ const Inicio = () => {
             left: 50% !important;
             transform: translate(-50%, -50%) !important;
             z-index: 10;
-            -webkit-transform: translate3d(-50%, -50%, 0) !important;
+            -webkit-transform: translate3d(-50%, -50%) !important;
             -webkit-backface-visibility: hidden;
             -webkit-perspective: 1000;
           }
