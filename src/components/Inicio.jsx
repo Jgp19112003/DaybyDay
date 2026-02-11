@@ -107,9 +107,10 @@ const Inicio = () => {
   const sectionRef = useRef(null);
   const metricsRef = useRef(null);
   const scrollArrowRef = useRef(null);
+  const headlineRef = useRef(null);
   const heroPhaseRefs = useRef(heroPhases.map(() => React.createRef()));
   const heroLineRefs = useRef(
-    heroPhases.flatMap((phase) => phase.lines.map(() => React.createRef()))
+    heroPhases.flatMap((phase) => phase.lines.map(() => React.createRef())),
   );
 
   // ====== ANIMACIÓN HERO SCROLL ======
@@ -142,7 +143,7 @@ const Inicio = () => {
       const iosScroll = () => {
         const currentVH = window.innerHeight * 0.01;
         const storedVH = parseFloat(
-          document.documentElement.style.getPropertyValue("--vh")
+          document.documentElement.style.getPropertyValue("--vh"),
         );
         if (Math.abs(currentVH - storedVH) > 0.5) setVH();
       };
@@ -275,19 +276,18 @@ const Inicio = () => {
 
               const phaseDuration = 0.3;
               const transitionDuration = 0.08;
-              const gap = 0.05;
 
               if (phaseIdx === 0) {
                 phaseStart = 0.2;
                 phaseEnd = phaseStart + phaseDuration;
               } else if (phaseIdx === 1) {
-                phaseStart = 0.2 + phaseDuration + gap;
+                phaseStart = 0.2 + phaseDuration;
                 phaseEnd = phaseStart + phaseDuration;
               } else if (phaseIdx === 2) {
-                phaseStart = 0.2 + (phaseDuration + gap) * 2;
+                phaseStart = 0.2 + phaseDuration * 2;
                 phaseEnd = phaseStart + phaseDuration;
               } else {
-                phaseStart = 0.2 + (phaseDuration + gap) * 3;
+                phaseStart = 0.2 + phaseDuration * 3;
                 phaseEnd = 1.0;
               }
 
@@ -398,6 +398,73 @@ const Inicio = () => {
     document.addEventListener("visibilitychange", handleVisibilityChange);
     return () =>
       document.removeEventListener("visibilitychange", handleVisibilityChange);
+  }, []);
+
+  // Headline counter animation
+  useEffect(() => {
+    if (!headlineRef.current) return;
+    const el = headlineRef.current;
+    const counters = el.querySelectorAll(".counter-value");
+    const title = el.querySelector(".headline-title");
+    const titleWords = el.querySelectorAll(".headline-word");
+    const stats = el.querySelectorAll(".headline-stat");
+    const targets = [264712, 31555, 3.2, 88.95];
+
+    if (!counters.length || !title) return;
+
+    gsap.set([...titleWords, ...stats], { opacity: 0, y: 30 });
+
+    // Animate title words with stagger
+    const tlTitle = gsap.to(titleWords, {
+      opacity: 1,
+      y: 0,
+      duration: 0.6,
+      stagger: 0.15,
+      ease: "back.out(1.4)",
+      scrollTrigger: { trigger: el, start: "top 85%", once: true },
+    });
+
+    const tlStats = gsap.to(stats, {
+      opacity: 1,
+      y: 0,
+      duration: 0.7,
+      stagger: 0.2,
+      delay: 0.3,
+      ease: "power3.out",
+      scrollTrigger: { trigger: el, start: "top 85%", once: true },
+    });
+
+    const counterAnims = [];
+    counters.forEach((counter, i) => {
+      const obj = { val: 0 };
+      const anim = gsap.to(obj, {
+        val: targets[i],
+        duration: 2.5,
+        delay: 0.5 + i * 0.2,
+        ease: "power2.out",
+        scrollTrigger: { trigger: el, start: "top 85%", once: true },
+        onUpdate: () => {
+          if (i === 2) {
+            counter.textContent =
+              obj.val.toFixed(1).replace(".", ",") + "M" + "€";
+          } else if (i === 3) {
+            counter.textContent = obj.val.toFixed(2).replace(".", ",") + "M";
+          } else {
+            const formatted = Math.floor(obj.val)
+              .toString()
+              .replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+            counter.textContent = i === 0 ? formatted + "€" : formatted;
+          }
+        },
+      });
+      counterAnims.push(anim);
+    });
+
+    return () => {
+      tlTitle.kill();
+      tlStats.kill();
+      counterAnims.forEach((a) => a.kill());
+    };
   }, []);
 
   // ====== ANIMACIÓN PULSO PUNTOS MÉTRICA ======
@@ -667,6 +734,94 @@ const Inicio = () => {
         })}
       </section>
 
+      {/* ====== HEADLINE STATS ====== */}
+      <section
+        ref={headlineRef}
+        className="w-full py-16 md:py-24 px-4 md:px-6 relative overflow-hidden"
+      >
+        <div className="max-w-7xl mx-auto text-center px-6 md:px-12">
+          <p className="headline-title text-xs md:text-sm uppercase tracking-[0.25em] mb-10 md:mb-16 font-semibold">
+            <span className="headline-word inline-block text-white/30">
+              Resultados reales, medidos y verificables
+            </span>
+          </p>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-16 md:gap-14 lg:gap-16">
+            {/* Stat 1 */}
+            <div className="headline-stat">
+              <div
+                className="counter-value text-[2.5rem] md:text-5xl lg:text-[3.5rem] font-black text-white leading-none mb-3"
+                style={{ fontVariantNumeric: "tabular-nums" }}
+              >
+                0
+              </div>
+              <p className="text-sm md:text-base text-white/70 font-semibold leading-snug">
+                gestionados en Paid Media
+              </p>
+              <p className="text-[11px] md:text-xs text-white/30 mt-1.5">
+                Meta + Google + eCommerce
+              </p>
+            </div>
+            {/* Stat 2 */}
+            <div className="headline-stat">
+              <div
+                className="counter-value text-[2.5rem] md:text-5xl lg:text-[3.5rem] font-black text-white leading-none mb-3"
+                style={{ fontVariantNumeric: "tabular-nums" }}
+              >
+                0
+              </div>
+              <p className="text-sm md:text-base text-white/70 font-semibold leading-snug">
+                acciones de intenci&oacute;n generadas
+              </p>
+              <p className="text-[11px] md:text-xs text-white/30 mt-1.5">
+                descargas + formularios + inicios de pago
+              </p>
+            </div>
+            {/* Stat 3 */}
+            <div className="headline-stat">
+              <div
+                className="counter-value text-[2.5rem] md:text-5xl lg:text-[3.5rem] font-black text-white leading-none mb-3"
+                style={{ fontVariantNumeric: "tabular-nums" }}
+              >
+                0M
+              </div>
+              <p className="text-sm md:text-base text-white/70 font-semibold leading-snug">
+                de valor potencial generado
+              </p>
+              <p className="text-[11px] md:text-xs text-white/30 mt-1.5">
+                a nuestros clientes
+              </p>
+            </div>
+            {/* Stat 4 */}
+            <div className="headline-stat">
+              <div
+                className="counter-value text-[2.5rem] md:text-5xl lg:text-[3.5rem] font-black text-white leading-none mb-3"
+                style={{ fontVariantNumeric: "tabular-nums" }}
+              >
+                0M
+              </div>
+              <p className="text-sm md:text-base text-white/70 font-semibold leading-snug">
+                de impresiones generadas
+              </p>
+              <p className="text-[11px] md:text-xs text-white/30 mt-1.5">
+                alcance total de campa&ntilde;as
+              </p>
+            </div>
+          </div>
+          {/* Decorative separator */}
+          <div className="mt-14 md:mt-20 flex justify-center items-center">
+            <div className="relative">
+              <div
+                className="w-32 md:w-40 h-[2px] bg-gradient-to-r from-transparent via-[#de0015] to-transparent"
+                style={{
+                  boxShadow:
+                    "0 0 20px rgba(222, 0, 21, 0.4), 0 0 40px rgba(222, 0, 21, 0.2)",
+                }}
+              />
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* SECCIÓN DE ANÁLISIS GTM */}
       <section className="bg-[#181414] text-white pt-28 pb-16 px-4 sm:pt-16">
         <div className="max-w-5xl mx-auto text-center">
@@ -767,7 +922,7 @@ const Inicio = () => {
               window.open(
                 "https://gtmfactory.daybydayconsulting.com/",
                 "_blank",
-                "noopener,noreferrer"
+                "noopener,noreferrer",
               );
             }}
           >

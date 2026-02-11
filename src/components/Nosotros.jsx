@@ -96,10 +96,37 @@ const garettMetrics = [
     items: [
       { label: "Inversión", value: "3.179,60 €" },
       { label: "Impresiones", value: "297.446" },
-      { label: "CTR saliente", value: "4,97%", highlight: true },
-      { label: "CPC link", value: "0,21 €", highlight: true },
+      { label: "Clicks", value: "~14.936", highlight: true },
       { label: "Inicios de pago", value: "661" },
       { label: "Coste / inicio", value: "4,81 €" },
+      { label: "CPA", value: "4,8 €", highlight: true },
+    ],
+  },
+  {
+    platform: "ECI",
+    badge: "El Corte Inglés",
+    color: "from-[#0d1117] to-[#161b22]",
+    badgeColor: "bg-emerald-500",
+    items: [
+      { label: "Inversión", value: "7.853 €" },
+      { label: "Impresiones", value: "447.695" },
+    ],
+  },
+];
+
+const evercreateMetrics = [
+  {
+    platform: "Meta Ads",
+    badge: "Lead Gen",
+    color: "from-[#0d1117] to-[#161b22]",
+    badgeColor: "bg-blue-500",
+    items: [
+      { label: "Inversión", value: "193.829,20 €" },
+      { label: "Impresiones", value: "84.369.922" },
+      { label: "Link CTR", value: "0,97%" },
+      { label: "CPC link", value: "0,24 €", highlight: true },
+      { label: "Creatividades", value: "711", highlight: true },
+      { label: "CPL UFV", value: "55 €", highlight: true },
     ],
   },
   {
@@ -117,27 +144,9 @@ const garettMetrics = [
   },
 ];
 
-const evercreateMetrics = [
-  {
-    platform: "Meta Ads",
-    badge: "Lead Gen",
-    color: "from-[#0d1117] to-[#161b22]",
-    badgeColor: "bg-blue-500",
-    items: [
-      { label: "Inversión", value: "193.829,20 €" },
-      { label: "Impresiones", value: "84.369.922" },
-      { label: "Link CTR", value: "0,97%" },
-      { label: "CPC link", value: "0,24 €", highlight: true },
-      { label: "Frecuencia", value: "6,73" },
-      { label: "Creatividades", value: "711", highlight: true },
-    ],
-  },
-];
-
 const Nosotros = () => {
   const featRef = useRef(null);
   const testiRef = useRef(null);
-  const headlineRef = useRef(null);
 
   // Animaciones bloque features
   useEffect(() => {
@@ -393,71 +402,6 @@ const Nosotros = () => {
     };
   }, []);
 
-  // Headline counter animation
-  useEffect(() => {
-    if (!headlineRef.current) return;
-    const el = headlineRef.current;
-    const counters = el.querySelectorAll(".counter-value");
-    const title = el.querySelector(".headline-title");
-    const titleWords = el.querySelectorAll(".headline-word");
-    const stats = el.querySelectorAll(".headline-stat");
-    const targets = [256859, 31555, 3.2];
-
-    if (!counters.length || !title) return;
-
-    gsap.set([...titleWords, ...stats], { opacity: 0, y: 30 });
-
-    // Animate title words with stagger
-    const tlTitle = gsap.to(titleWords, {
-      opacity: 1,
-      y: 0,
-      duration: 0.6,
-      stagger: 0.15,
-      ease: "back.out(1.4)",
-      scrollTrigger: { trigger: el, start: "top 85%", once: true },
-    });
-
-    const tlStats = gsap.to(stats, {
-      opacity: 1,
-      y: 0,
-      duration: 0.7,
-      stagger: 0.2,
-      delay: 0.3,
-      ease: "power3.out",
-      scrollTrigger: { trigger: el, start: "top 85%", once: true },
-    });
-
-    const counterAnims = [];
-    counters.forEach((counter, i) => {
-      const obj = { val: 0 };
-      const anim = gsap.to(obj, {
-        val: targets[i],
-        duration: 2.5,
-        delay: 0.5 + i * 0.2,
-        ease: "power2.out",
-        scrollTrigger: { trigger: el, start: "top 85%", once: true },
-        onUpdate: () => {
-          if (i === 2) {
-            counter.textContent =
-              "€" + obj.val.toFixed(1).replace(".", ",") + "M";
-          } else {
-            const formatted = Math.floor(obj.val)
-              .toString()
-              .replace(/\B(?=(\d{3})+(?!\d))/g, ".");
-            counter.textContent = i === 0 ? "€" + formatted : formatted;
-          }
-        },
-      });
-      counterAnims.push(anim);
-    });
-
-    return () => {
-      tlTitle.kill();
-      tlStats.kill();
-      counterAnims.forEach((a) => a.kill());
-    };
-  }, []);
-
   const shapeClass = (variant) => {
     switch (variant) {
       case "a":
@@ -516,78 +460,6 @@ const Nosotros = () => {
                 )
               ),
             )}
-          </div>
-        </div>
-      </section>
-
-      {/* ====== HEADLINE STATS ====== */}
-      <section
-        ref={headlineRef}
-        className="w-full py-16 md:py-24 px-4 md:px-6 relative overflow-hidden"
-      >
-        <div className="max-w-5xl mx-auto text-center">
-          <p className="headline-title text-xs md:text-sm uppercase tracking-[0.25em] mb-10 md:mb-16 font-semibold">
-            <span className="headline-word inline-block text-white/30">
-              Resultados reales, medidos y verificables
-            </span>
-          </p>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-10 md:gap-6">
-            {/* Stat 1 */}
-            <div className="headline-stat">
-              <div
-                className="counter-value text-[2.5rem] md:text-5xl lg:text-[3.5rem] font-black text-white leading-none mb-3"
-                style={{ fontVariantNumeric: "tabular-nums" }}
-              >
-                0
-              </div>
-              <p className="text-sm md:text-base text-white/70 font-semibold leading-snug">
-                gestionados en Paid Media
-              </p>
-              <p className="text-[11px] md:text-xs text-white/30 mt-1.5">
-                Meta + Google + eCommerce
-              </p>
-            </div>
-            {/* Stat 2 */}
-            <div className="headline-stat">
-              <div
-                className="counter-value text-[2.5rem] md:text-5xl lg:text-[3.5rem] font-black text-white leading-none mb-3"
-                style={{ fontVariantNumeric: "tabular-nums" }}
-              >
-                0
-              </div>
-              <p className="text-sm md:text-base text-white/70 font-semibold leading-snug">
-                acciones de intenci&oacute;n generadas
-              </p>
-              <p className="text-[11px] md:text-xs text-white/30 mt-1.5">
-                descargas + formularios + inicios de pago
-              </p>
-            </div>
-            {/* Stat 3 */}
-            <div className="headline-stat">
-              <div
-                className="counter-value text-[2.5rem] md:text-5xl lg:text-[3.5rem] font-black text-white leading-none mb-3"
-                style={{ fontVariantNumeric: "tabular-nums" }}
-              >
-                0M
-              </div>
-              <p className="text-sm md:text-base text-white/70 font-semibold leading-snug">
-                de valor potencial generado
-              </p>
-              <p className="text-[11px] md:text-xs text-white/30 mt-1.5">
-                a nuestros clientes
-              </p>
-            </div>
-          </div>
-          {/* Decorative separator */}
-          <div className="mt-14 md:mt-20 flex justify-center items-center">
-            <div className="relative">
-              <div 
-                className="w-32 md:w-40 h-[2px] bg-gradient-to-r from-transparent via-[#de0015] to-transparent"
-                style={{
-                  boxShadow: '0 0 20px rgba(222, 0, 21, 0.4), 0 0 40px rgba(222, 0, 21, 0.2)'
-                }}
-              />
-            </div>
           </div>
         </div>
       </section>
@@ -661,7 +533,7 @@ const Nosotros = () => {
                                 {group.badge}
                               </span>
                             </div>
-                            <div className="grid grid-cols-2 gap-x-3 gap-y-3">
+                            <div className="grid grid-cols-2 sm:grid-cols-3 gap-x-3 gap-y-3">
                               {group.items.map((m, mi) => (
                                 <div key={mi}>
                                   <div className="text-[9px] uppercase tracking-[0.08em] text-white/50 mb-1">
@@ -682,33 +554,35 @@ const Nosotros = () => {
                   {/* Evercreate Metrics - Inside Card */}
                   {i === 3 && (
                     <div className="mt-6 pt-6 ">
-                      {evercreateMetrics.map((group, gi) => (
-                        <div
-                          key={gi}
-                          className="rounded-xl border border-white/[0.04] p-4 bg-black/20 backdrop-blur-sm"
-                        >
-                          <div className="flex items-center gap-2 mb-3">
-                            <span className="text-[11px] font-bold uppercase tracking-wider text-white/60">
-                              {group.platform}
-                            </span>
-                            <span className="text-[9px] px-1.5 py-0.5 rounded-md bg-white/[0.03] text-white/30 font-medium">
-                              {group.badge}
-                            </span>
-                          </div>
-                          <div className="grid grid-cols-2 sm:grid-cols-3 gap-x-3 gap-y-3">
-                            {group.items.map((m, mi) => (
-                              <div key={mi}>
-                                <div className="text-[9px] uppercase tracking-[0.08em] text-white/50 mb-1">
-                                  {m.label}
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        {evercreateMetrics.map((group, gi) => (
+                          <div
+                            key={gi}
+                            className="rounded-xl border border-white/[0.04] p-4 bg-black/20 backdrop-blur-sm"
+                          >
+                            <div className="flex items-center gap-2 mb-3">
+                              <span className="text-[11px] font-bold uppercase tracking-wider text-white/60">
+                                {group.platform}
+                              </span>
+                              <span className="text-[9px] px-1.5 py-0.5 rounded-md bg-white/[0.03] text-white/30 font-medium">
+                                {group.badge}
+                              </span>
+                            </div>
+                            <div className="grid grid-cols-2 sm:grid-cols-3 gap-x-3 gap-y-3">
+                              {group.items.map((m, mi) => (
+                                <div key={mi}>
+                                  <div className="text-[9px] uppercase tracking-[0.08em] text-white/50 mb-1">
+                                    {m.label}
+                                  </div>
+                                  <div className="text-sm font-bold text-white">
+                                    {m.value}
+                                  </div>
                                 </div>
-                                <div className="text-sm font-bold text-white">
-                                  {m.value}
-                                </div>
-                              </div>
-                            ))}
+                              ))}
+                            </div>
                           </div>
-                        </div>
-                      ))}
+                        ))}
+                      </div>
                     </div>
                   )}
 
@@ -730,7 +604,155 @@ const Nosotros = () => {
         </div>
       </section>
 
+      {/* ====== LOGO SLIDER ====== */}
+      <section className="w-full py-16 md:py-20 bg-[#181414] overflow-hidden">
+        <div className="max-w-7xl mx-auto">
+          <h3 className="text-2xl md:text-3xl font-bold text-white text-center mb-12">
+            Clientes que confían en nosotros
+          </h3>
+          <div className="relative">
+            <div className="logo-slider-track">
+              {/* Primera serie de logos */}
+              <div className="logo-slide">
+                <img
+                  src="/images/garett.png"
+                  alt="Garett"
+                  className="logo-item"
+                />
+              </div>
+              <div className="logo-slide">
+                <img
+                  src="/images/cartri.png"
+                  alt="Cartri"
+                  className="logo-item"
+                />
+              </div>
+              <div className="logo-slide">
+                <img
+                  src="/images/araslife.png"
+                  alt="Aras Life Plus"
+                  className="logo-item"
+                />
+              </div>
+              <div className="logo-slide">
+                <img
+                  src="/images/evercreate.png"
+                  alt="Evercreate"
+                  className="logo-item"
+                />
+              </div>
+              <div className="logo-slide">
+                <img src="/images/ufv.png" alt="UFV" className="logo-item" />
+              </div>
+              <div className="logo-slide">
+                <img
+                  src="/images/kueba.png"
+                  alt="Kueba"
+                  className="logo-item"
+                />
+              </div>
+              {/* Segunda serie de logos (duplicado para loop infinito) */}
+              <div className="logo-slide">
+                <img
+                  src="/images/garett.png"
+                  alt="Garett"
+                  className="logo-item"
+                />
+              </div>
+              <div className="logo-slide">
+                <img
+                  src="/images/cartri.png"
+                  alt="Cartri"
+                  className="logo-item"
+                />
+              </div>
+              <div className="logo-slide">
+                <img
+                  src="/images/araslife.png"
+                  alt="Aras Life Plus"
+                  className="logo-item"
+                />
+              </div>
+              <div className="logo-slide">
+                <img
+                  src="/images/evercreate.png"
+                  alt="Evercreate"
+                  className="logo-item"
+                />
+              </div>
+              <div className="logo-slide">
+                <img src="/images/ufv.png" alt="UFV" className="logo-item" />
+              </div>
+              <div className="logo-slide">
+                <img
+                  src="/images/kueba.png"
+                  alt="Kueba"
+                  className="logo-item"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
       <style jsx>{`
+        /* Logo Slider Styles */
+        .logo-slider-track {
+          display: flex;
+          gap: 4rem;
+          animation: scroll 30s linear infinite;
+          width: max-content;
+        }
+
+        .logo-slide {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          flex-shrink: 0;
+          width: 180px;
+          height: 100px;
+        }
+
+        .logo-item {
+          max-width: 140px;
+          max-height: 80px;
+          width: auto;
+          height: auto;
+          object-fit: contain;
+          opacity: 1;
+          transition: all 0.3s ease;
+        }
+
+        .logo-item:hover {
+          transform: scale(1.1);
+        }
+
+        @keyframes scroll {
+          0% {
+            transform: translateX(0);
+          }
+          100% {
+            transform: translateX(-50%);
+          }
+        }
+
+        @media (max-width: 768px) {
+          .logo-slider-track {
+            gap: 2.5rem;
+            animation: scroll 20s linear infinite;
+          }
+
+          .logo-slide {
+            width: 120px;
+            height: 70px;
+          }
+
+          .logo-item {
+            max-width: 100px;
+            max-height: 60px;
+          }
+        }
+
         /* Mobile-specific adjustments */
         @media (max-width: 768px) {
           .feature {
