@@ -54,7 +54,7 @@ const features = [
 
 const testimonials = [
   {
-    text: "“Confiamos en Day by Day para digitalizar nuestra línea B2C. Automatizaron todo el proceso desde Shopify hasta el flujo de WhatsApp, lo que nos permitió escalar ventas sin aumentar carga operativa. Hoy, nuestras campañas funcionan solas y nos centramos en crecer.”",
+    text: "“Confiamos en Day by Day para digitalizar nuestra línea B2C. Automatizaron todo el proceso desde la actualización de los productos de proveedores pasando por Shopify hasta el flujo de WhatsApp, lo que nos permitió escalar ventas sin aumentar carga operativa. Hoy, nuestras campañas funcionan solas y nos centramos en crecer.”",
     name: "Aras Life Plus",
     tagline: "Pyme B2B tradicional - Canal B2C automatizado",
     img: "/images/araslife.png",
@@ -62,7 +62,7 @@ const testimonials = [
     bg: "from-[#1a1a1a] via-[#2a2a2a] to-[#000000]",
   },
   {
-    text: "“Day by Day nos ayudó a redefinir nuestra estrategia digital desde cero. Pasamos de una web estática a un ecosistema automatizado de ventas y remarketing que genera resultados constantes. Siempre atentos, rápidos y claros.”",
+    text: "“Day by Day nos ayudó a redefinir nuestra estrategia digital desde cero. Antes teníamos una web desactualizada y ahora contamos con un ecosistema automatizado de ventas y remarketing que genera resultados constantes. Siempre atentos, rápidos y claros.”",
     name: "Cartri",
     tagline: "Startup B2C en crecimiento",
     img: "/images/cartri.png",
@@ -70,7 +70,7 @@ const testimonials = [
     bg: "from-[#dc2626] via-[#ef4444] to-[#b91c1c]",
   },
   {
-    text: "“Contraté los servicios de Day by Day para la creación de la web de Araslife+. El trabajo se entregó en tiempo y forma, con gran profesionalidad y aportando ideas que mejoraron mucho la página. Todo el desarrollo en Shopify ha dado resultados excepcionales. Gracias a la satisfacción de este proyecto, también confié en ellos para Cartri.es y actualmente en la introducción de Garett.es en España. Siempre con soluciones efectivas y precios razonables, incluso en trabajos urgentes.”",
+    text: "“Contraté los servicios de Day by Day para la creación de la web de Araslife+. El trabajo se entregó en tiempo y forma, con gran profesionalidad y aportando ideas que mejoraron mucho la página. Todo el desarrollo en Shopify ha dado resultados excepcionales. Gracias a la satisfacción de este proyecto, también confié en ellos para Cartri.es y actualmente en el desarrollo y expansión de Garett.es en España. Siempre con soluciones efectivas y precios razonables, incluso en trabajos urgentes.”",
     name: "Garett España",
     tagline: "Startup B2B en crecimiento",
     img: "/images/garett.png",
@@ -98,12 +98,11 @@ const garettMetrics = [
       { label: "Impresiones", value: "297.446" },
       { label: "Clicks", value: "~14.936", highlight: true },
       { label: "Inicios de pago", value: "661" },
-      { label: "Coste / inicio", value: "4,81 €" },
-      { label: "CPA", value: "4,8 €", highlight: true },
+      { label: "Coste Por Adquisición (CPA)", value: "4,8 €", highlight: true },
     ],
   },
   {
-    platform: "ECI",
+    platform: "ECI - Sponsored Products",
     badge: "El Corte Inglés",
     color: "from-[#0d1117] to-[#161b22]",
     badgeColor: "bg-emerald-500",
@@ -126,7 +125,7 @@ const evercreateMetrics = [
       { label: "Link CTR", value: "0,97%" },
       { label: "CPC link", value: "0,24 €", highlight: true },
       { label: "Creatividades", value: "711", highlight: true },
-      { label: "CPL UFV", value: "55 €", highlight: true },
+      { label: "CPL", value: "55 €", highlight: true },
     ],
   },
   {
@@ -138,7 +137,7 @@ const evercreateMetrics = [
       { label: "Inversión", value: "59.850,31 €" },
       { label: "Impresiones", value: "3.831.087" },
       { label: "Clicks", value: "51.600" },
-      { label: "CTR", value: "1,35%" },
+      { label: "CTR", value: "10,35%" },
       { label: "CPC medio", value: "1,16 €" },
     ],
   },
