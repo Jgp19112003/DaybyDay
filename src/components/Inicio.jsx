@@ -75,29 +75,26 @@ const heroPhases = [
     id: "phase-1",
     title: "El Contexto del Mercado",
     lines: [
-      "En un mercado donde el 92 % de los líderes consideran que la automatización es esencial para mantenerse competitivos,",
-      "el 77 % ya está mejorando sus conversiones gracias a ella",
-      "y el 70% planea incrementar su inversión en este ámbito,",
+      "El mercado digital es cada vez más rápido y más automatizado, pero el verdadero riesgo no es la falta de herramientas:",
+      "es perder la señal. Cuando los datos pasan por capas, aparecen sesgos naturales —simplificaciones, filtros, narrativas—",
+      "y las decisiones se toman con una versión incompleta de la realidad. Para crecer con control necesitas tres cosas:",
     ],
   },
   {
     id: "phase-2",
     title: "La Realidad",
     lines: [
-      "Quedarse quieto no es una opción.",
-      "El crecimiento escalable y sostenible no depende solo de la velocidad,",
-      "sino de sistemas que eliminan tareas repetitivas,",
-      "aumentan la capacidad operativa y trabajan preservando la esencia de marca.",
+      "Diagnóstico, Verdad y (Decisión o Automatización)",
+      "En Day by Day entramos como externos, analizamos tus métricas en RAW (sin maquillaje, sin interpretación interesada)",
+      " y te devolvemos una lectura clara: qué funciona, qué está drenando presupuesto y qué palancas puedes activar sin aumentar riesgo."
     ],
   },
   {
     id: "phase-3",
     title: "Nuestra Propuesta",
     lines: [
-      "En Day by Day transformamos esa necesidad en estrategia.",
-      "Diseñamos sistemas adaptativos de Automatización de Procesos y Marketing con IA",
-      "que potencian la identidad, optimizan la gestión",
-      "y liberan a los equipos para centrarse en lo que realmente genera valor.",
+      " A partir de ahí, o te damos la consultoría para decidir con exactitud, o implementamos según tus necesidades partes del sistema (Web / Paid / eCommerce / Automatización) para que el crecimiento sea sostenible",
+      "Señal real → acciones reales → escala real.",
     ],
   },
 ];
