@@ -76,7 +76,7 @@ const heroPhases = [
     title: "El Contexto del Mercado",
     lines: [
       "El mercado digital es cada vez más rápido y más automatizado, pero el verdadero riesgo no es la falta de herramientas:",
-      "Es perder la señal.  Cuando los datos pasan por capas, aparecen sesgos naturales, simplificaciones, filtros, narrativas...",
+      "Es perder la señal, cuando los datos pasan por capas, aparecen sesgos naturales, simplificaciones, filtros, narrativas...",
       "Y las decisiones se toman con una versión incompleta de la realidad.",
       "Para crecer con control necesitas tres cosas:"
     ],
@@ -94,8 +94,8 @@ const heroPhases = [
     id: "phase-3",
     title: "Nuestra Propuesta",
     lines: [
-      "A partir de ahí, o te damos la consultoría para decidir con exactitud, o implementamos según tus necesidades partes del sistema",
-      "(Web / Paid / eCommerce / Automatización) según tus necesidades para que el crecimiento sea sostenible",
+      "A partir de ahí, te damos la consultoría para decidir con precisión,o implementamos las partes del sistema que necesites:",
+      "(Web / Paid / eCommerce / Automatización) para que el crecimiento sea sostenible",
       "Señal real → acciones reales → escala real.",
     ],
   },
