@@ -86,15 +86,16 @@ const heroPhases = [
     title: "La Realidad",
     lines: [
       "Diagnóstico, Verdad y (Decisión o Automatización)",
-      "En Day by Day entramos como externos, analizamos tus métricas en RAW (sin maquillaje)",
-      " Y te devolvemos una lectura clara: qué funciona, qué está drenando tupresupuesto y qué palancas puedes activar sin aumentar riesgo."
+      "En Day by Day entramos como externos, analizamos tus métricas en RAW (tal y como son)",
+      "Y te devolvemos una lectura clara: qué funciona, qué está drenando tu presupuesto y qué activar sin aumentar riesgo."
     ],
   },
   {
     id: "phase-3",
     title: "Nuestra Propuesta",
     lines: [
-      " A partir de ahí, o te damos la consultoría para decidir con exactitud, o implementamos según tus necesidades partes del sistema (Web / Paid / eCommerce / Automatización) para que el crecimiento sea sostenible",
+      "A partir de ahí, o te damos la consultoría para decidir con exactitud, o implementamos según tus necesidades partes del sistema",
+      "(Web / Paid / eCommerce / Automatización) según tus necesidades para que el crecimiento sea sostenible",
       "Señal real → acciones reales → escala real.",
     ],
   },
