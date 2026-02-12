@@ -76,8 +76,9 @@ const heroPhases = [
     title: "El Contexto del Mercado",
     lines: [
       "El mercado digital es cada vez más rápido y más automatizado, pero el verdadero riesgo no es la falta de herramientas:",
-      "es perder la señal. Cuando los datos pasan por capas, aparecen sesgos naturales —simplificaciones, filtros, narrativas—",
-      "y las decisiones se toman con una versión incompleta de la realidad. Para crecer con control necesitas tres cosas:",
+      "Es perder la señal.  Cuando los datos pasan por capas, aparecen sesgos naturales, simplificaciones, filtros, narrativas...",
+      "Y las decisiones se toman con una versión incompleta de la realidad.",
+      "Para crecer con control necesitas tres cosas:"
     ],
   },
   {
@@ -85,8 +86,8 @@ const heroPhases = [
     title: "La Realidad",
     lines: [
       "Diagnóstico, Verdad y (Decisión o Automatización)",
-      "En Day by Day entramos como externos, analizamos tus métricas en RAW (sin maquillaje, sin interpretación interesada)",
-      " y te devolvemos una lectura clara: qué funciona, qué está drenando presupuesto y qué palancas puedes activar sin aumentar riesgo."
+      "En Day by Day entramos como externos, analizamos tus métricas en RAW (sin maquillaje)",
+      " Y te devolvemos una lectura clara: qué funciona, qué está drenando tupresupuesto y qué palancas puedes activar sin aumentar riesgo."
     ],
   },
   {
