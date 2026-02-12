@@ -741,7 +741,7 @@ const Inicio = () => {
         <div className="max-w-7xl mx-auto text-center px-6 md:px-12">
           <p className="headline-title text-xs md:text-sm uppercase tracking-[0.25em] mb-10 md:mb-16 font-semibold">
             <span className="headline-word inline-block text-white/30">
-              Resultados reales, medidos y verificables
+              Resultados reales de nuestros clientes
             </span>
           </p>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-16 md:gap-14 lg:gap-16">
@@ -754,7 +754,7 @@ const Inicio = () => {
                 0
               </div>
               <p className="text-sm md:text-base text-white/70 font-semibold leading-snug">
-                gestionados en Paid Media
+                invertidos en Paid Media
               </p>
               <p className="text-[11px] md:text-xs text-white/30 mt-1.5">
                 Meta + Google + eCommerce
@@ -769,10 +769,10 @@ const Inicio = () => {
                 0
               </div>
               <p className="text-sm md:text-base text-white/70 font-semibold leading-snug">
-                acciones de intenci&oacute;n generadas
+                acciones de conversi&oacute;n generadas
               </p>
               <p className="text-[11px] md:text-xs text-white/30 mt-1.5">
-                descargas + formularios + inicios de pago
+                inicios de pago / descargas / formularios 
               </p>
             </div>
             {/* Stat 3 */}
@@ -784,7 +784,7 @@ const Inicio = () => {
                 0M
               </div>
               <p className="text-sm md:text-base text-white/70 font-semibold leading-snug">
-                de valor potencial generado
+                de ingresos generados
               </p>
               <p className="text-[11px] md:text-xs text-white/30 mt-1.5">
                 a nuestros clientes
@@ -840,7 +840,7 @@ const Inicio = () => {
 
           <div className="border border-gray-700 bg-[#1F1A1A] rounded-lg p-6 mb-10 text-left max-w-3xl mx-auto">
             <h3 className="font-semibold mb-5 text-gray-300">
-              El análisis Go-To-Market Incluye:
+              Realiza un análisis Go-To-Market automático de tu empresa, Incluye:
             </h3>
             <ul className="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-4 text-sm text-gray-300">
               <li className="flex items-center">
@@ -858,7 +858,7 @@ const Inicio = () => {
                     d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
                   ></path>
                 </svg>
-                Tu Buyer persona
+                Tu Buyer persona detallado
               </li>
               <li className="flex items-center">
                 <svg
@@ -875,7 +875,7 @@ const Inicio = () => {
                     d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"
                   ></path>
                 </svg>
-                Ofertas optimizadas por valor para tu Buyer
+                Ofertas optimizadas para tu Buyer Persona
               </li>
               <li className="flex items-center">
                 <svg
@@ -892,7 +892,7 @@ const Inicio = () => {
                     d="M7 8h10M7 12h4m1 8l-4-4H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-3l-4 4z"
                   ></path>
                 </svg>
-                Variantes de mensajes DISC para tu Buyer
+                Variantes de mensajes para diferentes perfiles de cliente
               </li>
               <li className="flex items-center">
                 <svg
@@ -909,7 +909,7 @@ const Inicio = () => {
                     d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"
                   ></path>
                 </svg>
-                Más de 30 variaciones creativas para tu Buyer
+                Más de 30 variaciones creativas 
               </li>
             </ul>
           </div>
@@ -984,7 +984,7 @@ const Inicio = () => {
               <div className="metric-value metric-value-sm">80%</div>
               <p className="metric-sub">
                 De las empresas aumentan sus oportunidades de negocio y
-                crecimiento al automatizar con IA.
+                crecimiento al automatizar procesos.
               </p>
               <div className="glare" />
             </div>
@@ -996,8 +996,8 @@ const Inicio = () => {
               </div>
               <div className="metric-value metric-value-sm">77%</div>
               <p className="metric-sub">
-                Mejora su tasa de conversiones con Marketing de Automatización +
-                IA. Más rápido, más personalizado.
+                Mejora su tasa de conversiones con sistemas de Marketing +
+                Autimatización e IA. Más rápido, más personalizado.
               </p>
               <div className="glare" />
             </div>
