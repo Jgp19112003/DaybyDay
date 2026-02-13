@@ -143,9 +143,103 @@ const evercreateMetrics = [
   },
 ];
 
+const logos = [
+  { src: "/images/garett.png", alt: "Garett" },
+  { src: "/images/cartri.png", alt: "Cartri" },
+  { src: "/images/araslife.png", alt: "Aras Life Plus" },
+  { src: "/images/evercreate.png", alt: "Evercreate" },
+  { src: "/images/ufv.png", alt: "UFV" },
+  { src: "/images/kueba.png", alt: "Kueba" },
+];
+
 const Nosotros = () => {
   const featRef = useRef(null);
   const testiRef = useRef(null);
+  const [slot1, setSlot1] = React.useState(0);
+  const [slot2, setSlot2] = React.useState(1);
+  const [slot3, setSlot3] = React.useState(2);
+  const [animating, setAnimating] = React.useState([false, false, false]);
+
+  // Animación de slots - cambio en cascada de derecha a izquierda
+  useEffect(() => {
+    const changeAllSlots = () => {
+      // Slot 3 (más a la derecha) empieza primero
+      setTimeout(() => {
+        setAnimating((prev) => {
+          const newState = [...prev];
+          newState[2] = true;
+          return newState;
+        });
+        setTimeout(() => {
+          let newIndex;
+          do {
+            newIndex = Math.floor(Math.random() * logos.length);
+          } while (newIndex === slot3);
+          setSlot3(newIndex);
+          setTimeout(() => {
+            setAnimating((prev) => {
+              const newState = [...prev];
+              newState[2] = false;
+              return newState;
+            });
+          }, 600);
+        }, 300);
+      }, 0);
+
+      // Slot 2 - delay de 150ms
+      setTimeout(() => {
+        setAnimating((prev) => {
+          const newState = [...prev];
+          newState[1] = true;
+          return newState;
+        });
+        setTimeout(() => {
+          let newIndex;
+          do {
+            newIndex = Math.floor(Math.random() * logos.length);
+          } while (newIndex === slot2);
+          setSlot2(newIndex);
+          setTimeout(() => {
+            setAnimating((prev) => {
+              const newState = [...prev];
+              newState[1] = false;
+              return newState;
+            });
+          }, 600);
+        }, 300);
+      }, 150);
+
+      // Slot 1 (más a la izquierda) empieza último - delay de 300ms
+      setTimeout(() => {
+        setAnimating((prev) => {
+          const newState = [...prev];
+          newState[0] = true;
+          return newState;
+        });
+        setTimeout(() => {
+          let newIndex;
+          do {
+            newIndex = Math.floor(Math.random() * logos.length);
+          } while (newIndex === slot1);
+          setSlot1(newIndex);
+          setTimeout(() => {
+            setAnimating((prev) => {
+              const newState = [...prev];
+              newState[0] = false;
+              return newState;
+            });
+          }, 600);
+        }, 300);
+      }, 300);
+    };
+
+    // Ejecutar cada 4 segundos
+    const interval = setInterval(changeAllSlots, 4000);
+
+    return () => {
+      clearInterval(interval);
+    };
+  }, [slot1, slot2, slot3]);
 
   // Animaciones bloque features
   useEffect(() => {
@@ -463,6 +557,56 @@ const Nosotros = () => {
         </div>
       </section>
 
+      {/* ====== EXPERIENCIA PROFESIONAL ====== */}
+      <section className="w-full py-12 md:py-16 px-4 md:px-6 text-white">
+        <div className="max-w-4xl mx-auto">
+          <div className="bg-gradient-to-br from-[#1a1a1a] via-[#2a2a2a] to-[#000000] rounded-3xl p-8 md:p-12 border border-white/10">
+            <div className="flex flex-col md:flex-row items-start md:items-center gap-6 mb-6">
+              <div className="bg-[#de0015] rounded-2xl p-4 flex-shrink-0">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="w-10 h-10 md:w-12 md:h-12 text-white"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
+                  />
+                </svg>
+              </div>
+              <div>
+                <h3 className="text-2xl md:text-3xl font-bold mb-2">
+                  Experiencia a Gran Escala
+                </h3>
+                <p className="text-white/60 text-sm md:text-base">
+                  Respaldados por trayectorias en las principales corporaciones
+                  del país
+                </p>
+              </div>
+            </div>
+            <p className="text-base md:text-lg text-white/80 leading-relaxed">
+              Nuestro equipo cuenta con profesionales que han liderado proyectos
+              de automatización y transformación digital en las principales
+              empresas de{" "}
+              <span className="text-white font-semibold">
+                telecomunicaciones, construcción y energía de España
+              </span>
+              . Esta experiencia nos permite diseñar e implementar{" "}
+              <span className="text-white font-semibold">
+                soluciones end-to-end
+              </span>{" "}
+              robustas y escalables, adaptadas a entornos empresariales
+              complejos y exigentes. Traemos conocimiento de clase mundial al
+              servicio de tu negocio.
+            </p>
+          </div>
+        </div>
+      </section>
+
       {/* ====== TESTIMONIOS ====== */}
       <section
         ref={testiRef}
@@ -603,90 +747,48 @@ const Nosotros = () => {
         </div>
       </section>
 
-      {/* ====== LOGO SLIDER ====== */}
+      {/* ====== LOGO SLOTS ====== */}
       <section className="w-full py-16 md:py-20 bg-[#181414] overflow-hidden">
-        <div className="max-w-7xl mx-auto">
+        <div className="max-w-7xl mx-auto px-4">
           <h3 className="text-2xl md:text-3xl font-bold text-white text-center mb-12">
             Clientes que confían en nosotros
           </h3>
-          <div className="relative">
-            <div className="logo-slider-track">
-              {/* Primera serie de logos */}
-              <div className="logo-slide">
+          <div className="flex justify-center items-center gap-4 md:gap-8">
+            {/* Slot 1 */}
+            <div className="slot-container">
+              <div
+                className={`slot-wrapper ${animating[0] ? "slot-animating" : ""}`}
+              >
                 <img
-                  src="/images/garett.png"
-                  alt="Garett"
-                  className="logo-item"
+                  src={logos[slot1].src}
+                  alt={logos[slot1].alt}
+                  className="slot-logo"
                 />
               </div>
-              <div className="logo-slide">
+            </div>
+
+            {/* Slot 2 */}
+            <div className="slot-container">
+              <div
+                className={`slot-wrapper ${animating[1] ? "slot-animating" : ""}`}
+              >
                 <img
-                  src="/images/cartri.png"
-                  alt="Cartri"
-                  className="logo-item"
+                  src={logos[slot2].src}
+                  alt={logos[slot2].alt}
+                  className="slot-logo"
                 />
               </div>
-              <div className="logo-slide">
+            </div>
+
+            {/* Slot 3 */}
+            <div className="slot-container">
+              <div
+                className={`slot-wrapper ${animating[2] ? "slot-animating" : ""}`}
+              >
                 <img
-                  src="/images/araslife.png"
-                  alt="Aras Life Plus"
-                  className="logo-item"
-                />
-              </div>
-              <div className="logo-slide">
-                <img
-                  src="/images/evercreate.png"
-                  alt="Evercreate"
-                  className="logo-item"
-                />
-              </div>
-              <div className="logo-slide">
-                <img src="/images/ufv.png" alt="UFV" className="logo-item" />
-              </div>
-              <div className="logo-slide">
-                <img
-                  src="/images/kueba.png"
-                  alt="Kueba"
-                  className="logo-item"
-                />
-              </div>
-              {/* Segunda serie de logos (duplicado para loop infinito) */}
-              <div className="logo-slide">
-                <img
-                  src="/images/garett.png"
-                  alt="Garett"
-                  className="logo-item"
-                />
-              </div>
-              <div className="logo-slide">
-                <img
-                  src="/images/cartri.png"
-                  alt="Cartri"
-                  className="logo-item"
-                />
-              </div>
-              <div className="logo-slide">
-                <img
-                  src="/images/araslife.png"
-                  alt="Aras Life Plus"
-                  className="logo-item"
-                />
-              </div>
-              <div className="logo-slide">
-                <img
-                  src="/images/evercreate.png"
-                  alt="Evercreate"
-                  className="logo-item"
-                />
-              </div>
-              <div className="logo-slide">
-                <img src="/images/ufv.png" alt="UFV" className="logo-item" />
-              </div>
-              <div className="logo-slide">
-                <img
-                  src="/images/kueba.png"
-                  alt="Kueba"
-                  className="logo-item"
+                  src={logos[slot3].src}
+                  alt={logos[slot3].alt}
+                  className="slot-logo"
                 />
               </div>
             </div>
@@ -695,60 +797,99 @@ const Nosotros = () => {
       </section>
 
       <style jsx>{`
-        /* Logo Slider Styles */
-        .logo-slider-track {
-          display: flex;
-          gap: 4rem;
-          animation: scroll 30s linear infinite;
-          width: max-content;
-        }
-
-        .logo-slide {
+        /* Logo Slot Machine Styles */
+        .slot-container {
+          position: relative;
+          height: 80px;
+          width: 160px;
+          overflow: hidden;
+          background: transparent;
+          border: none;
           display: flex;
           align-items: center;
           justify-content: center;
-          flex-shrink: 0;
-          width: 180px;
-          height: 100px;
         }
 
-        .logo-item {
-          max-width: 140px;
-          max-height: 80px;
-          width: auto;
-          height: auto;
-          object-fit: contain;
-          opacity: 1;
-          transition: all 0.3s ease;
+        @media (min-width: 768px) {
+          .slot-container {
+            height: 120px;
+            width: 220px;
+          }
         }
 
-        .logo-item:hover {
-          transform: scale(1.1);
+        .slot-wrapper {
+          position: relative;
+          width: 100%;
+          height: 100%;
+          display: flex;
+          align-items: center;
+          justify-content: center;
         }
 
-        @keyframes scroll {
+        .slot-wrapper.slot-animating {
+          animation: slotSpinWhip 1.1s ease-out;
+        }
+
+        @keyframes slotSpinWhip {
           0% {
-            transform: translateX(0);
+            transform: translateY(0);
+            opacity: 1;
+            filter: blur(0px) brightness(1.1);
+          }
+          35% {
+            transform: translateY(-100%);
+            opacity: 0;
+            filter: blur(10px) brightness(1.1);
+          }
+          35.01% {
+            transform: translateY(100%);
+            opacity: 0;
+            filter: blur(10px) brightness(1.1);
+          }
+          60% {
+            transform: translateY(-4%);
+            opacity: 1;
+            filter: blur(5px) brightness(1.1);
+          }
+          75% {
+            transform: translateY(1.5%);
+            opacity: 1;
+            filter: blur(2px) brightness(1.1);
+          }
+          90% {
+            transform: translateY(-0.5%);
+            opacity: 1;
+            filter: blur(0px) brightness(1.1);
           }
           100% {
-            transform: translateX(-50%);
+            transform: translateY(0);
+            opacity: 1;
+            filter: blur(0px) brightness(1.1);
           }
+        }
+
+        .slot-logo {
+          max-width: 80%;
+          max-height: 80%;
+          object-fit: contain;
         }
 
         @media (max-width: 768px) {
-          .logo-slider-track {
-            gap: 2.5rem;
-            animation: scroll 20s linear infinite;
+          .slot-container {
+            height: 60px;
+            width: 70px;
           }
 
-          .logo-slide {
-            width: 120px;
-            height: 70px;
+          .slot-logo {
+            max-width: 90%;
+            max-height: 90%;
           }
+        }
 
-          .logo-item {
-            max-width: 100px;
-            max-height: 60px;
+        @media (max-width: 480px) {
+          .slot-container {
+            height: 50px;
+            width: 60px;
           }
         }
 
