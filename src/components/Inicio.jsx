@@ -75,9 +75,12 @@ const heroPhases = [
     id: "phase-1",
     title: "El Contexto del Mercado",
     lines: [
-      "El mercado digital es cada vez más rápido y más automatizado, pero \"El mayor riesgo no es que falten datos.  Es que lleguen maquillados a quien decide.\"",
-      "A medida que los datos suben por la organización, pierden fricción… y también verdad.",
-      "Para crecer con control necesitas tres cosas:"
+      "El mercado digital es cada vez más rápido y automatizado, pero",
+      "El mayor riesgo no es la falta de datos, sino que lleguen maquillados a quien decide.",
+      "A medida que la información asciende por la organización, cada capa la resume, la protege y la simplifica.",
+      "Cuando alcanza la dirección, ya no es la realidad completa — es la versión cómoda de ella.",
+      "Para optimizar tu crecimiento necesitas tres cosas:",
+
     ],
   },
   {
