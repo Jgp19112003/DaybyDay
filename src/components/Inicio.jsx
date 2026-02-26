@@ -78,7 +78,7 @@ const heroPhases = [
       "El mercado digital es cada vez más rápido y más automatizado, pero el verdadero riesgo no es la falta de herramientas:",
       "Es perder la señal, cuando los datos pasan por capas, aparecen sesgos naturales, simplificaciones, filtros, narrativas...",
       "Y las decisiones se toman con una versión incompleta de la realidad.",
-      "Para crecer con control necesitas tres cosas:"
+      "Para crecer con control necesitas tres cosas:",
     ],
   },
   {
@@ -87,7 +87,7 @@ const heroPhases = [
     lines: [
       "Diagnóstico, Verdad y (Decisión o Automatización)",
       "En Day by Day entramos como externos, analizamos tus métricas en RAW (tal y como son)",
-      "Y te devolvemos una lectura clara: qué funciona, qué está drenando tu presupuesto y qué activar sin aumentar riesgo."
+      "Y te devolvemos una lectura clara: qué funciona, qué está drenando tu presupuesto y qué activar sin aumentar riesgo.",
     ],
   },
   {
@@ -772,7 +772,7 @@ const Inicio = () => {
                 acciones de conversi&oacute;n generadas
               </p>
               <p className="text-[11px] md:text-xs text-white/30 mt-1.5">
-                inicios de pago / descargas / formularios 
+                inicios de pago / descargas / formularios
               </p>
             </div>
             {/* Stat 3 */}
@@ -840,7 +840,8 @@ const Inicio = () => {
 
           <div className="border border-gray-700 bg-[#1F1A1A] rounded-lg p-6 mb-10 text-left max-w-3xl mx-auto">
             <h3 className="font-semibold mb-5 text-gray-300">
-              Realiza un análisis Go-To-Market automático de tu empresa, Incluye:
+              Realiza un análisis Go-To-Market automático de tu empresa,
+              Incluye:
             </h3>
             <ul className="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-4 text-sm text-gray-300">
               <li className="flex items-center">
@@ -909,7 +910,7 @@ const Inicio = () => {
                     d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"
                   ></path>
                 </svg>
-                Más de 30 variaciones creativas 
+                Más de 30 variaciones creativas
               </li>
             </ul>
           </div>
@@ -950,6 +951,40 @@ const Inicio = () => {
               Ejecutar Análisis
             </button>
           </form>
+        </div>
+      </section>
+
+      {/* QUOTE JOSIAH ROCHE */}
+      <section className="bg-[#181414] py-12 px-4">
+        <div className="max-w-3xl mx-auto">
+          <div className="border border-gray-700 bg-[#1F1A1A] rounded-lg p-8 relative">
+            <span
+              className="absolute top-4 left-6 text-[#DE0015] select-none"
+              style={{ fontSize: "4rem", lineHeight: 1, opacity: 0.7 }}
+              aria-hidden="true"
+            >
+              &ldquo;
+            </span>
+            <blockquote className="pt-8">
+              <p className="text-white text-lg sm:text-xl font-medium italic leading-relaxed mb-6">
+                La Direcci&oacute;n escucha que &lsquo;todo va bien&rsquo;
+                mientras que el dpt de ventas sigue sin alcanzar su cuota
+                &mdash; porque cada escal&oacute;n edita la historia para
+                mantener su dashboard en verde.
+              </p>
+              <footer className="flex items-center gap-3">
+                <div className="w-6 h-[2px] bg-[#DE0015]" />
+                <cite className="not-italic">
+                  <span className="text-white font-semibold text-sm">
+                    Josiah Roche
+                  </span>
+                  <span className="text-gray-400 text-sm">
+                    ,&nbsp;CMO Fraccional
+                  </span>
+                </cite>
+              </footer>
+            </blockquote>
+          </div>
         </div>
       </section>
 
