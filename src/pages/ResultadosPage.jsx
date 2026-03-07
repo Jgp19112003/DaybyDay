@@ -1,9 +1,65 @@
 import { Link } from "react-router-dom";
+import { Helmet } from "react-helmet-async";
 import SEOHead from "../components/SEOHead";
 import Footer from "../components/Footer";
 
+const reviewSchema = {
+  "@context": "https://schema.org",
+  "@type": "ItemList",
+  "name": "Casos de éxito y testimonios — DayByDay Consulting",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "item": {
+        "@type": "Review",
+        "author": { "@type": "Organization", "name": "Aras Life Plus" },
+        "reviewBody": "Automatizaron todo el proceso desde la actualización de los productos de proveedores pasando por Shopify hasta el flujo de WhatsApp, lo que nos permitió escalar ventas sin aumentar carga operativa. Hoy, nuestras campañas funcionan solas.",
+        "reviewRating": { "@type": "Rating", "ratingValue": "5", "bestRating": "5" },
+        "itemReviewed": { "@type": "Service", "name": "Automatización de Marketing", "provider": { "@type": "Organization", "name": "DayByDay Consulting" } },
+      },
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "item": {
+        "@type": "Review",
+        "author": { "@type": "Organization", "name": "Cartri" },
+        "reviewBody": "Antes teníamos una web desactualizada y ahora contamos con un ecosistema automatizado de ventas y remarketing que genera resultados constantes. Siempre atentos, rápidos y claros.",
+        "reviewRating": { "@type": "Rating", "ratingValue": "5", "bestRating": "5" },
+        "itemReviewed": { "@type": "Service", "name": "Marketing para eCommerce", "provider": { "@type": "Organization", "name": "DayByDay Consulting" } },
+      },
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "item": {
+        "@type": "Review",
+        "author": { "@type": "Organization", "name": "Garett España" },
+        "reviewBody": "Conseguimos un CPA de 4,8€ con 14.936 clicks y 661 inicios de pago. La gestión de Meta Ads de DayByDay transformó nuestro canal de ventas online.",
+        "reviewRating": { "@type": "Rating", "ratingValue": "5", "bestRating": "5" },
+        "itemReviewed": { "@type": "Service", "name": "Gestión de Meta Ads", "provider": { "@type": "Organization", "name": "DayByDay Consulting" } },
+      },
+    },
+    {
+      "@type": "ListItem",
+      "position": 4,
+      "item": {
+        "@type": "Review",
+        "author": { "@type": "Organization", "name": "Evercreate" },
+        "reviewBody": "DayByDay definió y ejecutó un funnel de captación de leads para más de 30 programas universitarios. Lo que cambió fue nuestra relación con el cliente: ahora ahorramos tiempo, ganamos autoridad y tenemos claridad estratégica.",
+        "reviewRating": { "@type": "Rating", "ratingValue": "5", "bestRating": "5" },
+        "itemReviewed": { "@type": "Service", "name": "Captación de Clientes con Paid Media", "provider": { "@type": "Organization", "name": "DayByDay Consulting" } },
+      },
+    },
+  ],
+};
+
 const ResultadosPage = ({ openCalendly }) => (
   <div className="min-h-screen bg-[#181414] text-white">
+    <Helmet>
+      <script type="application/ld+json">{JSON.stringify(reviewSchema)}</script>
+    </Helmet>
     <SEOHead
       title="Resultados y Casos de Éxito de Clientes"
       description="Casos reales de clientes de DayByDay Consulting: métricas de Meta Ads, Google Ads, automatización y captación. Garett, Evercreate, Aras Life Plus y más."

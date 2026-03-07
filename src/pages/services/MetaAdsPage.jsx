@@ -1,4 +1,5 @@
 import SEOHead from "../../components/SEOHead";
+import FaqSection from "../../components/FaqSection";
 import ServiceLayout, {
   ServiceHero,
   PainPoints,
@@ -64,6 +65,21 @@ const stats = [
   { value: "711", label: "creatividades producidas" },
   { value: "193K€", label: "gestionados en Meta Ads" },
   { value: "84M", label: "impresiones generadas" },
+];
+
+const faqItems = [
+  {
+    q: "¿Qué incluye la gestión de Meta Ads de DayByDay?",
+    a: "La gestión incluye auditoría de cuenta, estrategia full-funnel (TOFU a BOFU), producción de creatividades, configuración y optimización semanal de campañas, y reporting con métricas reales: CPA, ROAS y CAC. Sin intermediarios ni black boxes.",
+  },
+  {
+    q: "¿Cuánto tiempo tarda en verse el ROAS en Meta Ads?",
+    a: "Los primeros datos relevantes se obtienen tras 2–3 semanas de campaña activa. Meta necesita un período de aprendizaje (mínimo 50 eventos de optimización) antes de estabilizar el rendimiento. Con una estrategia bien estructurada, el ROAS escala de forma sostenida a partir del segundo mes.",
+  },
+  {
+    q: "¿Cuánto cuesta contratar una agencia de Meta Ads en España?",
+    a: "El coste de gestión de Meta Ads en DayByDay parte desde 800 €/mes, en función del volumen de inversión, el número de campañas activas y la producción de creatividades incluida. El presupuesto mínimo recomendado en Meta es de 1.500 €/mes de inversión publicitaria.",
+  },
 ];
 
 const MetaAdsPage = ({ openCalendly }) => (
@@ -141,6 +157,8 @@ const MetaAdsPage = ({ openCalendly }) => (
     </section>
 
     <ResultsBar stats={stats} />
+
+    <FaqSection faqs={faqItems} />
 
     <ServiceCTA
       headline="¿Listo para que tus Meta Ads generen resultados reales?"

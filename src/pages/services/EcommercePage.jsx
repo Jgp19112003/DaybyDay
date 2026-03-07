@@ -1,4 +1,5 @@
 import SEOHead from "../../components/SEOHead";
+import FaqSection from "../../components/FaqSection";
 import ServiceLayout, {
   ServiceHero,
   PainPoints,
@@ -64,6 +65,21 @@ const stats = [
   { value: "14.936", label: "clicks generados con 3.179€ invertidos" },
   { value: "661", label: "inicios de pago en una sola campaña" },
   { value: "Shopify", label: "→ WhatsApp automatizado desde día 1" },
+];
+
+const faqItems = [
+  {
+    q: "¿Qué es el growth marketing para D2C y eCommerce?",
+    a: "El growth marketing para D2C (Direct-to-Consumer) es la disciplina que combina paid media, automatización y optimización de conversión para escalar ventas directas al consumidor final. En lugar de depender de distribuidores o marketplaces, construyes un canal propio donde controlas el margen, los datos y la relación con el cliente.",
+  },
+  {
+    q: "¿Qué canales funcionan mejor para un eCommerce en España?",
+    a: "Meta Ads (Facebook e Instagram) es el canal más eficiente para eCommerce de moda, salud, hogar y lifestyle. Google Shopping funciona bien cuando hay búsqueda activa del producto. El email marketing automatizado y WhatsApp son esenciales para mejorar el LTV y recuperar carritos abandonados. La combinación óptima depende del ticket medio y el producto.",
+  },
+  {
+    q: "¿Cómo se mide el éxito del marketing para eCommerce?",
+    a: "Las métricas clave son el CPA (coste por venta), el ROAS (retorno sobre la inversión publicitaria), la tasa de conversión de la tienda y el LTV (valor del cliente a largo plazo). En DayByDay reportamos todas estas métricas semanalmente y conectamos los datos de Meta y Google con el rendimiento real de Shopify.",
+  },
 ];
 
 const EcommercePage = ({ openCalendly }) => (
@@ -134,6 +150,8 @@ const EcommercePage = ({ openCalendly }) => (
     </section>
 
     <ResultsBar stats={stats} />
+
+    <FaqSection faqs={faqItems} />
 
     <ServiceCTA
       headline="¿Tu eCommerce puede vender más con la misma inversión?"

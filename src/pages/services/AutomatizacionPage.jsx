@@ -1,4 +1,5 @@
 import SEOHead from "../../components/SEOHead";
+import FaqSection from "../../components/FaqSection";
 import ServiceLayout, {
   ServiceHero,
   PainPoints,
@@ -66,6 +67,21 @@ const stats = [
   { value: "3x", label: "capacidad sin aumentar equipo" },
 ];
 
+const faqItems = [
+  {
+    q: "¿Qué es la automatización de marketing y para qué sirve?",
+    a: "La automatización de marketing consiste en usar software e IA para ejecutar tareas repetitivas de forma automática: enviar emails, actualizar el CRM, hacer seguimiento de leads o gestionar flujos de WhatsApp. Permite escalar la operativa sin aumentar el equipo y mejora la velocidad de respuesta al cliente.",
+  },
+  {
+    q: "¿Qué procesos se pueden automatizar en mi negocio?",
+    a: "Los más comunes son: seguimiento de leads tras un formulario, secuencias de email o WhatsApp post-compra, actualización automática de CRM y Shopify, notificaciones internas de ventas, y reporting periódico. En una primera consulta identificamos los procesos de mayor impacto para tu caso.",
+  },
+  {
+    q: "¿Cuánto tiempo y dinero ahorra la automatización?",
+    a: "Depende del volumen de operaciones, pero habitualmente entre 5 y 20 horas semanales de trabajo manual por proyecto. En términos económicos, equivale a un empleado parcial dedicado a tareas repetitivas. El ROI suele ser positivo en los primeros 60–90 días.",
+  },
+];
+
 const AutomatizacionPage = ({ openCalendly }) => (
   <ServiceLayout openCalendly={openCalendly}>
     <SEOHead
@@ -121,6 +137,8 @@ const AutomatizacionPage = ({ openCalendly }) => (
     </section>
 
     <ResultsBar stats={stats} />
+
+    <FaqSection faqs={faqItems} />
 
     <ServiceCTA
       headline="¿Listo para que tu negocio trabaje solo?"

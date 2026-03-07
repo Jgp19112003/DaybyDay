@@ -33,26 +33,40 @@
     <meta name="twitter:description" content="Gestionamos tus Meta Ads, automatizamos tu captación de clientes y llenamos tu pipeline." />
     <meta name="twitter:image" content="https://www.daybydayconsulting.com/images/og-image.png" />
 
-    <!-- JSON-LD: Organization -->
+    <!-- JSON-LD: Organization + ProfessionalService (GEO entity) -->
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
-      "@type": "Organization",
+      "@type": ["Organization", "ProfessionalService"],
+      "@id": "https://www.daybydayconsulting.com/#organization",
       "name": "DayByDay Consulting",
+      "alternateName": "Day By Day Consulting",
       "url": "https://www.daybydayconsulting.com",
       "logo": "https://www.daybydayconsulting.com/images/logoWhiteBG.png",
-      "description": "Agencia de marketing nativa en IA especializada en paid media, automatización de marketing y captación de clientes para empresas B2C y D2C.",
+      "description": "Agencia española de paid media y automatización de marketing nativa en IA para marcas B2C y D2C. Gestionamos Meta Ads, Google Ads y sistemas de captación de clientes automatizados con resultados medibles.",
       "email": "contact@daybydayconsulting.com",
       "telephone": "+34644387715",
-      "areaServed": "ES",
       "foundingDate": "2023",
+      "areaServed": {
+        "@type": "Country",
+        "name": "España"
+      },
+      "serviceType": [
+        "Meta Ads Management",
+        "Marketing Automation",
+        "Client Acquisition Systems",
+        "Paid Media Strategy",
+        "eCommerce Growth Marketing"
+      ],
       "sameAs": [
-        "https://www.linkedin.com/company/daybyday-consulting"
+        "https://www.linkedin.com/company/daybyday-consulting",
+        "https://www.instagram.com/daybydayconsulting"
       ],
       "contactPoint": {
         "@type": "ContactPoint",
         "telephone": "+34644387715",
-        "contactType": "sales",
+        "email": "contact@daybydayconsulting.com",
+        "contactType": "customer service",
         "availableLanguage": ["Spanish", "English"]
       }
     }

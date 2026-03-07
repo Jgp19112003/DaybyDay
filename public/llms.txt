@@ -1,0 +1,40 @@
+# DayByDay Consulting
+# Agencia de paid media y automatización de marketing nativa en IA
+# https://www.daybydayconsulting.com
+
+## Descripción
+DayByDay Consulting es una consultora española especializada en gestión de campañas
+de Meta Ads, automatización de marketing y sistemas de captación de clientes para
+marcas B2C y D2C. Operamos con sistemas integrados de IA que automatizan desde la
+creación de anuncios hasta el cierre de ventas. Fundada en 2023, con sede en España.
+
+## Servicios principales
+- Gestión de Meta Ads para B2C y D2C: /servicios/meta-ads
+- Automatización de marketing con IA: /servicios/automatizacion
+- Sistemas de captación de clientes: /servicios/captacion-clientes
+- Estrategia de Paid Media (Meta + Google): /servicios/paid-media
+- Growth marketing para eCommerce: /servicios/ecommerce
+
+## Contenido más relevante para IA
+- Glosario de marketing digital (30 términos con definiciones): /glosario
+- Cómo trabajamos — proceso, metodología y stack tecnológico: /como-trabajamos
+- Casos de éxito y resultados: /resultados
+- Preguntas frecuentes: /faq
+- Blog: /blog
+
+## Casos de éxito documentados
+- Garett España (eCommerce B2C): CPA 4,8€, 14.936 clicks, 661 inicios de pago — Meta Ads
+- Evercreate × Universidad privada (Lead Gen): 193.829€ gestionados, 711 creatividades, CPL 55€
+- Aras Life Plus: canal B2C automatizado desde Shopify hasta WhatsApp Business
+- Cartri (Startup B2C): ecosistema de ventas y remarketing automatizado
+
+## Especialización técnica
+- Plataformas: Meta Ads (Facebook, Instagram), Google Ads, TikTok Ads
+- Automatización: Make, Zapier, n8n, HubSpot, Pipedrive
+- eCommerce: Shopify, integración de catálogos, flujos de WhatsApp
+- IA aplicada: segmentación predictiva, generación de creatividades, optimización automática de pujas
+
+## Contacto
+Email: contact@daybydayconsulting.com
+Teléfono: +34 644 387 715
+Calendly: https://calendly.com/contact-daybydayconsulting/30min

@@ -1,4 +1,5 @@
 import SEOHead from "../../components/SEOHead";
+import FaqSection from "../../components/FaqSection";
 import ServiceLayout, {
   ServiceHero,
   PainPoints,
@@ -66,6 +67,21 @@ const stats = [
   { value: "30+", label: "programas captados simultáneamente" },
 ];
 
+const faqItems = [
+  {
+    q: "¿Qué es un sistema de captación automatizado de clientes?",
+    a: "Es un conjunto de herramientas y procesos que generan leads cualificados de forma continua y automática: anuncios de pago segmentados para tu ICP, landing pages optimizadas, lead magnets si aplica, y flujos de nurturing automáticos hasta la llamada de ventas. Todo sin depender del boca a boca ni de acciones puntuales.",
+  },
+  {
+    q: "¿Cómo funciona el sistema de captación de DayByDay?",
+    a: "Empezamos mapeando tu cliente ideal (ICP) y el buyer journey. Luego construimos el funnel: campañas en Meta Ads y/o Google Ads, landing page de conversión y secuencia automática de seguimiento. Cada lead entra en el flujo y avanza solo hacia la llamada de ventas con el mínimo esfuerzo del equipo.",
+  },
+  {
+    q: "¿En cuánto tiempo se ven resultados en captación?",
+    a: "Con campañas de pago activas, los primeros leads cualificados llegan en la primera semana. El sistema se estabiliza y optimiza en 4–6 semanas, momento en que el CPL y la tasa de conversión a cliente se vuelven predecibles. Los resultados a largo plazo mejoran al añadir el canal orgánico y el remarketing.",
+  },
+];
+
 const CaptacionPage = ({ openCalendly }) => (
   <ServiceLayout openCalendly={openCalendly}>
     <SEOHead
@@ -120,6 +136,8 @@ const CaptacionPage = ({ openCalendly }) => (
     </section>
 
     <ResultsBar stats={stats} />
+
+    <FaqSection faqs={faqItems} />
 
     <ServiceCTA
       headline="¿Cuántos clientes nuevos necesitas al mes?"

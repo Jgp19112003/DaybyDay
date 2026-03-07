@@ -1,4 +1,5 @@
 import SEOHead from "../../components/SEOHead";
+import FaqSection from "../../components/FaqSection";
 import ServiceLayout, {
   ServiceHero,
   PainPoints,
@@ -64,6 +65,21 @@ const stats = [
   { value: "10,35%", label: "CTR en Google Ads (Evercreate)" },
   { value: "0,24 €", label: "CPC en Meta Ads lead gen" },
   { value: "51.600", label: "clicks en Google para universidad privada" },
+];
+
+const faqItems = [
+  {
+    q: "¿Qué incluye una estrategia de paid media completa?",
+    a: "Una estrategia de paid media integral abarca la selección de canales (Meta Ads, Google Ads, YouTube, TikTok), la definición del mix de inversión según el funnel, la producción de creatividades, la gestión y optimización de campañas, y el reporting semanal con métricas de negocio: CAC, ROAS y CPL.",
+  },
+  {
+    q: "¿Cuál es la diferencia entre Meta Ads y Google Ads?",
+    a: "Meta Ads (Facebook e Instagram) es ideal para generar demanda: muestra anuncios a personas que encajan con tu buyer persona aunque no estén buscando activamente. Google Ads captura demanda existente: impacta a usuarios que ya buscan tu producto o servicio. La combinación de ambos maximiza el alcance en todo el funnel.",
+  },
+  {
+    q: "¿Cómo se mide el ROI en paid media?",
+    a: "El ROI en paid media se mide principalmente a través del ROAS (Return on Ad Spend) para eCommerce y del CAC (Coste de Adquisición de Cliente) para servicios. En DayByDay reportamos semanalmente con estas métricas reales, conectadas al dato de conversión final y no solo a clics o impresiones.",
+  },
 ];
 
 const PaidMediaPage = ({ openCalendly }) => (
@@ -141,6 +157,8 @@ const PaidMediaPage = ({ openCalendly }) => (
     </section>
 
     <ResultsBar stats={stats} />
+
+    <FaqSection faqs={faqItems} />
 
     <ServiceCTA
       headline="¿Quieres saber exactamente dónde invertir tu presupuesto?"

@@ -16,6 +16,8 @@ import EcommercePage from "./pages/services/EcommercePage";
 import BlogPage from "./pages/BlogPage";
 import ResultadosPage from "./pages/ResultadosPage";
 import FAQPage from "./pages/FAQPage";
+import GlosarioPage from "./pages/GlosarioPage";
+import ComoTrabajamosPage from "./pages/ComoTrabajamosPage";
 
 gsap.registerPlugin(ScrollTrigger, SplitText);
 
@@ -137,6 +139,8 @@ const App = () => {
         <Route path="/blog" element={<BlogPage />} />
         <Route path="/resultados" element={<ResultadosPage openCalendly={openCalendly} />} />
         <Route path="/faq" element={<FAQPage openCalendly={openCalendly} />} />
+        <Route path="/glosario" element={<GlosarioPage />} />
+        <Route path="/como-trabajamos" element={<ComoTrabajamosPage />} />
       </Routes>
       <WhatsAppButton />
       <Analytics />
