@@ -510,7 +510,7 @@ const DesktopSectores = ({ onAgendarClick }) => {
               backgroundClip: "text",
               color: "transparent",
             }}
-          />
+          >{FINAL_TITLE}</h2>
           <p ref={subRef} className="text-[#e5e5e5] mt-3 max-w-[820px]">
             Soluciones a problemas claros, automatizaciones que se adaptan a tu
             forma de trabajar.
@@ -942,7 +942,7 @@ const MobileSectores = ({ onAgendarClick }) => {
               backgroundClip: "text",
               color: "transparent",
             }}
-          />
+          >{FINAL_TITLE}</h2>
           <p ref={subRef} className="text-[#e5e5e5] mt-3 max-w-[820px]">
             Soluciones a problemas claros, automatizaciones que se adaptan a tu
             forma de trabajar.

@@ -1,39 +1,42 @@
 import React, { useState, useEffect, useRef } from "react";
+import { Routes, Route, useNavigate, useLocation } from "react-router-dom";
 import gsap from "gsap";
 import { ScrollTrigger, SplitText } from "gsap/all";
 import NavBar from "./components/NavBar";
 import WhatsAppButton from "./components/WhatsAppButton";
-import Inicio from "./components/Inicio";
-import Sectores from "./components/Sectores";
-import Nosotros from "./components/Nosotros";
-import Footer from "./components/Footer";
 import { Analytics } from "@vercel/analytics/react";
+
+// Pages
+import HomePage from "./pages/HomePage";
+import MetaAdsPage from "./pages/services/MetaAdsPage";
+import AutomatizacionPage from "./pages/services/AutomatizacionPage";
+import PaidMediaPage from "./pages/services/PaidMediaPage";
+import CaptacionPage from "./pages/services/CaptacionPage";
+import EcommercePage from "./pages/services/EcommercePage";
+import BlogPage from "./pages/BlogPage";
+import ResultadosPage from "./pages/ResultadosPage";
+import FAQPage from "./pages/FAQPage";
 
 gsap.registerPlugin(ScrollTrigger, SplitText);
 
 const App = () => {
-  const [currentView, setCurrentView] = useState("home");
   const [pendingScroll, setPendingScroll] = useState(null);
   const [isTransitioning, setIsTransitioning] = useState(false);
-
   const navBarRef = useRef(null);
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  const isHomePage = location.pathname === "/";
 
   useEffect(() => {
     window.history.scrollRestoration = "manual";
-    document.documentElement.scrollTop = 0;
-    document.body.scrollTop = 0;
     window.scrollTo(0, 0);
-
-    const forceScrollTop = () => {
-      window.scrollTo({ top: 0, left: 0, behavior: "auto" });
-      document.documentElement.scrollTop = 0;
-      document.body.scrollTop = 0;
-    };
-
-    forceScrollTop();
-    setTimeout(forceScrollTop, 0);
-    setTimeout(forceScrollTop, 100);
   }, []);
+
+  // Scroll to top on route change
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [location.pathname]);
 
   const openCalendly = () => {
     const url = "https://calendly.com/contact-daybydayconsulting/30min";
@@ -44,211 +47,98 @@ const App = () => {
     }
   };
 
+  const scrollToSection = (section) => {
+    const selectors = {
+      inicio: null,
+      sectores: "#sectores",
+      nosotros: "#nosotros",
+      contacto: "#footer",
+    };
+    if (section === "inicio") {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+      return;
+    }
+    const selector = selectors[section];
+    if (!selector) return;
+    setTimeout(() => {
+      const el = document.querySelector(selector);
+      if (el) {
+        const targetY = Math.max(el.offsetTop - 80 - 20, 0);
+        gsap.to(window, { scrollTo: { y: targetY, autoKill: false }, duration: 1, ease: "power2.out" });
+        setTimeout(() => ScrollTrigger.refresh(), 100);
+      }
+    }, 100);
+  };
+
   const handleNavScroll = (section) => {
     if (section === "agendar") {
-      // Open Calendly popup instead of navigating
       openCalendly();
       return;
     }
-    if (currentView !== "home") {
-      // Kill all ScrollTriggers and animations before navigation
+    if (!isHomePage) {
+      // Navigate to homepage first, then scroll
+      setIsTransitioning(true);
       ScrollTrigger.getAll().forEach((st) => st.kill());
       gsap.killTweensOf("*");
-
-      // Force unpinning any pinned elements
-      ScrollTrigger.refresh();
-
-      setIsTransitioning(true);
-      setCurrentView("home");
+      navigate("/");
       setPendingScroll(section);
-
       setTimeout(() => {
         setIsTransitioning(false);
-        // Additional cleanup after transition
         ScrollTrigger.refresh();
       }, 300);
     } else {
-      if (section === "inicio") {
-        window.scrollTo({ top: 0, behavior: "smooth" });
-      } else if (section === "sectores") {
-        // Direct scroll when already on home page
-        setTimeout(() => {
-          const sectoresSection = document.querySelector("#sectores");
-          if (sectoresSection) {
-            const navHeight = 80;
-            const offset = 20;
-            const targetY = sectoresSection.offsetTop - navHeight - offset;
-
-            gsap.to(window, {
-              scrollTo: { y: targetY, autoKill: false },
-              duration: 1,
-              ease: "power2.out",
-            });
-          }
-        }, 100);
-      } else if (section === "nosotros") {
-        // Direct scroll to nosotros section
-        setTimeout(() => {
-          const nosotrosSection = document.querySelector("#nosotros");
-          if (nosotrosSection) {
-            const navHeight = 80;
-            const offset = 20;
-            const targetY = nosotrosSection.offsetTop - navHeight - offset;
-
-            gsap.to(window, {
-              scrollTo: { y: targetY, autoKill: false },
-              duration: 1,
-              ease: "power2.out",
-            });
-          }
-        }, 100);
-      } else if (section === "contacto") {
-        // Scroll directo al footer
-        setTimeout(() => {
-          const footer = document.querySelector("#footer");
-          if (footer) {
-            const navHeight = 80;
-            const offset = 20;
-            const targetY = Math.max(footer.offsetTop - navHeight - offset, 0);
-            gsap.to(window, {
-              scrollTo: { y: targetY, autoKill: false },
-              duration: 1,
-              ease: "power2.out",
-            });
-          }
-        }, 100);
-      }
+      scrollToSection(section);
     }
   };
 
   useEffect(() => {
-    if (currentView === "home" && pendingScroll) {
-      if (pendingScroll === "inicio") {
-        window.scrollTo({ top: 0, behavior: "smooth" });
-        setPendingScroll(null);
-      } else if (pendingScroll === "sectores") {
-        // Scroll to sectores section with multiple attempts to ensure DOM is ready
-        const scrollToSectores = () => {
-          const sectoresSection = document.querySelector("#sectores");
-          if (sectoresSection) {
-            // Use requestAnimationFrame to ensure DOM is fully rendered
-            requestAnimationFrame(() => {
-              const navHeight = 80;
-              const offset = 20;
-              const targetY = sectoresSection.offsetTop - navHeight - offset;
-
-              // Force scroll using both methods for better compatibility
-              window.scrollTo({ top: targetY, behavior: "smooth" });
-
-              // Also use GSAP as fallback
-              gsap.to(window, {
-                scrollTo: { y: targetY, autoKill: false },
-                duration: 1,
-                ease: "power2.out",
-              });
-
-              // Refresh ScrollTrigger after navigation
-              setTimeout(() => {
-                ScrollTrigger.refresh();
-              }, 100);
-            });
-            setPendingScroll(null);
-          } else {
-            // If sectores section not found, try again after a short delay
-            console.log("Sectores section not found, retrying...");
-            setTimeout(scrollToSectores, 100);
-          }
-        };
-
-        // Start with a delay to ensure component is mounted and animations are ready
-        setTimeout(scrollToSectores, 500); // Increased delay
-      } else if (pendingScroll === "nosotros") {
-        // Scroll to nosotros section
-        const scrollToNosotros = () => {
-          const nosotrosSection = document.querySelector("#nosotros");
-          if (nosotrosSection) {
-            requestAnimationFrame(() => {
-              const navHeight = 80;
-              const offset = 20;
-              const targetY = nosotrosSection.offsetTop - navHeight - offset;
-
-              window.scrollTo({ top: targetY, behavior: "smooth" });
-
-              gsap.to(window, {
-                scrollTo: { y: targetY, autoKill: false },
-                duration: 1,
-                ease: "power2.out",
-              });
-
-              // Refresh ScrollTrigger after navigation
-              setTimeout(() => {
-                ScrollTrigger.refresh();
-              }, 100);
-            });
-            setPendingScroll(null);
-          } else {
-            setTimeout(scrollToNosotros, 100);
-          }
-        };
-
-        setTimeout(scrollToNosotros, 500);
-      } else if (pendingScroll === "contacto") {
-        const scrollToFooter = () => {
-          const footer = document.querySelector("#footer");
-          if (footer) {
-            requestAnimationFrame(() => {
-              const navHeight = 80;
-              const offset = 20;
-              const targetY = Math.max(
-                footer.offsetTop - navHeight - offset,
-                0
-              );
-
-              window.scrollTo({ top: targetY, behavior: "smooth" });
-              gsap.to(window, {
-                scrollTo: { y: targetY, autoKill: false },
-                duration: 1,
-                ease: "power2.out",
-              });
-
-              setTimeout(() => {
-                ScrollTrigger.refresh();
-              }, 100);
-            });
-            setPendingScroll(null);
-          } else {
-            setTimeout(scrollToFooter, 100);
-          }
-        };
-        setTimeout(scrollToFooter, 500);
-      }
+    if (isHomePage && pendingScroll) {
+      const doScroll = () => {
+        if (pendingScroll === "inicio") {
+          window.scrollTo({ top: 0, behavior: "smooth" });
+          setPendingScroll(null);
+          return;
+        }
+        const selectors = { sectores: "#sectores", nosotros: "#nosotros", contacto: "#footer" };
+        const el = document.querySelector(selectors[pendingScroll]);
+        if (el) {
+          requestAnimationFrame(() => {
+            const targetY = Math.max(el.offsetTop - 80 - 20, 0);
+            window.scrollTo({ top: targetY, behavior: "smooth" });
+            gsap.to(window, { scrollTo: { y: targetY, autoKill: false }, duration: 1, ease: "power2.out" });
+            setTimeout(() => ScrollTrigger.refresh(), 100);
+          });
+          setPendingScroll(null);
+        } else {
+          setTimeout(doScroll, 100);
+        }
+      };
+      setTimeout(doScroll, 500);
     }
-
-    // Refresh ScrollTrigger when returning to home view
-    if (currentView === "home" && !pendingScroll) {
-      setTimeout(() => {
-        ScrollTrigger.refresh();
-      }, 200);
+    if (isHomePage && !pendingScroll) {
+      setTimeout(() => ScrollTrigger.refresh(), 200);
     }
-  }, [currentView, pendingScroll]);
+  }, [isHomePage, pendingScroll]);
 
   return (
     <main style={{ overflow: isTransitioning ? "hidden" : "visible" }}>
       <NavBar
         ref={navBarRef}
-        currentView={currentView}
         onNavScroll={handleNavScroll}
-        isVisible={true}
+        isHomePage={isHomePage}
       />
-      {currentView === "home" && (
-        <>
-          <Inicio />
-          <Sectores onAgendarClick={openCalendly} />
-          <Nosotros onAgendarClick={openCalendly} />
-        </>
-      )}
+      <Routes>
+        <Route path="/" element={<HomePage openCalendly={openCalendly} />} />
+        <Route path="/servicios/meta-ads" element={<MetaAdsPage openCalendly={openCalendly} />} />
+        <Route path="/servicios/automatizacion" element={<AutomatizacionPage openCalendly={openCalendly} />} />
+        <Route path="/servicios/paid-media" element={<PaidMediaPage openCalendly={openCalendly} />} />
+        <Route path="/servicios/captacion-clientes" element={<CaptacionPage openCalendly={openCalendly} />} />
+        <Route path="/servicios/ecommerce" element={<EcommercePage openCalendly={openCalendly} />} />
+        <Route path="/blog" element={<BlogPage />} />
+        <Route path="/resultados" element={<ResultadosPage openCalendly={openCalendly} />} />
+        <Route path="/faq" element={<FAQPage openCalendly={openCalendly} />} />
+      </Routes>
       <WhatsAppButton />
-      <Footer onAgendarClick={openCalendly} />
       <Analytics />
     </main>
   );

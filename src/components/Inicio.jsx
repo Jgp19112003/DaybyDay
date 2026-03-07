@@ -625,6 +625,11 @@ const Inicio = () => {
         }}
         aria-label="Inicio - Day by Day"
       >
+        {/* SEO H1 — visually hidden, fully readable by search engines */}
+        <h1 className="sr-only">
+          Agencia de Marketing con IA y Automatización — DayByDay Consulting
+        </h1>
+
         {/* Day by Day Logo */}
         <div
           className="logo-container fixed top-1/2 left-1/2 z-10"
