@@ -18,6 +18,9 @@ import ResultadosPage from "./pages/ResultadosPage";
 import FAQPage from "./pages/FAQPage";
 import GlosarioPage from "./pages/GlosarioPage";
 import ComoTrabajamosPage from "./pages/ComoTrabajamosPage";
+import ROASPage from "./pages/blog/ROASPage";
+import MetaVsGooglePage from "./pages/blog/MetaVsGooglePage";
+import CPAPage from "./pages/blog/CPAPage";
 
 gsap.registerPlugin(ScrollTrigger, SplitText);
 
@@ -141,6 +144,9 @@ const App = () => {
         <Route path="/faq" element={<FAQPage openCalendly={openCalendly} />} />
         <Route path="/glosario" element={<GlosarioPage />} />
         <Route path="/como-trabajamos" element={<ComoTrabajamosPage />} />
+        <Route path="/blog/que-es-roas-meta-ads" element={<ROASPage openCalendly={openCalendly} />} />
+        <Route path="/blog/meta-ads-vs-google-ads" element={<MetaVsGooglePage openCalendly={openCalendly} />} />
+        <Route path="/blog/como-reducir-cpa-ecommerce" element={<CPAPage openCalendly={openCalendly} />} />
       </Routes>
       <WhatsAppButton />
       <Analytics />
