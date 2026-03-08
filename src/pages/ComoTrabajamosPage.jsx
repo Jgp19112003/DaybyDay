@@ -1,6 +1,7 @@
 import { Helmet } from "react-helmet-async";
 import SEOHead from "../components/SEOHead";
 import FaqSection from "../components/FaqSection";
+import Footer from "../components/Footer";
 
 const howToSchema = {
   "@context": "https://schema.org",
@@ -200,6 +201,8 @@ const ComoTrabajamosPage = () => (
         </a>
       </section>
     </div>
+
+    <Footer />
   </>
 );
 
