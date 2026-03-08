@@ -90,22 +90,12 @@ const NavBar = forwardRef(({ onNavScroll }, ref) => {
     runAnimations();
   }, [isMobile]);
 
-  // Scroll a "Nosotros" dejando el H2 un poco por debajo del navbar
-  const handleNosotrosCenter = (e) => {
-    e.preventDefault();
-
-    // Use the unified navigation system
-    if (typeof onNavScroll === "function") {
-      onNavScroll("nosotros");
-    }
-  };
-
   // Bloque del logo reutilizable
   const LogoBlock = () => (
     <div
       className="logo-container"
       onClick={() => {
-        window.scrollTo({ top: 0, behavior: "smooth" });
+        if (typeof onNavScroll === "function") onNavScroll("inicio");
       }}
       style={{ cursor: "pointer" }}
     >
@@ -143,52 +133,53 @@ const NavBar = forwardRef(({ onNavScroll }, ref) => {
         className={`nav-container ${isMobile ? "nav-mobile" : ""} nav-hidden`}
         ref={navRef}
       >
-        <a
-          href="#"
+        <button
+          type="button"
           className="nav-link"
-          onClick={(e) => {
-            e.preventDefault();
+          onClick={() => {
             if (typeof onNavScroll === "function") onNavScroll("inicio");
           }}
         >
           Inicio
-        </a>
+        </button>
 
-        <a
-          href="#servicios"
+        <button
+          type="button"
           className="nav-link"
-          onClick={(e) => {
-            e.preventDefault();
-            // Solo llamar a onNavScroll, que maneja toda la lógica de navegación
+          onClick={() => {
             if (typeof onNavScroll === "function") onNavScroll("sectores");
           }}
         >
           Servicios
-        </a>
+        </button>
 
         {/* Logo en medio solo en móvil */}
         {isMobile && <LogoBlock />}
 
-        <a href="#nosotros" className="nav-link" onClick={handleNosotrosCenter}>
-          Nosotros
-        </a>
-
-        <a
-          href="#contacto"
+        <button
+          type="button"
           className="nav-link"
-          onClick={(e) => {
-            e.preventDefault();
+          onClick={() => {
+            if (typeof onNavScroll === "function") onNavScroll("nosotros");
+          }}
+        >
+          Nosotros
+        </button>
+
+        <button
+          type="button"
+          className="nav-link"
+          onClick={() => {
             if (typeof onNavScroll === "function") onNavScroll("contacto");
           }}
         >
           Contacto
-        </a>
+        </button>
 
-        <a
-          href="#agendar"
-          className={`nav-link btn-primary ${""}`}
-          onClick={(e) => {
-            e.preventDefault();
+        <button
+          type="button"
+          className={`nav-link btn-primary`}
+          onClick={() => {
             if (typeof onNavScroll === "function") onNavScroll("agendar");
           }}
           style={{
@@ -200,7 +191,7 @@ const NavBar = forwardRef(({ onNavScroll }, ref) => {
           }}
         >
           Agenda una reunión
-        </a>
+        </button>
       </div>
     </nav>
   );
