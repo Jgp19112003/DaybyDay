@@ -133,53 +133,58 @@ const NavBar = forwardRef(({ onNavScroll }, ref) => {
         className={`nav-container ${isMobile ? "nav-mobile" : ""} nav-hidden`}
         ref={navRef}
       >
-        <button
-          type="button"
+        <a
+          href="/"
           className="nav-link"
-          onClick={() => {
+          onClick={(e) => {
+            e.preventDefault();
             if (typeof onNavScroll === "function") onNavScroll("inicio");
           }}
         >
           Inicio
-        </button>
+        </a>
 
-        <button
-          type="button"
+        <a
+          href="/"
           className="nav-link"
-          onClick={() => {
+          onClick={(e) => {
+            e.preventDefault();
             if (typeof onNavScroll === "function") onNavScroll("sectores");
           }}
         >
           Servicios
-        </button>
+        </a>
 
         {/* Logo en medio solo en móvil */}
         {isMobile && <LogoBlock />}
 
-        <button
-          type="button"
+        <a
+          href="/"
           className="nav-link"
-          onClick={() => {
+          onClick={(e) => {
+            e.preventDefault();
             if (typeof onNavScroll === "function") onNavScroll("nosotros");
           }}
         >
           Nosotros
-        </button>
+        </a>
 
-        <button
-          type="button"
+        <a
+          href="/"
           className="nav-link"
-          onClick={() => {
+          onClick={(e) => {
+            e.preventDefault();
             if (typeof onNavScroll === "function") onNavScroll("contacto");
           }}
         >
           Contacto
-        </button>
+        </a>
 
-        <button
-          type="button"
+        <a
+          href="/"
           className={`nav-link btn-primary`}
-          onClick={() => {
+          onClick={(e) => {
+            e.preventDefault();
             if (typeof onNavScroll === "function") onNavScroll("agendar");
           }}
           style={{
@@ -191,7 +196,7 @@ const NavBar = forwardRef(({ onNavScroll }, ref) => {
           }}
         >
           Agenda una reunión
-        </button>
+        </a>
       </div>
     </nav>
   );
