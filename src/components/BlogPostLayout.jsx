@@ -65,6 +65,15 @@ const BlogPostLayout = ({
       />
 
       <div className="min-h-screen bg-[#0f0c0c] text-white">
+        {/* Top bar with logo */}
+        <div className="fixed top-0 left-0 right-0 z-50 px-6 py-4 bg-[#0f0c0c]/80 backdrop-blur-sm border-b border-white/5">
+          <Link to="/" className="inline-flex items-center gap-1 no-underline" style={{ textDecoration: "none" }}>
+            <span className="text-white font-black text-lg leading-none">Day</span>
+            <span className="text-[#de0015] font-black text-lg leading-none">by</span>
+            <span className="text-white font-black text-lg leading-none">Day</span>
+          </Link>
+        </div>
+
         {/* Hero */}
         <section className="pt-32 pb-12 px-4">
           <div className="max-w-2xl mx-auto">

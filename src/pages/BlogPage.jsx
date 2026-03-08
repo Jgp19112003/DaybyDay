@@ -51,6 +51,15 @@ const BlogPage = ({ openCalendly }) => (
       schema={blogSchema}
     />
 
+    {/* Top bar with logo */}
+    <div className="fixed top-0 left-0 right-0 z-50 px-6 py-4 bg-[#181414]/80 backdrop-blur-sm border-b border-white/5">
+      <Link to="/" style={{ textDecoration: "none" }}>
+        <span className="text-white font-black text-lg leading-none">Day</span>
+        <span className="text-[#de0015] font-black text-lg leading-none">by</span>
+        <span className="text-white font-black text-lg leading-none">Day</span>
+      </Link>
+    </div>
+
     <section className="relative pt-32 pb-16 px-4">
       <div
         className="absolute inset-0 pointer-events-none"
