@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
+import { Link } from "react-router-dom";
 
 const SVG_WIDTH = 1920; // ancho fijo para la ola
 
@@ -263,6 +264,42 @@ const Footer = ({ onAgendarClick }) => {
             </svg>
           </SocialLink>
         </div>
+      </div>
+
+      {/* Resource links */}
+      <div
+        style={{
+          display: "flex",
+          gap: 24,
+          justifyContent: "center",
+          flexWrap: "wrap",
+          padding: "24px 24px 0",
+        }}
+      >
+        <Link
+          to="/como-trabajamos"
+          style={{ color: "rgba(255,255,255,0.45)", fontSize: 13, textDecoration: "none" }}
+        >
+          Cómo trabajamos
+        </Link>
+        <Link
+          to="/glosario"
+          style={{ color: "rgba(255,255,255,0.45)", fontSize: 13, textDecoration: "none" }}
+        >
+          Glosario
+        </Link>
+        <Link
+          to="/resultados"
+          style={{ color: "rgba(255,255,255,0.45)", fontSize: 13, textDecoration: "none" }}
+        >
+          Resultados
+        </Link>
+        <Link
+          to="/faq"
+          style={{ color: "rgba(255,255,255,0.45)", fontSize: 13, textDecoration: "none" }}
+        >
+          FAQ
+        </Link>
       </div>
 
       <svg
