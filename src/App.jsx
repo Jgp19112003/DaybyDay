@@ -52,18 +52,29 @@ const App = () => {
   // useLayoutEffect corre ANTES del pintado del browser → evita que el usuario
   // vea la página rota antes de que se limpie el estado de GSAP
   useLayoutEffect(() => {
-    window.scrollTo(0, 0);
     if (location.pathname !== "/") {
-      // Matar ScrollTrigger y tweens al navegar fuera del homepage
+      // Matar ScrollTrigger y tweens PRIMERO (antes de scrollTo, para que
+      // GSAP no interfiera con el reset de scroll)
       ScrollTrigger.getAll().forEach((st) => st.kill());
       gsap.killTweensOf("*");
-      // Resetear estilos globales que ScrollTrigger pudo haber fijado
-      // (overflow: hidden en body/html es el culpable más común del bug)
-      document.body.style.overflow = "";
-      document.documentElement.style.overflow = "";
-      document.body.style.height = "";
-      document.documentElement.style.height = "";
+      // Resetear TODOS los estilos inline que ScrollTrigger pudo haber fijado
+      const resetEl = (el) => {
+        el.style.overflow = "";
+        el.style.overflowX = "";
+        el.style.overflowY = "";
+        el.style.height = "";
+        el.style.paddingRight = "";
+        el.style.paddingLeft = "";
+        el.style.position = "";
+        el.style.top = "";
+      };
+      resetEl(document.body);
+      resetEl(document.documentElement);
     }
+    // scrollTo DESPUÉS de matar GSAP (GSAP ya no puede interferir)
+    window.scrollTo(0, 0);
+    document.documentElement.scrollTop = 0;
+    document.body.scrollTop = 0;
   }, [location.pathname]);
 
   const openCalendly = () => {
