@@ -48,9 +48,14 @@ const App = () => {
     window.scrollTo(0, 0);
   }, []);
 
-  // Scroll to top on route change
+  // Scroll to top on route change + limpiar GSAP al salir del homepage
   useEffect(() => {
     window.scrollTo(0, 0);
+    // Matar ScrollTrigger y tweens al navegar fuera del homepage para evitar interferencias
+    if (location.pathname !== "/") {
+      ScrollTrigger.getAll().forEach((st) => st.kill());
+      gsap.killTweensOf("*");
+    }
   }, [location.pathname]);
 
   const openCalendly = () => {
@@ -149,11 +154,11 @@ const App = () => {
         <Route path="/servicios/paid-media" element={<PaidMediaPage openCalendly={openCalendly} />} />
         <Route path="/servicios/captacion-clientes" element={<CaptacionPage openCalendly={openCalendly} />} />
         <Route path="/servicios/ecommerce" element={<EcommercePage openCalendly={openCalendly} />} />
-        <Route path="/blog" element={<BlogPage />} />
+        <Route path="/blog" element={<BlogPage openCalendly={openCalendly} />} />
         <Route path="/resultados" element={<ResultadosPage openCalendly={openCalendly} />} />
         <Route path="/faq" element={<FAQPage openCalendly={openCalendly} />} />
-        <Route path="/glosario" element={<GlosarioPage />} />
-        <Route path="/como-trabajamos" element={<ComoTrabajamosPage />} />
+        <Route path="/glosario" element={<GlosarioPage openCalendly={openCalendly} />} />
+        <Route path="/como-trabajamos" element={<ComoTrabajamosPage openCalendly={openCalendly} />} />
         <Route path="/blog/que-es-roas-meta-ads" element={<ROASPage openCalendly={openCalendly} />} />
         <Route path="/blog/meta-ads-vs-google-ads" element={<MetaVsGooglePage openCalendly={openCalendly} />} />
         <Route path="/blog/como-reducir-cpa-ecommerce" element={<CPAPage openCalendly={openCalendly} />} />

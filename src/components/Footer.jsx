@@ -277,6 +277,12 @@ const Footer = ({ onAgendarClick }) => {
         }}
       >
         <Link
+          to="/blog"
+          style={{ color: "rgba(255,255,255,0.45)", fontSize: 13, textDecoration: "none" }}
+        >
+          Blog
+        </Link>
+        <Link
           to="/como-trabajamos"
           style={{ color: "rgba(255,255,255,0.45)", fontSize: 13, textDecoration: "none" }}
         >
