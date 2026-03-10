@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useLayoutEffect, useRef } from "react";
 import { Routes, Route, useNavigate, useLocation } from "react-router-dom";
 import gsap from "gsap";
 import { ScrollTrigger, SplitText } from "gsap/all";
@@ -49,12 +49,20 @@ const App = () => {
   }, []);
 
   // Scroll to top on route change + limpiar GSAP al salir del homepage
-  useEffect(() => {
+  // useLayoutEffect corre ANTES del pintado del browser → evita que el usuario
+  // vea la página rota antes de que se limpie el estado de GSAP
+  useLayoutEffect(() => {
     window.scrollTo(0, 0);
-    // Matar ScrollTrigger y tweens al navegar fuera del homepage para evitar interferencias
     if (location.pathname !== "/") {
+      // Matar ScrollTrigger y tweens al navegar fuera del homepage
       ScrollTrigger.getAll().forEach((st) => st.kill());
       gsap.killTweensOf("*");
+      // Resetear estilos globales que ScrollTrigger pudo haber fijado
+      // (overflow: hidden en body/html es el culpable más común del bug)
+      document.body.style.overflow = "";
+      document.documentElement.style.overflow = "";
+      document.body.style.height = "";
+      document.documentElement.style.height = "";
     }
   }, [location.pathname]);
 
