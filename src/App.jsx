@@ -21,6 +21,16 @@ import ComoTrabajamosPage from "./pages/ComoTrabajamosPage";
 import ROASPage from "./pages/blog/ROASPage";
 import MetaVsGooglePage from "./pages/blog/MetaVsGooglePage";
 import CPAPage from "./pages/blog/CPAPage";
+import FullFunnelMetaAdsPage from "./pages/blog/FullFunnelMetaAdsPage";
+import AutomatizacionMarketingPage from "./pages/blog/AutomatizacionMarketingPage";
+import TareasAutomatizarPage from "./pages/blog/TareasAutomatizarPage";
+import AgenciaVsInhousePage from "./pages/blog/AgenciaVsInhousePage";
+import EstrategiasPujaMetaAdsPage from "./pages/blog/EstrategiasPujaMetaAdsPage";
+import EscalarMetaAdsPage from "./pages/blog/EscalarMetaAdsPage";
+import EmbudoCaptacionPage from "./pages/blog/EmbudoCaptacionPage";
+import PreguntasAgenciaPage from "./pages/blog/PreguntasAgenciaPage";
+import UGCMetaAdsPage from "./pages/blog/UGCMetaAdsPage";
+import IAMarketingDigitalPage from "./pages/blog/IAMarketingDigitalPage";
 
 gsap.registerPlugin(ScrollTrigger, SplitText);
 
@@ -147,6 +157,16 @@ const App = () => {
         <Route path="/blog/que-es-roas-meta-ads" element={<ROASPage openCalendly={openCalendly} />} />
         <Route path="/blog/meta-ads-vs-google-ads" element={<MetaVsGooglePage openCalendly={openCalendly} />} />
         <Route path="/blog/como-reducir-cpa-ecommerce" element={<CPAPage openCalendly={openCalendly} />} />
+        <Route path="/blog/estrategia-full-funnel-meta-ads-d2c" element={<FullFunnelMetaAdsPage openCalendly={openCalendly} />} />
+        <Route path="/blog/automatizacion-marketing-que-es" element={<AutomatizacionMarketingPage openCalendly={openCalendly} />} />
+        <Route path="/blog/tareas-marketing-automatizar" element={<TareasAutomatizarPage openCalendly={openCalendly} />} />
+        <Route path="/blog/agencia-vs-inhouse-vs-ia" element={<AgenciaVsInhousePage openCalendly={openCalendly} />} />
+        <Route path="/blog/estrategias-puja-meta-ads" element={<EstrategiasPujaMetaAdsPage openCalendly={openCalendly} />} />
+        <Route path="/blog/escalar-meta-ads" element={<EscalarMetaAdsPage openCalendly={openCalendly} />} />
+        <Route path="/blog/embudo-captacion-clientes" element={<EmbudoCaptacionPage openCalendly={openCalendly} />} />
+        <Route path="/blog/preguntas-contratar-agencia-paid-media" element={<PreguntasAgenciaPage openCalendly={openCalendly} />} />
+        <Route path="/blog/ugc-meta-ads" element={<UGCMetaAdsPage openCalendly={openCalendly} />} />
+        <Route path="/blog/ia-marketing-digital" element={<IAMarketingDigitalPage openCalendly={openCalendly} />} />
       </Routes>
       <WhatsAppButton />
       <Analytics />
