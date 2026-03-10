@@ -1,5 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 const SVG_WIDTH = 1920; // ancho fijo para la ola
 
@@ -7,6 +9,19 @@ const Footer = ({ onAgendarClick }) => {
   const pathRef = useRef(null);
   const [ctaHover, setCtaHover] = useState(false);
   const [ctaActive, setCtaActive] = useState(false);
+  const navigate = useNavigate();
+
+  // Limpia GSAP síncronamente ANTES de navegar para evitar el bug de
+  // overflow:hidden del homepage que deja las páginas en blanco al primer click
+  const handleNavigate = (path) => {
+    ScrollTrigger.getAll().forEach((st) => st.kill());
+    gsap.killTweensOf("*");
+    document.body.style.overflow = "";
+    document.documentElement.style.overflow = "";
+    document.body.style.height = "";
+    document.documentElement.style.height = "";
+    navigate(path);
+  };
 
   // Small helper for social links with inline hover styles
   const SocialLink = ({ href, label, title, children, external = true }) => {
@@ -42,6 +57,7 @@ const Footer = ({ onAgendarClick }) => {
       </a>
     );
   };
+
   useEffect(() => {
     let frame = 0;
     let raf;
@@ -127,6 +143,17 @@ const Footer = ({ onAgendarClick }) => {
     return () => cancelAnimationFrame(raf);
   }, []);
 
+  const navLinkStyle = {
+    color: "rgba(255,255,255,0.45)",
+    fontSize: 13,
+    textDecoration: "none",
+    background: "none",
+    border: "none",
+    padding: 0,
+    cursor: "pointer",
+    fontFamily: "inherit",
+  };
+
   return (
     <footer
       id="footer"
@@ -153,6 +180,58 @@ const Footer = ({ onAgendarClick }) => {
           gap: 24,
         }}
       >
+        {/* Logo → vuelve a la main page */}
+        <button
+          onClick={() => handleNavigate("/")}
+          aria-label="Volver a inicio"
+          style={{
+            background: "none",
+            border: "none",
+            cursor: "pointer",
+            padding: 0,
+            display: "inline-flex",
+            alignItems: "center",
+            gap: 4,
+          }}
+        >
+          <span
+            style={{
+              fontFamily: "Inter, sans-serif",
+              fontWeight: 900,
+              fontSize: 22,
+              letterSpacing: "-0.02em",
+              color: "#fff",
+              lineHeight: 1,
+            }}
+          >
+            Day
+          </span>
+          <span
+            style={{
+              fontFamily: "Inter, sans-serif",
+              fontWeight: 900,
+              fontSize: 22,
+              letterSpacing: "-0.02em",
+              color: "#de0015",
+              lineHeight: 1,
+            }}
+          >
+            by
+          </span>
+          <span
+            style={{
+              fontFamily: "Inter, sans-serif",
+              fontWeight: 900,
+              fontSize: 22,
+              letterSpacing: "-0.02em",
+              color: "#fff",
+              lineHeight: 1,
+            }}
+          >
+            Day
+          </span>
+        </button>
+
         <h3
           style={{
             color: "#fff",
@@ -266,7 +345,7 @@ const Footer = ({ onAgendarClick }) => {
         </div>
       </div>
 
-      {/* Resource links */}
+      {/* Resource links — usan handleNavigate para limpiar GSAP antes de navegar */}
       <div
         style={{
           display: "flex",
@@ -276,36 +355,21 @@ const Footer = ({ onAgendarClick }) => {
           padding: "24px 24px 0",
         }}
       >
-        <Link
-          to="/blog"
-          style={{ color: "rgba(255,255,255,0.45)", fontSize: 13, textDecoration: "none" }}
-        >
+        <button onClick={() => handleNavigate("/blog")} style={navLinkStyle}>
           Blog
-        </Link>
-        <Link
-          to="/como-trabajamos"
-          style={{ color: "rgba(255,255,255,0.45)", fontSize: 13, textDecoration: "none" }}
-        >
+        </button>
+        <button onClick={() => handleNavigate("/como-trabajamos")} style={navLinkStyle}>
           Cómo trabajamos
-        </Link>
-        <Link
-          to="/glosario"
-          style={{ color: "rgba(255,255,255,0.45)", fontSize: 13, textDecoration: "none" }}
-        >
+        </button>
+        <button onClick={() => handleNavigate("/glosario")} style={navLinkStyle}>
           Glosario
-        </Link>
-        <Link
-          to="/resultados"
-          style={{ color: "rgba(255,255,255,0.45)", fontSize: 13, textDecoration: "none" }}
-        >
+        </button>
+        <button onClick={() => handleNavigate("/resultados")} style={navLinkStyle}>
           Resultados
-        </Link>
-        <Link
-          to="/faq"
-          style={{ color: "rgba(255,255,255,0.45)", fontSize: 13, textDecoration: "none" }}
-        >
+        </button>
+        <button onClick={() => handleNavigate("/faq")} style={navLinkStyle}>
           FAQ
-        </Link>
+        </button>
       </div>
 
       <svg
