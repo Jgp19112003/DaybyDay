@@ -14,13 +14,32 @@ const Footer = ({ onAgendarClick }) => {
   // Limpia GSAP síncronamente ANTES de navegar para evitar el bug de
   // overflow:hidden del homepage que deja las páginas en blanco al primer click
   const handleNavigate = (path) => {
-    ScrollTrigger.getAll().forEach((st) => st.kill());
+    // 1. Matar todos los ScrollTriggers (con revert para restaurar estilos)
+    ScrollTrigger.getAll().forEach((st) => st.kill(true));
     gsap.killTweensOf("*");
-    document.body.style.overflow = "";
-    document.documentElement.style.overflow = "";
-    document.body.style.height = "";
-    document.documentElement.style.height = "";
-    navigate(path);
+
+    // 2. Resetear TODOS los estilos inline que GSAP pudo haber fijado
+    const resetEl = (el) => {
+      el.style.overflow = "";
+      el.style.overflowX = "";
+      el.style.overflowY = "";
+      el.style.height = "";
+      el.style.paddingRight = "";
+      el.style.paddingLeft = "";
+      el.style.position = "";
+      el.style.top = "";
+    };
+    resetEl(document.body);
+    resetEl(document.documentElement);
+
+    // 3. Forzar scroll a 0 DESPUÉS de matar GSAP
+    window.scrollTo(0, 0);
+    document.documentElement.scrollTop = 0;
+    document.body.scrollTop = 0;
+
+    // 4. Navegar en el siguiente frame (deja que los callbacks RAF de GSAP
+    //    terminen antes de montar la nueva página)
+    requestAnimationFrame(() => navigate(path));
   };
 
   // Small helper for social links with inline hover styles
