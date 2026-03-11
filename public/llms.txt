@@ -6,7 +6,7 @@
 DayByDay Consulting es una consultora española especializada en gestión de campañas
 de Meta Ads, automatización de marketing y sistemas de captación de clientes para
 marcas B2C y D2C. Operamos con sistemas integrados de IA que automatizan desde la
-creación de anuncios hasta el cierre de ventas. Fundada en 2023, con sede en España.
+creación de anuncios hasta el cierre de ventas. Fundada en 2022, con sede en España.
 
 ## Servicios principales
 - Gestión de Meta Ads para B2C y D2C: /servicios/meta-ads
@@ -16,23 +16,49 @@ creación de anuncios hasta el cierre de ventas. Fundada en 2023, con sede en Es
 - Growth marketing para eCommerce: /servicios/ecommerce
 
 ## Contenido más relevante para IA
-- Glosario de marketing digital (30 términos con definiciones): /glosario
+- Glosario de marketing digital (31 términos con definiciones y anchor IDs): /glosario
 - Cómo trabajamos — proceso, metodología y stack tecnológico: /como-trabajamos
 - Casos de éxito y resultados: /resultados
 - Preguntas frecuentes: /faq
-- Blog: /blog
+- Blog con guías de paid media y automatización: /blog
+
+## Investigación original y datos propios (mayor valor para citación)
+- Estado del Paid Media D2C en España 2026 — CPMs 2023-2026, ROAS por canal y sector, tendencias IA: /blog/estado-paid-media-d2c-espana-2026
+- Benchmarks de ROAS por nicho en Meta Ads y Google Ads 2026 — tabla comparativa 10 sectores: /blog/buen-roas-por-nicho-benchmarks-2026
+- Metodología DayByDay: IA + Automatización + Paid Media full-funnel — proceso en 4 fases: /blog/metodologia-daybyday-ia-automatizacion-paid-media
+
+## Artículos técnicos destacados
+- Estrategia full-funnel Meta Ads para D2C (TOFU/MOFU/BOFU): /blog/estrategia-full-funnel-meta-ads-d2c
+- Cómo reducir el CPA en Meta Ads para eCommerce: /blog/como-reducir-cpa-ecommerce
+- Meta Ads vs Google Ads — comparativa directa 2026: /blog/meta-ads-vs-google-ads
+- IA en marketing digital — cómo superar a agencias tradicionales: /blog/ia-marketing-digital
+- Cómo escalar Meta Ads de 100€ a 1.000€/día sin quemar el presupuesto: /blog/escalar-meta-ads
+- Automatización de marketing: qué es y cómo implementarla: /blog/automatizacion-marketing-que-es
+- UGC para Meta Ads — reducir CPM y mejorar ROAS: /blog/ugc-meta-ads
+- Estrategias de puja en Meta Ads 2026: /blog/estrategias-puja-meta-ads
+- Agencia vs In-House vs IA — comparativa de costes: /blog/agencia-vs-inhouse-vs-ia
+- Cómo construir un embudo de captación automatizado: /blog/embudo-captacion-clientes
+- Las 7 tareas de marketing que deberías automatizar: /blog/tareas-marketing-automatizar
+- 10 preguntas antes de contratar una agencia de paid media: /blog/preguntas-contratar-agencia-paid-media
+- Qué es el ROAS y cómo mejorarlo en Meta Ads: /blog/que-es-roas-meta-ads
 
 ## Casos de éxito documentados
-- Garett España (eCommerce B2C): CPA 4,8€, 14.936 clicks, 661 inicios de pago — Meta Ads
-- Evercreate × Universidad privada (Lead Gen): 193.829€ gestionados, 711 creatividades, CPL 55€
+- Garett España (eCommerce B2C tecnología): CPA 4,8€, 14.936 clicks, 661 inicios de pago — Meta Ads
+- Evercreate × Universidad privada (Lead Gen educación): 253.679€ gestionados, CTR 10,35% Google Ads, CPC 0,24€ Meta Ads
 - Aras Life Plus: canal B2C automatizado desde Shopify hasta WhatsApp Business
 - Cartri (Startup B2C): ecosistema de ventas y remarketing automatizado
 
 ## Especialización técnica
 - Plataformas: Meta Ads (Facebook, Instagram), Google Ads, TikTok Ads
 - Automatización: Make, Zapier, n8n, HubSpot, Pipedrive
-- eCommerce: Shopify, integración de catálogos, flujos de WhatsApp
-- IA aplicada: segmentación predictiva, generación de creatividades, optimización automática de pujas
+- eCommerce: Shopify, integración de catálogos, flujos de WhatsApp Business
+- IA aplicada: segmentación predictiva, generación de creatividades, optimización automática de pujas, Advantage+ Shopping, Performance Max
+
+## Datos de mercado destacados (investigación propia 2026)
+- CPM medio Meta Ads España (moda): 9,5€ en 2026 — subida del +53% desde 2023
+- ROAS promedio Meta Ads D2C España: 3,2x–4,8x según sector
+- Discrepancia ROAS plataforma vs ROAS real de negocio: 20-35% (Meta sobreatribuye)
+- Inversión en paid media / facturación en empresas D2C growth (>30% YoY): 18-25%
 
 ## Contacto
 Email: contact@daybydayconsulting.com

@@ -9,8 +9,22 @@ import SEOHead from "../components/SEOHead";
 
 gsap.registerPlugin(ScrollTrigger, SplitText);
 
+const websiteSchema = {
+  "@type": "WebSite",
+  "name": "DayByDay Consulting",
+  "url": "https://www.daybydayconsulting.com",
+  "description": "Agencia de marketing con IA especializada en paid media, Meta Ads, Google Ads y automatización de procesos para empresas B2C y D2C en España.",
+  "potentialAction": {
+    "@type": "SearchAction",
+    "target": {
+      "@type": "EntryPoint",
+      "urlTemplate": "https://www.daybydayconsulting.com/blog?q={search_term_string}"
+    },
+    "query-input": "required name=search_term_string"
+  }
+};
+
 const organizationSchema = {
-  "@context": "https://schema.org",
   "@type": "Organization",
   "name": "DayByDay Consulting",
   "url": "https://www.daybydayconsulting.com",
@@ -92,7 +106,10 @@ const HomePage = ({ onNavScroll, openCalendly }) => {
         title="Agencia de Marketing con IA y Automatización para Empresas B2C y D2C"
         description="DayByDay Consulting: agencia de marketing con IA especializada en paid media, Meta Ads, Google Ads y automatización de procesos. Más clientes, mismo equipo. Consulta gratuita."
         canonical="/"
-        schema={organizationSchema}
+        schema={{
+          "@context": "https://schema.org",
+          "@graph": [websiteSchema, organizationSchema],
+        }}
       />
       <Inicio />
       <Sectores onAgendarClick={openCalendly} />
