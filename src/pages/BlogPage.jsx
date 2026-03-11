@@ -107,6 +107,30 @@ const posts = [
     date: "10 mar 2026",
     readingTime: "7 min",
   },
+  {
+    slug: "buen-roas-por-nicho-benchmarks-2026",
+    title: "¿Qué es un buen ROAS? Benchmarks por nicho para Meta Ads y Google Ads en 2026",
+    excerpt: "Benchmarks reales de ROAS por sector en Meta Ads y Google Ads para 2026: moda, belleza, salud, hogar, electrónica y más. Incluye la fórmula para calcular tu ROAS objetivo según tu margen.",
+    category: "Paid Media",
+    date: "10 mar 2026",
+    readingTime: "8 min",
+  },
+  {
+    slug: "metodologia-daybyday-ia-automatizacion-paid-media",
+    title: "La Metodología DayByDay: Cómo Combinamos IA, Automatización y Paid Media para Escalar tu Negocio",
+    excerpt: "Descubre los tres pilares que diferencian a DayByDay: IA aplicada al paid media, automatización de procesos de marketing y estrategia full-funnel. Proceso completo en 4 fases con resultados reales.",
+    category: "Estrategia",
+    date: "10 mar 2026",
+    readingTime: "9 min",
+  },
+  {
+    slug: "estado-paid-media-d2c-espana-2026",
+    title: "Estado del Paid Media D2C en España 2026: Benchmarks, Tendencias y Datos Reales",
+    excerpt: "Informe anual de DayByDay Consulting con datos originales: CPMs por sector, ROAS promedio por canal, impacto de la IA en campañas, tendencias clave y lo que diferencia a las marcas que crecen más rápido.",
+    category: "Investigación",
+    date: "10 mar 2026",
+    readingTime: "12 min",
+  },
 ];
 
 const blogSchema = {
