@@ -31,6 +31,9 @@ import EmbudoCaptacionPage from "./pages/blog/EmbudoCaptacionPage";
 import PreguntasAgenciaPage from "./pages/blog/PreguntasAgenciaPage";
 import UGCMetaAdsPage from "./pages/blog/UGCMetaAdsPage";
 import IAMarketingDigitalPage from "./pages/blog/IAMarketingDigitalPage";
+import BuenROASNichosPage from "./pages/blog/BuenROASNichosPage";
+import MetodologiaDayByDayPage from "./pages/blog/MetodologiaDayByDayPage";
+import EstadoPaidMediaD2CEspana2026Page from "./pages/blog/EstadoPaidMediaD2CEspana2026Page";
 
 gsap.registerPlugin(ScrollTrigger, SplitText);
 
@@ -191,6 +194,9 @@ const App = () => {
         <Route path="/blog/preguntas-contratar-agencia-paid-media" element={<PreguntasAgenciaPage openCalendly={openCalendly} />} />
         <Route path="/blog/ugc-meta-ads" element={<UGCMetaAdsPage openCalendly={openCalendly} />} />
         <Route path="/blog/ia-marketing-digital" element={<IAMarketingDigitalPage openCalendly={openCalendly} />} />
+        <Route path="/blog/buen-roas-por-nicho-benchmarks-2026" element={<BuenROASNichosPage openCalendly={openCalendly} />} />
+        <Route path="/blog/metodologia-daybyday-ia-automatizacion-paid-media" element={<MetodologiaDayByDayPage openCalendly={openCalendly} />} />
+        <Route path="/blog/estado-paid-media-d2c-espana-2026" element={<EstadoPaidMediaD2CEspana2026Page openCalendly={openCalendly} />} />
       </Routes>
       <WhatsAppButton />
       <Analytics />
