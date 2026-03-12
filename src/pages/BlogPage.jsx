@@ -4,6 +4,14 @@ import Footer from "../components/Footer";
 
 const posts = [
   {
+    slug: "guia-meta-ads-ecommerce-d2c-espana-2026",
+    title: "Guía completa de Meta Ads para ecommerce D2C en España 2026",
+    excerpt: "Todo lo que necesitas saber para lanzar y escalar Meta Ads en tu ecommerce D2C en España: Advantage+ Shopping, API de Conversiones, estrategia creativa, métricas que importan y el ciclo de optimización semanal.",
+    category: "Meta Ads",
+    date: "12 mar 2026",
+    readingTime: "14 min",
+  },
+  {
     slug: "checklist-auditoria-campanas-paid-media",
     title: "Checklist para auditar tus campañas de paid media en 2026",
     excerpt: "Checklist completo con 6 bloques críticos: tracking, estructura, creatividades, audiencias, métricas y landing. Revisa tus campañas de Meta Ads y Google Ads con benchmarks reales.",

@@ -162,6 +162,9 @@ const BuenROASNichosPage = ({ openCalendly }) => (
       Si tu ROAS está por debajo de esos rangos de forma consistente, el problema raramente está en las pujas — está en las creatividades, la estructura de las campañas o la landing page. Consulta nuestra guía sobre{" "}
       <Link to="/blog/que-es-roas-meta-ads" className="text-white underline underline-offset-2 hover:text-white/80">
         cómo mejorar el ROAS en Meta Ads
+      </Link>, la{" "}
+      <Link to="/blog/guia-meta-ads-ecommerce-d2c-espana-2026" className="text-white underline underline-offset-2 hover:text-white/80">
+        guía completa de Meta Ads para ecommerce D2C en España
       </Link>{" "}
       o{" "}
       <Link to="/servicios/paid-media" className="text-white underline underline-offset-2 hover:text-white/80">
