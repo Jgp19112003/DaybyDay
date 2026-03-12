@@ -182,6 +182,10 @@ const EscalarMetaAdsPage = ({ openCalendly }) => (
       o lee sobre{" "}
       <Link to="/blog/estrategia-full-funnel-meta-ads-d2c" className="text-white underline underline-offset-2 hover:text-white/80">
         la estrategia full-funnel para Meta Ads
+      </Link>{" "}
+      y la{" "}
+      <Link to="/blog/guia-meta-ads-ecommerce-d2c-espana-2026" className="text-white underline underline-offset-2 hover:text-white/80">
+        guía completa de Meta Ads para ecommerce D2C en España
       </Link>.
     </p>
   </BlogPostLayout>

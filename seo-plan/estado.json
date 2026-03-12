@@ -38,7 +38,8 @@
     "que-es-un-media-buyer",
     "cuanto-cobra-media-buyer-freelance-espana",
     "senales-agencia-publicidad-no-rinde",
-    "checklist-auditoria-campanas-paid-media"
+    "checklist-auditoria-campanas-paid-media",
+    "guia-meta-ads-ecommerce-d2c-espana-2026"
   ],
   "phases": [
     {
@@ -149,14 +150,15 @@
         {
           "id": "T07",
           "week": 7,
-          "status": "pending",
+          "status": "completed",
           "type": "article",
           "cluster": "meta-ads-d2c",
           "title": "[PILAR] Guía completa Meta Ads para ecommerce D2C en España 2026",
           "keyword": "meta ads ecommerce españa",
           "slug": "guia-meta-ads-ecommerce-d2c-espana-2026",
           "words": 2500,
-          "intent": "TOFU-MOFU"
+          "intent": "TOFU-MOFU",
+          "note": "Publicado 2026-03-12"
         },
         {
           "id": "T08",

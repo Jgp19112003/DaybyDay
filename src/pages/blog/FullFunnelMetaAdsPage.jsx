@@ -206,6 +206,9 @@ const FullFunnelMetaAdsPage = ({ openCalendly }) => (
       Si quieres entender mejor los términos usados en este artículo, visita nuestro{" "}
       <Link to="/glosario" className="text-white underline underline-offset-2 hover:text-white/80">
         glosario de marketing digital
+      </Link>. Para una visión completa de cómo estructurar y escalar Meta Ads en tu ecommerce D2C, lee la{" "}
+      <Link to="/blog/guia-meta-ads-ecommerce-d2c-espana-2026" className="text-white underline underline-offset-2 hover:text-white/80">
+        guía completa de Meta Ads para ecommerce en España 2026
       </Link>. Y si prefieres que gestionemos tu estrategia full-funnel directamente, agenda una llamada estratégica gratuita con nuestro equipo.
     </p>
   </BlogPostLayout>

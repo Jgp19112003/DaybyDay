@@ -45,6 +45,7 @@ import QueEsUnMediaBuyerPage from "./pages/blog/QueEsUnMediaBuyerPage";
 import CuantoCobraMediaBuyerPage from "./pages/blog/CuantoCobraMediaBuyerPage";
 import SenalesAgenciaNoRindePage from "./pages/blog/SenalesAgenciaNoRindePage";
 import ChecklistAuditoriaCampanasPage from "./pages/blog/ChecklistAuditoriaCampanasPage";
+import GuiaMetaAdsEcommerceD2CEspana2026Page from "./pages/blog/GuiaMetaAdsEcommerceD2CEspana2026Page";
 
 gsap.registerPlugin(ScrollTrigger, SplitText);
 
@@ -219,6 +220,7 @@ const App = () => {
         <Route path="/blog/cuanto-cobra-media-buyer-freelance-espana" element={<CuantoCobraMediaBuyerPage openCalendly={openCalendly} />} />
         <Route path="/blog/senales-agencia-publicidad-no-rinde" element={<SenalesAgenciaNoRindePage openCalendly={openCalendly} />} />
         <Route path="/blog/checklist-auditoria-campanas-paid-media" element={<ChecklistAuditoriaCampanasPage openCalendly={openCalendly} />} />
+        <Route path="/blog/guia-meta-ads-ecommerce-d2c-espana-2026" element={<GuiaMetaAdsEcommerceD2CEspana2026Page openCalendly={openCalendly} />} />
       </Routes>
       <WhatsAppButton />
       <Analytics />
