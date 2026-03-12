@@ -4,6 +4,38 @@ import Footer from "../components/Footer";
 
 const posts = [
   {
+    slug: "checklist-auditoria-campanas-paid-media",
+    title: "Checklist para auditar tus campañas de paid media en 2026",
+    excerpt: "Checklist completo con 6 bloques críticos: tracking, estructura, creatividades, audiencias, métricas y landing. Revisa tus campañas de Meta Ads y Google Ads con benchmarks reales.",
+    category: "Estrategia",
+    date: "12 mar 2026",
+    readingTime: "7 min",
+  },
+  {
+    slug: "senales-agencia-publicidad-no-rinde",
+    title: "Señales de que tu agencia de publicidad no está rindiendo",
+    excerpt: "8 señales claras de que tu agencia de paid media no está haciendo bien su trabajo: ROAS cayendo, falta de tests, reportes vacíos y más. Con tabla de evaluación y benchmarks.",
+    category: "Estrategia",
+    date: "12 mar 2026",
+    readingTime: "6 min",
+  },
+  {
+    slug: "cuanto-cobra-media-buyer-freelance-espana",
+    title: "Cuánto cobra un media buyer freelance en España en 2026",
+    excerpt: "Guía de precios actualizada: rangos por nivel de experiencia, modelos de precio de agencias (fee fijo, porcentaje, híbrido) y cuánto deberías pagar según tu volumen de inversión.",
+    category: "Paid Media",
+    date: "12 mar 2026",
+    readingTime: "6 min",
+  },
+  {
+    slug: "que-es-un-media-buyer",
+    title: "Qué es un media buyer: rol, funciones y cuándo contratar uno",
+    excerpt: "Descubre qué hace un media buyer, cómo se diferencia de otros perfiles de marketing digital y cuándo tu ecommerce D2C realmente necesita contratar uno. Con tabla comparativa de perfiles.",
+    category: "Paid Media",
+    date: "12 mar 2026",
+    readingTime: "7 min",
+  },
+  {
     slug: "que-es-roas-meta-ads",
     title: "Qué es el ROAS y cómo mejorarlo en Meta Ads",
     excerpt: "El ROAS (Return on Ad Spend) es la métrica más importante en publicidad digital. Te explicamos qué significa, cómo calcularlo y qué acciones concretas mejoran el ROAS en Meta Ads.",

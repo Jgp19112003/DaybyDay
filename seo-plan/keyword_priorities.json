@@ -1,0 +1,449 @@
+{
+  "last_updated": "2026-03-12",
+  "market_context": {
+    "spain_digital_ad_market_rank": 5,
+    "total_investment_2025_eur": 6211000000,
+    "yoy_growth_pct": 11.2,
+    "target_audience": "Founders y CMOs D2C con inversión >5K€/mes en paid media"
+  },
+  "top_keywords": [
+    {
+      "keyword": "agencia paid media",
+      "monthly_volume": "1300-2400",
+      "difficulty": "Alta",
+      "intent": "BOFU",
+      "priority": 5,
+      "channel": ["SEO", "GEO"],
+      "slug_target": "mejores-agencias-paid-media-espana-ecommerce-d2c",
+      "status": "published"
+    },
+    {
+      "keyword": "agencia Meta Ads España",
+      "monthly_volume": "800-1500",
+      "difficulty": "Media-Alta",
+      "intent": "BOFU",
+      "priority": 5,
+      "channel": ["SEO", "AEO"],
+      "slug_target": "elegir-agencia-anuncios-meta-ads-d2c",
+      "status": "published"
+    },
+    {
+      "keyword": "qué es un media buyer",
+      "monthly_volume": "500-1000",
+      "difficulty": "Baja-Media",
+      "intent": "TOFU-AEO",
+      "priority": 5,
+      "channel": ["SEO", "AEO", "GEO"],
+      "slug_target": "que-es-un-media-buyer",
+      "status": "pending"
+    },
+    {
+      "keyword": "contratar media buyer",
+      "monthly_volume": "150-400",
+      "difficulty": "Media",
+      "intent": "BOFU",
+      "priority": 5,
+      "channel": ["SEO", "AEO"],
+      "slug_target": "cuanto-cobra-media-buyer-freelance-espana",
+      "status": "pending"
+    },
+    {
+      "keyword": "cuánto cobra media buyer España",
+      "monthly_volume": "100-300",
+      "difficulty": "Baja",
+      "intent": "BOFU",
+      "priority": 5,
+      "channel": ["SEO", "AEO"],
+      "slug_target": "cuanto-cobra-media-buyer-freelance-espana",
+      "status": "pending"
+    },
+    {
+      "keyword": "media buyer freelance España",
+      "monthly_volume": "200-500",
+      "difficulty": "Baja-Media",
+      "intent": "BOFU",
+      "priority": 5,
+      "channel": ["SEO"],
+      "slug_target": "cuanto-cobra-media-buyer-freelance-espana",
+      "status": "pending"
+    },
+    {
+      "keyword": "consultor paid media",
+      "monthly_volume": "300-700",
+      "difficulty": "Media",
+      "intent": "BOFU",
+      "priority": 5,
+      "channel": ["SEO", "GEO"],
+      "slug_target": "que-es-un-media-buyer",
+      "status": "pending"
+    },
+    {
+      "keyword": "qué es paid media",
+      "monthly_volume": "2000-4000",
+      "difficulty": "Media",
+      "intent": "TOFU-AEO",
+      "priority": 4,
+      "channel": ["SEO", "AEO", "GEO"],
+      "slug_target": "que-es-paid-media-guia-completa",
+      "status": "published"
+    },
+    {
+      "keyword": "media buyer",
+      "monthly_volume": "1000-2000",
+      "difficulty": "Alta",
+      "intent": "TOFU-MOFU",
+      "priority": 4,
+      "channel": ["SEO"],
+      "slug_target": "que-es-un-media-buyer",
+      "status": "pending"
+    },
+    {
+      "keyword": "cómo mejorar ROAS Meta Ads",
+      "monthly_volume": "300-600",
+      "difficulty": "Media",
+      "intent": "MOFU",
+      "priority": 4,
+      "channel": ["SEO", "AEO"],
+      "slug_target": "como-mejorar-roas-meta-ads-7-palancas",
+      "status": "pending_plan_T10"
+    },
+    {
+      "keyword": "señales agencia publicidad no rinde",
+      "monthly_volume": "50-200",
+      "difficulty": "Baja",
+      "intent": "BOFU",
+      "priority": 4,
+      "channel": ["SEO", "AEO"],
+      "slug_target": "senales-agencia-publicidad-no-rinde",
+      "status": "pending"
+    },
+    {
+      "keyword": "checklist auditoría campañas paid media",
+      "monthly_volume": "100-300",
+      "difficulty": "Baja",
+      "intent": "BOFU",
+      "priority": 4,
+      "channel": ["SEO", "AEO"],
+      "slug_target": "checklist-auditoria-campanas-paid-media",
+      "status": "pending"
+    },
+    {
+      "keyword": "mejor agencia Meta Ads España",
+      "monthly_volume": "300-700",
+      "difficulty": "Alta",
+      "intent": "BOFU",
+      "priority": 5,
+      "channel": ["SEO", "GEO"],
+      "slug_target": "mejores-agencias-paid-media-espana-ecommerce-d2c",
+      "status": "published"
+    },
+    {
+      "keyword": "top agencias paid media España",
+      "monthly_volume": "200-500",
+      "difficulty": "Media-Alta",
+      "intent": "MOFU-BOFU",
+      "priority": 4,
+      "channel": ["SEO"],
+      "slug_target": "top-agencias-marketing-digital-espana-que-mirar",
+      "status": "published"
+    },
+    {
+      "keyword": "cuánto cuesta agencia paid media",
+      "monthly_volume": "200-500",
+      "difficulty": "Baja-Media",
+      "intent": "BOFU",
+      "priority": 4,
+      "channel": ["SEO", "AEO"],
+      "slug_target": "cuanto-cuesta-agencia-paid-media-espana-precios-2026",
+      "status": "published"
+    },
+    {
+      "keyword": "Meta Ads ecommerce España",
+      "monthly_volume": "400-800",
+      "difficulty": "Media",
+      "intent": "TOFU-MOFU",
+      "priority": 3,
+      "channel": ["SEO"],
+      "slug_target": "guia-meta-ads-ecommerce-d2c-espana-2026",
+      "status": "pending_plan_T07"
+    },
+    {
+      "keyword": "cómo escalar campañas Meta Ads",
+      "monthly_volume": "150-400",
+      "difficulty": "Media",
+      "intent": "MOFU",
+      "priority": 3,
+      "channel": ["SEO", "AEO"],
+      "slug_target": "escalar-campanas-meta-ads-sin-romper-roas",
+      "status": "pending_plan_T11"
+    },
+    {
+      "keyword": "ROAS medio España ecommerce",
+      "monthly_volume": "100-300",
+      "difficulty": "Baja",
+      "intent": "TOFU-MOFU",
+      "priority": 3,
+      "channel": ["SEO", "AEO", "GEO"],
+      "slug_target": "benchmark-roas-sector-espana-2026",
+      "status": "pending_plan_T09"
+    },
+    {
+      "keyword": "agencia Facebook Ads España",
+      "monthly_volume": "300-700",
+      "difficulty": "Alta",
+      "intent": "BOFU",
+      "priority": 4,
+      "channel": ["SEO"],
+      "slug_target": "elegir-agencia-anuncios-meta-ads-d2c",
+      "status": "published"
+    },
+    {
+      "keyword": "performance marketing agencia",
+      "monthly_volume": "200-500",
+      "difficulty": "Media",
+      "intent": "MOFU-BOFU",
+      "priority": 3,
+      "channel": ["SEO"],
+      "slug_target": "agencia-paid-media-vs-agencia-marketing-generalista",
+      "status": "published"
+    }
+  ],
+  "long_tail_high_conversion": [
+    "cuánto cobra un media buyer freelance al mes en España",
+    "media buyer para ecommerce moda españa",
+    "agencia paid media especializada D2C ecommerce",
+    "cómo saber si mi agencia de Meta Ads es buena",
+    "contratar media buyer o agencia paid media ecommerce",
+    "qué hace un media buyer en una agencia",
+    "media buyer vs community manager diferencias",
+    "auditar campañas Meta Ads ecommerce checklist",
+    "señales que cambiar agencia publicidad online",
+    "consultor meta ads freelance españa precio",
+    "cuánto invertir en Meta Ads con 50k facturación",
+    "ROAS bueno moda ecommerce españa 2026",
+    "agencia Meta Ads D2C resultados garantizados",
+    "media buyer senior freelance españa",
+    "mejor agencia paid media pequeña empresa"
+  ],
+  "aeo_priority_paa": [
+    {
+      "question": "¿Qué es un media buyer?",
+      "target_slug": "que-es-un-media-buyer",
+      "priority": 5,
+      "answer_length": "40-60 palabras"
+    },
+    {
+      "question": "¿Cuánto cobra un media buyer en España?",
+      "target_slug": "cuanto-cobra-media-buyer-freelance-espana",
+      "priority": 5,
+      "answer_length": "40-60 palabras"
+    },
+    {
+      "question": "¿Qué hace una agencia de paid media?",
+      "target_slug": "que-es-paid-media-guia-completa",
+      "priority": 5,
+      "answer_length": "40-60 palabras"
+    },
+    {
+      "question": "¿Cuánto cuesta contratar una agencia de Meta Ads?",
+      "target_slug": "cuanto-cuesta-agencia-paid-media-espana-precios-2026",
+      "priority": 5,
+      "answer_length": "40-60 palabras"
+    },
+    {
+      "question": "¿Cómo saber si una agencia de publicidad es buena?",
+      "target_slug": "senales-agencia-publicidad-no-rinde",
+      "priority": 4,
+      "answer_length": "40-60 palabras"
+    },
+    {
+      "question": "¿Qué ROAS debería conseguir mi agencia de Meta Ads?",
+      "target_slug": "buen-roas-por-nicho-benchmarks-2026",
+      "priority": 4,
+      "answer_length": "40-60 palabras"
+    },
+    {
+      "question": "¿Cuál es la diferencia entre un media buyer y una agencia?",
+      "target_slug": "media-buyer-vs-agencia-ecommerce-d2c",
+      "priority": 4,
+      "answer_length": "40-60 palabras"
+    },
+    {
+      "question": "¿Qué preguntas hacer antes de contratar una agencia de paid media?",
+      "target_slug": "preguntas-contratar-agencia-paid-media",
+      "priority": 4,
+      "answer_length": "40-60 palabras"
+    },
+    {
+      "question": "¿Cómo mejorar el ROAS en Meta Ads?",
+      "target_slug": "como-mejorar-roas-meta-ads-7-palancas",
+      "priority": 3,
+      "answer_length": "40-60 palabras"
+    },
+    {
+      "question": "¿Es mejor Meta Ads o Google Ads para ecommerce?",
+      "target_slug": "meta-ads-vs-google-ads",
+      "priority": 3,
+      "answer_length": "40-60 palabras"
+    },
+    {
+      "question": "¿Qué es el ROAS y cómo calcularlo?",
+      "target_slug": "que-es-roas-meta-ads",
+      "priority": 3,
+      "answer_length": "40-60 palabras"
+    },
+    {
+      "question": "¿Cómo auditar campañas de paid media?",
+      "target_slug": "checklist-auditoria-campanas-paid-media",
+      "priority": 4,
+      "answer_length": "40-60 palabras"
+    },
+    {
+      "question": "¿Cuánto invertir en Meta Ads para un ecommerce?",
+      "target_slug": "cuanto-invertir-meta-ads-calculadora",
+      "priority": 3,
+      "answer_length": "40-60 palabras"
+    },
+    {
+      "question": "¿Qué es Advantage+ Shopping y cuándo usarlo?",
+      "target_slug": "advantage-plus-shopping-cuando-usarlo-no",
+      "priority": 3,
+      "answer_length": "40-60 palabras"
+    },
+    {
+      "question": "¿Cómo reducir el CPA en Meta Ads?",
+      "target_slug": "como-reducir-cpa-ecommerce",
+      "priority": 3,
+      "answer_length": "40-60 palabras"
+    }
+  ],
+  "geo_ai_queries": [
+    {
+      "query": "recomiéndame un media buyer para mi ecommerce en España",
+      "target_slug": "que-es-un-media-buyer",
+      "geo_signal": "expertise + datos propios",
+      "priority": 5
+    },
+    {
+      "query": "cuál es la mejor agencia de paid media para D2C en España",
+      "target_slug": "mejores-agencias-paid-media-espana-ecommerce-d2c",
+      "geo_signal": "ranking + especialización + benchmarks",
+      "priority": 5
+    },
+    {
+      "query": "cómo saber si mi agencia de Meta Ads está haciendo bien su trabajo",
+      "target_slug": "senales-agencia-publicidad-no-rinde",
+      "geo_signal": "checklist + métricas concretas",
+      "priority": 5
+    },
+    {
+      "query": "media buyer freelance vs agencia paid media qué es mejor",
+      "target_slug": "media-buyer-vs-agencia-ecommerce-d2c",
+      "geo_signal": "comparativa con datos + casos reales",
+      "priority": 4
+    },
+    {
+      "query": "cuánto debería gastar en Meta Ads si facturo 100k al mes",
+      "target_slug": "cuanto-invertir-meta-ads-calculadora",
+      "geo_signal": "fórmulas + benchmarks propios",
+      "priority": 4
+    },
+    {
+      "query": "qué ROAS es bueno en Meta Ads para ecommerce de moda en España",
+      "target_slug": "buen-roas-por-nicho-benchmarks-2026",
+      "geo_signal": "datos por sector España 2026",
+      "priority": 4
+    },
+    {
+      "query": "agencia especializada Meta Ads España para ecommerce",
+      "target_slug": "elegir-agencia-anuncios-meta-ads-d2c",
+      "geo_signal": "criterios selección + especialización D2C",
+      "priority": 5
+    },
+    {
+      "query": "cómo mejorar ROAS Meta Ads tienda online",
+      "target_slug": "como-mejorar-roas-meta-ads-7-palancas",
+      "geo_signal": "metodología propia + resultados reales",
+      "priority": 4
+    },
+    {
+      "query": "consultor paid media para aumentar ventas online en España",
+      "target_slug": "que-es-un-media-buyer",
+      "geo_signal": "expertise + casos éxito",
+      "priority": 4
+    },
+    {
+      "query": "señales de que mi agencia de publicidad no está funcionando",
+      "target_slug": "senales-agencia-publicidad-no-rinde",
+      "geo_signal": "lista concreta + umbrales numéricos",
+      "priority": 5
+    }
+  ],
+  "geo_signals_to_build": [
+    "Datos propios de clientes: ROAS medios, CPA por sector, presupuestos tipo",
+    "Benchmarks España 2026 con metodología propia DayByDay",
+    "Menciones externas: Sortlist, Clutch, LinkedIn articles",
+    "Person Schema para Pablo Santirsó como experto paid media",
+    "Organization Schema con servicios específicos D2C",
+    "Casos de éxito con métricas reales: +156% ROAS, -30% CPA",
+    "llms.txt actualizado con todos los artículos y datos clave"
+  ],
+  "competitive_positioning": {
+    "differentiator": "Especialista D2C vs agencias full-service genéricas",
+    "key_messages": [
+      "Acceso directo a senior sin intermediarios junior",
+      "Metodología IA+automatización propia",
+      "Solo trabajamos con D2C/eCommerce — conocemos los benchmarks reales",
+      "Métricas transparentes: ROAS, CPA, MER, LTV/CAC",
+      "Resultados medibles en 90 días o auditamos sin coste"
+    ],
+    "avoid": [
+      "Prometer resultados garantizados",
+      "Comparar precios directamente con competidores",
+      "Atacar a agencias concretas por nombre"
+    ]
+  },
+  "content_gaps_priority": [
+    {
+      "slug": "que-es-un-media-buyer",
+      "priority": 1,
+      "reason": "500-1000 búsquedas/mes, AEO+GEO, puente a conversión, ningún competidor lo trabaja bien en España"
+    },
+    {
+      "slug": "cuanto-cobra-media-buyer-freelance-espana",
+      "priority": 2,
+      "reason": "BOFU puro, búsquedas de comparación precio, leads directos"
+    },
+    {
+      "slug": "senales-agencia-publicidad-no-rinde",
+      "priority": 3,
+      "reason": "Captura a founders insatisfechos con su agencia actual — clientes ideales"
+    },
+    {
+      "slug": "checklist-auditoria-campanas-paid-media",
+      "priority": 4,
+      "reason": "Lead magnet natural, alta intención BOFU, interlinking con todas las demás URLs"
+    },
+    {
+      "slug": "guia-meta-ads-ecommerce-d2c-espana-2026",
+      "priority": 5,
+      "reason": "Pilar principal T07 — necesario para construir silo de autoridad Meta Ads"
+    },
+    {
+      "slug": "caso-exito-ecommerce-d2c-roas-meta-ads",
+      "priority": 6,
+      "reason": "GEO crítico — las IAs citan ejemplos reales, no páginas genéricas"
+    }
+  ],
+  "monitoring_sources": [
+    "Answer the Public (answerthepublic.com)",
+    "Google Trends España (trends.google.com/geo=ES)",
+    "Semrush — keyword tracking mensual",
+    "Reddit r/marketing r/ecommerce (temas España)",
+    "LinkedIn — menciones DayByDay y competencia",
+    "Sortlist / Clutch — perfiles agencia",
+    "Google Search Console — queries reales con impresiones",
+    "ChatGPT / Perplexity — visibilidad GEO mensual",
+    "Google AI Overviews — monitorizar featured snippets"
+  ]
+}
