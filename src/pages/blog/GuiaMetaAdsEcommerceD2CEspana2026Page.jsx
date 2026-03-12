@@ -315,6 +315,10 @@ const GuiaMetaAdsEcommerceD2CEspana2026Page = ({ openCalendly }) => (
       Para benchmarks de ROAS por sector, consulta{" "}
       <Link to="/blog/buen-roas-por-nicho-benchmarks-2026" className="text-white underline underline-offset-2 hover:text-white/80">
         qué ROAS es bueno según tu nicho en España
+      </Link>.{" "}
+      ¿Quieres ver cómo lo aplicamos en la práctica? Lee nuestro{" "}
+      <Link to="/blog/caso-exito-ecommerce-d2c-roas-meta-ads" className="text-white underline underline-offset-2 hover:text-white/80">
+        caso de éxito: eCommerce D2C +156% ROAS en 90 días
       </Link>.
     </p>
   </BlogPostLayout>

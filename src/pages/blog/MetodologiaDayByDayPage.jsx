@@ -236,7 +236,11 @@ const MetodologiaDayByDayPage = ({ openCalendly }) => (
       También puedes explorar en detalle cada uno de los servicios que forman la metodología:{" "}
       <Link to="/servicios/paid-media" className="text-white underline underline-offset-2 hover:text-white/80">estrategia de paid media</Link>,{" "}
       <Link to="/servicios/automatizacion" className="text-white underline underline-offset-2 hover:text-white/80">automatización de marketing</Link> y{" "}
-      <Link to="/servicios/meta-ads" className="text-white underline underline-offset-2 hover:text-white/80">gestión de Meta Ads</Link>.
+      <Link to="/servicios/meta-ads" className="text-white underline underline-offset-2 hover:text-white/80">gestión de Meta Ads</Link>.{" "}
+      Si quieres ver la metodología en acción con datos reales, consulta nuestro{" "}
+      <Link to="/blog/caso-exito-ecommerce-d2c-roas-meta-ads" className="text-white underline underline-offset-2 hover:text-white/80">
+        caso de éxito: eCommerce D2C +156% ROAS en 90 días con Meta Ads
+      </Link>.
     </p>
   </BlogPostLayout>
 );
