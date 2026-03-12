@@ -1,5 +1,5 @@
 {
-  "last_updated": "2026-03-11",
+  "last_updated": "2026-03-12",
   "current_week": 1,
   "current_phase": 1,
   "site": "https://daybydayconsulting.com",
@@ -34,7 +34,11 @@
     "top-agencias-marketing-digital-espana-que-mirar",
     "agencia-paid-media-vs-agencia-marketing-generalista",
     "cuanto-cuesta-agencia-paid-media-espana-precios-2026",
-    "media-buyer-vs-agencia-ecommerce-d2c"
+    "media-buyer-vs-agencia-ecommerce-d2c",
+    "que-es-un-media-buyer",
+    "cuanto-cobra-media-buyer-freelance-espana",
+    "senales-agencia-publicidad-no-rinde",
+    "checklist-auditoria-campanas-paid-media"
   ],
   "phases": [
     {
@@ -44,9 +48,23 @@
       "objective": "Aparecer en búsquedas transaccionales y capturar PAA",
       "tasks": [
         {
+          "id": "T00",
+          "week": 1,
+          "status": "completed",
+          "type": "article",
+          "cluster": "contratar-media-buyer",
+          "title": "Qué es un media buyer: rol, funciones y cuándo contratar uno",
+          "keyword": "qué es un media buyer",
+          "slug": "que-es-un-media-buyer",
+          "words": 1200,
+          "intent": "TOFU-AEO-GEO",
+          "priority": "CRÍTICO",
+          "note": "★★★★★ 500-1000/mes, AEO+GEO. Publicado 2026-03-12"
+        },
+        {
           "id": "T01",
           "week": 1,
-          "status": "pending",
+          "status": "completed",
           "type": "article",
           "cluster": "contratar-media-buyer",
           "title": "Media buyer vs agencia de publicidad: qué necesita tu D2C",
@@ -55,37 +73,35 @@
           "words": 2000,
           "intent": "MOFU-BOFU",
           "priority": "BOFU",
-          "internal_links": [
-            "/blog/cuanto-cobra-media-buyer-freelance-espana",
-            "/blog/checklist-auditoria-campanas-paid-media",
-            "/servicios"
-          ]
+          "note": "Publicado. Incluido en published_posts."
         },
         {
           "id": "T02",
           "week": 2,
-          "status": "pending",
+          "status": "completed",
           "type": "article",
           "cluster": "contratar-media-buyer",
           "title": "Cuánto cobra un media buyer freelance en España en 2026",
           "keyword": "cuánto cobra media buyer españa",
           "slug": "cuanto-cobra-media-buyer-freelance-espana",
-          "words": 800,
+          "words": 900,
           "intent": "BOFU",
-          "priority": "BOFU"
+          "priority": "BOFU",
+          "note": "Publicado 2026-03-12"
         },
         {
           "id": "T03",
           "week": 3,
-          "status": "pending",
+          "status": "completed",
           "type": "article",
           "cluster": "contratar-media-buyer",
           "title": "Señales de que tu agencia de publicidad no está rindiendo",
           "keyword": "cómo saber si agencia publicidad es buena",
           "slug": "senales-agencia-publicidad-no-rinde",
-          "words": 900,
+          "words": 1000,
           "intent": "MOFU-BOFU",
-          "priority": "MOFU"
+          "priority": "MOFU",
+          "note": "Publicado 2026-03-12"
         },
         {
           "id": "T04",
@@ -112,14 +128,15 @@
         {
           "id": "T06",
           "week": 6,
-          "status": "pending",
+          "status": "completed",
           "type": "article",
           "cluster": "contratar-media-buyer",
           "title": "Checklist para auditar tus campañas de paid media",
           "keyword": "auditoría campañas paid media",
           "slug": "checklist-auditoria-campanas-paid-media",
-          "words": 800,
-          "intent": "BOFU"
+          "words": 1000,
+          "intent": "BOFU",
+          "note": "Publicado 2026-03-12"
         }
       ]
     },

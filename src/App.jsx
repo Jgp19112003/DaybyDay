@@ -41,6 +41,10 @@ import TopAgenciasMarketingPage from "./pages/blog/TopAgenciasMarketingPage";
 import AgenciaPaidMediaVsGeneralistaPage from "./pages/blog/AgenciaPaidMediaVsGeneralistaPage";
 import CuantoCuestaAgenciaPaidMediaPage from "./pages/blog/CuantoCuestaAgenciaPaidMediaPage";
 import MediaBuyerVsAgenciaPage from "./pages/blog/MediaBuyerVsAgenciaPage";
+import QueEsUnMediaBuyerPage from "./pages/blog/QueEsUnMediaBuyerPage";
+import CuantoCobraMediaBuyerPage from "./pages/blog/CuantoCobraMediaBuyerPage";
+import SenalesAgenciaNoRindePage from "./pages/blog/SenalesAgenciaNoRindePage";
+import ChecklistAuditoriaCampanasPage from "./pages/blog/ChecklistAuditoriaCampanasPage";
 
 gsap.registerPlugin(ScrollTrigger, SplitText);
 
@@ -211,6 +215,10 @@ const App = () => {
         <Route path="/blog/agencia-paid-media-vs-agencia-marketing-generalista" element={<AgenciaPaidMediaVsGeneralistaPage openCalendly={openCalendly} />} />
         <Route path="/blog/cuanto-cuesta-agencia-paid-media-espana-precios-2026" element={<CuantoCuestaAgenciaPaidMediaPage openCalendly={openCalendly} />} />
         <Route path="/blog/media-buyer-vs-agencia-ecommerce-d2c" element={<MediaBuyerVsAgenciaPage openCalendly={openCalendly} />} />
+        <Route path="/blog/que-es-un-media-buyer" element={<QueEsUnMediaBuyerPage openCalendly={openCalendly} />} />
+        <Route path="/blog/cuanto-cobra-media-buyer-freelance-espana" element={<CuantoCobraMediaBuyerPage openCalendly={openCalendly} />} />
+        <Route path="/blog/senales-agencia-publicidad-no-rinde" element={<SenalesAgenciaNoRindePage openCalendly={openCalendly} />} />
+        <Route path="/blog/checklist-auditoria-campanas-paid-media" element={<ChecklistAuditoriaCampanasPage openCalendly={openCalendly} />} />
       </Routes>
       <WhatsAppButton />
       <Analytics />
