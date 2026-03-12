@@ -34,6 +34,13 @@ import IAMarketingDigitalPage from "./pages/blog/IAMarketingDigitalPage";
 import BuenROASNichosPage from "./pages/blog/BuenROASNichosPage";
 import MetodologiaDayByDayPage from "./pages/blog/MetodologiaDayByDayPage";
 import EstadoPaidMediaD2CEspana2026Page from "./pages/blog/EstadoPaidMediaD2CEspana2026Page";
+import MejoresAgenciasPaidMediaPage from "./pages/blog/MejoresAgenciasPaidMediaPage";
+import QueEsPaidMediaPage from "./pages/blog/QueEsPaidMediaPage";
+import ElegirAgenciaMetaAdsPage from "./pages/blog/ElegirAgenciaMetaAdsPage";
+import TopAgenciasMarketingPage from "./pages/blog/TopAgenciasMarketingPage";
+import AgenciaPaidMediaVsGeneralistaPage from "./pages/blog/AgenciaPaidMediaVsGeneralistaPage";
+import CuantoCuestaAgenciaPaidMediaPage from "./pages/blog/CuantoCuestaAgenciaPaidMediaPage";
+import MediaBuyerVsAgenciaPage from "./pages/blog/MediaBuyerVsAgenciaPage";
 
 gsap.registerPlugin(ScrollTrigger, SplitText);
 
@@ -197,6 +204,13 @@ const App = () => {
         <Route path="/blog/buen-roas-por-nicho-benchmarks-2026" element={<BuenROASNichosPage openCalendly={openCalendly} />} />
         <Route path="/blog/metodologia-daybyday-ia-automatizacion-paid-media" element={<MetodologiaDayByDayPage openCalendly={openCalendly} />} />
         <Route path="/blog/estado-paid-media-d2c-espana-2026" element={<EstadoPaidMediaD2CEspana2026Page openCalendly={openCalendly} />} />
+        <Route path="/blog/mejores-agencias-paid-media-espana-ecommerce-d2c" element={<MejoresAgenciasPaidMediaPage openCalendly={openCalendly} />} />
+        <Route path="/blog/que-es-paid-media-guia-completa" element={<QueEsPaidMediaPage openCalendly={openCalendly} />} />
+        <Route path="/blog/elegir-agencia-anuncios-meta-ads-d2c" element={<ElegirAgenciaMetaAdsPage openCalendly={openCalendly} />} />
+        <Route path="/blog/top-agencias-marketing-digital-espana-que-mirar" element={<TopAgenciasMarketingPage openCalendly={openCalendly} />} />
+        <Route path="/blog/agencia-paid-media-vs-agencia-marketing-generalista" element={<AgenciaPaidMediaVsGeneralistaPage openCalendly={openCalendly} />} />
+        <Route path="/blog/cuanto-cuesta-agencia-paid-media-espana-precios-2026" element={<CuantoCuestaAgenciaPaidMediaPage openCalendly={openCalendly} />} />
+        <Route path="/blog/media-buyer-vs-agencia-ecommerce-d2c" element={<MediaBuyerVsAgenciaPage openCalendly={openCalendly} />} />
       </Routes>
       <WhatsAppButton />
       <Analytics />

@@ -1,0 +1,485 @@
+{
+  "last_updated": "2026-03-11",
+  "current_week": 1,
+  "current_phase": 1,
+  "site": "https://daybydayconsulting.com",
+  "repo": "Jgp19112003/DaybyDay",
+  "blog_path": "src/pages/blog",
+  "blog_route_prefix": "/blog",
+  "blog_index_file": "src/pages/BlogPage.jsx",
+  "app_routes_file": "src/App.jsx",
+  "sitemap_file": "public/sitemap.xml",
+  "llms_txt_file": "public/llms.txt",
+  "completed_tasks": [],
+  "published_posts": [
+    "que-es-roas-meta-ads",
+    "meta-ads-vs-google-ads",
+    "como-reducir-cpa-ecommerce",
+    "estrategia-full-funnel-meta-ads-d2c",
+    "automatizacion-marketing-que-es",
+    "tareas-marketing-automatizar",
+    "agencia-vs-inhouse-vs-ia",
+    "estrategias-puja-meta-ads",
+    "escalar-meta-ads",
+    "embudo-captacion-clientes",
+    "preguntas-contratar-agencia-paid-media",
+    "ugc-meta-ads",
+    "ia-marketing-digital",
+    "buen-roas-por-nicho-benchmarks-2026",
+    "metodologia-daybyday-ia-automatizacion-paid-media",
+    "estado-paid-media-d2c-espana-2026"
+  ],
+  "phases": [
+    {
+      "phase": 1,
+      "name": "Fundación",
+      "weeks": "1-6",
+      "objective": "Aparecer en búsquedas transaccionales y capturar PAA",
+      "tasks": [
+        {
+          "id": "T01",
+          "week": 1,
+          "status": "pending",
+          "type": "article",
+          "cluster": "contratar-media-buyer",
+          "title": "Media buyer vs agencia de publicidad: qué necesita tu D2C",
+          "keyword": "media buyer vs agencia",
+          "slug": "media-buyer-vs-agencia-ecommerce-d2c",
+          "words": 2000,
+          "intent": "MOFU-BOFU",
+          "priority": "BOFU",
+          "internal_links": [
+            "/blog/cuanto-cobra-media-buyer-freelance-espana",
+            "/blog/checklist-auditoria-campanas-paid-media",
+            "/servicios"
+          ]
+        },
+        {
+          "id": "T02",
+          "week": 2,
+          "status": "pending",
+          "type": "article",
+          "cluster": "contratar-media-buyer",
+          "title": "Cuánto cobra un media buyer freelance en España en 2026",
+          "keyword": "cuánto cobra media buyer españa",
+          "slug": "cuanto-cobra-media-buyer-freelance-espana",
+          "words": 800,
+          "intent": "BOFU",
+          "priority": "BOFU"
+        },
+        {
+          "id": "T03",
+          "week": 3,
+          "status": "pending",
+          "type": "article",
+          "cluster": "contratar-media-buyer",
+          "title": "Señales de que tu agencia de publicidad no está rindiendo",
+          "keyword": "cómo saber si agencia publicidad es buena",
+          "slug": "senales-agencia-publicidad-no-rinde",
+          "words": 900,
+          "intent": "MOFU-BOFU",
+          "priority": "MOFU"
+        },
+        {
+          "id": "T04",
+          "week": 4,
+          "status": "pending",
+          "type": "technical",
+          "cluster": "technical",
+          "title": "Optimizar homepage + FAQPage Schema en /servicios",
+          "keyword": "agencia paid media consultor Meta Ads España",
+          "slug": null,
+          "intent": "BOFU"
+        },
+        {
+          "id": "T05",
+          "week": 5,
+          "status": "pending",
+          "type": "page",
+          "cluster": "geo-authority",
+          "title": "Crear/mejorar página /casos-de-exito con ItemList Schema",
+          "keyword": "casos éxito agencia paid media españa D2C",
+          "slug": null,
+          "intent": "GEO+BOFU"
+        },
+        {
+          "id": "T06",
+          "week": 6,
+          "status": "pending",
+          "type": "article",
+          "cluster": "contratar-media-buyer",
+          "title": "Checklist para auditar tus campañas de paid media",
+          "keyword": "auditoría campañas paid media",
+          "slug": "checklist-auditoria-campanas-paid-media",
+          "words": 800,
+          "intent": "BOFU"
+        }
+      ]
+    },
+    {
+      "phase": 2,
+      "name": "Autoridad",
+      "weeks": "7-14",
+      "objective": "Construir silo temático + aparecer en respuestas de IA",
+      "tasks": [
+        {
+          "id": "T07",
+          "week": 7,
+          "status": "pending",
+          "type": "article",
+          "cluster": "meta-ads-d2c",
+          "title": "[PILAR] Guía completa Meta Ads para ecommerce D2C en España 2026",
+          "keyword": "meta ads ecommerce españa",
+          "slug": "guia-meta-ads-ecommerce-d2c-espana-2026",
+          "words": 2500,
+          "intent": "TOFU-MOFU"
+        },
+        {
+          "id": "T08",
+          "week": 8,
+          "status": "pending",
+          "type": "article",
+          "cluster": "geo-authority",
+          "title": "Caso de éxito: eCommerce D2C +156% ROAS en 90 días con Meta Ads",
+          "keyword": "casos éxito meta ads ecommerce españa",
+          "slug": "caso-exito-ecommerce-d2c-roas-meta-ads",
+          "words": 1200,
+          "intent": "BOFU-GEO"
+        },
+        {
+          "id": "T09",
+          "week": 9,
+          "status": "pending",
+          "type": "article",
+          "cluster": "estrategia-d2c",
+          "title": "Benchmark ROAS por sector en España: ¿estás por encima de la media?",
+          "keyword": "roas medio españa por sector",
+          "slug": "benchmark-roas-sector-espana-2026",
+          "words": 1500,
+          "intent": "TOFU-MOFU"
+        },
+        {
+          "id": "T10",
+          "week": 10,
+          "status": "pending",
+          "type": "article",
+          "cluster": "meta-ads-d2c",
+          "title": "Cómo mejorar el ROAS en Meta Ads: 7 palancas reales",
+          "keyword": "cómo mejorar ROAS Meta Ads",
+          "slug": "como-mejorar-roas-meta-ads-7-palancas",
+          "words": 1000,
+          "intent": "MOFU"
+        },
+        {
+          "id": "T11",
+          "week": 11,
+          "status": "pending",
+          "type": "article",
+          "cluster": "meta-ads-d2c",
+          "title": "Cómo escalar campañas Meta Ads sin que se rompa el ROAS",
+          "keyword": "escalar campañas meta ads",
+          "slug": "escalar-campanas-meta-ads-sin-romper-roas",
+          "words": 1200,
+          "intent": "MOFU"
+        },
+        {
+          "id": "T12",
+          "week": 12,
+          "status": "pending",
+          "type": "article",
+          "cluster": "meta-ads-d2c",
+          "title": "Advantage+ Shopping: cuándo usarlo y cuándo no",
+          "keyword": "advantage+ shopping meta ads",
+          "slug": "advantage-plus-shopping-cuando-usarlo-no",
+          "words": 900,
+          "intent": "TOFU-MOFU"
+        },
+        {
+          "id": "T13",
+          "week": 13,
+          "status": "pending",
+          "type": "article",
+          "cluster": "meta-ads-d2c",
+          "title": "Métricas Meta Ads que importan de verdad (y las que no)",
+          "keyword": "métricas meta ads importantes",
+          "slug": "metricas-meta-ads-importantes-ecommerce",
+          "words": 900,
+          "intent": "TOFU"
+        },
+        {
+          "id": "T14",
+          "week": 14,
+          "status": "pending",
+          "type": "article",
+          "cluster": "meta-ads-d2c",
+          "title": "Por qué tus anuncios de Meta no convierten (y cómo solucionarlo)",
+          "keyword": "anuncios meta no funcionan",
+          "slug": "por-que-anuncios-meta-no-convierten",
+          "words": 1000,
+          "intent": "MOFU-BOFU"
+        }
+      ]
+    },
+    {
+      "phase": 3,
+      "name": "Escala",
+      "weeks": "15-24",
+      "objective": "Cerrar todos los clusters + amplificar con LinkedIn",
+      "tasks": [
+        {
+          "id": "T15",
+          "week": 15,
+          "status": "pending",
+          "type": "article",
+          "cluster": "estrategia-d2c",
+          "title": "[PILAR] Cómo escalar un eCommerce D2C de 100K a 1M€ con paid media",
+          "keyword": "escalar ecommerce D2C paid media",
+          "slug": "escalar-ecommerce-d2c-100k-1m-paid-media",
+          "words": 2500,
+          "intent": "MOFU"
+        },
+        {
+          "id": "T16",
+          "week": 16,
+          "status": "pending",
+          "type": "article",
+          "cluster": "estrategia-d2c",
+          "title": "CAC vs LTV: la métrica que define si tu D2C es escalable",
+          "keyword": "cac ltv ecommerce",
+          "slug": "cac-vs-ltv-ecommerce-escalable",
+          "words": 1000,
+          "intent": "TOFU-MOFU"
+        },
+        {
+          "id": "T17",
+          "week": 17,
+          "status": "pending",
+          "type": "article",
+          "cluster": "estrategia-d2c",
+          "title": "Cuánto invertir en Meta Ads según tu ticket medio y margen",
+          "keyword": "cuánto invertir meta ads ecommerce calculadora",
+          "slug": "cuanto-invertir-meta-ads-calculadora",
+          "words": 1200,
+          "intent": "MOFU-BOFU",
+          "note": "Incluir calculadora interactiva React"
+        },
+        {
+          "id": "T18",
+          "week": 18,
+          "status": "pending",
+          "type": "article",
+          "cluster": "estrategia-d2c",
+          "title": "Estrategia full funnel para D2C: del frío al cliente recurrente",
+          "keyword": "estrategia full funnel D2C",
+          "slug": "estrategia-full-funnel-d2c",
+          "words": 1200,
+          "intent": "MOFU"
+        },
+        {
+          "id": "T19",
+          "week": 19,
+          "status": "pending",
+          "type": "article",
+          "cluster": "estrategia-d2c",
+          "title": "Cómo combinar Google Ads y Meta Ads en una estrategia D2C",
+          "keyword": "google ads meta ads juntos",
+          "slug": "combinar-google-ads-meta-ads-d2c",
+          "words": 1000,
+          "intent": "MOFU"
+        },
+        {
+          "id": "T20",
+          "week": 20,
+          "status": "pending",
+          "type": "article",
+          "cluster": "herramientas-avanzadas",
+          "title": "[PILAR] Guía API de Conversiones de Meta: configuración y beneficios",
+          "keyword": "api conversiones meta ads",
+          "slug": "guia-api-conversiones-meta-ads-shopify",
+          "words": 2000,
+          "intent": "TOFU-MOFU"
+        },
+        {
+          "id": "T21",
+          "week": 21,
+          "status": "pending",
+          "type": "article",
+          "cluster": "herramientas-avanzadas",
+          "title": "Remarketing dinámico para ecommerce: guía práctica",
+          "keyword": "remarketing dinámico ecommerce",
+          "slug": "remarketing-dinamico-ecommerce-guia-practica",
+          "words": 1000,
+          "intent": "MOFU"
+        },
+        {
+          "id": "T22",
+          "week": 22,
+          "status": "pending",
+          "type": "article",
+          "cluster": "herramientas-avanzadas",
+          "title": "Cómo crear audiencias lookalike de alta calidad en Meta",
+          "keyword": "audiencias lookalike meta",
+          "slug": "audiencias-lookalike-meta-alta-calidad",
+          "words": 900,
+          "intent": "TOFU-MOFU"
+        },
+        {
+          "id": "T23",
+          "week": 23,
+          "status": "pending",
+          "type": "article",
+          "cluster": "herramientas-avanzadas",
+          "title": "A/B testing en Meta Ads: qué testar primero para maximizar aprendizaje",
+          "keyword": "ab testing meta ads",
+          "slug": "ab-testing-meta-ads-que-testar-primero",
+          "words": 900,
+          "intent": "MOFU"
+        },
+        {
+          "id": "T24",
+          "week": 24,
+          "status": "pending",
+          "type": "article",
+          "cluster": "herramientas-avanzadas",
+          "title": "Automatizaciones y reglas en Meta Ads Manager para escalar",
+          "keyword": "automatizaciones meta ads",
+          "slug": "automatizaciones-reglas-meta-ads-manager",
+          "words": 800,
+          "intent": "MOFU"
+        }
+      ]
+    }
+  ],
+  "cluster5": {
+    "name": "Captación founders con presupuesto — Agencia paid media",
+    "description": "Atacar a dueños de negocio con budget que buscan activamente contratar la mejor agencia. Keywords de mayor intención transaccional del mercado español.",
+    "target": "Founders y CMOs D2C con inversión >5K€/mes buscando agencia de confianza",
+    "priority": "ALTA — ejecutar en paralelo con Fase 1",
+    "keywords_target": [
+      "mejores agencias de marketing",
+      "top agencias paid media",
+      "agencia paid media",
+      "paid media",
+      "anuncios meta agencia",
+      "mejor agencia meta ads españa",
+      "agencia marketing digital ecommerce"
+    ],
+    "articles": [
+      {
+        "id": "C5-01",
+        "type": "pillar",
+        "title": "Mejores agencias de paid media en España para eCommerce D2C (2026)",
+        "keyword": "mejores agencias paid media españa",
+        "secondary_keywords": ["top agencias paid media", "mejor agencia paid media"],
+        "slug": "mejores-agencias-paid-media-espana-ecommerce-d2c",
+        "words": 2500,
+        "intent": "BOFU",
+        "note": "Artículo tipo ranking/comparativa que posiciona a DayByDay como opción #1 para D2C. Incluye criterios de selección, red flags y por qué la especialización gana a la agencia 360.",
+        "paa_questions": [
+          "¿Cuáles son las mejores agencias de paid media en España?",
+          "¿Qué es una agencia de paid media y qué hace?",
+          "¿Cómo elegir la mejor agencia de paid media para mi ecommerce?",
+          "¿Qué diferencia a una buena agencia de paid media de una mala?",
+          "¿Cuánto cobra una agencia de paid media en España?",
+          "¿Qué resultados puede esperar mi empresa de una agencia de paid media?",
+          "¿Qué preguntas hacer a una agencia de paid media antes de contratar?"
+        ]
+      },
+      {
+        "id": "C5-02",
+        "type": "pillar",
+        "title": "Qué es el paid media: guía completa para founders que quieren invertir",
+        "keyword": "qué es paid media",
+        "secondary_keywords": ["paid media definición", "paid media agencia", "paid media marketing"],
+        "slug": "que-es-paid-media-guia-completa",
+        "words": 1800,
+        "intent": "TOFU-MOFU",
+        "note": "Pilar definitivo para el término 'paid media'. Alta probabilidad de featured snippet y AI Overview. Incluye diferencia con owned/earned media, canales, costes y cuándo necesitas una agencia.",
+        "paa_questions": [
+          "¿Qué es el paid media?",
+          "¿Cuál es la diferencia entre paid media, owned media y earned media?",
+          "¿Qué canales incluye el paid media?",
+          "¿Cuánto cuesta hacer paid media?",
+          "¿Para qué sirve el paid media en una estrategia de marketing?",
+          "¿Qué es mejor: paid media o SEO?",
+          "¿Cómo empezar con paid media si tengo un ecommerce?"
+        ]
+      },
+      {
+        "id": "C5-03",
+        "type": "satellite",
+        "title": "Cómo elegir una agencia de anuncios en Meta Ads para tu marca D2C",
+        "keyword": "agencia anuncios meta ads",
+        "secondary_keywords": ["anuncios meta agencia", "contratar agencia meta ads", "agencia facebook ads españa"],
+        "slug": "elegir-agencia-anuncios-meta-ads-d2c",
+        "words": 1200,
+        "intent": "BOFU",
+        "note": "Guía de decisión con checklist de 8 puntos. Cada criterio cita datos reales de DayByDay. CTA fuerte a auditoría gratuita.",
+        "paa_questions": [
+          "¿Cómo elegir una agencia de Meta Ads para mi ecommerce?",
+          "¿Qué debe incluir el servicio de una agencia de Meta Ads?",
+          "¿Cuánto cobra una agencia por gestionar Meta Ads en España?",
+          "¿Cómo saber si una agencia de Facebook Ads es buena?",
+          "¿Qué resultados debería dar una agencia de Meta Ads?",
+          "¿Cada cuánto debe reportar una agencia de Meta Ads?"
+        ]
+      },
+      {
+        "id": "C5-04",
+        "type": "satellite",
+        "title": "Top agencias de marketing digital en España: qué mirar antes de contratar",
+        "keyword": "top agencias marketing digital españa",
+        "secondary_keywords": ["mejores agencias de marketing", "agencia marketing digital ecommerce"],
+        "slug": "top-agencias-marketing-digital-espana-que-mirar",
+        "words": 1500,
+        "intent": "MOFU-BOFU",
+        "note": "Listicle con criterios de evaluación + tabla comparativa. DayByDay aparece como opción especializada D2C frente a agencias full-service.",
+        "paa_questions": [
+          "¿Cuáles son las mejores agencias de marketing digital en España?",
+          "¿Cómo comparar agencias de marketing digital?",
+          "¿Qué debe tener una buena agencia de marketing digital?",
+          "¿Qué diferencia hay entre una agencia grande y una pequeña especializada?",
+          "¿Es mejor contratar una agencia local o una con presencia nacional?",
+          "¿Qué pedir a una agencia de marketing antes de firmar contrato?"
+        ]
+      },
+      {
+        "id": "C5-05",
+        "type": "satellite",
+        "title": "Agencia de marketing generalista vs agencia de paid media: qué necesita tu D2C",
+        "keyword": "agencia paid media vs agencia marketing",
+        "secondary_keywords": ["agencia paid media especializada", "agencia performance marketing"],
+        "slug": "agencia-paid-media-vs-agencia-marketing-generalista",
+        "words": 1200,
+        "intent": "MOFU-BOFU",
+        "note": "Comparativa directa que refuerza la especialización como ventaja. Tabla con 6 criterios. Link a caso de éxito y metodología.",
+        "paa_questions": [
+          "¿Qué diferencia hay entre una agencia de paid media y una de marketing digital?",
+          "¿Es mejor una agencia especializada o una agencia 360 para ecommerce?",
+          "¿Qué ventajas tiene una agencia de performance frente a una generalista?",
+          "¿Qué es una agencia de performance marketing?",
+          "¿Cuándo contratar una agencia especializada en lugar de una full service?"
+        ]
+      },
+      {
+        "id": "C5-06",
+        "type": "satellite",
+        "title": "Cuánto cuesta una agencia de paid media en España: guía de precios 2026",
+        "keyword": "precio agencia paid media españa",
+        "secondary_keywords": ["cuánto cuesta agencia paid media", "tarifas agencia meta ads", "precio agencia facebook ads"],
+        "slug": "cuanto-cuesta-agencia-paid-media-espana-precios-2026",
+        "words": 1000,
+        "intent": "BOFU",
+        "note": "Artículo de precios con tabla detallada por modelo (% inversión, fee fijo, híbrido). El más probable de capturar búsquedas de precios y generar leads directos.",
+        "paa_questions": [
+          "¿Cuánto cobra una agencia de paid media en España?",
+          "¿Qué modelos de precio tienen las agencias de Meta Ads?",
+          "¿Qué porcentaje cobra una agencia sobre la inversión publicitaria?",
+          "¿Cuánto cuesta gestionar campañas de Google Ads y Meta Ads con una agencia?",
+          "¿Hay un mínimo de inversión para contratar una agencia de paid media?",
+          "¿Cuánto debería pagar por la gestión de mis Meta Ads?"
+        ]
+      }
+    ]
+  }
+}
