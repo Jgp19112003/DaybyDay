@@ -826,6 +826,47 @@ const Inicio = () => {
         </div>
       </section>
 
+      {/* SECCIÓN CLIENTES */}
+      <section className="bg-[#181414] text-white py-14 px-4">
+        <div className="max-w-5xl mx-auto">
+          <p className="text-center text-xs uppercase tracking-widest text-white/30 mb-10 font-semibold">
+            Empresas que confían en DayByDay
+          </p>
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
+            {[
+              {
+                name: "Garett España",
+                tag: "eCommerce D2C",
+              },
+              {
+                name: "Evercreate",
+                tag: "Formación online",
+              },
+              {
+                name: "Aras Life Plus",
+                tag: "Salud & Bienestar",
+              },
+              {
+                name: "Cartri",
+                tag: "eCommerce D2C",
+              },
+            ].map(({ name, tag }) => (
+              <div
+                key={name}
+                className="flex flex-col items-center justify-center bg-[#1a1616] border border-white/8 rounded-xl px-4 py-6 gap-2 hover:border-white/16 transition-colors duration-300"
+              >
+                <span className="text-white font-bold text-sm text-center leading-tight">
+                  {name}
+                </span>
+                <span className="text-white/30 text-[10px] uppercase tracking-wider font-medium">
+                  {tag}
+                </span>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* SECCIÓN DE ANÁLISIS GTM */}
       <section className="bg-[#181414] text-white pt-28 pb-16 px-4 sm:pt-16">
         <div className="max-w-5xl mx-auto text-center">
