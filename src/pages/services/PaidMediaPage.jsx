@@ -80,6 +80,14 @@ const faqItems = [
     q: "¿Cómo se mide el ROI en paid media?",
     a: "El ROI en paid media se mide principalmente a través del ROAS (Return on Ad Spend) para eCommerce y del CAC (Coste de Adquisición de Cliente) para servicios. En DayByDay reportamos semanalmente con estas métricas reales, conectadas al dato de conversión final y no solo a clics o impresiones.",
   },
+  {
+    q: "¿Qué es un consultor de paid media y cuándo lo necesita mi empresa?",
+    a: "Un consultor de paid media es un especialista que diseña y gestiona la estrategia de publicidad de pago de una empresa: Meta Ads, Google Ads y otros canales. Lo necesitas cuando la publicidad digital representa más del 20% de tus ingresos, cuando el ROAS cae sin causa clara, o cuando tu equipo no tiene experiencia específica en paid media para D2C. Un consultor especializado puede auditar y optimizar una cuenta en 4–6 semanas.",
+  },
+  {
+    q: "¿Qué diferencia hay entre una agencia de paid media y un consultor especializado?",
+    a: "Una agencia tradicional asigna un account manager que gestiona varias cuentas a la vez. Un consultor de paid media trabaja directamente en tu cuenta con dedicación real, aporta criterio estratégico propio y responde directamente. En DayByDay no hay intermediarios: el consultor que firma el contrato es el que ejecuta las campañas y aparece en cada reunión.",
+  },
 ];
 
 const PaidMediaPage = ({ openCalendly }) => (
