@@ -4,6 +4,14 @@ import Footer from "../components/Footer";
 
 const posts = [
   {
+    slug: "caso-exito-ecommerce-d2c-roas-meta-ads",
+    title: "Caso de éxito: eCommerce D2C +156% ROAS en 90 días con Meta Ads",
+    excerpt: "Cómo un ecommerce D2C de cosmética en España pasó de 1,8x a 4,6x de ROAS real en 90 días: auditoría de tracking, consolidación de campañas a Advantage+ Shopping y sistema creativo con UGC. Métricas detalladas mes a mes.",
+    category: "Casos de Éxito",
+    date: "16 mar 2026",
+    readingTime: "7 min",
+  },
+  {
     slug: "guia-meta-ads-ecommerce-d2c-espana-2026",
     title: "Guía completa de Meta Ads para ecommerce D2C en España 2026",
     excerpt: "Todo lo que necesitas saber para lanzar y escalar Meta Ads en tu ecommerce D2C en España: Advantage+ Shopping, API de Conversiones, estrategia creativa, métricas que importan y el ciclo de optimización semanal.",
