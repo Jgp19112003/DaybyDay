@@ -206,6 +206,7 @@ const MejoresAgenciasPaidMediaPage = ({ openCalendly }) => (
     <h2 className="text-2xl font-black mt-10 mb-4">Artículos relacionados</h2>
     <ul className="space-y-2 mb-4">
       {[
+        ["/blog/caso-exito-ecommerce-d2c-roas-meta-ads", "Caso de éxito: eCommerce D2C +156% ROAS en 90 días con Meta Ads"],
         ["/blog/preguntas-contratar-agencia-paid-media", "10 preguntas que debes hacer antes de contratar una agencia de paid media"],
         ["/blog/agencia-vs-inhouse-vs-ia", "Agencia vs In-House vs IA: desglose honesto de costes y resultados"],
         ["/blog/cuanto-cuesta-agencia-paid-media-espana-precios-2026", "Cuánto cuesta una agencia de paid media en España: guía de precios 2026"],

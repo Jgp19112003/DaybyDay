@@ -317,7 +317,7 @@ const GuiaMetaAdsEcommerceD2CEspana2026Page = ({ openCalendly }) => (
         qué ROAS es bueno según tu nicho en España
       </Link>. Si quieres ver cómo se aplica todo esto en un caso concreto, lee nuestro{" "}
       <Link to="/blog/caso-exito-ecommerce-d2c-roas-meta-ads" className="text-white underline underline-offset-2 hover:text-white/80">
-        caso de éxito: +156% ROAS en 90 días con Meta Ads
+        caso de éxito: eCommerce D2C +156% ROAS en 90 días
       </Link>.
     </p>
   </BlogPostLayout>
