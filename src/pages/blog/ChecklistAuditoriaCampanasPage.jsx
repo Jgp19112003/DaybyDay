@@ -204,8 +204,8 @@ const ChecklistAuditoriaCampanasPage = ({ openCalendly }) => (
       {[
         ["/blog/senales-agencia-publicidad-no-rinde", "Señales de que tu agencia de publicidad no está rindiendo"],
         ["/blog/buen-roas-por-nicho-benchmarks-2026", "¿Qué es un buen ROAS? Benchmarks por nicho para 2026"],
+        ["/blog/caso-exito-ecommerce-d2c-roas-meta-ads", "Caso de éxito: eCommerce D2C +156% ROAS en 90 días"],
         ["/blog/escalar-meta-ads", "Cómo escalar Meta Ads sin destruir el ROAS"],
-        ["/blog/estrategias-puja-meta-ads", "Estrategias de puja en Meta Ads: cuál elegir según tu objetivo"],
       ].map(([to, label]) => (
         <li key={to}>
           <Link to={to} className="text-[#de0015] hover:text-red-400 text-sm underline">

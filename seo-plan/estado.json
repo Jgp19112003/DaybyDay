@@ -1,5 +1,5 @@
 {
-  "last_updated": "2026-03-12",
+  "last_updated": "2026-03-16",
   "current_week": 1,
   "current_phase": 1,
   "site": "https://daybydayconsulting.com",
@@ -39,7 +39,8 @@
     "cuanto-cobra-media-buyer-freelance-espana",
     "senales-agencia-publicidad-no-rinde",
     "checklist-auditoria-campanas-paid-media",
-    "guia-meta-ads-ecommerce-d2c-espana-2026"
+    "guia-meta-ads-ecommerce-d2c-espana-2026",
+    "caso-exito-ecommerce-d2c-roas-meta-ads"
   ],
   "phases": [
     {
@@ -163,7 +164,7 @@
         {
           "id": "T08",
           "week": 8,
-          "status": "pending",
+          "status": "completed",
           "type": "article",
           "cluster": "geo-authority",
           "title": "Caso de éxito: eCommerce D2C +156% ROAS en 90 días con Meta Ads",
