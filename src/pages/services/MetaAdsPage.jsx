@@ -80,6 +80,14 @@ const faqItems = [
     q: "¿Cuánto cuesta contratar una agencia de Meta Ads en España?",
     a: "El coste de gestión de Meta Ads en DayByDay parte desde 800 €/mes, en función del volumen de inversión, el número de campañas activas y la producción de creatividades incluida. El presupuesto mínimo recomendado en Meta es de 1.500 €/mes de inversión publicitaria.",
   },
+  {
+    q: "¿Es mejor contratar un consultor de Meta Ads o una agencia en España?",
+    a: "Un consultor de Meta Ads especializado en eCommerce D2C ofrece atención directa del experto, sin account managers, y se implica como si fuera parte de tu equipo. En DayByDay el consultor trabaja directamente en tu cuenta, con transparencia total de métricas y decisiones. Para marcas D2C con inversiones entre 1.500 y 20.000 €/mes, el modelo consultor especializado suele superar al de agencia generalista.",
+  },
+  {
+    q: "¿Qué hace exactamente un consultor de Meta Ads para eCommerce?",
+    a: "Audita la cuenta, diseña la estrategia full-funnel (prospección con Advantage+, retargeting secuencial y conversión), produce y testa creatividades, optimiza pujas y presupuestos semanalmente, y reporta con métricas de negocio reales: CPA, ROAS y CAC. El objetivo es que cada euro invertido en Meta genere el máximo retorno para tu tienda.",
+  },
 ];
 
 const MetaAdsPage = ({ openCalendly }) => (
