@@ -1,5 +1,5 @@
 {
-  "last_updated": "2026-03-16",
+  "last_updated": "2026-03-18",
   "current_week": 1,
   "current_phase": 1,
   "site": "https://daybydayconsulting.com",
@@ -40,7 +40,8 @@
     "senales-agencia-publicidad-no-rinde",
     "checklist-auditoria-campanas-paid-media",
     "guia-meta-ads-ecommerce-d2c-espana-2026",
-    "caso-exito-ecommerce-d2c-roas-meta-ads"
+    "caso-exito-ecommerce-d2c-roas-meta-ads",
+    "benchmark-roas-sector-espana-2026"
   ],
   "phases": [
     {
@@ -176,14 +177,15 @@
         {
           "id": "T09",
           "week": 9,
-          "status": "pending",
+          "status": "completed",
           "type": "article",
           "cluster": "estrategia-d2c",
           "title": "Benchmark ROAS por sector en España: ¿estás por encima de la media?",
           "keyword": "roas medio españa por sector",
           "slug": "benchmark-roas-sector-espana-2026",
           "words": 1500,
-          "intent": "TOFU-MOFU"
+          "intent": "TOFU-MOFU",
+          "note": "Publicado 2026-03-18. Tabla comparativa 10 sectores, benchmarks España vs globales, 4 factores clave, FAQs GEO."
         },
         {
           "id": "T10",
