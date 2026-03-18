@@ -197,6 +197,9 @@ const CasoExitoEcommerceROASPage = ({ openCalendly }) => (
         guía completa de Meta Ads para ecommerce D2C en España 2026
       </Link>.
       Para comparar el ROAS de este caso con benchmarks de tu sector, consulta{" "}
+      <Link to="/blog/benchmark-roas-sector-espana-2026" className="text-white underline underline-offset-2 hover:text-white/80">
+        benchmark de ROAS por sector en España 2026
+      </Link>{" "}o{" "}
       <Link to="/blog/buen-roas-por-nicho-benchmarks-2026" className="text-white underline underline-offset-2 hover:text-white/80">
         qué ROAS es bueno según tu nicho en España
       </Link>.

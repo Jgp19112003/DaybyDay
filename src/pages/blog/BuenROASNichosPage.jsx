@@ -165,6 +165,9 @@ const BuenROASNichosPage = ({ openCalendly }) => (
       </Link>, la{" "}
       <Link to="/blog/guia-meta-ads-ecommerce-d2c-espana-2026" className="text-white underline underline-offset-2 hover:text-white/80">
         guía completa de Meta Ads para ecommerce D2C en España
+      </Link>, el{" "}
+      <Link to="/blog/benchmark-roas-sector-espana-2026" className="text-white underline underline-offset-2 hover:text-white/80">
+        benchmark de ROAS por sector en España 2026
       </Link>{" "}
       o{" "}
       <Link to="/servicios/paid-media" className="text-white underline underline-offset-2 hover:text-white/80">

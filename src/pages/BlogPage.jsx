@@ -4,6 +4,14 @@ import Footer from "../components/Footer";
 
 const posts = [
   {
+    slug: "benchmark-roas-sector-espana-2026",
+    title: "Benchmark ROAS por sector en España 2026: ¿estás por encima de la media?",
+    excerpt: "ROAS medio en España por sector en Meta Ads 2026: moda, cosmética, hogar, electrónica, alimentación y más. Tabla comparativa con márgenes típicos y cómo saber si tus campañas están por encima o por debajo de la media del mercado español.",
+    category: "Estrategia",
+    date: "18 mar 2026",
+    readingTime: "9 min",
+  },
+  {
     slug: "caso-exito-ecommerce-d2c-roas-meta-ads",
     title: "Caso de éxito: eCommerce D2C +156% ROAS en 90 días con Meta Ads",
     excerpt: "Cómo un ecommerce D2C de cosmética en España pasó de 1,8x a 4,6x de ROAS real en 90 días: auditoría de tracking, consolidación de campañas a Advantage+ Shopping y sistema creativo con UGC. Métricas detalladas mes a mes.",
