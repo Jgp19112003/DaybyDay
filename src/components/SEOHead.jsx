@@ -3,7 +3,7 @@ import { Helmet } from "react-helmet-async";
 const BASE_URL = "https://www.daybydayconsulting.com";
 const DEFAULT_IMAGE = `${BASE_URL}/images/og-image.png`;
 
-const SEOHead = ({ title, description, canonical, schema }) => {
+const SEOHead = ({ title, description, canonical, schema, isArticle = false, datePublished }) => {
   const fullTitle = title
     ? `${title} | DayByDay Consulting`
     : "Agencia de Marketing con IA y Automatización | DayByDay Consulting";
@@ -21,8 +21,10 @@ const SEOHead = ({ title, description, canonical, schema }) => {
       <meta property="og:description" content={description} />
       <meta property="og:url" content={fullCanonical} />
       <meta property="og:image" content={DEFAULT_IMAGE} />
-      <meta property="og:type" content="website" />
+      <meta property="og:type" content={isArticle ? "article" : "website"} />
       <meta property="og:locale" content="es_ES" />
+      {isArticle && datePublished && <meta property="article:published_time" content={datePublished} />}
+      {isArticle && <meta property="article:author" content="https://www.daybydayconsulting.com" />}
 
       {/* Twitter */}
       <meta name="twitter:card" content="summary_large_image" />

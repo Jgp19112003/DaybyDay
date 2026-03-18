@@ -10,6 +10,7 @@ const BlogPostLayout = ({
   slug,
   datePublished,
   dateModified,
+  keywords = [],
   readingTime = "5 min",
   category = "Marketing Digital",
   faqs = [],
@@ -23,8 +24,15 @@ const BlogPostLayout = ({
     "description": description,
     "datePublished": datePublished,
     "dateModified": dateModified || datePublished,
+    "inLanguage": "es-ES",
+    "image": {
+      "@type": "ImageObject",
+      "url": "https://www.daybydayconsulting.com/images/og-image.png",
+    },
+    ...(keywords.length > 0 && { "keywords": keywords.join(", ") }),
     "author": {
       "@type": "Organization",
+      "@id": "https://www.daybydayconsulting.com/#organization",
       "name": "DayByDay Consulting",
       "url": "https://www.daybydayconsulting.com",
     },
@@ -62,6 +70,8 @@ const BlogPostLayout = ({
         title={title}
         description={description}
         canonical={`/blog/${slug}`}
+        isArticle={true}
+        datePublished={datePublished}
       />
 
       <div className="min-h-screen bg-[#0f0c0c] text-white">
