@@ -1,5 +1,5 @@
 {
-  "last_updated": "2026-03-18",
+  "last_updated": "2026-03-23",
   "current_week": 4,
   "current_phase": 1,
   "site": "https://daybydayconsulting.com",
@@ -41,7 +41,8 @@
     "checklist-auditoria-campanas-paid-media",
     "guia-meta-ads-ecommerce-d2c-espana-2026",
     "caso-exito-ecommerce-d2c-roas-meta-ads",
-    "benchmark-roas-sector-espana-2026"
+    "benchmark-roas-sector-espana-2026",
+    "como-mejorar-roas-meta-ads-7-palancas"
   ],
   "phases": [
     {
@@ -193,14 +194,15 @@
         {
           "id": "T10",
           "week": 10,
-          "status": "pending",
+          "status": "completed",
           "type": "article",
           "cluster": "meta-ads-d2c",
           "title": "Cómo mejorar el ROAS en Meta Ads: 7 palancas reales",
           "keyword": "cómo mejorar ROAS Meta Ads",
           "slug": "como-mejorar-roas-meta-ads-7-palancas",
           "words": 1000,
-          "intent": "MOFU"
+          "intent": "MOFU",
+          "note": "Publicado 2026-03-23. 7 palancas ordenadas por impacto: tracking, estructura, creatividades, post-clic, pujas, margen y retargeting. Tabla de diagnóstico + datos reales de clientes."
         },
         {
           "id": "T11",
