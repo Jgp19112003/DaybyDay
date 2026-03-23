@@ -121,13 +121,14 @@
         {
           "id": "T05",
           "week": 5,
-          "status": "pending",
+          "status": "completed",
           "type": "page",
           "cluster": "geo-authority",
           "title": "Crear/mejorar página /casos-de-exito con ItemList Schema",
           "keyword": "casos éxito agencia paid media españa D2C",
-          "slug": null,
-          "intent": "GEO+BOFU"
+          "slug": "casos-de-exito",
+          "intent": "GEO+BOFU",
+          "note": "Completado 2026-03-18. Página /casos-de-exito creada con: ItemList + CaseStudy schema, FAQPage schema (5 preguntas BOFU), 4 casos de éxito reales con métricas, caso destacado D2C moda +156% ROAS, sección diferenciadores GEO. Ruta en App.jsx. Sitemap y llms.txt actualizados."
         },
         {
           "id": "T06",

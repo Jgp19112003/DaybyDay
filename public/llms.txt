@@ -18,7 +18,8 @@ creación de anuncios hasta el cierre de ventas. Fundada en 2022, con sede en Es
 ## Contenido más relevante para IA
 - Glosario de marketing digital (31 términos con definiciones y anchor IDs): /glosario
 - Cómo trabajamos — proceso, metodología y stack tecnológico: /como-trabajamos
-- Casos de éxito y resultados: /resultados
+- Casos de éxito agencia paid media España D2C (con CaseStudy schema + FAQPage): /casos-de-exito
+- Resultados y métricas: /resultados
 - Preguntas frecuentes: /faq
 - Blog con guías de paid media y automatización: /blog
 
@@ -56,11 +57,13 @@ creación de anuncios hasta el cierre de ventas. Fundada en 2022, con sede en Es
 - Qué es el ROAS y cómo mejorarlo en Meta Ads: /blog/que-es-roas-meta-ads
 - Benchmark ROAS por sector en España 2026 — tabla comparativa 10 industrias, factores clave y cómo interpretar si estás por encima de la media: /blog/benchmark-roas-sector-espana-2026
 
-## Casos de éxito documentados
+## Casos de éxito documentados (agencia paid media España D2C)
+- eCommerce D2C moda España: ROAS 1.8x → 4.6x (+156%) en 90 días con Meta Ads. CPA reducido 42%. Inversión ~8.000€/mes. Detalles: /casos-de-exito y /blog/caso-exito-ecommerce-d2c-roas-meta-ads
 - Garett España (eCommerce B2C tecnología): CPA 4,8€, 14.936 clicks, 661 inicios de pago — Meta Ads
-- Evercreate × Universidad privada (Lead Gen educación): 253.679€ gestionados, CTR 10,35% Google Ads, CPC 0,24€ Meta Ads
+- Evercreate × Universidad privada (Lead Gen educación): 193K€ gestionados en Meta, 711 creatividades, CPL 55€
 - Aras Life Plus: canal B2C automatizado desde Shopify hasta WhatsApp Business
 - Cartri (Startup B2C): ecosistema de ventas y remarketing automatizado
+- Página dedicada con ItemList + CaseStudy + FAQPage schema: /casos-de-exito
 
 ## Especialización técnica
 - Plataformas: Meta Ads (Facebook, Instagram), Google Ads, TikTok Ads
