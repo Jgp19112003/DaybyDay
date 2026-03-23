@@ -223,6 +223,12 @@ const BenchmarkROASSectorEspanaPage = ({ openCalendly }) => (
         </Link>
         <p className="text-white/40 text-xs mt-1">Advantage+ Shopping, API de Conversiones, estrategia creativa y ciclo de optimización semanal</p>
       </div>
+      <div className="bg-[#1a1616] border border-white/8 rounded-xl p-4">
+        <Link to="/blog/como-mejorar-roas-meta-ads-7-palancas" className="text-white font-semibold hover:text-white/80">
+          Cómo mejorar el ROAS en Meta Ads: 7 palancas reales →
+        </Link>
+        <p className="text-white/40 text-xs mt-1">Las 7 palancas ordenadas por impacto para mejorar el ROAS — tracking, estructura, creatividades y más</p>
+      </div>
     </div>
   </BlogPostLayout>
 );
