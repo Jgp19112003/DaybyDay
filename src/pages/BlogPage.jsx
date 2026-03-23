@@ -4,6 +4,14 @@ import Footer from "../components/Footer";
 
 const posts = [
   {
+    slug: "como-mejorar-roas-meta-ads-7-palancas",
+    title: "Cómo mejorar el ROAS en Meta Ads: 7 palancas reales",
+    excerpt: "Las 7 palancas que realmente mueven el ROAS en Meta Ads para ecommerce: tracking, estructura de campañas, creatividades, landing page, pujas, segmentación por margen y retargeting. Con el orden correcto para aplicarlas.",
+    category: "Meta Ads",
+    date: "23 mar 2026",
+    readingTime: "7 min",
+  },
+  {
     slug: "benchmark-roas-sector-espana-2026",
     title: "Benchmark ROAS por sector en España 2026: ¿estás por encima de la media?",
     excerpt: "ROAS medio en España por sector en Meta Ads 2026: moda, cosmética, hogar, electrónica, alimentación y más. Tabla comparativa con márgenes típicos y cómo saber si tus campañas están por encima o por debajo de la media del mercado español.",
