@@ -48,6 +48,7 @@ import ChecklistAuditoriaCampanasPage from "./pages/blog/ChecklistAuditoriaCampa
 import GuiaMetaAdsEcommerceD2CEspana2026Page from "./pages/blog/GuiaMetaAdsEcommerceD2CEspana2026Page";
 import CasoExitoEcommerceROASPage from "./pages/blog/CasoExitoEcommerceROASPage";
 import BenchmarkROASSectorEspanaPage from "./pages/blog/BenchmarkROASSectorEspanaPage";
+import ComoMejorarROASMetaAdsPage from "./pages/blog/ComoMejorarROASMetaAdsPage";
 
 gsap.registerPlugin(ScrollTrigger, SplitText);
 
@@ -225,6 +226,7 @@ const App = () => {
         <Route path="/blog/guia-meta-ads-ecommerce-d2c-espana-2026" element={<GuiaMetaAdsEcommerceD2CEspana2026Page openCalendly={openCalendly} />} />
         <Route path="/blog/caso-exito-ecommerce-d2c-roas-meta-ads" element={<CasoExitoEcommerceROASPage openCalendly={openCalendly} />} />
         <Route path="/blog/benchmark-roas-sector-espana-2026" element={<BenchmarkROASSectorEspanaPage openCalendly={openCalendly} />} />
+        <Route path="/blog/como-mejorar-roas-meta-ads-7-palancas" element={<ComoMejorarROASMetaAdsPage openCalendly={openCalendly} />} />
       </Routes>
       <WhatsAppButton />
       <Analytics />
